@@ -10,7 +10,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@next/next/recommended"
   ],
-  "ignorePatterns": ["**/build/**/*.*", "node_modules", ".pnp.*"],
+  "ignorePatterns": ["**/build/**/*.*", "node_modules", ".pnp.*", "**/i18n/*.*"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
     "import/prefer-default-export": 0, // 0 -> 0ff / 1 -> on (default)

@@ -1,6 +1,7 @@
 import { Global, ThemeProvider, css } from "@emotion/react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import { Noto_Sans_KR as NotoSansKR } from "next/font/google";
 import { Overlay } from "~/components/Commons";
@@ -15,10 +16,7 @@ const notoSansKR = NotoSansKR({
 
 const queryClient = new QueryClient();
 
-export default function App({
-  Component,
-  pageProps
-}: AppProps<{ dehydratedState: DehydratedState }>) {
+const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) => {
   useApp();
 
   return (
@@ -43,4 +41,6 @@ export default function App({
       </Hydrate>
     </QueryClientProvider>
   );
-}
+};
+
+export default appWithTranslation(App);

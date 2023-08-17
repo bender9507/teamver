@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-types": "supabase gen types typescript --linked > src/types/database.ts"
+    "gen-types": "supabase gen types typescript --linked > src/types/database.ts",
+    "upload": "node src/i18n/upload.js",
+    "download": "node src/i18n/download.js",
+    "parser": "i18next --config i18next-parser.config.js"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.7.3",
@@ -30,6 +33,7 @@
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.28.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "^13.0.5",
@@ -42,6 +46,10 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "google-auth-library": "^8.9.0",
+    "google-spreadsheet": "^4.0.2",
+    "i18next-parser": "^8.3.0",
+    "next-i18next": "^14.0.0",
     "prettier": "^2.8.4",
     "react-hook-form": "^7.45.4",
     "typescript": "5.1.6",
