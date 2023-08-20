@@ -12,7 +12,7 @@ async function downloadSheetToJSON() {
       const data = rows.reduce(
         (_data, row) => ({
           ..._data,
-          [row.get("key")]: row.get(language) ?? ""
+          [row.get(BASE_LANGUAGE)]: row.get(language) ?? ""
         }),
         {}
       );

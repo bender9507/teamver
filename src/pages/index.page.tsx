@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>{t("title")}</title>
+        <title>{t("코더")}</title>
       </Head>
 
       <Text>corder</Text>
