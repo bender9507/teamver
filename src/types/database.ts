@@ -34,7 +34,131 @@ export interface Database {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      areas: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      languages: {
+        Row: {
+          id: number
+          name: string
+          stackId: number
+        }
+        Insert: {
+          id?: number
+          name: string
+          stackId: number
+        }
+        Update: {
+          id?: number
+          name?: string
+          stackId?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "languages_stackId_fkey"
+            columns: ["stackId"]
+            referencedRelation: "stacks"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      personalitys: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          id: number
+          name: string
+          stackId: number
+        }
+        Insert: {
+          id?: number
+          name: string
+          stackId: number
+        }
+        Update: {
+          id?: number
+          name?: string
+          stackId?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skills_stackId_fkey"
+            columns: ["stackId"]
+            referencedRelation: "stacks"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      stacks: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      types: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
