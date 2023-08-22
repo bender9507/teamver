@@ -3,6 +3,8 @@ export * from "./Buttons";
 export * from "./Cards";
 export * from "./Dialogs";
 export { Icon } from "./Icon";
+export * from "./ImageUploader";
+export { ImageUploader } from "./ImageUploader";
 export * from "./Inputs";
 export { Label } from "./Label";
 export * from "./Menu";
