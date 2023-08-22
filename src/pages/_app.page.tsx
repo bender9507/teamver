@@ -8,6 +8,7 @@ import { Overlay } from "~/components/Commons";
 import { more, reset } from "~/styles/base";
 import { lightTheme } from "~/styles/theme";
 import { useApp } from "./_app.hooks";
+import * as Styled from "./_app.styles";
 
 const notoSansKR = NotoSansKR({
   subsets: ["latin"],
@@ -35,8 +36,10 @@ const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
               }
             `}
           />
-          <Component {...pageProps} />
-          <Overlay />
+          <Styled.Container>
+            <Component {...pageProps} />
+            <Overlay />
+          </Styled.Container>
         </ThemeProvider>
       </Hydrate>
     </QueryClientProvider>
