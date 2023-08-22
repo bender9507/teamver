@@ -14,6 +14,9 @@ const nextConfig = {
     });
 
     return config;
+  },
+  images: {
+    domains: ["knjzcsrhngnomfeoymis.supabase.co"]
   }
 };
 

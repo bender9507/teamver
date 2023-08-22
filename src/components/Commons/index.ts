@@ -1,3 +1,4 @@
+export { Avatar } from "./Avatar";
 export * from "./Buttons";
 export * from "./Cards";
 export * from "./Dialogs";
