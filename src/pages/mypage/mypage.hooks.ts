@@ -1,10 +1,11 @@
-import { useGetProjectQuery } from "~/states/server/project/queries";
+import { useGetProjectQuery, useGetReviewQuery } from "~/states/server/project/queries";
 
 export const useMyPage = (userId: string) => {
-  const {data} = useGetProjectQuery(userId)
+  const { data: projects } = useGetProjectQuery(userId)
+  const { data: reviews } = useGetReviewQuery(userId)
 
-  const DoneProjectList = data.filter((element) => element.projects?.state === 'DONE_PROJECT')
-  const ProceedProjectList = data.filter((element) => element.projects?.state !== 'DONE_PROJECT')
+  const DoneProjectList = projects.filter((element) => element.projects?.state === 'DONE_PROJECT')
+  const ProceedProjectList = projects.filter((element) => element.projects?.state !== 'DONE_PROJECT')
 
-  return { DoneProjectList, ProceedProjectList }
+  return { DoneProjectList, ProceedProjectList, reviews }
 }

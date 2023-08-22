@@ -7,3 +7,11 @@ export const getProjects = async (memberId: string) => {
 
   return data;
 }
+
+export const getReviews = async (userId: string) => {
+  const { data, error } = await supabase.from('reviews').select(`*, constantReactions(ko)`).eq('receiverId', userId)
+
+  if(error) throw error;
+
+  return data;
+}

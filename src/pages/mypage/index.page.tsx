@@ -3,14 +3,14 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Link from "next/link";
-import { Button, Icon } from "~/components/Commons";
+import { Avatar, Button, Icon } from "~/components/Commons";
 import { ProjectCard } from "~/components/MyPage";
 import { getProjects } from "~/states/server/project/apis";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import { useMyPage } from "./mypage.hooks";
 import * as Styled from "./mypage.styles";
 
-const USER_ID = "67dd1056-0980-4895-b32f-37680aa3f2ca";
+const USER_ID = "2191646e-7d68-4d1d-83a7-8b24eee4a856";
 
 function MyPage() {
   const { t } = useTranslation("mypage");
@@ -22,7 +22,7 @@ function MyPage() {
       </Head>
 
       <Styled.Container>
-        <Text>big size Avatar</Text>
+        <Avatar src="/test.jpg" size="large" />
         <Button>{t("포지션 수정")}</Button>
         <Styled.LikeUsersButtonContainer>
           <Text>나를 찜한 사용자 n명</Text>
@@ -47,16 +47,18 @@ function MyPage() {
           <Text as="h3" size="heading3">
             받은 추천 n
           </Text>
-          <Styled.RecommendCard>
-            <Flex gap={10}>
-              <Text>middle size Avatar</Text>
-              <FlexColumn>
-                <Text>오너아이디</Text>
-                <Text>프로젝트 참여</Text>
-              </FlexColumn>
-            </Flex>
-            <Text>gdgdgdgdgd</Text>
-          </Styled.RecommendCard>
+          {app.reviews.map((review) => (
+            <Styled.RecommendCard key={review.id}>
+              <Flex gap={10}>
+                <Avatar src="/test.jpg" size="medium" />
+                <FlexColumn>
+                  <Text>{review.reviewerId}</Text>
+                  <Text>{review.constantReactions?.ko}</Text>
+                </FlexColumn>
+              </Flex>
+              <Text>{review.comment}</Text>
+            </Styled.RecommendCard>
+          ))}
         </Styled.ReceivedRecommendContainer>
         <Styled.PreviousProjectContainer>
           <Text as="h3" size="heading3">
