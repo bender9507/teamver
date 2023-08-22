@@ -22,12 +22,6 @@ export const ProceedingProjectContainer = styled.div`
   padding: 0 15px;
 `;
 
-export const ProceedingProjectCard = styled.div`
-  ${flex({ justify: "between", align: "center" })}
-  ${size({ width: "100%" })}
-  padding: 10px;
-  background-color: #d9d9d9;
-`;
 
 export const ReceivedRecommendContainer = styled.div`
   ${flex.column({ align: "start", gap: 10 })}
@@ -46,11 +40,4 @@ export const PreviousProjectContainer = styled.div`
   ${flex.column({ align: "start", gap: 10 })}
   ${size({ width: "100%" })}
   padding: 0 15px;
-`;
-
-export const PreviousProjectCard = styled.div`
-  ${flex({ justify: "between", align: "center" })}
-  ${size({ width: "100%" })}
-  padding: 10px;
-  background-color: #d9d9d9;
 `;
