@@ -1,3 +1,4 @@
+export { default as arrowBack } from "./arrowBack.svg";
 export { default as close } from "./close.svg";
 export { default as error } from "./error.svg";
 export { default as github } from "./github.svg";
