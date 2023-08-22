@@ -8,5 +8,6 @@ export { Label } from "./Label";
 export * from "./Menu";
 export { Modal } from "./Modal";
 export { RatioBox } from "./RatioBox";
+export { Textarea } from "./Textarea";
 export { Toggle } from "./Toggle";
 export * from "./Utils";
