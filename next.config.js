@@ -17,6 +17,9 @@ const nextConfig = {
   },
   images: {
     domains: ["knjzcsrhngnomfeoymis.supabase.co"]
+  },
+  compiler: {
+    emotion: true
   }
 };
 

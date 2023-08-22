@@ -1,6 +1,7 @@
 export { Avatar } from "./Avatar";
 export * from "./Buttons";
 export * from "./Cards";
+export * from "./Chips";
 export * from "./Dialogs";
 export { Icon } from "./Icon";
 export * from "./ImageUploader";
