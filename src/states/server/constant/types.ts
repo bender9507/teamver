@@ -1,7 +1,7 @@
-import type { constantMap } from "./constants";
+import type { constantMap } from "./apis";
 
 export type ConstantMapKey = keyof typeof constantMap;
 
 export type SelectedConstantMap<T extends ConstantMapKey[]> = {
-  [K in T[number]]: (typeof constantMap)[K];
+  [K in T[number]]: Awaited<ReturnType<(typeof constantMap)[K]>>;
 };
