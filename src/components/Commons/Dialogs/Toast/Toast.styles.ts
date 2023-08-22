@@ -13,12 +13,10 @@ const COLOR_MAP = {
 } as const;
 
 export const Container = styled.div<ToastStyleProps>`
-  ${position.posCenterX({ position: "fixed", bottom: 30 })}
+  ${position.posCenterX({ position: "fixed", top: 30 })}
   overflow: hidden;
 
   padding: 12px;
-
-  margin-bottom: 30px;
 
   border-radius: 8px;
 
@@ -32,7 +30,7 @@ export const Container = styled.div<ToastStyleProps>`
     `;
   }}
 
-  animation: ${fade(0)} 300ms, ${slideYCenter(20)} 300ms;
+  animation: ${fade(0)} 300ms, ${slideYCenter(-20)} 300ms;
 `;
 
 export const Progress = styled.div<{ type?: ToastStyleProps["type"]; value: number }>`
