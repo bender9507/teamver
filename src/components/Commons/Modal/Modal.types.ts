@@ -1,9 +1,9 @@
-import type { CSSProperties } from "react";
-
 export interface ModalStyleProps {
-  width?: CSSProperties["width"];
+  type?: "center" | "bottom";
+  background?: "none" | "clear";
 }
 
 export interface ModalProps extends ModalStyleProps {
   id: string;
+  onUnmount?: VoidFunction;
 }

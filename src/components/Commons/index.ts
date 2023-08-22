@@ -1,11 +1,16 @@
+export { Avatar } from "./Avatar";
 export * from "./Buttons";
 export * from "./Cards";
+export * from "./Chips";
 export * from "./Dialogs";
 export { Icon } from "./Icon";
+export * from "./ImageUploader";
+export { ImageUploader } from "./ImageUploader";
 export * from "./Inputs";
 export { Label } from "./Label";
 export * from "./Menu";
 export { Modal } from "./Modal";
 export { RatioBox } from "./RatioBox";
+export { Textarea } from "./Textarea";
 export { Toggle } from "./Toggle";
 export * from "./Utils";
