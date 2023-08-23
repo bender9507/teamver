@@ -10,7 +10,7 @@ export const size = ({ fullScreen, ...props }: SizeProps) => css`
   ${fullScreen &&
   css`
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
     @supports (-webkit-touch-callout: none) {
       height: -webkit-fill-available;
