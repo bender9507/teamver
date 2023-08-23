@@ -39,7 +39,6 @@ function MyPage() {
           <Text as="h3" size="heading3">
             {t("진행중인 프로젝트")}
           </Text>
-
           {app.proceedProjectList.map((project) => (
             <ProjectCard
               key={project.projects.id}

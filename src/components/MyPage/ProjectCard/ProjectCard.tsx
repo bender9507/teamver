@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "~/components/Commons";
 import { Flex, Text } from "~/styles/mixins";
 import * as Styled from "./ProjectCard.styles";
@@ -11,7 +12,9 @@ export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
       {projectState === "proceed" ? (
         <Flex gap={5}>
           <Button onClick={() => console.log(project)}>정보</Button>
-          <Button>멤버</Button>
+          <Button>
+            <Link href={`/project/${project.id}`}>멤버</Link>
+          </Button>
         </Flex>
       ) : (
         <Button onClick={() => console.log(project)}>멤버 후기 쓰기</Button>
