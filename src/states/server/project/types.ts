@@ -1,5 +1,4 @@
-import type { Database } from "~/types/database";
+import type { Table } from "../server.types";
 
-type Table = Database['public']['Tables']
 type ProjectsTable = Table['projects']
 export type ProjectsRow = ProjectsTable['Row']

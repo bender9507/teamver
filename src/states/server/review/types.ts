@@ -1,6 +1,5 @@
-import type { Database } from "~/types/database";
+import type { Table } from "../server.types";
 
-type Table = Database['public']['Tables']
 type ReviewTable = Table['reviews']
 export type ReviewRow = ReviewTable['Row']
 

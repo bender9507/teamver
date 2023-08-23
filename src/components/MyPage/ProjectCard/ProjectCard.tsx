@@ -7,6 +7,7 @@ export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
   return (
     <Styled.ProjectCard>
       <Text>{project.name}</Text>
+
       {projectState === "proceed" ? (
         <Flex gap={5}>
           <Button onClick={() => console.log(project)}>정보</Button>

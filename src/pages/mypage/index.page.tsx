@@ -25,14 +25,16 @@ function MyPage() {
       </Head>
 
       <Styled.Container>
-        <Avatar src="/test.jpg" size="large" />
+        <Avatar src="http://via.placeholder.com/250x250" size="large" />
         <Button>{t("포지션 수정")}</Button>
+
         <Styled.LikeUsersButtonContainer>
           <Text>{t("나를 찜한 사용자 n명")}</Text>
           <Link href="/mypage/like">
             <Icon name="close" />
           </Link>
         </Styled.LikeUsersButtonContainer>
+
         <Styled.ProceedingProjectContainer>
           <Text as="h3" size="heading3">
             {t("진행중인 프로젝트")}
@@ -46,14 +48,16 @@ function MyPage() {
             />
           ))}
         </Styled.ProceedingProjectContainer>
+
         <Styled.ReceivedRecommendContainer>
           <Text as="h3" size="heading3">
             {t("받은 추천")} {app.reviewCount}
           </Text>
+
           {app.reviews.map((review) => (
             <Styled.RecommendCard key={review.id}>
               <Flex gap={10}>
-                <Avatar src="/test.jpg" size="medium" />
+                <Avatar src="http://via.placeholder.com/250x250" size="medium" />
                 <FlexColumn>
                   <Text>{review.reviewer.name}</Text>
                   <Text>{review.constantReactions.ko}</Text>
@@ -63,10 +67,12 @@ function MyPage() {
             </Styled.RecommendCard>
           ))}
         </Styled.ReceivedRecommendContainer>
+
         <Styled.PreviousProjectContainer>
           <Text as="h3" size="heading3">
             {t("지난 프로젝트")}
           </Text>
+
           {app.doneProjectList.map((project) => (
             <ProjectCard
               key={project.projects.id}
@@ -84,6 +90,7 @@ export default MyPage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery({
     queryKey: projectsKey.getProjectsById(USER_ID),
     queryFn: () => getProjects(USER_ID)
