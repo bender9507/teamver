@@ -1,15 +1,17 @@
+import { QueryClient, dehydrate } from "@tanstack/react-query";
+import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { Avatar, PreviousButton } from "~/components/Commons";
+import { getProjectMembers } from "~/states/server";
+import { projectsKey } from "~/states/server/project/keys";
 import { Text } from "~/styles/mixins";
+import { useProjectMembers } from "./projectmembers.hooks";
 import * as Styled from "./projectmembers.styles";
 
 function ProjectMembers() {
   const { t } = useTranslation("projects");
-  const router = useRouter();
-  const { projectId } = router.query as { projectId: string };
-  console.log(projectId);
+  const app = useProjectMembers();
   return (
     <>
       <Head>
@@ -25,14 +27,12 @@ function ProjectMembers() {
         </Styled.TitleContainer>
 
         <Styled.MemberCardContainer>
-          <Styled.MemberCard>
-            <Avatar src="http://via.placeholder.com/250x250" size="medium" />
-            <Text>개발하는 어피치</Text>
-          </Styled.MemberCard>
-          <Styled.MemberCard>
-            <Avatar src="http://via.placeholder.com/250x250" size="medium" />
-            <Text>개발하는 어피치</Text>
-          </Styled.MemberCard>
+          {app.projectMembers.map((member) => (
+            <Styled.MemberCard key={member.members.id}>
+              <Avatar src="http://via.placeholder.com/250x250" size="medium" />
+              <Text>{member.members.name}</Text>
+            </Styled.MemberCard>
+          ))}
         </Styled.MemberCardContainer>
       </Styled.Container>
     </>
@@ -40,3 +40,20 @@ function ProjectMembers() {
 }
 
 export default ProjectMembers;
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const queryClient = new QueryClient();
+
+  const projectId = query.projectId as string;
+
+  await queryClient.prefetchQuery({
+    queryKey: projectsKey.getProjectMembersById(projectId),
+    queryFn: () => getProjectMembers(projectId)
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
+    }
+  };
+};
