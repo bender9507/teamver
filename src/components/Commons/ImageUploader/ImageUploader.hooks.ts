@@ -13,7 +13,7 @@ export const useImageUploader = ({ onChange }: ComponentProps<typeof ImageUpload
 
     if (!files) return;
 
-    const isValidFileType = imageExtensions.includes(files[0].type);
+    const isValidFileType = imageExtensions.includes(files[0]?.type);
 
     if (!isValidFileType) {
       toast({ message: t("이미지만 업로드할 수 있습니다.") });

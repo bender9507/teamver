@@ -1,14 +1,8 @@
-import type { User } from "@supabase/supabase-js";
 import { create } from "zustand";
-
-interface AuthStore {
-  isLoading: boolean;
-  user: User | null;
-  updateSession: (session: Partial<AuthStore>) => void;
-}
+import type { AuthStore } from "./types";
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  isLoading: false,
+  isLoading: true,
   user: null,
   updateSession: (session) => set((prevSession) => ({ ...prevSession, ...session }))
 }));
