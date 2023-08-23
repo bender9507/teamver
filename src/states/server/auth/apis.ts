@@ -37,18 +37,18 @@ export const signOut = async () => {
 
 export const getProfile = async (userId: string) => {
   const { data, error } = await supabase.rpc("get_profile").eq("id", userId).returns<
-    | (ProfileRow & {
-        skills: ConstantSkillRow[];
-        projectTypes: ConstantProjectTypeRow[];
-        personalities: ConstantPersonalityRow[];
-        languages: ConstantLanguageRow[];
-        jobs: ConstantJobRow[];
-        areas: ConstantAreaRow[];
-      })
-    | null
+    | ProfileRow &
+        {
+          skills: ConstantSkillRow[];
+          projectTypes: ConstantProjectTypeRow[];
+          personalities: ConstantPersonalityRow[];
+          languages: ConstantLanguageRow[];
+          jobs: ConstantJobRow[];
+          areas: ConstantAreaRow[];
+        }[]
   >();
 
   if (error) throw error;
 
-  return data;
+  return data[0];
 };
