@@ -1,14 +1,25 @@
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
 import type { FieldArray, UseFieldArrayReturn } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useDialog } from "~/components/Commons";
+import { routes } from "~/constants/routes";
+import { useAuthStore } from "~/states/client";
 import { useGetConstantQuery } from "~/states/server/constant";
+import { useCreateProfileMutate } from "~/states/server/profile";
+import { useUploadProfileImageMutate } from "~/states/server/storage";
 import { fieldsRule } from "./welcome.constants";
 import type { WelcomeArrayFields, WelcomeForm } from "./welcome.types";
 
 export const useWelcome = () => {
   const [step, setStep] = useState(0);
 
+  const { toast } = useDialog();
+  const { t } = useTranslation("welcome");
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
   const form = useForm<WelcomeForm>();
 
   const languageFields = useFieldArray({
@@ -56,6 +67,17 @@ export const useWelcome = () => {
     "jobs"
   ]);
 
+  const { mutate: createProfileMutate } = useCreateProfileMutate({
+    onSuccess: () => {
+      router.replace(routes.member);
+    },
+    onError: () => {
+      toast({ type: "success", message: t("프로필 생성에 실패하였습니다.") });
+    }
+  });
+
+  const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
+
   const nextStep = () => {
     setStep((prevStep) => Math.min(prevStep + 1, 8));
   };
@@ -91,8 +113,45 @@ export const useWelcome = () => {
 
   const onChangeJobFields = createHandleChange(jobFields, "jobs");
 
-  const onCreateProfile: Parameters<typeof form.handleSubmit>[0] = async (data) => {
-    console.log(data);
+  const onCreateProfile: Parameters<typeof form.handleSubmit>[0] = async (profile) => {
+    if (!user) return;
+
+    const {
+      imageUrl: imageFile,
+      languages,
+      skills,
+      areas,
+      jobs,
+      projectTypes,
+      personalities,
+      ...profiles
+    } = profile;
+
+    const { publicUrl: imageUrl } = await uploadProfileImageMutateAsync({
+      file: imageFile,
+      name: `${user.id}_${imageFile.name}`
+    });
+
+    createProfileMutate({
+      profile: {
+        id: user.id,
+        githubName: user.user_metadata.preferred_username,
+        ...profiles,
+        imageUrl
+      },
+      languages: languages.map((language) => ({ userId: user.id, languageId: language.id })),
+      skills: skills.map((skill) => ({ userId: user.id, skillId: skill.id })),
+      areas: areas.map((area) => ({ userId: user.id, areaId: area.id })),
+      jobs: jobs.map((job) => ({ userId: user.id, jobId: job.id })),
+      projectTypes: projectTypes.map((projectType) => ({
+        userId: user.id,
+        projectTypeId: projectType.id
+      })),
+      personalities: personalities.map((personality) => ({
+        userId: user.id,
+        personalityId: personality.id
+      }))
+    });
   };
 
   return {

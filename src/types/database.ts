@@ -103,7 +103,7 @@ export interface Database {
           {
             foreignKeyName: "chatMessages_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -125,31 +125,31 @@ export interface Database {
       }
       chatUsers: {
         Row: {
-          chatId: number
+          chatRoomId: number
           id: number
           userId: string
         }
         Insert: {
-          chatId: number
+          chatRoomId: number
           id?: number
           userId: string
         }
         Update: {
-          chatId?: number
+          chatRoomId?: number
           id?: number
           userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "chatUsers_chatId_fkey"
-            columns: ["chatId"]
+            foreignKeyName: "chatUsers_chatRoomId_fkey"
+            columns: ["chatRoomId"]
             referencedRelation: "chatRooms"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "chatUsers_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -533,6 +533,37 @@ export interface Database {
           }
         ]
       }
+      profileProjectTypes: {
+        Row: {
+          id: number
+          projectTypeId: number
+          userId: string
+        }
+        Insert: {
+          id?: number
+          projectTypeId: number
+          userId: string
+        }
+        Update: {
+          id?: number
+          projectTypeId?: number
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profileProjectTypes_projectTypeId_fkey"
+            columns: ["projectTypeId"]
+            referencedRelation: "constantProjectTypes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profileProjectTypes_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           createdAt: string
@@ -883,7 +914,23 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      fetch_chat_rooms_with_names: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          name: string
+          createdat: string
+        }[]
+      }
+      fetch_chat_rooms_with_users: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          roomid: number
+          createdat: string
+          userid: string
+          username: string
+        }[]
+      }
     }
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT"
