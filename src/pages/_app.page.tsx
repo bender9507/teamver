@@ -1,4 +1,6 @@
 import { Global, ThemeProvider, css } from "@emotion/react";
+import type { Session } from "@supabase/auth-helpers-react";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
@@ -17,32 +19,40 @@ const notoSansKR = NotoSansKR({
 
 const queryClient = new QueryClient();
 
-const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) => {
-  useApp();
+const App = ({
+  Component,
+  pageProps
+}: AppProps<{ dehydratedState: DehydratedState; initialSession: Session }>) => {
+  const { supabaseClient } = useApp();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <ThemeProvider theme={lightTheme}>
-          <Global
-            styles={css`
-              ${reset}
-              ${more}
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ThemeProvider theme={lightTheme}>
+            <Global
+              styles={css`
+                ${reset}
+                ${more}
               body,
               button,
               input,
               textarea {
-                font-family: ${notoSansKR.style.fontFamily};
-              }
-            `}
-          />
-          <Styled.Container>
-            <Component {...pageProps} />
-            <Overlay />
-          </Styled.Container>
-        </ThemeProvider>
-      </Hydrate>
-    </QueryClientProvider>
+                  font-family: ${notoSansKR.style.fontFamily};
+                }
+              `}
+            />
+            <Styled.Container>
+              <Component {...pageProps} />
+              <Overlay />
+            </Styled.Container>
+          </ThemeProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </SessionContextProvider>
   );
 };
 

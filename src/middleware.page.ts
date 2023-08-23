@@ -8,9 +8,6 @@ import type { Database } from "./types/database";
 // 비로그인 접근 금지
 const SESSION_PROTECTED_ROUTES = ["/member"];
 
-// 로그인한 유저 접근 금지
-const LOGIN_PROTECTED_ROUTES = ["/", "/welcome"];
-
 export const config = {
   matcher: ["/", "/welcome", "/member"]
 };
@@ -25,7 +22,7 @@ export const middleware = async (req: NextRequest) => {
 
   const supabase = createMiddlewareClient<Database>({ req, res });
 
-  const redirect = (_url: URL | string) => {
+  const redirect = (_url: string) => {
     return NextResponse.redirect(new URL(_url, url));
   };
 
@@ -39,14 +36,18 @@ export const middleware = async (req: NextRequest) => {
     hasProfile = !!(await getProfile(session.user.id));
   }
 
-  if (SESSION_PROTECTED_ROUTES.includes(pathname)) {
-    if (hasProfile) return;
-
-    return redirect(routes.home);
+  if (pathname === routes.home) {
+    if (hasProfile) return redirect(routes.member);
+    if (session) return redirect(routes.welcome);
   }
 
-  if (LOGIN_PROTECTED_ROUTES.includes(pathname)) {
+  if (pathname === routes.welcome) {
     if (hasProfile) return redirect(routes.member);
+    if (!session) return redirect(routes.home);
+  }
+
+  if (SESSION_PROTECTED_ROUTES.includes(pathname)) {
+    if (!hasProfile) return redirect(routes.home);
   }
 
   return res;

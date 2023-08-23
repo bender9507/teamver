@@ -7,7 +7,7 @@ export const Container = styled.div`
 
   ${size({ width: "100%", maxWidth: 375, minHeight: "100vh" })};
 
-  ${({theme: {colors}}) => css`
+  ${({ theme: { colors } }) => css`
     margin: 0 auto;
     border: 1px solid ${colors.black};
   `}
@@ -18,7 +18,7 @@ export const LikeUsersButtonContainer = styled.div`
 
   ${size({ width: "100%" })};
 
-  ${({theme: {colors}}) => css`
+  ${({ theme: { colors } }) => css`
     padding: 15px;
     background-color: ${colors.border};
   `}
@@ -31,7 +31,6 @@ export const ProceedingProjectContainer = styled.div`
 
   padding: 0 15px;
 `;
-
 
 export const ReceivedRecommendContainer = styled.div`
   ${flex.column({ align: "start", gap: 10 })}
@@ -46,7 +45,7 @@ export const RecommendCard = styled.div`
 
   ${size({ width: "100%" })}
 
-  ${({theme: {colors}}) => css`
+  ${({ theme: { colors } }) => css`
     padding: 10px;
     background-color: ${colors.border};
   `}

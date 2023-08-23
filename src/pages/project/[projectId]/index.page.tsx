@@ -21,6 +21,7 @@ function ProjectMembers() {
       <Styled.Container>
         <Styled.TitleContainer>
           <PreviousButton />
+
           <Text as="h2" size="paragraph1">
             {t("프로젝트 멤버")}
           </Text>
@@ -30,6 +31,7 @@ function ProjectMembers() {
           {app.projectMembers.map((member) => (
             <Styled.MemberCard key={member.members.id}>
               <Avatar src="http://via.placeholder.com/250x250" size="medium" />
+
               <Text>{member.members.name}</Text>
             </Styled.MemberCard>
           ))}
