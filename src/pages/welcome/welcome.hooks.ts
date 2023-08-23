@@ -1,3 +1,4 @@
+import { useUser } from "@supabase/auth-helpers-react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ChangeEvent } from "react";
@@ -6,7 +7,6 @@ import type { FieldArray, UseFieldArrayReturn } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import { useAuthStore } from "~/states/client";
 import { useGetConstantQuery } from "~/states/server/constant";
 import { useCreateProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
@@ -19,7 +19,7 @@ export const useWelcome = () => {
   const { toast } = useDialog();
   const { t } = useTranslation("welcome");
   const router = useRouter();
-  const user = useAuthStore((state) => state.user);
+  const user = useUser();
   const form = useForm<WelcomeForm>();
 
   const languageFields = useFieldArray({
@@ -129,7 +129,7 @@ export const useWelcome = () => {
 
     const { publicUrl: imageUrl } = await uploadProfileImageMutateAsync({
       file: imageFile,
-      name: `${user.id}_${imageFile.name}`
+      name: `${user.id}_${new Date().getTime()}_${imageFile.name}`
     });
 
     createProfileMutate({
