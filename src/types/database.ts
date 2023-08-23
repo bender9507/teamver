@@ -567,7 +567,7 @@ export interface Database {
       profiles: {
         Row: {
           createdAt: string
-          githubName: string
+          github: string
           id: string
           imageUrl: string
           introduce: string
@@ -575,7 +575,7 @@ export interface Database {
         }
         Insert: {
           createdAt?: string
-          githubName: string
+          github: string
           id: string
           imageUrl: string
           introduce: string
@@ -583,7 +583,7 @@ export interface Database {
         }
         Update: {
           createdAt?: string
-          githubName?: string
+          github?: string
           id?: string
           imageUrl?: string
           introduce?: string
@@ -929,6 +929,22 @@ export interface Database {
           createdat: string
           userid: string
           username: string
+        }[]
+      }
+      get_profile: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          introduce: string
+          imageurl: string
+          github: string
+          skills: Json[]
+          projecttypes: Json[]
+          personalities: Json[]
+          languages: Json[]
+          jobs: Json[]
+          areas: Json[]
         }[]
       }
     }

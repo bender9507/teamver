@@ -135,7 +135,7 @@ export const useWelcome = () => {
     createProfileMutate({
       profile: {
         id: user.id,
-        githubName: user.user_metadata.preferred_username,
+        github: user.user_metadata.preferred_username,
         ...profiles,
         imageUrl
       },
