@@ -1,11 +1,15 @@
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { Avatar, PreviousButton } from "~/components/Commons";
 import { Text } from "~/styles/mixins";
 import * as Styled from "./projectmembers.styles";
 
 function ProjectMembers() {
   const { t } = useTranslation("projects");
+  const router = useRouter();
+  const { projectId } = router.query as { projectId: string };
+  console.log(projectId);
   return (
     <>
       <Head>

@@ -9,3 +9,10 @@ export const getProjects = async (memberId: string) => {
   return data;
 }
 
+export const getProjectMembers = async (projectId: string) => {
+  const {data,error} = await supabase.from('projectMembers').select('members: profiles(*)').eq('projectId', projectId)
+
+  if(error) throw error;
+
+  return data;
+}
