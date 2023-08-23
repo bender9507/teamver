@@ -26,10 +26,12 @@ function MyPage() {
 
       <Styled.Container>
         <Avatar src="http://via.placeholder.com/250x250" size="large" />
+
         <Button>{t("포지션 수정")}</Button>
 
         <Styled.LikeUsersButtonContainer>
           <Text>{t("나를 찜한 사용자 n명")}</Text>
+
           <Link href="/mypage/like">
             <Icon name="close" />
           </Link>
@@ -39,6 +41,7 @@ function MyPage() {
           <Text as="h3" size="heading3">
             {t("진행중인 프로젝트")}
           </Text>
+
           {app.proceedProjectList.map((project) => (
             <ProjectCard
               key={project.projects.id}
@@ -57,11 +60,13 @@ function MyPage() {
             <Styled.RecommendCard key={review.id}>
               <Flex gap={10}>
                 <Avatar src="http://via.placeholder.com/250x250" size="medium" />
+
                 <FlexColumn>
                   <Text>{review.reviewer.name}</Text>
                   <Text>{review.constantReactions.ko}</Text>
                 </FlexColumn>
               </Flex>
+
               <Text>{review.comment}</Text>
             </Styled.RecommendCard>
           ))}
