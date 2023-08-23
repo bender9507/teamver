@@ -5,8 +5,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { Avatar, Button, Icon } from "~/components/Commons";
 import { ProjectCard } from "~/components/MyPage";
-import { getProjects } from "~/states/server/project/apis";
-import { getReviews } from "~/states/server/review/apis";
+import { getProjects, getReviews } from "~/states/server";
+import { projectsKey } from "~/states/server/project/keys";
+import { reviewsKey } from "~/states/server/review/keys";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import { useMyPage } from "./mypage.hooks";
 import * as Styled from "./mypage.styles";
@@ -84,11 +85,11 @@ export default MyPage;
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["projects", USER_ID],
+    queryKey: projectsKey.getProjectsById(USER_ID),
     queryFn: () => getProjects(USER_ID)
   });
   await queryClient.prefetchQuery({
-    queryKey: ["reviews", USER_ID],
+    queryKey: reviewsKey.getReviewsById(USER_ID),
     queryFn: () => getReviews(USER_ID)
   });
 

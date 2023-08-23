@@ -1,5 +1,4 @@
-import { useGetProjectQuery, } from "~/states/server/project/queries";
-import { useGetReviewQuery } from "~/states/server/review/queries";
+import { useGetProjectQuery, useGetReviewQuery } from "~/states/server"
 
 export const useMyPage = (userId: string) => {
   const { data: projects } = useGetProjectQuery(userId)
