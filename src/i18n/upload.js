@@ -14,16 +14,16 @@ async function uploadNamespaceToSheet(doc, namespaceName) {
   let sheet = doc.sheetsByTitle[namespaceName];
 
   if (!sheet) {
-    await doc.addSheet({ title: namespaceName, headerValues: LANGUAGES });
+    await doc.addSheet({ title: namespaceName, headerValues: ["key", ...LANGUAGES] });
     sheet = doc.sheetsByTitle[namespaceName];
   }
 
   const rows = await sheet.getRows();
 
-  for (const ko of Object.keys(namespaceJSON)) {
-    const existing = rows.find((row) => row.get(BASE_LANGUAGE) === ko);
+  for (const key of Object.keys(namespaceJSON)) {
+    const existing = rows.find((row) => row.get("key") === key);
 
-    if (!existing) await sheet.addRow({ ko });
+    if (!existing) await sheet.addRow({ key });
   }
 }
 

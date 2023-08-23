@@ -1,12 +1,7 @@
 import { Button } from "~/components/Commons";
-import type { ProjectsRow } from "~/states/server/project/types";
 import { Flex, Text } from "~/styles/mixins";
 import * as Styled from "./ProjectCard.styles";
-
-interface ProjectCardProps {
-  projectState: "proceed" | "previous";
-  project: ProjectsRow;
-}
+import type { ProjectCardProps } from "./ProjectCard.types";
 
 export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
   return (

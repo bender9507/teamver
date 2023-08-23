@@ -1,4 +1,4 @@
-const { createFile, loadGoogleSheet, LOCALE_DIR, BASE_LANGUAGE, LANGUAGES } = require("./utils");
+const { createFile, loadGoogleSheet, LOCALE_DIR, LANGUAGES } = require("./utils");
 
 async function downloadSheetToJSON() {
   const doc = await loadGoogleSheet();
@@ -12,7 +12,7 @@ async function downloadSheetToJSON() {
       const data = rows.reduce(
         (_data, row) => ({
           ..._data,
-          [row.get(BASE_LANGUAGE)]: row.get(language) ?? ""
+          [row.get("key")]: row.get(language) ?? ""
         }),
         {}
       );
