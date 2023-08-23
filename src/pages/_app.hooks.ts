@@ -25,7 +25,7 @@ export const useApp = () => {
       if (isNotValidSession) router.reload();
     });
 
-    updateSession({ isLoading: true });
+    updateSession({ isLoading: false });
 
     return () => {
       subscription.unsubscribe();

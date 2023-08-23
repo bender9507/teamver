@@ -1,13 +1,10 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getProfile } from "./states/server";
 import type { Database } from "./types/database";
 
 const PROTECTED_ROUTES = ["/user"];
-
-export const config = {
-  matcher: []
-};
 
 export const middleware = async (req: NextRequest) => {
   const {
@@ -23,12 +20,28 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(new URL(_url, url));
   };
 
+  if (pathname === "/") {
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    if (!session) return;
+
+    const profile = await getProfile(session.user.id);
+
+    if (!profile) {
+      return redirect("/welcome");
+    }
+  }
+
   if (PROTECTED_ROUTES.includes(pathname)) {
     const {
       data: { session }
     } = await supabase.auth.getSession();
 
-    if (!session) redirect("/");
+    if (!session) {
+      return redirect("/");
+    }
   }
 
   return res;

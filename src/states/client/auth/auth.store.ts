@@ -8,7 +8,7 @@ interface AuthStore {
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  isLoading: false,
+  isLoading: true,
   user: null,
   updateSession: (session) => set((prevSession) => ({ ...prevSession, ...session }))
 }));

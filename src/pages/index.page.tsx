@@ -2,7 +2,9 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import { SocialLoginButton } from "~/components/Commons";
 import { Text } from "~/styles/mixins";
+import * as Styled from "./home.styles";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -13,7 +15,13 @@ export default function Home() {
         <title>{t("코더")}</title>
       </Head>
 
-      <Text>corder</Text>
+      <Styled.Container>
+        <Text>이용 약관</Text>
+
+        <SocialLoginButton provider="github" />
+
+        <Text>로그인이 안되나요?</Text>
+      </Styled.Container>
     </>
   );
 }
