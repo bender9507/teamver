@@ -16,7 +16,16 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["knjzcsrhngnomfeoymis.supabase.co"]
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: "knjzcsrhngnomfeoymis.supabase.co"
+      },
+      {
+        protocol: 'http',
+        hostname: 'via.placeholder.com'
+      },
+    ],
   },
   compiler: {
     emotion: true
