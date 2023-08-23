@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getProjects, getReviews } from "./apis"
+import { getProjects } from "./apis"
 
 export const useGetProjectQuery = (userId: string) => {
   return useQuery({
@@ -9,10 +9,3 @@ export const useGetProjectQuery = (userId: string) => {
   })
 }
 
-export const useGetReviewQuery = (userId: string) => {
-  return useQuery({
-    queryKey: ['reviews', userId],
-    queryFn: () => getReviews(userId),
-    initialData: []
-  })
-}

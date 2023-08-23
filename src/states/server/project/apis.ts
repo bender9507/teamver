@@ -1,17 +1,11 @@
 import { supabase } from "../config";
+import type { ProjectsRow } from "./types";
 
 export const getProjects = async (memberId: string) => {
-  const { data, error } = await supabase.from('projectMembers').select('projects(*)').eq('memberId', memberId)
+  const { data, error } = await supabase.from('projectMembers').select('projects(*)').eq('memberId', memberId).returns<{projects: ProjectsRow}[]>()
 
   if(error) throw error;
 
   return data;
 }
 
-export const getReviews = async (userId: string) => {
-  const { data, error } = await supabase.from('reviews').select(`*, constantReactions(ko)`).eq('receiverId', userId)
-
-  if(error) throw error;
-
-  return data;
-}

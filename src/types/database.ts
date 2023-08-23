@@ -232,27 +232,6 @@ export interface Database {
         }
         Relationships: []
       }
-      constantPorjectTypes: {
-        Row: {
-          en: string
-          id: number
-          jp: string
-          ko: string
-        }
-        Insert: {
-          en: string
-          id?: number
-          jp: string
-          ko: string
-        }
-        Update: {
-          en?: string
-          id?: number
-          jp?: string
-          ko?: string
-        }
-        Relationships: []
-      }
       constantPositions: {
         Row: {
           en: string
@@ -274,36 +253,26 @@ export interface Database {
         }
         Relationships: []
       }
-      constantProfiles: {
+      constantProjectTypes: {
         Row: {
+          en: string
           id: number
-          imageUrl: string
-          Introduction: string
-          name: string
-          projectType: number
+          jp: string
+          ko: string
         }
         Insert: {
+          en: string
           id?: number
-          imageUrl: string
-          Introduction: string
-          name: string
-          projectType: number
+          jp: string
+          ko: string
         }
         Update: {
+          en?: string
           id?: number
-          imageUrl?: string
-          Introduction?: string
-          name?: string
-          projectType?: number
+          jp?: string
+          ko?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "constantProfiles_projectType_fkey"
-            columns: ["projectType"]
-            referencedRelation: "constantPorjectTypes"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       constantReactions: {
         Row: {
@@ -435,7 +404,7 @@ export interface Database {
           {
             foreignKeyName: "profileAreas_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -466,7 +435,7 @@ export interface Database {
           {
             foreignKeyName: "profileJobs_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -497,7 +466,7 @@ export interface Database {
           {
             foreignKeyName: "profileLanguages_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -528,7 +497,7 @@ export interface Database {
           {
             foreignKeyName: "profilePersonalities_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -559,6 +528,40 @@ export interface Database {
           {
             foreignKeyName: "profilePositions_userId_fkey"
             columns: ["userId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          createdAt: string
+          githubName: string
+          id: string
+          imageUrl: string
+          introduce: string
+          name: string
+        }
+        Insert: {
+          createdAt?: string
+          githubName: string
+          id: string
+          imageUrl: string
+          introduce: string
+          name: string
+        }
+        Update: {
+          createdAt?: string
+          githubName?: string
+          id?: string
+          imageUrl?: string
+          introduce?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -590,7 +593,7 @@ export interface Database {
           {
             foreignKeyName: "profileSkills_userId_fkey"
             columns: ["userId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -692,7 +695,7 @@ export interface Database {
           {
             foreignKeyName: "projectMembers_memberId_fkey"
             columns: ["memberId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -741,7 +744,6 @@ export interface Database {
           id: number
           imageUrl: string
           name: string
-          ownerId: string
           recruitCount: string
           startDate: string | null
           state: Database["public"]["Enums"]["project_state"] | null
@@ -752,7 +754,6 @@ export interface Database {
           id?: number
           imageUrl: string
           name: string
-          ownerId: string
           recruitCount: string
           startDate?: string | null
           state?: Database["public"]["Enums"]["project_state"] | null
@@ -763,19 +764,11 @@ export interface Database {
           id?: number
           imageUrl?: string
           name?: string
-          ownerId?: string
           recruitCount?: string
           startDate?: string | null
           state?: Database["public"]["Enums"]["project_state"] | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "projects_ownerId_fkey"
-            columns: ["ownerId"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       projectSkills: {
         Row: {
@@ -834,7 +827,7 @@ export interface Database {
           {
             foreignKeyName: "projectTypes_projectTypeId_fkey"
             columns: ["projectTypeId"]
-            referencedRelation: "constantPorjectTypes"
+            referencedRelation: "constantProjectTypes"
             referencedColumns: ["id"]
           }
         ]
@@ -874,13 +867,13 @@ export interface Database {
           {
             foreignKeyName: "reviews_receiverId_fkey"
             columns: ["receiverId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "reviews_reviewerId_fkey"
             columns: ["reviewerId"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
