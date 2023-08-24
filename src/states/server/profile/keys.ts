@@ -1,5 +1,5 @@
 const PROFILE_KEY = "PROFILE";
 
-export const constantKeys = {
-  getConstants: () => [PROFILE_KEY, "getConstants"] as const
+export const profileKeys = {
+  selectProfile: (userId: string) => [PROFILE_KEY, "selectProfile", userId] as const
 } as const;

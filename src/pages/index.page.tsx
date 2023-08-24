@@ -7,6 +7,8 @@ import { useInsertProfileMutate } from "~/states/server/profile";
 import { FlexColumn } from "~/styles/mixins";
 
 const sampleProfile = {
+  id: "be95f102-5344-43df-8561-f3f9208c0b3f",
+  github: "jeonhaekang",
   name: "테스트 중",
   introduce: "안녕하세요 테스트 중입니다.",
   imageUrl:

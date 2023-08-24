@@ -16,6 +16,7 @@ import type {
   ProfilePersonalityInsert,
   ProfilePositionInsert,
   ProfileProjectTypeInsert,
+  ProfileRow,
   ProfileSkillInsert
 } from "./types";
 
@@ -62,7 +63,7 @@ export const insertProfilePositions = async (positions: ProfilePositionInsert[])
 };
 
 export const insertProfile = async (
-  profile: Omit<ProfileInsert, "id" | "github"> & {
+  profile: ProfileInsert & {
     skills: ConstantSkillRow["id"][];
     projectTypes: ConstantProjectTypeRow["id"][];
     positions: ConstantPositionRow["id"][];
@@ -116,4 +117,37 @@ export const insertProfile = async (
   );
 
   await Promise.all([languages, skills, areas, jobs, projectTypes, personalities, positions]);
+};
+
+export const selectProfile = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select(
+      `
+      *,
+      languages:profileLanguages!inner(...constantLanguages(*)),
+      skills:profileSkills!inner(...constantSkills(*)),
+      areas:profileAreas!inner(...constantAreas(*)),
+      jobs:profileJobs!inner(...constantJobs(*)),
+      projectTypes:profileProjectTypes!inner(...constantProjectTypes(*)),
+      personalities:profilePersonalities!inner(...constantPersonalities(*)),
+      positions:profilePositions!inner(...constantPositions(*))
+    `
+    )
+    .eq("id", userId)
+    .returns<
+      (ProfileRow & {
+        languages: ConstantLanguageRow[];
+        skills: ConstantSkillRow[];
+        areas: ConstantAreaRow[];
+        jobs: ConstantJobRow[];
+        projectTypes: ConstantProjectTypeRow[];
+        personalities: ConstantPersonalityRow[];
+        positions: ConstantPositionRow[];
+      })[]
+    >();
+
+  if (error) throw error;
+
+  return data[0];
 };
