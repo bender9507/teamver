@@ -4,12 +4,15 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { useEffect } from "react";
 import { Button, SocialLoginButton } from "~/components/Commons";
 import {
   projectsKey,
+  selectFollowProjects,
   selectMemberProjects,
   selectOwnerProjects,
   selectProject,
+  useSelectFollowProjectsQuery,
   useSelectMemberProjectsQuery,
   useSelectOwnerProjectsQuery,
   useSelectProjectQuery
@@ -34,11 +37,21 @@ export default function Home() {
   const { data } = useSelectProjectQuery(PROJECT_ID);
   const { data: ownerData } = useSelectOwnerProjectsQuery(session?.user.id);
   const { data: memberData } = useSelectMemberProjectsQuery(session?.user.id);
+  const { data: followData } = useSelectFollowProjectsQuery(session?.user.id);
   const { mutate } = useInsertProjectMutate();
 
   console.log(data);
   console.log(ownerData);
   console.log(memberData);
+  console.log(followData);
+
+  useEffect(() => {
+    const test = async () => {
+      const data = await selectFollowProjects(session?.user.id);
+      console.log(data);
+    };
+    test();
+  }, [session?.user.id]);
 
   return (
     <>
@@ -72,6 +85,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery({
     queryKey: projectsKey.selectMemberProjects(session?.user.id),
     queryFn: () => selectMemberProjects(session?.user.id)
+  });
+  await queryClient.prefetchQuery({
+    queryKey: projectsKey.selectFollowProjects(session?.user.id),
+    queryFn: () => selectFollowProjects(session?.user.id)
   });
   return {
     props: {

@@ -31,7 +31,19 @@ export const selectMemberProjects = async (myId?: string) => {
   const { data, error } = await supabase
     .from("projectMembers")
     .select(`...projects!inner(${PROJECT_ALL_DATA_QUERY})`)
-    .eq("memberId", myId);
+    .eq("memberId", myId)
+    .returns<ProjectAllDataRow[]>();
+
+  if (error) throw error;
+
+  return data;
+};
+
+export const selectFollowProjects = async (myId?: string) => {
+  const { data, error } = await supabase
+    .from("followProject")
+    .select(`id, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
+    .eq("followerId", myId);
 
   if (error) throw error;
 
