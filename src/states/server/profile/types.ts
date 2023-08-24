@@ -1,3 +1,12 @@
+import type {
+  ConstantAreaRow,
+  ConstantJobRow,
+  ConstantLanguageRow,
+  ConstantPersonalityRow,
+  ConstantPositionRow,
+  ConstantProjectTypeRow,
+  ConstantSkillRow
+} from "../constant";
 import type { Table } from "../server.types";
 
 export type ProfileTable = Table["profiles"];
@@ -25,3 +34,13 @@ export type ProfileJobInsert = ProfileJobTable["Insert"];
 
 export type ProfileAreaTable = Table["profileAreas"];
 export type ProfileAreaInsert = ProfileAreaTable["Insert"];
+
+export type ProfileAllDataRow = ProfileRow & {
+  languages: ConstantLanguageRow[];
+  skills: ConstantSkillRow[];
+  areas: ConstantAreaRow[];
+  jobs: ConstantJobRow[];
+  projectTypes: ConstantProjectTypeRow[];
+  personalities: ConstantPersonalityRow[];
+  positions: ConstantPositionRow[];
+};

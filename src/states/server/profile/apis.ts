@@ -8,8 +8,8 @@ import type {
   ConstantProjectTypeRow,
   ConstantSkillRow
 } from "../constant";
-import { PROFILE_ALL_DATA_QUERY } from "../server.query";
-import type { ProfileInsert, ProfileRow, ProfileUpdate } from "./types";
+import { PROFILE_ALL_DATA_QUERY } from "./constants";
+import type { ProfileAllDataRow, ProfileInsert, ProfileUpdate } from "./types";
 
 export const insertProfile = async ({
   skills,
@@ -63,17 +63,7 @@ export const selectProfile = async (userId: string) => {
     .from("profiles")
     .select(PROFILE_ALL_DATA_QUERY)
     .eq("id", userId)
-    .returns<
-      (ProfileRow & {
-        languages: ConstantLanguageRow[];
-        skills: ConstantSkillRow[];
-        areas: ConstantAreaRow[];
-        jobs: ConstantJobRow[];
-        projectTypes: ConstantProjectTypeRow[];
-        personalities: ConstantPersonalityRow[];
-        positions: ConstantPositionRow[];
-      })[]
-    >();
+    .returns<ProfileAllDataRow[]>();
 
   if (error) throw error;
 
