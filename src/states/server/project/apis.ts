@@ -1,5 +1,6 @@
 import type { ProjectAllDataRow } from ".";
 import { supabase } from "../config";
+import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
 
 export const selectProject = async (projectId: string) => {
   const { data, error } = await supabase
@@ -12,14 +13,7 @@ export const selectProject = async (projectId: string) => {
         positions:projectPositions!inner(...constantPositions(*)),
         languages:projectLanguages!inner(...constantLanguages(*)),
         members:projectMembers!inner(...profiles(
-          *, 
-          skills:profileSkills!inner(...constantSkills(*)),
-          projectTypes:profileProjectTypes!inner(...constantProjectTypes(*)),
-          positions:profilePositions!inner(...constantPositions(*)),
-          personalities:profilePersonalities!inner(...constantPersonalities(*)),
-          languages:profileLanguages!inner(...constantLanguages(*)),
-          jobs:profileJobs!inner(...constantJobs(*)),
-          areas:profileAreas!inner(...constantAreas(*))
+          ${PROFILE_ALL_DATA_QUERY}
         ))
       `
     )
