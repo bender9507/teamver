@@ -8,6 +8,7 @@ import type {
   ConstantProjectTypeRow,
   ConstantSkillRow
 } from "../constant";
+import { PROFILE_ALL_DATA_QUERY } from "../server.query";
 import type { ProfileInsert, ProfileRow, ProfileUpdate } from "./types";
 
 export const insertProfile = async ({
@@ -60,18 +61,7 @@ export const insertProfile = async ({
 export const selectProfile = async (userId: string) => {
   const { data, error } = await supabase
     .from("profiles")
-    .select(
-      `
-      *,
-      languages:profileLanguages!inner(...constantLanguages(*)),
-      skills:profileSkills!inner(...constantSkills(*)),
-      areas:profileAreas!inner(...constantAreas(*)),
-      jobs:profileJobs!inner(...constantJobs(*)),
-      projectTypes:profileProjectTypes!inner(...constantProjectTypes(*)),
-      personalities:profilePersonalities!inner(...constantPersonalities(*)),
-      positions:profilePositions!inner(...constantPositions(*))
-    `
-    )
+    .select(PROFILE_ALL_DATA_QUERY)
     .eq("id", userId)
     .returns<
       (ProfileRow & {
