@@ -99,3 +99,25 @@ export const insertFollow = async ({ myId, opponentId }: { myId: string; opponen
 
   if (error) throw Error("팔로우 실패");
 };
+
+export const selectFollows = async (myId: string) => {
+  const { error, data } = await supabase
+    .from("follow")
+    .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("myId", myId);
+
+  if (error) throw Error("내가 찜한 사용자를 불러올 수 없습니다.");
+
+  return data;
+};
+
+export const selectFollowers = async (myId: string) => {
+  const { error, data } = await supabase
+    .from("follow")
+    .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("opponentId", myId);
+
+  if (error) throw Error("나를 찜한 사용자를 불러올 수 없습니다.");
+
+  return data;
+};
