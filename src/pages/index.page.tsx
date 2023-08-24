@@ -7,8 +7,10 @@ import Head from "next/head";
 import { Button, SocialLoginButton } from "~/components/Commons";
 import {
   projectsKey,
+  selectMemberProjects,
   selectOwnerProjects,
   selectProject,
+  useSelectMemberProjectsQuery,
   useSelectOwnerProjectsQuery,
   useSelectProjectQuery
 } from "~/states/server/project";
@@ -31,10 +33,13 @@ export default function Home() {
   const session = useSession();
   const { data } = useSelectProjectQuery(PROJECT_ID);
   const { data: ownerData } = useSelectOwnerProjectsQuery(session?.user.id);
+  const { data: memberData } = useSelectMemberProjectsQuery(session?.user.id);
   const { mutate } = useInsertProjectMutate();
 
   console.log(data);
   console.log(ownerData);
+  console.log(memberData);
+
   return (
     <>
       <Head>
@@ -63,6 +68,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery({
     queryKey: projectsKey.selectOwnerProjects(session?.user.id),
     queryFn: () => selectOwnerProjects(session?.user.id)
+  });
+  await queryClient.prefetchQuery({
+    queryKey: projectsKey.selectMemberProjects(session?.user.id),
+    queryFn: () => selectMemberProjects(session?.user.id)
   });
   return {
     props: {

@@ -27,6 +27,17 @@ export const selectOwnerProjects = async (myId?: string) => {
   return data;
 };
 
+export const selectMemberProjects = async (myId?: string) => {
+  const { data, error } = await supabase
+    .from("projectMembers")
+    .select(`...projects!inner(${PROJECT_ALL_DATA_QUERY})`)
+    .eq("memberId", myId);
+
+  if (error) throw error;
+
+  return data;
+};
+
 export const insertProject = async (projectData: ProjectDataInsert) => {
   const { error } = await supabase.from("projects").insert(projectData);
 
