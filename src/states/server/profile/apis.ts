@@ -138,3 +138,9 @@ export const updateProfile = async ({
 
   await Promise.all(tasks);
 };
+
+export const insertFollow = async ({ myId, opponentId }: { myId: string; opponentId: string }) => {
+  const { error } = await supabase.from("follow").insert({ myId, opponentId });
+
+  if (error) throw Error("팔로우 실패");
+};
