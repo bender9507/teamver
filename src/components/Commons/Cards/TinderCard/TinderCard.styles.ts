@@ -17,9 +17,10 @@ const containerStyle = ({
     ${flex.center()};
     opacity: ${opacity};
 
-    ${size({ width: 300, height: 400 })};
+    ${size({ width: "100%", height: "100%" })};
 
     border: 1px solid black;
+    border-radius: 24px;
 
     background-color: ${colors.white};
 

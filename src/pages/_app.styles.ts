@@ -4,8 +4,9 @@ import { size } from "~/styles/mixins";
 
 export const Container = styled.div`
   position: relative;
+  overflow: hidden;
 
-  ${size({ width: "100%", maxWidth: "500px", minHeight: "100vh" })}
+  ${size({ width: "100%", maxWidth: "500px", minHeight: "100vh" })};
 
   margin: 0 auto;
 
