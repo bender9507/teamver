@@ -3,6 +3,7 @@ import type { Table } from "../server.types";
 export type ProfileTable = Table["profiles"];
 export type ProfileRow = ProfileTable["Row"];
 export type ProfileInsert = ProfileTable["Insert"];
+export type ProfileUpdate = ProfileTable["Update"];
 
 export type ProfileSkillTable = Table["profileSkills"];
 export type ProfileSkillInsert = ProfileSkillTable["Insert"];

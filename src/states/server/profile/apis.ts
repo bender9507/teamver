@@ -8,115 +8,53 @@ import type {
   ConstantProjectTypeRow,
   ConstantSkillRow
 } from "../constant";
-import type {
-  ProfileAreaInsert,
-  ProfileInsert,
-  ProfileJobInsert,
-  ProfileLanguageInsert,
-  ProfilePersonalityInsert,
-  ProfilePositionInsert,
-  ProfileProjectTypeInsert,
-  ProfileRow,
-  ProfileSkillInsert
-} from "./types";
+import type { ProfileInsert, ProfileRow, ProfileUpdate } from "./types";
 
-export const insertProfileLanguages = async (languages: ProfileLanguageInsert[]) => {
-  const { error } = await supabase.from("profileLanguages").insert(languages);
-
-  if (error) throw error;
-};
-
-export const insertProfileSkills = async (skills: ProfileSkillInsert[]) => {
-  const { error } = await supabase.from("profileSkills").insert(skills);
-
-  if (error) throw error;
-};
-
-export const insertProfileProjectType = async (projectTypes: ProfileProjectTypeInsert[]) => {
-  const { error } = await supabase.from("profileProjectTypes").insert(projectTypes);
+export const insertProfile = async ({
+  skills,
+  projectTypes,
+  positions,
+  personalities,
+  languages,
+  jobs,
+  areas,
+  ...profile
+}: ProfileInsert & {
+  skills: ConstantSkillRow["id"][];
+  projectTypes: ConstantProjectTypeRow["id"][];
+  positions: ConstantPositionRow["id"][];
+  personalities: ConstantPersonalityRow["id"][];
+  languages: ConstantLanguageRow["id"][];
+  jobs: ConstantJobRow["id"][];
+  areas: ConstantAreaRow["id"][];
+}) => {
+  const { error } = await supabase.from("profiles").insert(profile);
 
   if (error) throw error;
-};
 
-export const insertProfilePersonalities = async (personalities: ProfilePersonalityInsert[]) => {
-  const { error } = await supabase.from("profilePersonalities").insert(personalities);
+  const mappings = {
+    profileLanguages: languages.map((languageId) => ({ languageId, userId: profile.id })),
+    profileSkills: skills.map((skillId) => ({ skillId, userId: profile.id })),
+    profileAreas: areas.map((areaId) => ({ areaId, userId: profile.id })),
+    profileJobs: jobs.map((jobId) => ({ jobId, userId: profile.id })),
+    profileProjectTypes: projectTypes.map((projectTypeId) => ({
+      projectTypeId,
+      userId: profile.id
+    })),
+    profilePersonalities: personalities.map((personalityId) => ({
+      personalityId,
+      userId: profile.id
+    })),
+    profilePositions: positions.map((positionId) => ({ positionId, userId: profile.id }))
+  };
 
-  if (error) throw error;
-};
+  const tasks = Object.entries(mappings).map(async ([table, data]) => {
+    const { error } = await supabase.from(table).insert(data);
 
-export const insertProfileAreas = async (areas: ProfileAreaInsert[]) => {
-  const { error } = await supabase.from("profileAreas").insert(areas);
-
-  if (error) throw error;
-};
-
-export const insertProfileJobs = async (jobs: ProfileJobInsert[]) => {
-  const { error } = await supabase.from("profileJobs").insert(jobs);
-
-  if (error) throw error;
-};
-
-export const insertProfilePositions = async (positions: ProfilePositionInsert[]) => {
-  const { error } = await supabase.from("profilePositions").insert(positions);
-
-  if (error) throw error;
-};
-
-export const insertProfile = async (
-  profile: ProfileInsert & {
-    skills: ConstantSkillRow["id"][];
-    projectTypes: ConstantProjectTypeRow["id"][];
-    positions: ConstantPositionRow["id"][];
-    personalities: ConstantPersonalityRow["id"][];
-    languages: ConstantLanguageRow["id"][];
-    jobs: ConstantJobRow["id"][];
-    areas: ConstantAreaRow["id"][];
-  }
-) => {
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  if (!user) throw Error("비로그인 유저입니다.");
-
-  const { error } = await supabase.from("profiles").insert({
-    id: user.id,
-    name: profile.name,
-    introduce: profile.introduce,
-    imageUrl: profile.imageUrl,
-    github: user.user_metadata.preferred_username
+    if (error) throw Error("프로필 생성 실패");
   });
 
-  if (error) throw error;
-
-  const languages = insertProfileLanguages(
-    profile.languages.map((languageId) => ({ languageId, userId: user.id }))
-  );
-
-  const skills = insertProfileSkills(
-    profile.skills.map((skillId) => ({ skillId, userId: user.id }))
-  );
-
-  const areas = insertProfileAreas(profile.areas.map((areaId) => ({ areaId, userId: user.id })));
-
-  const jobs = insertProfileJobs(profile.jobs.map((jobId) => ({ jobId, userId: user.id })));
-
-  const projectTypes = insertProfileProjectType(
-    profile.projectTypes.map((projectTypeId) => ({ projectTypeId, userId: user.id }))
-  );
-
-  const personalities = insertProfilePersonalities(
-    profile.personalities.map((personalityId) => ({
-      personalityId,
-      userId: user.id
-    }))
-  );
-
-  const positions = insertProfilePositions(
-    profile.positions.map((positionId) => ({ positionId, userId: user.id }))
-  );
-
-  await Promise.all([languages, skills, areas, jobs, projectTypes, personalities, positions]);
+  await Promise.all(tasks);
 };
 
 export const selectProfile = async (userId: string) => {
@@ -150,4 +88,53 @@ export const selectProfile = async (userId: string) => {
   if (error) throw error;
 
   return data[0];
+};
+
+export const updateProfile = async ({
+  skills,
+  projectTypes,
+  positions,
+  personalities,
+  languages,
+  jobs,
+  areas,
+  ...profile
+}: Omit<ProfileUpdate, "id"> & {
+  id: string;
+  skills: ConstantSkillRow["id"][];
+  projectTypes: ConstantProjectTypeRow["id"][];
+  positions: ConstantPositionRow["id"][];
+  personalities: ConstantPersonalityRow["id"][];
+  languages: ConstantLanguageRow["id"][];
+  jobs: ConstantJobRow["id"][];
+  areas: ConstantAreaRow["id"][];
+}) => {
+  const { error } = await supabase.from("profiles").update(profile).eq("id", profile.id);
+
+  if (error) throw error;
+
+  const mappings = {
+    profileLanguages: languages.map((languageId) => ({ languageId, userId: profile.id })),
+    profileSkills: skills.map((skillId) => ({ skillId, userId: profile.id })),
+    profileAreas: areas.map((areaId) => ({ areaId, userId: profile.id })),
+    profileJobs: jobs.map((jobId) => ({ jobId, userId: profile.id })),
+    profileProjectTypes: projectTypes.map((projectTypeId) => ({
+      projectTypeId,
+      userId: profile.id
+    })),
+    profilePersonalities: personalities.map((personalityId) => ({
+      personalityId,
+      userId: profile.id
+    })),
+    profilePositions: positions.map((positionId) => ({ positionId, userId: profile.id }))
+  };
+
+  const tasks = Object.entries(mappings).map(async ([table, data]) => {
+    const { error: clearError } = await supabase.from(table).delete().eq("userId", profile.id);
+    const { error: insertError } = await supabase.from(table).insert(data);
+
+    if (clearError || insertError) throw Error("프로필 업데이트 실패");
+  });
+
+  await Promise.all(tasks);
 };
