@@ -7,6 +7,8 @@ type ProjectTypeRow = Table["constantProjectTypes"]["Row"];
 type ProjectSkillRow = Table["constantSkills"]["Row"];
 type ProjectPositionRow = Table["constantPositions"]["Row"];
 
+export type ProjectDataInsert = Table["projects"]["Insert"];
+
 export type ProjectAllDataRow = ProjectDataRow & {
   projectTypes: ProjectTypeRow[];
   skills: ProjectSkillRow[];
