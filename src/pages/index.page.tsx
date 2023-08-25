@@ -23,11 +23,15 @@ import type { Database } from "~/types/database";
 const PROJECT_ID = "41";
 
 const sampleData = {
-  name: "프로젝트생성테스트",
-  description: "test",
-  imageUrl: "sdfsfgsfh",
+  name: "프로젝트생성테스트13",
+  description: "test13",
+  imageUrl: "sdfsfgsfhfff",
   recruitCount: "3",
-  ownerId: "8a9345fc-bd2c-43a1-8868-99e2c5ed5afe"
+  ownerId: "8a9345fc-bd2c-43a1-8868-99e2c5ed5afe",
+  skills: [1, 3],
+  projectTypes: [3, 4],
+  positions: [2],
+  languages: [3, 4, 5]
 };
 
 export default function Home() {

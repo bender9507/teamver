@@ -1,18 +1,22 @@
+import type {
+  ConstantLanguageRow,
+  ConstantPositionRow,
+  ConstantProjectTypeRow,
+  ConstantSkillRow
+} from "../constant";
 import type { ProfileAllDataRow } from "../profile";
 import type { Table } from "../server.types";
 
-type ProjectDataRow = Table["projects"]["Row"];
-type ProjectLanguagesDataRow = Table["constantLanguages"]["Row"];
-type ProjectTypeRow = Table["constantProjectTypes"]["Row"];
-type ProjectSkillRow = Table["constantSkills"]["Row"];
-type ProjectPositionRow = Table["constantPositions"]["Row"];
+export type ProjectDataRow = Table["projects"]["Row"];
+
+export type ProjectMembersRow = Table["projectMembers"]["Row"];
 
 export type ProjectDataInsert = Table["projects"]["Insert"];
 
 export type ProjectAllDataRow = ProjectDataRow & {
-  projectTypes: ProjectTypeRow[];
-  skills: ProjectSkillRow[];
-  positions: ProjectPositionRow[];
-  languages: ProjectLanguagesDataRow[];
+  projectTypes: ConstantProjectTypeRow[];
+  skills: ConstantSkillRow[];
+  positions: ConstantPositionRow[];
+  languages: ConstantLanguageRow[];
   members: ProfileAllDataRow[];
 };
