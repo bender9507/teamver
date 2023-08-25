@@ -3,5 +3,5 @@ export const routes = {
   welcome: "/welcome",
   member: "/member",
   project: "/owner/project",
-  create: "/owner/project/create"
+  create: "/project/create"
 } as const;

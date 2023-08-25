@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Text } from "~/styles/mixins";
+import { Card } from "~/components/Owner/Card";
+import { FlexColumn, Text } from "~/styles/mixins";
 
 const Project = () => {
   //   const app = useProject();
@@ -10,7 +11,7 @@ const Project = () => {
 
       <div>
         <Text>진행중인 프로젝트</Text>
-        {/* <FlexColumn gap={16}>
+        <FlexColumn gap={16}>
           {app.projects
             .filter((project) => project.projects.state === "IN_RECRUIT")
             .map((project) => (
@@ -36,7 +37,7 @@ const Project = () => {
             .map((project) => (
               <Card key={project.projects.id} {...project} />
             ))}
-        </FlexColumn> */}
+        </FlexColumn>
 
         <Link href="/owner/project/create">클릭</Link>
       </div>
