@@ -1,16 +1,23 @@
+import router from "next/router";
+import { routes } from "~/constants/routes";
 import { useSelectChatRoomsQuery } from "~/states/server/chat";
 
 export const useSelectChatRooms = (userId: string) => {
-  const data = useSelectChatRoomsQuery(userId);
+  const { data } = useSelectChatRoomsQuery(userId);
 
   const rooms = data?.map((room) => ({
-    id: room.id,
-    memberName: room.members[0]?.name,
-    memberImageUrl: room.members[0]?.imageUrl,
-    firstMessage: room.messages[0]?.message,
-    firstMessageSenderName: room.messages[0]?.sender.name,
-    firstMessageCreatedAt: room.messages[0]?.createdAt
+    roomId: room.id,
+    memberName: room.members[0].name,
+    memberImageUrl: room.members[0]?.imageUrl || "",
+    lastMessage: room.messages[0]?.message || ""
   }));
 
-  return { ...data, rooms };
+  const handleRoomClick = (roomId: number) => {
+    router.push({
+      pathname: routes.ownerChat(roomId),
+      query: { memberData: JSON.stringify(data) }
+    });
+  };
+
+  return { ...data, rooms, handleRoomClick };
 };

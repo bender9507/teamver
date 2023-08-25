@@ -3,31 +3,43 @@ import type { User } from "@supabase/supabase-js";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useEffect } from "react";
-import { Button } from "~/components/Commons";
-import { useSelectChatRoomsQuery } from "~/states/server/chat";
-import { FlexColumn, Text } from "~/styles/mixins";
+import { Avatar, Button } from "~/components/Commons";
+import { FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
+import { useSelectChatRooms } from "./chat.hooks";
 import * as Styled from "./chat.styles";
 
 const Chat = ({ user }: { user: User }) => {
   const { t } = useTranslation("chat");
 
-  console.log(user);
-
-  const chatRoomQuery = useSelectChatRoomsQuery(user.id);
-
-  useEffect(() => {
-    console.log("originalData: ", chatRoomQuery);
-  }, [chatRoomQuery]);
+  const app = useSelectChatRooms(user.id);
 
   return (
-    <FlexColumn align="center">
-      <Text color="white">{t("채팅")}</Text>
+    <FlexColumn>
+      <FlexCenter>
+        <Text color="white">{t("채팅")}</Text>
+      </FlexCenter>
 
-      <Styled.ChatRoomsWrapper>
+      <Styled.ChatRoomsTitleBox>
         <Text color="white">{t("채팅")}</Text>
         <Button style={{ color: "white" }}>{t("요청")}</Button>
+      </Styled.ChatRoomsTitleBox>
+
+      <Styled.ChatRoomsWrapper>
+        {app.rooms && app.rooms.length > 0 ? (
+          app.rooms.map((room) => (
+            <Styled.ChatRoomBox key={room.roomId} onClick={() => app.handleRoomClick(room.roomId)}>
+              <Avatar src={room.memberImageUrl} />
+
+              <FlexColumn>
+                <Text color="white">{room.memberName || t("알 수 없음")}</Text>
+                <Text color="white">{room.lastMessage || t("아직 대화가 없습니다")}</Text>
+              </FlexColumn>
+            </Styled.ChatRoomBox>
+          ))
+        ) : (
+          <Text color="white">{t("채팅 목록이 없습니다")}</Text>
+        )}
       </Styled.ChatRoomsWrapper>
     </FlexColumn>
   );
