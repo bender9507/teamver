@@ -1,4 +1,4 @@
-import type { ProjectAllDataRow, ProjectDataInsert, ProjectDataRow } from ".";
+import type { ProjectAllDataRow, ProjectDataInsert, ProjectDataRow, ProjectDataUpdate } from ".";
 import { supabase } from "../config";
 import type {
   ConstantLanguageRow,
@@ -88,5 +88,42 @@ export const insertProject = async ({
 
     if (error) throw Error("프로젝트 생성 실패");
   });
+  await Promise.all(tasks);
+};
+
+export const updateProject = async ({
+  skills,
+  projectTypes,
+  languages,
+  positions,
+  ...projectData
+}: Omit<ProjectDataUpdate, "id"> & {
+  id: number;
+  skills: ConstantSkillRow["id"][];
+  projectTypes: ConstantProjectTypeRow["id"][];
+  languages: ConstantLanguageRow["id"][];
+  positions: ConstantPositionRow["id"][];
+}) => {
+  const { error } = await supabase.from("projects").update(projectData).eq("id", projectData.id);
+
+  if (error) throw error;
+
+  const mappings = {
+    projectLanguages: languages.map((id) => ({ languageId: id, projectId: projectData.id })),
+    projectPositions: positions.map((id) => ({ positionId: id, projectId: projectData.id })),
+    projectSkills: skills.map((id) => ({ skillId: id, projectId: projectData.id })),
+    projectTypes: projectTypes.map((id) => ({ projectTypeId: id, projectId: projectData.id }))
+  };
+
+  const tasks = Object.entries(mappings).map(async ([table, data]) => {
+    const { error: deleteError } = await supabase
+      .from(table)
+      .delete()
+      .eq("projectId", projectData.id);
+    const { error: insertError } = await supabase.from(table).insert(data);
+
+    if (deleteError || insertError) throw Error("업데이트 실패");
+  });
+
   await Promise.all(tasks);
 };
