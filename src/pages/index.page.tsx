@@ -2,6 +2,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import { SocialLoginButton } from "~/components/Commons";
 import { Text } from "~/styles/mixins";
 
 export default function Home() {
@@ -14,6 +15,8 @@ export default function Home() {
       </Head>
 
       <Text>corder</Text>
+
+      <SocialLoginButton provider="github" />
     </>
   );
 }

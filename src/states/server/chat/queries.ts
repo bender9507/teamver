@@ -16,7 +16,7 @@ export const useSelectChatMessagesQuery = (roomId: number) => {
   });
 };
 
-export const useSelectChatRooms = (userId: string) => {
+export const useSelectChatRoomsQuery = (userId: string) => {
   return useSuspendedQuery({
     queryKey: chatKeys.selectChatRooms(userId),
     queryFn: () => selectChatRooms(userId)
