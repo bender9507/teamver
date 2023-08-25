@@ -17,11 +17,11 @@ const Chat = ({ user }: { user: User }) => {
   return (
     <FlexColumn>
       <FlexCenter>
-        <Text color="white">{t("채팅")}</Text>
+        <Text>{t("채팅")}</Text>
       </FlexCenter>
 
       <Styled.ChatRoomsTitleBox>
-        <Text color="white">{t("채팅")}</Text>
+        <Text>{t("채팅")}</Text>
         <Button style={{ color: "white" }}>{t("요청")}</Button>
       </Styled.ChatRoomsTitleBox>
 
@@ -32,13 +32,13 @@ const Chat = ({ user }: { user: User }) => {
               <Avatar src={room.memberImageUrl} />
 
               <FlexColumn>
-                <Text color="white">{room.memberName || t("알 수 없음")}</Text>
-                <Text color="white">{room.lastMessage || t("아직 대화가 없습니다")}</Text>
+                <Text>{room.memberName || t("알 수 없음")}</Text>
+                <Text>{room.lastMessage || t("아직 대화가 없습니다")}</Text>
               </FlexColumn>
             </Styled.ChatRoomBox>
           ))
         ) : (
-          <Text color="white">{t("채팅 목록이 없습니다")}</Text>
+          <Text>{t("채팅 목록이 없습니다")}</Text>
         )}
       </Styled.ChatRoomsWrapper>
     </FlexColumn>

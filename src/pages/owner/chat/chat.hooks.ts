@@ -14,8 +14,7 @@ export const useSelectChatRooms = (userId: string) => {
 
   const handleRoomClick = (roomId: number) => {
     router.push({
-      pathname: routes.ownerChat(roomId),
-      query: { memberData: JSON.stringify(data) }
+      pathname: routes.ownerChat(roomId)
     });
   };
 
