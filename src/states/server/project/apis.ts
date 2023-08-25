@@ -1,4 +1,10 @@
-import type { ProjectAllDataRow, ProjectDataInsert, ProjectDataRow, ProjectDataUpdate } from ".";
+import type {
+  ProjectAllDataRow,
+  ProjectDataInsert,
+  ProjectDataRow,
+  ProjectDataUpdate,
+  ProjectInviteInsert
+} from ".";
 import { supabase } from "../config";
 import type {
   ConstantLanguageRow,
@@ -126,4 +132,10 @@ export const updateProject = async ({
   });
 
   await Promise.all(tasks);
+};
+
+export const insertProjectInvite = async (projectInviteData: ProjectInviteInsert) => {
+  const { error } = await supabase.from("projectInvite").insert(projectInviteData);
+
+  if (error) throw error;
 };

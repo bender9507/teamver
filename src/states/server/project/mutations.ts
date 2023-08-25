@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { insertProject, updateProject } from ".";
+import { insertProject, insertProjectInvite, updateProject } from ".";
 import type { PickMutationOptions } from "../server.types";
 
 export const useInsertProjectMutate = (
@@ -16,6 +16,15 @@ export const useUpdateProjectMutate = (
 ) => {
   return useMutation({
     mutationFn: updateProject,
+    ...options
+  });
+};
+
+export const useInsertProjectInviteMutate = (
+  options?: PickMutationOptions<typeof insertProjectInvite, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertProjectInvite,
     ...options
   });
 };
