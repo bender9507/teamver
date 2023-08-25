@@ -1,5 +1,7 @@
 import { supabase } from "../config";
+import type { ProfileAllDataRow } from "../profile";
 import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
+import type { ChatMessageRow, ChatRequestRow } from "./types";
 
 export const insertChatRequest = async (chatRequest: {
   requesterId: string;
@@ -26,7 +28,9 @@ export const selectChatRequests = async ({
     query = query.eq("state", state);
   }
 
-  const { data, error } = await query;
+  const { data, error } = await query.returns<
+    (Pick<ChatRequestRow, "id" | "state"> & { receiverProfile: ProfileAllDataRow })[]
+  >();
 
   if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
 
@@ -65,7 +69,16 @@ export const selectChatRooms = async (userId: string) => {
     .limit(3, { foreignTable: "roomId.chatMessages" })
     .neq("roomId.members.userId", userId)
     .eq("userId", userId)
-    .order("createdAt", { foreignTable: "roomId.messages", ascending: false });
+    .order("createdAt", { foreignTable: "roomId.messages", ascending: false })
+    .returns<
+      {
+        id: number;
+        members: ProfileAllDataRow[];
+        messages: (Pick<ChatMessageRow, "id" | "message" | "createdAt"> & {
+          sender: ProfileAllDataRow;
+        })[];
+      }[]
+    >();
 
   if (error) throw Error("채팅방 목록을 불러오는데 실패하였습니다.");
 
