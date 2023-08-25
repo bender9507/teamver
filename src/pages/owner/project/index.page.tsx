@@ -1,15 +1,64 @@
 import Link from "next/link";
-import { routes } from "~/constants/routes";
-import { FlexColumn, Text } from "~/styles/mixins";
+import { Text } from "~/styles/mixins";
 
 const Project = () => {
-  return (
-    <FlexColumn>
-      <Text>프로젝트 관리 페이지</Text>
+  //   const app = useProject();
 
-      <Link href={routes.home}>홈으로</Link>
-    </FlexColumn>
+  return (
+    <>
+      <Text>프로젝트 사진 영역</Text>
+
+      <div>
+        <Text>진행중인 프로젝트</Text>
+        {/* <FlexColumn gap={16}>
+          {app.projects
+            .filter((project) => project.projects.state === "IN_RECRUIT")
+            .map((project) => (
+              <Card key={project.projects.id} {...project} />
+            ))}
+        </FlexColumn>
+      </div>
+      <div>
+        <Text>모집중인 프로젝트</Text>
+        <FlexColumn gap={16}>
+          {app.projects
+            .filter((project) => project.projects.state === "DONE_RECRUIT")
+            .map((project) => (
+              <Card key={project.projects.id} {...project} />
+            ))}
+        </FlexColumn>
+      </div>
+      <div>
+        <Text>끝난 프로젝트</Text>
+        <FlexColumn gap={16}>
+          {app.projects
+            .filter((project) => project.projects.state === "DONE_PROJECT")
+            .map((project) => (
+              <Card key={project.projects.id} {...project} />
+            ))}
+        </FlexColumn> */}
+
+        <Link href="/owner/project/create">클릭</Link>
+      </div>
+    </>
   );
 };
 
 export default Project;
+
+// export const getServerSideProps: GetServerSideProps = async ({ query, locale }) => {
+//   const queryClient = new QueryClient();
+//   const ownerId = query.ownerId as string;
+
+//   await queryClient.prefetchQuery({
+//     queryKey: projectsKey.getProjects(ownerId),
+//     queryFn: () => getOwnerProjects(ownerId)
+//   });
+
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//       ...(await serverSideTranslations(locale, ["common", "home"]))
+//     }
+//   };
+// };
