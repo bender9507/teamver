@@ -1,8 +1,8 @@
 /* eslint-disable */
-import type { ThemeStyle } from "~/styles/theme";
+import type { theme } from "~/styles/theme";
 
 declare module "@emotion/react" {
-  type EmotionTheme = ThemeStyle;
+  type EmotionTheme = typeof theme;
 
   export interface Theme extends EmotionTheme {}
 }

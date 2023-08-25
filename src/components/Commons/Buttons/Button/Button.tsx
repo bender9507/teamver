@@ -1,7 +1,9 @@
+import type { ButtonHTMLAttributes } from "react";
 import { forwardRef } from "react";
 import * as Styled from "./Button.styles";
-import type { ButtonProps } from "./Button.types";
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
-  return <Styled.Button ref={ref} {...props} />;
-});
+export const Button = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
+  (props, ref) => {
+    return <Styled.Button ref={ref} {...props} />;
+  }
+);

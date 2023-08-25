@@ -27,9 +27,7 @@ export const Confirm = ({
       <Flex gap={8}>
         <Button onClick={onConfirm}>{confirmLabel}</Button>
 
-        <Button variant="secondary" onClick={onCancel}>
-          {cancelLabel}
-        </Button>
+        <Button onClick={onCancel}>{cancelLabel}</Button>
       </Flex>
     </Dialogs>
   );

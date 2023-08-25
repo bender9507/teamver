@@ -5,7 +5,7 @@ import type { ChipProps } from "./Chip.types";
 
 const containerStyle = ({
   theme: { colors },
-  bgColor = "info",
+  bgColor = "backgroundSecondary",
   color = "white"
 }: WithTheme<ChipProps>) => css`
   display: inline-flex;

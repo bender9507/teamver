@@ -2,6 +2,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import { Text } from "~/styles/mixins";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -11,7 +12,8 @@ export default function Home() {
       <Head>
         <title>{t("코더")}</title>
       </Head>
-      corder
+
+      <Text>corder</Text>
     </>
   );
 }

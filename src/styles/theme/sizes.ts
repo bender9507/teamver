@@ -4,7 +4,8 @@ export const sizes = {
   height: {
     small: 28,
     medium: 40,
-    large: 52
+    large: 52,
+    header: 60
   } as const,
   padding: {
     small: 8,
