@@ -3,30 +3,17 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { Button, SocialLoginButton } from "~/components/Commons";
-import type { InviteState } from "~/states/server/project";
-import {
-  useUpdateProjectInviteStateMutate,
-  useUpdateProjectMutate
-} from "~/states/server/project/mutations";
+import { useInsertFollowProjectMutate } from "~/states/server/project/mutations";
 
 const sampleData = {
-  id: 43,
-  skills: [2, 4, 5, 6, 7],
-  positions: [2, 3],
-  projectTypes: [1, 2],
-  languages: [3]
-};
-
-const smapleInvite: { id: number; state: InviteState } = {
-  id: 1,
-  state: "GRANT"
+  followerId: "8a9345fc-bd2c-43a1-8868-99e2c5ed5afe",
+  projectId: 43
 };
 
 export default function Home() {
   const { t } = useTranslation("common");
 
-  const { mutate } = useUpdateProjectMutate();
-  const { mutate: inviteMutate } = useUpdateProjectInviteStateMutate();
+  const { mutate } = useInsertFollowProjectMutate();
 
   return (
     <>
@@ -34,8 +21,7 @@ export default function Home() {
         <title>{t("코더")}</title>
       </Head>
       <SocialLoginButton provider="github" />
-      <Button onClick={() => mutate(sampleData)}>mutate</Button>
-      <Button onClick={() => inviteMutate(smapleInvite)}>초대</Button>
+      <Button onClick={() => mutate(sampleData)}>찜</Button>
       coder
     </>
   );

@@ -1,4 +1,5 @@
 import type {
+  FollowProjectInsert,
   InviteState,
   ProjectAllDataRow,
   ProjectDataInsert,
@@ -46,17 +47,6 @@ export const selectMemberProjects = async (myId?: string) => {
     .select(`...projects!inner(${PROJECT_ALL_DATA_QUERY})`)
     .eq("memberId", myId)
     .returns<ProjectAllDataRow[]>();
-
-  if (error) throw error;
-
-  return data;
-};
-
-export const selectFollowProjects = async (myId?: string) => {
-  const { data, error } = await supabase
-    .from("followProject")
-    .select(`id, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
-    .eq("followerId", myId);
 
   if (error) throw error;
 
@@ -151,4 +141,22 @@ export const updateProjectInviteState = async ({
   const { error } = await supabase.from("projectInvite").update({ state }).eq("id", id);
 
   if (error) throw error;
+};
+
+export const insertFollowProject = async ({ followerId, projectId }: FollowProjectInsert) => {
+  const { error } = await supabase.from("followProject").insert({ followerId, projectId });
+
+  if (error) throw error;
+};
+
+export const selectFollowProjects = async (myId?: string) => {
+  const { data, error } = await supabase
+    .from("followProject")
+    .select(`id, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
+    .eq("followerId", myId)
+    .returns<{ id: string; project: ProjectAllDataRow }[]>();
+
+  if (error) throw error;
+
+  return data;
 };
