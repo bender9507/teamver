@@ -2,9 +2,10 @@ import { useTranslation } from "next-i18next";
 import { Button, Input, OptionChip, Textarea } from "~/components/Commons";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
+import { useCreateForm } from "./Form.hooks";
 
 export const Form = () => {
-  //   const app = useCreateForm();
+  const app = useCreateForm();
   const { t, i18n } = useTranslation("welcome");
 
   const currentLanguage = i18n.language as OneOfLanguage;
