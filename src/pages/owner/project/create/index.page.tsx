@@ -1,3 +1,4 @@
+import { Form } from "~/components/OwnerProject/Form";
 import { Text } from "~/styles/mixins";
 
 const Create = () => {
@@ -5,7 +6,7 @@ const Create = () => {
     <>
       <Text>프로젝트 사진 영역</Text>
 
-      <div>안녕</div>
+      <Form />
     </>
   );
 };
