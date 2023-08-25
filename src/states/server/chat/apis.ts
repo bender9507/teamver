@@ -32,3 +32,21 @@ export const selectChatRequests = async ({
 
   return data;
 };
+
+export const insertChatMessage = async (message: {
+  roomId: number;
+  senderId: string;
+  message: string;
+}) => {
+  const { error } = await supabase.from("chatMessages").insert(message);
+
+  if (error) throw Error("메세지 전송에 실패하였습니다.");
+};
+
+export const selectChatMessages = async (roomId: number) => {
+  const { data, error } = await supabase.from("chatMessages").select("*").eq("roomId", roomId);
+
+  if (error) throw Error("메세지 목록을 불러오는데 실패하였습니다.");
+
+  return data;
+};
