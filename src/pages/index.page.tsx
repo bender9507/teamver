@@ -3,8 +3,8 @@ import { useSession } from "@supabase/auth-helpers-react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import { useEffect } from "react";
 import { Button, SocialLoginButton } from "~/components/Commons";
 import {
   projectsKey,
@@ -45,14 +45,6 @@ export default function Home() {
   console.log(memberData);
   console.log(followData);
 
-  useEffect(() => {
-    const test = async () => {
-      const data = await selectFollowProjects(session?.user.id);
-      console.log(data);
-    };
-    test();
-  }, [session?.user.id]);
-
   return (
     <>
       <Head>
@@ -92,8 +84,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   });
   return {
     props: {
-      dehydratedState: dehydrate(queryClient)
-      // ...(await serverSideTranslations(locale, ["common"]))
+      dehydratedState: dehydrate(queryClient),
+      ...(await serverSideTranslations(ctx.locale, ["common"]))
     }
   };
 };
