@@ -121,3 +121,15 @@ export const selectFollowers = async (myId: string) => {
 
   return data;
 };
+
+export const checkNameValidation = async (nickname: string) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("name", nickname)
+    .maybeSingle();
+
+  if (error) throw Error("이름 중복 검사에 실패하였습니다.");
+
+  return !data;
+};
