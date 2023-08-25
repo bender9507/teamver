@@ -1,18 +1,21 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { text } from "~/styles/mixins";
 import type { WithTheme } from "~/types";
-import type { SelectChipProps } from "./OptionChip.types";
 
 const chipStyle = ({ theme: { colors } }: WithTheme) => css`
   display: inline-block;
 
-  padding: 4px 8px;
+  padding: 10px 16px;
 
   background-color: ${colors.backgroundSecondary};
 
-  border-radius: 6px;
+  box-sizing: content-box;
 
-  color: ${colors.black};
+  border-radius: 30px;
+
+  ${text("paragraph3")};
+  color: ${colors.white};
 
   cursor: pointer;
 `;
@@ -25,17 +28,11 @@ export const Container = styled.label`
   position: relative;
 `;
 
-const checkedStyle = ({
-  theme: { colors },
-  bgColor = "backgroundSecondary",
-  color = "white"
-}: WithTheme<SelectChipProps>) => css`
-  background-color: ${colors[bgColor]};
-
-  color: ${colors[color]};
+const checkedStyle = ({ theme: { colors } }: WithTheme) => css`
+  box-shadow: inset 0 0 0 1px ${colors.primary};
 `;
 
-export const Input = styled.input<SelectChipProps>`
+export const Input = styled.input`
   &:checked + ${Chip} {
     ${(props) => checkedStyle(props)}
   }

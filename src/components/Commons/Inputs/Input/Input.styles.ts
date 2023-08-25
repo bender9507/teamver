@@ -1,28 +1,27 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { size, text } from "~/styles/mixins";
+import { selector, size, text } from "~/styles/mixins";
 import type { WithTheme } from "~/types";
 import type { InputStyleProps } from "./Input.types";
 
-const inputStyle = ({
-  theme: { sizes, colors },
-  styleSize = "medium"
-}: WithTheme<InputStyleProps>) => {
+const inputStyle = ({ theme: { sizes, colors } }: WithTheme<InputStyleProps>) => {
   return css`
-    ${size({ height: sizes.height[styleSize], maxWidth: "100%" })}
+    ${size({ height: sizes.height.medium, maxWidth: "100%" })}
 
-    padding: 0 ${sizes.padding[styleSize]}px;
+    padding: 0 ${sizes.padding.large}px;
 
-    background-color: ${colors.backgroundPrimary};
+    background-color: ${colors.backgroundSecondary};
 
-    border: 1px solid ${colors.gray2};
-    border-radius: 8px;
+    border: 1px solid ${colors.backgroundSecondary};
+    ${selector("borderColor", { focus: colors.primary })};
 
-    color: ${colors.content2};
-    ${text(sizes.paragraph[styleSize])}
+    border-radius: 30px;
+
+    color: ${colors.gray2};
+    ${text(sizes.paragraph.medium)}
   `;
 };
 
-export const Input = styled.input<InputStyleProps>`
+export const Input = styled.input`
   ${(props) => inputStyle(props)};
 `;

@@ -1,24 +1,21 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { text } from "~/styles/mixins";
 import type { WithTheme } from "~/types";
-import type { ChipProps } from "./Chip.types";
 
-const containerStyle = ({
-  theme: { colors },
-  bgColor = "backgroundSecondary",
-  color = "white"
-}: WithTheme<ChipProps>) => css`
+const containerStyle = ({ theme: { colors } }: WithTheme) => css`
   display: inline-flex;
 
-  padding: 4px 8px;
+  padding: 10px 16px;
 
-  background-color: ${colors[bgColor]};
+  background-color: ${colors.backgroundSecondary};
 
-  border-radius: 6px;
+  border-radius: 30px;
 
-  color: ${colors[color]};
+  ${text("paragraph3")};
+  color: ${colors.white};
 `;
 
-export const Container = styled.span<ChipProps>`
+export const Container = styled.span`
   ${(props) => containerStyle(props)}
 `;

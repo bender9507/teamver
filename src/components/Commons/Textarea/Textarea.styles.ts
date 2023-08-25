@@ -1,31 +1,27 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { size, text } from "~/styles/mixins";
+import { selector, size, text } from "~/styles/mixins";
 import type { WithTheme } from "~/types";
-import type { TextareaStyleProps } from "./Textarea.types";
 
-const inputStyle = ({
-  theme: { sizes, colors },
-  styleSize = "medium",
-  resize
-}: WithTheme<TextareaStyleProps>) => {
+const textareaStyle = ({ theme: { sizes, colors } }: WithTheme) => {
   return css`
-    ${size({ maxWidth: "100%" })};
+    ${size({ height: sizes.height.medium, maxWidth: "100%" })};
 
-    padding: ${sizes.padding[styleSize]}px;
+    padding: 10px ${sizes.padding.large}px;
 
-    background-color: ${colors.backgroundPrimary};
+    background-color: ${colors.backgroundSecondary};
 
-    border: 1px solid ${colors.gray3};
-    border-radius: 8px;
+    border: 1px solid ${colors.backgroundSecondary};
+    border-radius: 30px;
+    ${selector("borderColor", { focus: colors.primary })};
 
     color: ${colors.content2};
-    ${text(sizes.paragraph[styleSize])};
+    ${text(sizes.paragraph.medium)};
 
-    resize: ${resize};
+    resize: none;
   `;
 };
 
-export const Input = styled.textarea<TextareaStyleProps>`
-  ${(props) => inputStyle(props)};
+export const Textarea = styled.textarea`
+  ${(props) => textareaStyle(props)};
 `;
