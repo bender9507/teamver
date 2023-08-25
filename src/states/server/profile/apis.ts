@@ -1,15 +1,7 @@
 import { supabase } from "../config";
-import type {
-  ConstantAreaRow,
-  ConstantJobRow,
-  ConstantLanguageRow,
-  ConstantPersonalityRow,
-  ConstantPositionRow,
-  ConstantProjectTypeRow,
-  ConstantSkillRow
-} from "../constant";
+
 import { PROFILE_ALL_DATA_QUERY } from "./constants";
-import type { ProfileAllDataRow, ProfileInsert, ProfileUpdate } from "./types";
+import type { ProfileAllDataInsert, ProfileAllDataRow, ProfileAllDataUpdate } from "./types";
 
 export const insertProfile = async ({
   skills,
@@ -20,15 +12,7 @@ export const insertProfile = async ({
   jobs,
   areas,
   ...profile
-}: ProfileInsert & {
-  skills: ConstantSkillRow["id"][];
-  projectTypes: ConstantProjectTypeRow["id"][];
-  positions: ConstantPositionRow["id"][];
-  personalities: ConstantPersonalityRow["id"][];
-  languages: ConstantLanguageRow["id"][];
-  jobs: ConstantJobRow["id"][];
-  areas: ConstantAreaRow["id"][];
-}) => {
+}: ProfileAllDataInsert) => {
   const { error } = await supabase.from("profiles").insert(profile);
 
   if (error) throw error;
@@ -79,16 +63,7 @@ export const updateProfile = async ({
   jobs,
   areas,
   ...profile
-}: Omit<ProfileUpdate, "id"> & {
-  id: string;
-  skills: ConstantSkillRow["id"][];
-  projectTypes: ConstantProjectTypeRow["id"][];
-  positions: ConstantPositionRow["id"][];
-  personalities: ConstantPersonalityRow["id"][];
-  languages: ConstantLanguageRow["id"][];
-  jobs: ConstantJobRow["id"][];
-  areas: ConstantAreaRow["id"][];
-}) => {
+}: ProfileAllDataUpdate) => {
   const { error } = await supabase.from("profiles").update(profile).eq("id", profile.id);
 
   if (error) throw error;
@@ -123,4 +98,26 @@ export const insertFollow = async ({ myId, opponentId }: { myId: string; opponen
   const { error } = await supabase.from("follow").insert({ myId, opponentId });
 
   if (error) throw Error("팔로우 실패");
+};
+
+export const selectFollows = async (myId: string) => {
+  const { error, data } = await supabase
+    .from("follow")
+    .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("myId", myId);
+
+  if (error) throw Error("내가 찜한 사용자를 불러올 수 없습니다.");
+
+  return data;
+};
+
+export const selectFollowers = async (myId: string) => {
+  const { error, data } = await supabase
+    .from("follow")
+    .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("opponentId", myId);
+
+  if (error) throw Error("나를 찜한 사용자를 불러올 수 없습니다.");
+
+  return data;
 };

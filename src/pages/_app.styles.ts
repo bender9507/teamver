@@ -10,7 +10,8 @@ export const Container = styled.div`
 
   margin: 0 auto;
 
-  ${({ theme: { shadows } }) => css`
+  ${({ theme: { shadows, colors } }) => css`
+    background-color: ${colors.backgroundPrimary};
     box-shadow: ${shadows.drop3};
   `}
 

@@ -22,7 +22,7 @@ export const Inner = styled.div<{ isVibration: boolean }>`
     background-color: ${colors.backgroundPrimary};
 
     border-radius: 12px;
-    border: 1px solid ${colors.border};
+    border: 1px solid ${colors.gray2};
 
     box-shadow: ${shadows.drop3};
 

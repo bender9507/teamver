@@ -44,3 +44,24 @@ export type ProfileAllDataRow = ProfileRow & {
   personalities: ConstantPersonalityRow[];
   positions: ConstantPositionRow[];
 };
+
+export type ProfileAllDataInsert = ProfileInsert & {
+  skills: ConstantSkillRow["id"][];
+  projectTypes: ConstantProjectTypeRow["id"][];
+  positions: ConstantPositionRow["id"][];
+  personalities: ConstantPersonalityRow["id"][];
+  languages: ConstantLanguageRow["id"][];
+  jobs: ConstantJobRow["id"][];
+  areas: ConstantAreaRow["id"][];
+};
+
+export type ProfileAllDataUpdate = Omit<ProfileUpdate, "id"> & {
+  id: string;
+  skills: ConstantSkillRow["id"][];
+  projectTypes: ConstantProjectTypeRow["id"][];
+  positions: ConstantPositionRow["id"][];
+  personalities: ConstantPersonalityRow["id"][];
+  languages: ConstantLanguageRow["id"][];
+  jobs: ConstantJobRow["id"][];
+  areas: ConstantAreaRow["id"][];
+};

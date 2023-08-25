@@ -44,7 +44,7 @@ const containerStyle = ({
     background-color: ${colors.backgroundPrimary};
     box-shadow: ${shadows.drop3};
 
-    border: 1px solid ${colors.border};
+    border: 1px solid ${colors.gray2};
     border-radius: 12px;
   `;
 };

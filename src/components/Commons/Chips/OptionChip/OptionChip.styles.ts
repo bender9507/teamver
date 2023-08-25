@@ -27,7 +27,7 @@ export const Container = styled.label`
 
 const checkedStyle = ({
   theme: { colors },
-  bgColor = "info",
+  bgColor = "backgroundSecondary",
   color = "white"
 }: WithTheme<SelectChipProps>) => css`
   background-color: ${colors[bgColor]};

@@ -8,7 +8,7 @@ import type { AppProps } from "next/app";
 import { Noto_Sans_KR as NotoSansKR } from "next/font/google";
 import { Overlay } from "~/components/Commons";
 import { more, reset } from "~/styles/base";
-import { lightTheme } from "~/styles/theme";
+import { theme } from "~/styles/theme";
 import { useApp } from "./_app.hooks";
 import * as Styled from "./_app.styles";
 
@@ -32,7 +32,7 @@ const App = ({
     >
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <ThemeProvider theme={lightTheme}>
+          <ThemeProvider theme={theme}>
             <Global
               styles={css`
                 ${reset}

@@ -42,7 +42,7 @@ export const Title = styled(Text)<Pick<LabelProps, "required">>`
 
         margin-left: 4px;
 
-        color: ${colors.red};
+        color: ${colors.error};
       }
     `}
 `;
