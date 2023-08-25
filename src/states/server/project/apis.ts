@@ -1,4 +1,5 @@
 import type {
+  InviteState,
   ProjectAllDataRow,
   ProjectDataInsert,
   ProjectDataRow,
@@ -136,6 +137,18 @@ export const updateProject = async ({
 
 export const insertProjectInvite = async (projectInviteData: ProjectInviteInsert) => {
   const { error } = await supabase.from("projectInvite").insert(projectInviteData);
+
+  if (error) throw error;
+};
+
+export const updateProjectInviteState = async ({
+  id,
+  state
+}: {
+  id: number;
+  state: InviteState;
+}) => {
+  const { error } = await supabase.from("projectInvite").update({ state }).eq("id", id);
 
   if (error) throw error;
 };

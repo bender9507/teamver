@@ -1,3 +1,4 @@
+import type { Database } from "~/types/database";
 import type {
   ConstantLanguageRow,
   ConstantPositionRow,
@@ -22,3 +23,5 @@ export type ProjectAllDataRow = ProjectDataRow & {
   languages: ConstantLanguageRow[];
   members: ProfileAllDataRow[];
 };
+
+export type InviteState = Database["public"]["Enums"]["invite_state"];

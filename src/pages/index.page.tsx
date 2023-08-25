@@ -3,8 +3,9 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { Button, SocialLoginButton } from "~/components/Commons";
+import type { InviteState } from "~/states/server/project";
 import {
-  useInsertProjectInviteMutate,
+  useUpdateProjectInviteStateMutate,
   useUpdateProjectMutate
 } from "~/states/server/project/mutations";
 
@@ -16,17 +17,16 @@ const sampleData = {
   languages: [3]
 };
 
-const smapleInvite = {
-  projectId: 43,
-  receiverId: "be95f102-5344-43df-8561-f3f9208c0b3f",
-  requesterId: "8a9345fc-bd2c-43a1-8868-99e2c5ed5afe"
+const smapleInvite: { id: number; state: InviteState } = {
+  id: 1,
+  state: "GRANT"
 };
 
 export default function Home() {
   const { t } = useTranslation("common");
 
   const { mutate } = useUpdateProjectMutate();
-  const { mutate: inviteMutate } = useInsertProjectInviteMutate();
+  const { mutate: inviteMutate } = useUpdateProjectInviteStateMutate();
 
   return (
     <>
