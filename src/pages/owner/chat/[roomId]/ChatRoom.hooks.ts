@@ -1,12 +1,35 @@
 import { useEffect, useState } from "react";
-import { useSelectChatMessagesQuery, useSelectChatRoomsQuery } from "~/states/server/chat";
+import {
+  useInsertChatMessageMutate,
+  useSelectChatMessagesQuery,
+  useSelectChatRoomsQuery
+} from "~/states/server/chat";
 import type { ChatMessageRow } from "~/states/server/chat/types";
 import { supabase } from "~/states/server/config";
 
-export const useChatRoom = (userId: string, roomId: number) => {
+export const useChatRoom = (
+  userId: string,
+  roomId: number,
+  message: string,
+  setMessage: React.Dispatch<React.SetStateAction<string>>
+) => {
   const [messages, setMessages] = useState<ChatMessageRow[]>([]);
+
   const { data: memberData } = useSelectChatRoomsQuery(userId);
+
   const { data: messageData } = useSelectChatMessagesQuery(roomId);
+
+  const { mutateAsync: InsertChatMessageMutateAsync } = useInsertChatMessageMutate();
+
+  const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!message.trim()) return;
+
+    InsertChatMessageMutateAsync({ senderId: userId, roomId, message });
+
+    setMessage("");
+  };
 
   useEffect(() => {
     if (messageData) setMessages(messageData || []);
@@ -33,5 +56,5 @@ export const useChatRoom = (userId: string, roomId: number) => {
     };
   }, [roomId, messageData]);
 
-  return { messages };
+  return { messages, handleSubmitMessage };
 };

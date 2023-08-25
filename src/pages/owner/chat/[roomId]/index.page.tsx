@@ -3,45 +3,19 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useEffect, useState } from "react";
-import { Button, PreviousButton } from "~/components/Commons";
-import { useSelectChatMessagesQuery } from "~/states/server/chat";
-import type { ChatMessageRow } from "~/states/server/chat/types";
-import { supabase } from "~/states/server/config";
+import { useState } from "react";
+import { Button, Input, PreviousButton } from "~/components/Commons";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
+import { useChatRoom } from "./ChatRoom.hooks";
 import * as Styled from "./ChatRoom.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
-  const [messages, setMessages] = useState<ChatMessageRow[]>([]);
   const { t } = useTranslation("chat");
 
-  const { data: messageData } = useSelectChatMessagesQuery(roomId);
+  const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    if (messageData) setMessages(messageData || []);
-
-    const subscription = supabase
-      .channel(`chat:${roomId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "chatMessages"
-        },
-        (payload) => {
-          const newMessage = payload.new as ChatMessageRow;
-          setMessages((oldMessages) => [...oldMessages, newMessage]);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      if (subscription) subscription.unsubscribe();
-      supabase.removeChannel(subscription);
-    };
-  }, [roomId, messageData]);
+  const app = useChatRoom(user.id, roomId, message, setMessage);
 
   return (
     <FlexColumn>
@@ -54,7 +28,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       </Styled.ChatRoomTopBar>
 
       <Styled.ChatMessageWrapper>
-        {messages.map((message) =>
+        {app.messages.map((message) =>
           message.senderId === user.id ? (
             <Styled.ChatMessageRight key={message.id}>{message.message}</Styled.ChatMessageRight>
           ) : (
@@ -62,6 +36,16 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
           )
         )}
       </Styled.ChatMessageWrapper>
+
+      <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>
+        <Input
+          type="text"
+          style={{ width: 290 }}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <Button style={{ color: "white" }}>Send</Button>
+      </Styled.ChatFromWrapper>
     </FlexColumn>
   );
 };
@@ -84,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const roomId = Number(ctx.params?.id);
+  const roomId = Number(ctx.params?.roomId);
 
   return {
     props: {
