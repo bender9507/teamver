@@ -9,4 +9,4 @@ export const PROJECT_ALL_DATA_QUERY = `
   members:projectMembers!inner(...profiles(
     ${PROFILE_ALL_DATA_QUERY}
   ))
-`;
+ `;

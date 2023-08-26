@@ -1,6 +1,6 @@
-import type { ColorsKey } from "~/styles/theme";
+import type { SizesKey } from "~/styles/theme";
 
 export interface ChipProps {
-  bgColor?: ColorsKey;
-  color?: ColorsKey;
+  isSelected?: boolean;
+  size?: SizesKey;
 }

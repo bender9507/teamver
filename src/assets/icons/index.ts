@@ -1,3 +1,4 @@
+export { default as add } from "./add.svg";
 export { default as arrowBack } from "./arrowBack.svg";
 export { default as arrowForward } from "./arrowForward.svg";
 export { default as close } from "./close.svg";

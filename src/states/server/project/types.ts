@@ -20,7 +20,7 @@ export type FollowProjectInsert = Table["followProject"]["Insert"];
 export type ProjectMembersRow = Table["projectMembers"]["Row"];
 
 export type ProjectAllDataRow = ProjectDataRow & {
-  projectTypes: ConstantProjectTypeRow[];
+  types: ConstantProjectTypeRow[];
   skills: ConstantSkillRow[];
   positions: ConstantPositionRow[];
   languages: ConstantLanguageRow[];
