@@ -20,7 +20,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
   const app = useChatRoom(user.id, roomId, message, setMessage);
 
   const handleOpenModal = () => {
-    mount(<ProjectInvite />, { id: PROJECT_INVITE_MODAL });
+    mount(<ProjectInvite ownerId={user.id} />, { id: PROJECT_INVITE_MODAL });
   };
 
   return (
@@ -33,10 +33,8 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         </FlexCenter>
 
         <FlexCenter gap={20}>
-          <Button style={{ color: "white" }} onClick={handleOpenModal}>
-            {app.t("팀원으로초대하기")}
-          </Button>
-          <Button style={{ color: "white" }}>{app.t("•••")}</Button>
+          <Button onClick={handleOpenModal}>{app.t("팀원으로초대하기")}</Button>
+          <Button>{app.t("•••")}</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>
 
@@ -65,7 +63,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <Button style={{ color: "white" }}>Send</Button>
+        <Button>Send</Button>
       </Styled.ChatFromWrapper>
     </FlexColumn>
   );

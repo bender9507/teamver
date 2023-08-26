@@ -14,7 +14,7 @@ export const useChatRoom = (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  const { t } = useTranslation("chat");
+  const { t } = useTranslation("chatRoom");
 
   const [messages, setMessages] = useState<ChatMessageRow[]>([]);
 
