@@ -1,22 +1,30 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { flex, size, text } from "~/styles/mixins";
+import { styleHelper } from "~/styles/utils";
 import type { WithTheme } from "~/types";
 import type { ChipProps } from "./Chip.types";
 
 const containerStyle = ({
-  theme: { colors },
-  bgColor = "backgroundSecondary",
-  color = "white"
+  theme: { colors, sizes },
+  isSelected,
+  size: _size = "small"
 }: WithTheme<ChipProps>) => css`
-  display: inline-flex;
+  ${flex.center()};
 
-  padding: 4px 8px;
+  ${size({ height: sizes.height[_size] })}
 
-  background-color: ${colors[bgColor]};
+  padding: 0 16px;
 
-  border-radius: 6px;
+  background-color: ${colors.backgroundSecondary};
 
-  color: ${colors[color]};
+  ${isSelected && styleHelper("boxShadow", `inset 0 0 0 1px ${colors.primary}`)};
+
+  border-radius: 30px;
+
+  ${text("paragraph3")};
+  color: ${colors.white};
+  white-space: nowrap;
 `;
 
 export const Container = styled.span<ChipProps>`

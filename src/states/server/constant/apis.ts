@@ -65,6 +65,14 @@ export const getConstantSkills = async () => {
   return data;
 };
 
+export const getConstantRoles = async () => {
+  const { data, error } = await supabase.from("constantRoles").select("*");
+
+  if (error) throw error;
+
+  return data;
+};
+
 export const constantMap = {
   areas: getConstantAreas,
   jobs: getConstantJobs,
@@ -73,7 +81,8 @@ export const constantMap = {
   projectTypes: getConstantProjectTypes,
   positions: getConstantPositions,
   reactions: getConstantReactions,
-  skills: getConstantSkills
+  skills: getConstantSkills,
+  roles: getConstantRoles
 } as const;
 
 export const getConstants = async <T extends ConstantMapKey[]>(tables: T) => {

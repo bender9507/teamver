@@ -1,16 +1,41 @@
-import type { FormEvent } from "react";
-import { forwardRef } from "react";
+import { useTheme } from "@emotion/react";
+import type { TextareaHTMLAttributes } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import * as Styled from "./Textarea.styles";
-import type { TextareaProps } from "./Textarea.types";
 
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ size, onInvalid, ...props }, ref) => {
-    const handleOnInvalid = (event: FormEvent<HTMLTextAreaElement>) => {
-      event.preventDefault();
+export const Textarea = forwardRef<
+  HTMLTextAreaElement,
+  TextareaHTMLAttributes<HTMLTextAreaElement>
+>(({ onInvalid, ...props }, ref) => {
+  const { sizes } = useTheme();
 
-      if (onInvalid) onInvalid(event);
-    };
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    return <Styled.Input ref={ref} {...props} styleSize={size} onInvalid={handleOnInvalid} />;
-  }
-);
+  useEffect(() => {
+    if (ref) {
+      if (typeof ref === "function") {
+        ref(textareaRef.current);
+      } else if ("current" in ref) {
+        // eslint-disable-next-line no-param-reassign
+        ref.current = textareaRef.current;
+      }
+    }
+  }, [ref]);
+
+  return (
+    <Styled.Textarea
+      ref={textareaRef}
+      {...props}
+      onInvalid={(event) => {
+        event.preventDefault();
+        if (onInvalid) onInvalid(event);
+      }}
+      onInput={() => {
+        if (textareaRef.current) {
+          textareaRef.current.style.height = `${sizes.height.medium}px`;
+          textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+      }}
+    />
+  );
+});
