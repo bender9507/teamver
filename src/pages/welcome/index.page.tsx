@@ -1,7 +1,17 @@
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Button, IconButton, Input, OptionChip, Textarea } from "~/components/Commons";
+import { Controller } from "react-hook-form";
+import {
+  Button,
+  CheckboxChip,
+  Icon,
+  IconButton,
+  ImageUploader,
+  Input,
+  RadioChip,
+  Textarea
+} from "~/components/Commons";
 import { HTTP_REGEX } from "~/constants/regex";
 import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
@@ -11,7 +21,7 @@ import * as Styled from "./welcome.styles";
 
 const Welcome = () => {
   const app = useWelcome();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("welcome");
 
   const currentLanguage = i18n.language as OneOfLanguage;
 
@@ -29,24 +39,22 @@ const Welcome = () => {
         <Styled.SectionContainer step={app.step}>
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
-                팀버에서만의 닉네임을
-                <br />
-                만들어보세요!
+              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+                {t("팀버에서만의 닉네임을 만들어보세요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
-                프로필에 표시되는 소개글로, 언제든 변경 가능해요!
+              <Text as="p" size="paragraph3" color="gray2" whiteSpace="pre-wrap">
+                {t("프로필에 표시되는 소개글로 언제든 변경 가능해요")}
               </Text>
             </FlexColumn>
 
             <FlexColumn gap={14}>
-              <Input onChange={app.validateNickName} maxLength={16} placeholder="닉네임" />
+              <Input onChange={app.validateNickName} maxLength={16} placeholder={t("닉네임")} />
 
               <Flex style={{ marginLeft: "18px" }}>
                 {!app.successMessage && !app.errorMessage && (
                   <Text color="gray4" size="paragraph3">
-                    최대 16글자
+                    {t("최대 16글자")}
                   </Text>
                 )}
                 {app.successMessage && (
@@ -66,23 +74,23 @@ const Welcome = () => {
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
-                멋진 소개글을 적어볼까요?
+                {t("멋진 소개글을 적어볼까요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                프로필에 표시되는 소개글로, 언제든 변경 가능해요!
+                {t("프로필에 표시되는 소개글로 언제든 변경 가능해요")}
               </Text>
             </FlexColumn>
 
             <FlexColumn gap={14}>
               <Textarea
-                {...app.register("introduce", { required: true, maxLength: 500 })}
-                maxLength={500}
-                placeholder="내 소개"
+                {...app.register("introduce", { required: true, maxLength: 300 })}
+                maxLength={300}
+                placeholder={t("내 소개")}
               />
 
               <Text color="gray4" size="paragraph3" style={{ marginLeft: "18px" }}>
-                최대 500자
+                {t("최대 300자")}
               </Text>
             </FlexColumn>
           </Styled.Section>
@@ -90,24 +98,23 @@ const Welcome = () => {
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
-                사용하는 주요 언어를
-                <br />
-                선택해 볼까요?
+                {t("사용하는 주요 언어를 선택해 볼까요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                여러 개 선택 할 수 있어요!
+                {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
 
             <Flex gap={12} wrap="wrap">
               {app.constants.languages.map((language) => (
-                <OptionChip
+                <CheckboxChip
                   key={language.id}
-                  onChange={(event) => app.onChange.languageFields(event, language)}
+                  value={language.id}
+                  {...app.register("languages", { required: true })}
                 >
                   {language.name}
-                </OptionChip>
+                </CheckboxChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -115,24 +122,23 @@ const Welcome = () => {
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
-                사용하는 기술 스택을
-                <br />
-                선택해 볼까요?
+                {t("사용하는 기술 스택을 선택해 볼까요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                여러 개 선택 할 수 있어요!
+                {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
 
             <Flex gap={12} wrap="wrap">
               {app.constants.skills.map((skill) => (
-                <OptionChip
+                <CheckboxChip
                   key={skill.id}
-                  onChange={(event) => app.onChange.skillFields(event, skill)}
+                  value={skill.id}
+                  {...app.register("skills", { required: true })}
                 >
                   {skill.name}
-                </OptionChip>
+                </CheckboxChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -140,152 +146,201 @@ const Welcome = () => {
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
-                나의 포지션을 선택해볼까요?
+                {t("나의 포지션을 선택해볼까요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                여러 개 선택 할 수 있어요!
+                {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
 
             <Flex gap={12} wrap="wrap">
               {app.constants.positions.map((position) => (
-                <OptionChip
+                <CheckboxChip
                   key={position.id}
-                  onChange={(event) => app.onChange.positionFields(event, position)}
+                  value={position.id}
+                  {...app.register("positions", { required: true })}
                 >
                   {position[currentLanguage]}
-                </OptionChip>
+                </CheckboxChip>
               ))}
             </Flex>
           </Styled.Section>
 
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
-                도전해 보고 싶은 프로젝트
-                <br />
-                타입을 선택해볼까요?
+              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+                {t("도전해 보고 싶은 프로젝트 타입을 선택해볼까요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                여러 개 선택 할 수 있어요!
+                {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
 
             <Flex gap={12} wrap="wrap">
-              {app.constants.projectTypes.map((projectType) => (
-                <OptionChip
-                  key={projectType.id}
-                  onChange={(event) => app.onChange.projectTypeFields(event, projectType)}
+              {app.constants.projectTypes.map((pt) => (
+                <CheckboxChip
+                  key={pt.id}
+                  value={pt.id}
+                  {...app.register("projectTypes", { required: true })}
                 >
-                  {projectType[currentLanguage]}
-                </OptionChip>
+                  {pt[currentLanguage]}
+                </CheckboxChip>
               ))}
             </Flex>
           </Styled.Section>
 
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
-                나를 잘 나타내는
-                <br />
-                키워드를 선택해볼까요?
+              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+                {t("나를 잘 나타내는 키워드를 선택해볼까요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                최대 두 개까지 선택할 수 있어요!
+                {t("최대 두 개까지 선택할 수 있어요")}
               </Text>
             </FlexColumn>
 
             <Flex gap={12} wrap="wrap">
               {app.constants.personalities.map((personality) => (
-                <OptionChip
+                <CheckboxChip
                   key={personality.id}
-                  onChange={(event) => app.onChange.personalityFields(event, personality)}
+                  value={personality.id}
+                  {...app.register("personalities", {
+                    required: true,
+                    validate: (value) => value.length < 3
+                  })}
                 >
                   {personality[currentLanguage]}
-                </OptionChip>
+                </CheckboxChip>
               ))}
             </Flex>
           </Styled.Section>
 
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
-                주로 활동하는 지역은
-                <br />
-                어디인가요?
+              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+                {t("주로 활동하는 지역은 어디인가요")}
               </Text>
 
               <Text as="p" size="paragraph3" color="gray2">
-                여러 개 선택 할 수 있어요!
+                {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
 
             <Grid gap={12} column={5}>
               {app.constants.areas.map((area) => (
-                <OptionChip
+                <CheckboxChip
                   key={area.id}
-                  onChange={(event) => app.onChange.areaFields(event, area)}
+                  value={area.id}
+                  {...app.register("areas", { required: true, maxLength: 2 })}
                 >
                   {area[currentLanguage]}
-                </OptionChip>
+                </CheckboxChip>
               ))}
             </Grid>
           </Styled.Section>
 
           <Styled.Section>
-            <Text as="h3" size="heading3">
-              운영 블로그가 있다면
-              <br />
-              알려주세요!
+            <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              {t("운영 블로그가 있다면 알려주세요")}
             </Text>
 
             <Input
               {...app.register("blog", {
                 pattern: HTTP_REGEX
               })}
-              placeholder="블로그 주소"
+              placeholder={t("블로그 주소")}
             />
           </Styled.Section>
 
           <Styled.Section>
-            <Text as="h3" size="heading3">
-              거의 다 왔어요!
-              <br />
-              어떤 일을 하고 계시나요?
+            <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              {t("거의 다 왔어요 어떤 일을 하고 계시나요")}
             </Text>
 
             <Flex gap={12} wrap="wrap">
               {app.constants.jobs.map((job) => (
-                <OptionChip key={job.id} onChange={(event) => app.onChange.jobFields(event, job)}>
+                <RadioChip
+                  key={job.id}
+                  value={job.id}
+                  chipProps={{ isSelected: Number(app.watch("jobs")) === job.id }}
+                  {...app.register("jobs", { required: true })}
+                >
                   {job[currentLanguage]}
-                </OptionChip>
+                </RadioChip>
               ))}
             </Flex>
           </Styled.Section>
 
           <Styled.Section>
             <Text as="h3" size="heading3">
-              마지막으로 나를 나타낼 수 있는 프로필 사진을 올려볼까요?
+              {t("마지막으로 나를 나타낼 수 있는 프로필 사진을 올려볼까요")}
             </Text>
+
+            <Controller
+              name="imageUrl"
+              control={app.control}
+              rules={{ required: true }}
+              render={({ field: { onChange } }) => (
+                <ImageUploader onChange={onChange} style={{ marginBottom: "48px" }}>
+                  <Styled.ProfileCardContainer>
+                    {app.watch("imageUrl") ? (
+                      <Styled.ProfileImage
+                        fill
+                        sizes="100%"
+                        src={URL.createObjectURL(app.watch("imageUrl"))}
+                        alt="profile image"
+                      />
+                    ) : (
+                      <Styled.ProfileAddButton>
+                        <Icon name="add" color="white" />
+                      </Styled.ProfileAddButton>
+                    )}
+
+                    <Styled.ProfileDesc gap={16}>
+                      <Text size="heading3">{app.watch("name")}</Text>
+
+                      <Text size="paragraph3" color="content2">
+                        {app.watch("introduce")}
+                      </Text>
+                    </Styled.ProfileDesc>
+                  </Styled.ProfileCardContainer>
+                </ImageUploader>
+              )}
+            />
           </Styled.Section>
 
           <Styled.Section>
-            <Text as="h3" size="heading3">
-              환영합니다!
-              <br />
-              회원님은 프로젝트의
-              <br />
-              모집자인가요, 참가자인가요?
-            </Text>
+            <FlexColumn gap={16}>
+              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+                {t("환영합니다 회원님은 프로젝트의 모집자인가요 참가자인가요")}
+              </Text>
+
+              <Text as="p" size="paragraph3" color="gray2">
+                {t("프로필에서 언제든 변경 가능해요")}
+              </Text>
+            </FlexColumn>
+
+            <Grid column={2} gap={8}>
+              {app.constants.roles.map((role) => (
+                <RadioChip
+                  key={role.id}
+                  value={role.id}
+                  chipProps={{ isSelected: Number(app.watch("role")) === role.id, size: "large" }}
+                  {...app.register("role", { required: true })}
+                >
+                  {role[currentLanguage]}
+                </RadioChip>
+              ))}
+            </Grid>
           </Styled.Section>
         </Styled.SectionContainer>
       </Styled.SectionDisplay>
 
       <Button disabled={app.isDisabled} onClick={app.nextStep}>
-        다음
+        {t("다음")}
       </Button>
     </Styled.Container>
   );
@@ -296,7 +351,7 @@ export default Welcome;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
-      ...(await serverSideTranslations(ctx.locale, ["common"]))
+      ...(await serverSideTranslations(ctx.locale, ["welcome"]))
     }
   };
 };
