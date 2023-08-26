@@ -9,7 +9,6 @@ export const insertProfile = async ({
   positions,
   personalities,
   languages,
-  jobs,
   areas,
   ...profile
 }: ProfileAllDataInsert) => {
@@ -21,7 +20,6 @@ export const insertProfile = async ({
     profileLanguages: languages.map((languageId) => ({ languageId, userId: profile.id })),
     profileSkills: skills.map((skillId) => ({ skillId, userId: profile.id })),
     profileAreas: areas.map((areaId) => ({ areaId, userId: profile.id })),
-    profileJobs: jobs.map((jobId) => ({ jobId, userId: profile.id })),
     profileProjectTypes: projectTypes.map((projectTypeId) => ({
       projectTypeId,
       userId: profile.id
@@ -60,7 +58,6 @@ export const updateProfile = async ({
   positions,
   personalities,
   languages,
-  jobs,
   areas,
   ...profile
 }: ProfileAllDataUpdate) => {
@@ -72,7 +69,6 @@ export const updateProfile = async ({
     profileLanguages: languages.map((languageId) => ({ languageId, userId: profile.id })),
     profileSkills: skills.map((skillId) => ({ skillId, userId: profile.id })),
     profileAreas: areas.map((areaId) => ({ areaId, userId: profile.id })),
-    profileJobs: jobs.map((jobId) => ({ jobId, userId: profile.id })),
     profileProjectTypes: projectTypes.map((projectTypeId) => ({
       projectTypeId,
       userId: profile.id

@@ -29,9 +29,6 @@ export type ProfilePersonalityInsert = ProfilePersonalityTable["Insert"];
 export type ProfileLanguageTable = Table["profileLanguages"];
 export type ProfileLanguageInsert = ProfileLanguageTable["Insert"];
 
-export type ProfileJobTable = Table["profileJobs"];
-export type ProfileJobInsert = ProfileJobTable["Insert"];
-
 export type ProfileAreaTable = Table["profileAreas"];
 export type ProfileAreaInsert = ProfileAreaTable["Insert"];
 
@@ -51,7 +48,6 @@ export type ProfileAllDataInsert = ProfileInsert & {
   positions: ConstantPositionRow["id"][];
   personalities: ConstantPersonalityRow["id"][];
   languages: ConstantLanguageRow["id"][];
-  jobs: ConstantJobRow["id"][];
   areas: ConstantAreaRow["id"][];
 };
 
@@ -62,6 +58,5 @@ export type ProfileAllDataUpdate = Omit<ProfileUpdate, "id"> & {
   positions: ConstantPositionRow["id"][];
   personalities: ConstantPersonalityRow["id"][];
   languages: ConstantLanguageRow["id"][];
-  jobs: ConstantJobRow["id"][];
   areas: ConstantAreaRow["id"][];
 };

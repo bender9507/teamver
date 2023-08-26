@@ -7,6 +7,7 @@ import { useModal } from "~/components/Commons/Modal";
 import { useBoolean } from "~/hooks";
 import { useGetConstantQuery } from "~/states/server/constant";
 import { useInsertProjectMutate } from "~/states/server/project";
+import { useUploadProjectImageMutate } from "~/states/server/storage";
 import type { ProjectCreatorForm } from "./create.types";
 import type Create from "./index.page";
 
@@ -18,6 +19,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
   const { mutate: insertProjectMutate } = useInsertProjectMutate();
+  const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
   const { register, handleSubmit, watch, control, setValue } = useForm<ProjectCreatorForm>({
     defaultValues: { startDate: null, endDate: null }
@@ -30,10 +32,26 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     "skills"
   ]);
 
-  const handleCreateProject: Parameters<typeof handleSubmit>[0] = (data) => {
-    console.log(data.startDate?.toDateString());
+  const handleCreateProject: Parameters<typeof handleSubmit>[0] = async ({
+    imageUrl: imageFile,
+    startDate,
+    endDate,
+    ...rest
+  }) => {
+    console.log(rest);
 
-    // insertProjectMutate({ ...data, ownerId: user.id });
+    const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
+      file: imageFile,
+      name: `${rest.name}_${new Date().getTime()}`
+    });
+
+    insertProjectMutate({
+      ownerId: user.id,
+      startDate: startDate?.toDateString(),
+      endDate: endDate?.toDateString(),
+      imageUrl,
+      ...rest
+    });
   };
 
   useEffect(() => {

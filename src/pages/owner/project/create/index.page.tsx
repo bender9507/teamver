@@ -12,6 +12,7 @@ import {
   Icon,
   ImageUploader,
   Input,
+  PreviousButton,
   RadioChip,
   Textarea
 } from "~/components/Commons";
@@ -29,6 +30,7 @@ const Create = (props: { user: User }) => {
   return (
     <>
       <Styled.Header>
+        <PreviousButton />
         <Text>프로젝트 생성하기</Text>
       </Styled.Header>
 
