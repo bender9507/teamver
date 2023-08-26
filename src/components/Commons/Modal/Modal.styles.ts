@@ -40,7 +40,7 @@ export const Outer = styled.div<ModalStyleProps>`
   ${(props) => outerTypeStyle(props)}
   ${(props) => outerBackgroundStyle(props)}
 
-  ${position.absolute({ top: 0, left: 0 })}
+  ${position.fixed({ top: 0, left: 0 })}
 
   ${size({ fullScreen: true })}
 
@@ -58,7 +58,7 @@ const innerStyle = ({ type = "center", theme: { colors } }: WithTheme<ModalStyle
       return css`
         ${size({ width: "100%", maxHeight: "90%" })}
 
-        background-color: ${colors.white};
+        background-color: ${colors.backgroundSecondary};
 
         border-radius: 16px 16px 0 0;
 
