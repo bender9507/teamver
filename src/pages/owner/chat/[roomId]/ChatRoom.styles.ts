@@ -9,7 +9,7 @@ export const ChatRoomTopBar = styled.section`
 `;
 
 export const ChatMessageWrapper = styled.div`
-  ${flex.column()}
+  ${flex.column({ gap: 10 })}
 `;
 
 export const ChatFromWrapper = styled.form`

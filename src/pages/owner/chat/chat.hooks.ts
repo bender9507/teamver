@@ -7,7 +7,7 @@ export const useSelectChatRooms = (userId: string) => {
 
   const rooms = data?.map((room) => ({
     roomId: room.id,
-    memberName: room.members[0].name,
+    memberName: room.members[0]?.name || "",
     memberImageUrl: room.members[0]?.imageUrl || "",
     lastMessage: room.messages[0]?.message || ""
   }));
@@ -18,5 +18,5 @@ export const useSelectChatRooms = (userId: string) => {
     });
   };
 
-  return { ...data, rooms, handleRoomClick };
+  return { rooms, handleRoomClick };
 };

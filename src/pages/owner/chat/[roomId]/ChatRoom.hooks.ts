@@ -15,11 +15,15 @@ export const useChatRoom = (
 ) => {
   const [messages, setMessages] = useState<ChatMessageRow[]>([]);
 
-  const { data: memberData } = useSelectChatRoomsQuery(userId);
-
   const { data: messageData } = useSelectChatMessagesQuery(roomId);
 
   const { mutateAsync: InsertChatMessageMutateAsync } = useInsertChatMessageMutate();
+
+  const { data: memberData } = useSelectChatRoomsQuery(userId);
+
+  const memberName = memberData[0].members[0].name;
+
+  const memberImageUrl = memberData[0].members[0].imageUrl;
 
   const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +36,11 @@ export const useChatRoom = (
   };
 
   useEffect(() => {
-    if (messageData) setMessages(messageData || []);
+    if (!messageData) {
+      setMessages([]);
+      return;
+    }
+    setMessages(messageData);
 
     const subscription = supabase
       .channel(`chat:${roomId}`)
@@ -52,9 +60,9 @@ export const useChatRoom = (
 
     return () => {
       if (subscription) subscription.unsubscribe();
-      supabase.removeChannel(subscription);
+      // supabase.removeChannel(subscription);
     };
   }, [roomId, messageData]);
 
-  return { messages, handleSubmitMessage };
+  return { messages, memberName, memberImageUrl, handleSubmitMessage, memberData };
 };

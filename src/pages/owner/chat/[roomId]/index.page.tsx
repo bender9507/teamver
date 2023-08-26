@@ -4,7 +4,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
-import { Button, Input, PreviousButton } from "~/components/Commons";
+import { Avatar, Button, Input, PreviousButton } from "~/components/Commons";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import { useChatRoom } from "./ChatRoom.hooks";
@@ -22,7 +22,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       <Styled.ChatRoomTopBar>
         <Flex gap={30}>
           <PreviousButton />
-          <Text>상대방이름</Text>
+          <Text>{app.memberName}</Text>
         </Flex>
         <Button style={{ color: "white" }}>{t("팀원으로초대하기")}</Button>
       </Styled.ChatRoomTopBar>
@@ -32,7 +32,10 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
           message.senderId === user.id ? (
             <Styled.ChatMessageRight key={message.id}>{message.message}</Styled.ChatMessageRight>
           ) : (
-            <Styled.ChatMessageLeft key={message.id}>{message.message}</Styled.ChatMessageLeft>
+            <Flex key={message.id}>
+              <Avatar size="small" src={app.memberImageUrl} />
+              <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
+            </Flex>
           )
         )}
       </Styled.ChatMessageWrapper>

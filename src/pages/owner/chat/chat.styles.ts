@@ -26,5 +26,3 @@ export const ChatRoomBox = styled.li`
     }
   `}
 `;
-
-export const ChatFromWrapper = styled.form``;
