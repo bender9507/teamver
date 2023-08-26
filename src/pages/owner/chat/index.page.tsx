@@ -22,7 +22,9 @@ const Chat = ({ user }: { user: User }) => {
 
       <Styled.ChatRoomsTitleBox>
         <Text>{t("채팅")}</Text>
-        <Button style={{ color: "white" }}>{t("요청")}</Button>
+        <Button style={{ color: "white" }} onClick={app.handleRequestClick}>
+          {t("요청")}
+        </Button>
       </Styled.ChatRoomsTitleBox>
 
       <Styled.ChatRoomsWrapper>

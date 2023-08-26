@@ -19,8 +19,8 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       <Styled.ChatRoomTopBar>
         <FlexCenter gap={15}>
           <PreviousButton />
-          <Avatar src={app.memberImageUrl} />
-          <Text>{app.memberName}</Text>
+          <Avatar size="small" src={app.memberImageUrl} />
+          <Text>{app.memberName || app.t("알 수 없음")}</Text>
         </FlexCenter>
 
         <FlexCenter gap={20}>
@@ -49,6 +49,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>
         <Input
           type="text"
+          name="message"
           style={{ width: 290 }}
           value={message}
           onChange={(e) => setMessage(e.target.value)}

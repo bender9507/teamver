@@ -18,5 +18,11 @@ export const useSelectChatRooms = (userId: string) => {
     });
   };
 
-  return { rooms, handleRoomClick };
+  const handleRequestClick = () => {
+    router.push({
+      pathname: routes.chatRequest
+    });
+  };
+
+  return { rooms, handleRoomClick, handleRequestClick };
 };

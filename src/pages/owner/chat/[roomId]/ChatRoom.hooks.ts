@@ -24,9 +24,11 @@ export const useChatRoom = (
 
   const { data: memberData } = useSelectChatRoomsQuery(userId);
 
-  const memberName = memberData[0].members[0].name;
+  const currentRoomMember = memberData?.find((room) => room.id === roomId)?.members[0];
 
-  const memberImageUrl = memberData[0].members[0].imageUrl;
+  const memberName = currentRoomMember?.name || "";
+
+  const memberImageUrl = currentRoomMember?.imageUrl || "";
 
   // const formattedMessages = messages.map((message) => {
   //   const formattedCreatedAt = format(new Date(message.createdAt), t("timeFormat"));
