@@ -4,15 +4,24 @@ import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
 import { Avatar, Button, Input, PreviousButton } from "~/components/Commons";
+import { useModal } from "~/components/Commons/Modal";
+import { ProjectInvite } from "~/components/ProjectInvite";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
+import { PROJECT_INVITE_MODAL } from "./ChatRoom.constants";
 import { useChatRoom } from "./ChatRoom.hooks";
 import * as Styled from "./ChatRoom.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
   const [message, setMessage] = useState("");
 
+  const { mount } = useModal();
+
   const app = useChatRoom(user.id, roomId, message, setMessage);
+
+  const handleOpenModal = () => {
+    mount(<ProjectInvite />, { id: PROJECT_INVITE_MODAL });
+  };
 
   return (
     <FlexColumn>
@@ -24,7 +33,9 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         </FlexCenter>
 
         <FlexCenter gap={20}>
-          <Button style={{ color: "white" }}>{app.t("팀원으로초대하기")}</Button>
+          <Button style={{ color: "white" }} onClick={handleOpenModal}>
+            {app.t("팀원으로초대하기")}
+          </Button>
           <Button style={{ color: "white" }}>{app.t("•••")}</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>
