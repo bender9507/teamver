@@ -88,6 +88,7 @@ export const useWelcome = () => {
     control,
     watch,
     successMessage,
+    lastStep: steps.length - 1,
     errorMessage: formState.errors.name?.message
   };
 };

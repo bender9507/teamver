@@ -15,7 +15,6 @@ import {
 import { HTTP_REGEX } from "~/constants/regex";
 import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import { steps } from "./welcome.constants";
 import { useWelcome } from "./welcome.hooks";
 import * as Styled from "./welcome.styles";
 
@@ -28,10 +27,10 @@ const Welcome = () => {
   return (
     <Styled.Container onSubmit={app.handleSubmit(app.handleCreateProfile)}>
       <Styled.Header>
-        <IconButton name="arrowBack" color="content1" onClick={app.prevStep} />
+        <IconButton type="button" name="arrowBack" color="content1" onClick={app.prevStep} />
       </Styled.Header>
 
-      <Styled.Progress current={app.step} max={steps.length - 1} />
+      <Styled.Progress current={app.step} max={app.lastStep} />
 
       <SizeBox height={26} />
 
@@ -339,9 +338,13 @@ const Welcome = () => {
         </Styled.SectionContainer>
       </Styled.SectionDisplay>
 
-      <Button disabled={app.isDisabled} onClick={app.nextStep}>
-        {t("다음")}
-      </Button>
+      {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
+
+      {app.step !== app.lastStep && (
+        <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
+          {t("다음")}
+        </Button>
+      )}
     </Styled.Container>
   );
 };
