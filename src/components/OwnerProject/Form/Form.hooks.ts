@@ -1,168 +1,73 @@
 import { useUser } from "@supabase/auth-helpers-react";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import type { ChangeEvent } from "react";
-import { useState } from "react";
-import type { FieldArray, UseFieldArrayReturn } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useDialog } from "~/components/Commons";
 import { useGetConstantQuery } from "~/states/server/constant";
-import { useUploadProfileImageMutate } from "~/states/server/storage";
-import { fieldsRule } from "./Form.constants";
-import type { WelcomeArrayFields, WelcomeForm } from "./Form.types";
+import { projectsKey } from "~/states/server/project";
+import { useInsertProjectMutate } from "~/states/server/project/mutations";
 
-export const useCreateForm = () => {
-  const [step, setStep] = useState(0);
+export const useProjectForm = () => {
+  const queryClient = useQueryClient();
 
-  const { toast } = useDialog();
-  const { t } = useTranslation("welcome");
-  const router = useRouter();
+  const form = useForm();
   const user = useUser();
-  const form = useForm<WelcomeForm>();
+  const ownerId = user?.id;
 
-  const languageFields = useFieldArray({
-    control: form.control,
-    name: "languages",
-    rules: fieldsRule
-  });
+  const { data } = useGetConstantQuery(["projectTypes", "positions", "languages", "skills"]);
 
-  const skillFields = useFieldArray({
-    control: form.control,
-    name: "skills",
-    rules: fieldsRule
-  });
+  const { register, control, handleSubmit } = useForm();
 
-  const projectTypeFields = useFieldArray({
-    control: form.control,
-    name: "projectTypes",
-    rules: fieldsRule
-  });
-
-  const personalityFields = useFieldArray({
-    control: form.control,
-    name: "personalities",
-    rules: fieldsRule
-  });
-
-  const jobFields = useFieldArray({
-    control: form.control,
-    name: "jobs",
-    rules: fieldsRule
-  });
-
-  const areaFields = useFieldArray({
-    control: form.control,
-    name: "areas",
-    rules: fieldsRule
-  });
-
-  const { data: constants } = useGetConstantQuery([
-    "areas",
-    "languages",
-    "skills",
-    "projectTypes",
-    "personalities",
-    "jobs"
-  ]);
-
-  //   const { mutate: createProfileMutate } = useCreateProfileMutate({
-  //     onSuccess: () => {
-  //       router.replace(routes.member);
-  //     },
-  //     onError: () => {
-  //       toast({ type: "success", message: t("프로필 생성에 실패하였습니다.") });
-  //     }
-  //   });
-
-  const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
-
-  const nextStep = () => {
-    setStep((prevStep) => Math.min(prevStep + 1, 8));
+  const arrayFields = {
+    positions: useFieldArray({ control, name: "positions" }),
+    projectTypes: useFieldArray({ control, name: "projectTypes" })
+    // 다른 배열 필드 추가 가능
   };
 
-  const prevStep = () => {
-    setStep((prevStep) => Math.max(prevStep - 1, 0));
+  const handleChipClick = async (field, value) => {
+    const { append } = arrayFields[field];
+    await append({ value });
   };
 
-  const createHandleChange = <T extends keyof WelcomeArrayFields>(
-    fieldsArray: UseFieldArrayReturn<WelcomeForm, T>,
-    name: T
-  ) => {
-    return (event: ChangeEvent<HTMLInputElement>, item: WelcomeForm[typeof name][number]) => {
-      const isChecked = event.target.checked;
+  // const handleChipClick = (fieldName: string, value: string) => {
+  //   const fieldValue = form.watch(fieldName) || [];
+  //   // setValue(fieldName, [...fieldValue, value]);
+  //   if (!fieldValue.includes(value)) {
+  //     // 중복이 아닐 경우에만 값 추가
+  //     form.setValue(fieldName, [...fieldValue, value]);
+  //   } else {
+  //     const newFieldValue = fieldValue.filter((e) => e !== value);
+  //     form.setValue(fieldName, newFieldValue);
+  //   }
+  // };
 
-      if (isChecked) {
-        fieldsArray.append(item as FieldArray<WelcomeForm, typeof name>);
-      } else {
-        fieldsArray.remove(fieldsArray.fields.findIndex((_item) => Number(_item.id) === item.id));
-      }
-    };
-  };
+  // 뮤테이션 선언
+  const { mutate: insertTodoMutate } = useInsertProjectMutate({
+    onSuccess: () => {
+      queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
+    }
+  });
 
-  const onChangeLanguageFields = createHandleChange(languageFields, "languages");
-
-  const onChangeSkillFields = createHandleChange(skillFields, "skills");
-
-  const onChangeProjectTypeFields = createHandleChange(projectTypeFields, "projectTypes");
-
-  const onChangePersonalityFields = createHandleChange(personalityFields, "personalities");
-
-  const onChangeAreaFields = createHandleChange(areaFields, "areas");
-
-  const onChangeJobFields = createHandleChange(jobFields, "jobs");
-
-  const onCreateProfile: Parameters<typeof form.handleSubmit>[0] = async (profile) => {
+  const onSubmit = async () => {
     if (!user) return;
 
-    const {
-      imageUrl: imageFile,
-      languages,
-      skills,
-      areas,
-      jobs,
-      projectTypes,
-      personalities,
-      ...profiles
-    } = profile;
+    const projectData = form.getValues();
+    console.log(projectData);
 
-    const { publicUrl: imageUrl } = await uploadProfileImageMutateAsync({
-      file: imageFile,
-      name: `${user.id}_${new Date().getTime()}_${imageFile.name}`
-    });
+    // try {
+    //   const data = {
+    //     ...projectData,
+    //     ownerId
+    //   };
 
-    // createProfileMutate({
-    //   profile: {
-    //     id: user.id,
-    //     github: user.user_metadata.preferred_username,
-    //     ...profiles,
-    //     imageUrl
-    //   },
-    //   languages: languages.map((language) => ({ userId: user.id, languageId: language.id })),
-    //   skills: skills.map((skill) => ({ userId: user.id, skillId: skill.id })),
-    //   areas: areas.map((area) => ({ userId: user.id, areaId: area.id })),
-    //   jobs: jobs.map((job) => ({ userId: user.id, jobId: job.id })),
-    //   projectTypes: projectTypes.map((projectType) => ({
-    //     userId: user.id,
-    //     projectTypeId: projectType.id
-    //   })),
-    //   personalities: personalities.map((personality) => ({
-    //     userId: user.id,
-    //     personalityId: personality.id
-    //   }))
-    // });
+    //   console.log(data); // 확인을 위한 로그
+
+    //   // 뮤테이션 함수 실행
+    //   await insertTodoMutate(data);
+
+    //   // 성공 처리 또는 다음 단계
+    // } catch (error) {
+    //   console.error(error); // 오류 처리
+    // }
   };
 
-  return {
-    step,
-
-    constants,
-    form,
-    onChangeLanguageFields,
-    onChangeSkillFields,
-    onChangeProjectTypeFields,
-    onChangePersonalityFields,
-    onChangeAreaFields,
-    onChangeJobFields,
-    onCreateProfile
-  };
+  return { form, data, arrayFields, onSubmit, handleSubmit, register, handleChipClick };
 };

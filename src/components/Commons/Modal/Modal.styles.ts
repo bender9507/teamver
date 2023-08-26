@@ -58,7 +58,7 @@ const innerStyle = ({ type = "center", theme: { colors } }: WithTheme<ModalStyle
       return css`
         ${size({ width: "100%", maxHeight: "90%" })}
 
-        background-color: ${colors.backgroundPrimary};
+        background-color: ${colors.white};
 
         border-radius: 16px 16px 0 0;
 
