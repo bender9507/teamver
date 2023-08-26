@@ -8,13 +8,18 @@ import type { ProjectCardProps } from "./ProjectCard.types";
 
 export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
   const { mount } = useModal();
+  console.log(project);
   return (
     <Styled.ProjectCard>
       <Text>{project.name}</Text>
 
       {projectState === "proceed" && (
         <Flex gap={5}>
-          <Button onClick={() => mount(<ProjectDetail />, { id: "projects", type: "bottom" })}>
+          <Button
+            onClick={() =>
+              mount(<ProjectDetail project={project} />, { id: "projects", type: "bottom" })
+            }
+          >
             정보
           </Button>
           <Button>
