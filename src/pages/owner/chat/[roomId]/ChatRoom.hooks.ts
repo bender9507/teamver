@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import {
   useInsertChatMessageMutate,
@@ -13,6 +14,8 @@ export const useChatRoom = (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>
 ) => {
+  const { t } = useTranslation("chat");
+
   const [messages, setMessages] = useState<ChatMessageRow[]>([]);
 
   const { data: messageData } = useSelectChatMessagesQuery(roomId);
@@ -25,6 +28,34 @@ export const useChatRoom = (
 
   const memberImageUrl = memberData[0].members[0].imageUrl;
 
+  // const formattedMessages = messages.map((message) => {
+  //   const formattedCreatedAt = format(new Date(message.createdAt), t("timeFormat"));
+  //   return { ...message, formattedCreatedAt };
+  // });
+
+  const formatTime = (timeString: string) => {
+    const date = new Date(timeString);
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    let period = "오전";
+
+    if (hours >= 12) {
+      period = "오후";
+      hours -= 12;
+    }
+
+    if (hours === 0) {
+      hours = 12;
+    }
+
+    return `${period} ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+  };
+
+  const formattedMessages = messages.map((message) => ({
+    ...message,
+    createdAt: formatTime(message.createdAt)
+  }));
+
   const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -36,11 +67,7 @@ export const useChatRoom = (
   };
 
   useEffect(() => {
-    if (!messageData) {
-      setMessages([]);
-      return;
-    }
-    setMessages(messageData);
+    if (messageData) setMessages(messageData || []);
 
     const subscription = supabase
       .channel(`chat:${roomId}`)
@@ -59,10 +86,9 @@ export const useChatRoom = (
       .subscribe();
 
     return () => {
-      if (subscription) subscription.unsubscribe();
-      // supabase.removeChannel(subscription);
+      supabase.removeChannel(subscription);
     };
   }, [roomId, messageData]);
 
-  return { messages, memberName, memberImageUrl, handleSubmitMessage, memberData };
+  return { t, formattedMessages, memberName, memberImageUrl, handleSubmitMessage, memberData };
 };

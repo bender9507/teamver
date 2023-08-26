@@ -22,15 +22,15 @@ export const ChatFromWrapper = styled.form`
   width: 100%;
 `;
 
-export const ChatMessageRight = styled.p`
+export const ChatMessageRight = styled.div`
   ${({ theme: { colors } }) => css`
-    text-align: right;
+    ${flex({ align: "center", justify: "end", gap: 16 })}
 
     color: ${colors.white};
   `}
 `;
 
-export const ChatMessageLeft = styled.p`
+export const ChatMessageLeft = styled.div`
   ${({ theme: { colors } }) => css`
     text-align: left;
 

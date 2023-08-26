@@ -1,18 +1,15 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
 import { Avatar, Button, Input, PreviousButton } from "~/components/Commons";
-import { Flex, FlexColumn, Text } from "~/styles/mixins";
+import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import { useChatRoom } from "./ChatRoom.hooks";
 import * as Styled from "./ChatRoom.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
-  const { t } = useTranslation("chat");
-
   const [message, setMessage] = useState("");
 
   const app = useChatRoom(user.id, roomId, message, setMessage);
@@ -20,21 +17,30 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
   return (
     <FlexColumn>
       <Styled.ChatRoomTopBar>
-        <Flex gap={30}>
+        <FlexCenter gap={15}>
           <PreviousButton />
+          <Avatar src={app.memberImageUrl} />
           <Text>{app.memberName}</Text>
-        </Flex>
-        <Button style={{ color: "white" }}>{t("팀원으로초대하기")}</Button>
+        </FlexCenter>
+
+        <FlexCenter gap={20}>
+          <Button style={{ color: "white" }}>{app.t("팀원으로초대하기")}</Button>
+          <Button style={{ color: "white" }}>{app.t("•••")}</Button>
+        </FlexCenter>
       </Styled.ChatRoomTopBar>
 
       <Styled.ChatMessageWrapper>
-        {app.messages.map((message) =>
+        {app.formattedMessages.map((message) =>
           message.senderId === user.id ? (
-            <Styled.ChatMessageRight key={message.id}>{message.message}</Styled.ChatMessageRight>
+            <Styled.ChatMessageRight key={message.id}>
+              <Text>{message.createdAt}</Text>
+              <Text>{message.message}</Text>
+            </Styled.ChatMessageRight>
           ) : (
-            <Flex key={message.id}>
+            <Flex key={message.id} align="center" gap={16}>
               <Avatar size="small" src={app.memberImageUrl} />
               <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
+              <Text>{message.createdAt}</Text>
             </Flex>
           )
         )}
