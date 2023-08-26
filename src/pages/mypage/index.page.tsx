@@ -34,7 +34,9 @@ function MyPage({ userId }: MyPageProps) {
           {app.user.name}
         </Text>
 
-        <Button>{t("포지션 수정")}</Button>
+        <Button>
+          <Text>{t("포지션 수정")}</Text>
+        </Button>
 
         <Styled.ProceedingProjectContainer>
           <Text as="h3" size="heading3">
