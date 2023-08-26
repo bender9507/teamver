@@ -5,7 +5,7 @@ import type {
   ConstantProjectTypeRow,
   ConstantSkillRow
 } from "../constant";
-import type { ProfileAllDataRow } from "../profile";
+import type { ProfileAllDataRow, ProfileRow } from "../profile";
 import type { Table } from "../server.types";
 
 export type ProjectDataRow = Table["projects"]["Row"];
@@ -20,7 +20,8 @@ export type FollowProjectInsert = Table["followProject"]["Insert"];
 export type ProjectMembersRow = Table["projectMembers"]["Row"];
 
 export type ProjectAllDataRow = ProjectDataRow & {
-  projectTypes: ConstantProjectTypeRow[];
+  ownerProfile: ProfileRow;
+  types: ConstantProjectTypeRow[];
   skills: ConstantSkillRow[];
   positions: ConstantPositionRow[];
   languages: ConstantLanguageRow[];
