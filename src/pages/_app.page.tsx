@@ -20,8 +20,6 @@ const queryClient = new QueryClient();
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { supabaseClient } = useApp();
 
-  const getLayout = Component.getLayout ?? ((page) => page);
-
   return (
     <SessionContextProvider
       supabaseClient={supabaseClient}
@@ -43,7 +41,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
               `}
             />
             <Styled.Container>
-              {getLayout(<Component {...pageProps} />)}
+              <Component {...pageProps} />
               <Overlay />
             </Styled.Container>
           </ThemeProvider>
