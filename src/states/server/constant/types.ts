@@ -30,3 +30,6 @@ export type ConstantReactionRow = ConstantReactionTable["Row"];
 
 export type ConstantSkillTable = Table["constantSkills"];
 export type ConstantSkillRow = ConstantSkillTable["Row"];
+
+export type ConstantRoleTable = Table["constantRoles"];
+export type ConstantRoleRow = ConstantRoleTable["Row"];

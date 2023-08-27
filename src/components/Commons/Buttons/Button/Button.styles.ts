@@ -1,15 +1,20 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex, selector } from "~/styles/mixins";
+import { selector, size, text } from "~/styles/mixins";
+import type { WithTheme } from "~/types";
 
-export const buttonStyle = () => css``;
+export const buttonStyle = ({ theme: { sizes, colors } }: WithTheme) => css`
+  ${size({ height: sizes.height.large })}
+
+  background-color: ${colors.secondary};
+
+  border-radius: 30px;
+
+  ${text("paragraph2")};
+
+  ${selector("backgroundColor", { disabled: colors.gray5 })};
+`;
 
 export const Button = styled.button`
-  ${({ theme: { sizes } }) => css`
-    ${flex.center()}
-
-    height: ${sizes.height.medium};
-
-    ${selector("opacity", { disabled: 0.5 })};
-  `}
+  ${(props) => buttonStyle(props)};
 `;

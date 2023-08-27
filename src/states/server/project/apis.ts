@@ -8,12 +8,7 @@ import type {
   ProjectInviteInsert
 } from ".";
 import { supabase } from "../config";
-import type {
-  ConstantLanguageRow,
-  ConstantPositionRow,
-  ConstantProjectTypeRow,
-  ConstantSkillRow
-} from "../constant";
+import type { ConstantLanguageRow, ConstantPositionRow, ConstantSkillRow } from "../constant";
 import { PROJECT_ALL_DATA_QUERY } from "./constants";
 
 export const selectProject = async (projectId: string) => {
@@ -55,13 +50,11 @@ export const selectMemberProjects = async (myId?: string) => {
 
 export const insertProject = async ({
   skills,
-  projectTypes,
   languages,
   positions,
   ...projectData
 }: ProjectDataInsert & {
   skills: ConstantSkillRow["id"][];
-  projectTypes: ConstantProjectTypeRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
 }) => {
@@ -69,16 +62,15 @@ export const insertProject = async ({
     .from("projects")
     .insert(projectData)
     .select("*")
-    .returns<ProjectDataRow>();
+    .returns<ProjectDataRow[]>();
 
-  if (error) throw error;
+  if (error) throw Error("프로젝트 생성에 실패하였습니다.");
 
   const mapping = {
-    projectLanguages: languages.map((id) => ({ languageId: id, projectId: data.id })),
-    projectMembers: [{ memberId: projectData.ownerId, projectId: data.id }],
-    projectPositions: positions.map((id) => ({ positionId: id, projectId: data.id })),
-    projectSkills: skills.map((id) => ({ skillId: id, projectId: data.id })),
-    projectTypes: projectTypes.map((id) => ({ projectTypeId: id, projectId: data.id }))
+    projectLanguages: languages.map((id) => ({ languageId: id, projectId: data[0].id })),
+    projectMembers: [{ memberId: projectData.ownerId, projectId: data[0].id }],
+    projectPositions: positions.map((id) => ({ positionId: id, projectId: data[0].id })),
+    projectSkills: skills.map((id) => ({ skillId: id, projectId: data[0].id }))
   };
   const tasks = Object.entries(mapping).map(async ([table, data]) => {
     const { error } = await supabase.from(table).insert(data);
@@ -90,14 +82,12 @@ export const insertProject = async ({
 
 export const updateProject = async ({
   skills,
-  projectTypes,
   languages,
   positions,
   ...projectData
 }: Omit<ProjectDataUpdate, "id"> & {
   id: number;
   skills: ConstantSkillRow["id"][];
-  projectTypes: ConstantProjectTypeRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
 }) => {
@@ -108,8 +98,7 @@ export const updateProject = async ({
   const mappings = {
     projectLanguages: languages.map((id) => ({ languageId: id, projectId: projectData.id })),
     projectPositions: positions.map((id) => ({ positionId: id, projectId: projectData.id })),
-    projectSkills: skills.map((id) => ({ skillId: id, projectId: projectData.id })),
-    projectTypes: projectTypes.map((id) => ({ projectTypeId: id, projectId: projectData.id }))
+    projectSkills: skills.map((id) => ({ skillId: id, projectId: projectData.id }))
   };
 
   const tasks = Object.entries(mappings).map(async ([table, data]) => {
