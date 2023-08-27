@@ -55,6 +55,8 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         )}
       </Styled.ChatMessageWrapper>
 
+      <ProjectInvite ownerId={user.id} />
+
       <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>
         <Input
           type="text"

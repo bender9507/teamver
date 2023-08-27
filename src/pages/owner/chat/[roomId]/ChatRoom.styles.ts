@@ -2,6 +2,12 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { flex } from "~/styles/mixins";
 
+export const ChatRoomWrapper = styled.div`
+  position: relative;
+
+  ${flex.column()}
+`;
+
 export const ChatRoomTopBar = styled.section`
   ${flex({ align: "center", justify: "between" })}
 
