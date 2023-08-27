@@ -71,7 +71,11 @@ const Create = (props: { user: User }) => {
           <Text size="heading4">프로젝트 이름</Text>
 
           <FlexColumn gap={8}>
-            <Input placeholder="프로젝트 이름" {...app.register("name", { required: true })} />
+            <Input
+              placeholder="프로젝트 이름"
+              maxLength={16}
+              {...app.register("name", { required: true, maxLength: 16 })}
+            />
 
             <Styled.Desc size="paragraph3" color="gray4">
               최대 16자
@@ -137,7 +141,8 @@ const Create = (props: { user: User }) => {
             <Input
               placeholder="모집 인원"
               type="number"
-              {...app.register("recruitCount", { required: true })}
+              max={100000}
+              {...app.register("recruitCount", { required: true, max: 100000 })}
             />
             <Text>명</Text>
           </Flex>
@@ -247,7 +252,7 @@ const Create = (props: { user: User }) => {
 
         <SizeBox height={32} />
 
-        <Button>저장</Button>
+        <Button type="submit">저장</Button>
       </Styled.Container>
     </>
   );
