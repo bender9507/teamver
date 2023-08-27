@@ -4,7 +4,7 @@ import { useLockBodyScroll } from "react-use";
 import { useImmutableState } from "~/hooks";
 import type { TinderCard } from ".";
 
-export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) => {
+export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof TinderCard>) => {
   const [drag, setDrag] = useImmutableState({
     state: false,
     startPos: { x: 0, y: 0 }
@@ -18,9 +18,7 @@ export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) =
     event: true
   });
 
-  const [selectedDirection, setSelectedDirection] = useState<
-    "up" | "right" | "down" | "left" | null
-  >(null);
+  const [selectedDirection, setSelectedDirection] = useState<"right" | "left" | null>(null);
 
   useLockBodyScroll(drag.state);
 
@@ -29,7 +27,7 @@ export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) =
     setAnimation({ transition: 0 });
   };
 
-  const handleMove = (x: number, y: number, width: number, height: number) => {
+  const handleMove = (x: number, y: number, width: number) => {
     const {
       state,
       startPos: { x: startX, y: startY }
@@ -39,13 +37,8 @@ export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) =
       const movePosX = x - startX;
       const minMovePosX = width / 3;
 
-      const movePosY = y - startY;
-      const minMovePosY = height / 3;
-
       if (Math.abs(movePosX) > minMovePosX) {
         setSelectedDirection(movePosX > 0 ? "right" : "left");
-      } else if (Math.abs(movePosY) > minMovePosY) {
-        setSelectedDirection(movePosY > 0 ? "down" : "up");
       } else {
         setSelectedDirection(null);
       }
@@ -59,9 +52,15 @@ export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) =
 
   const handleUp = () => {
     if (selectedDirection) {
-      setAnimation({ transition: 600, opacity: 0, event: false });
+      setAnimation({ transition: 300, opacity: 0, event: false });
 
-      setTimeout(() => onSelect(selectedDirection), 600);
+      setTimeout(() => {
+        if (selectedDirection === "left") {
+          onCancel();
+        } else if (selectedDirection === "right") {
+          onConfirm();
+        }
+      }, 300);
     } else {
       setAnimation({
         transition: 300,
@@ -86,18 +85,30 @@ export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) =
   const handleMouseMove = ({
     clientX,
     clientY,
-    currentTarget: { offsetWidth, offsetHeight }
+    currentTarget: { offsetWidth }
   }: MouseEvent<HTMLDivElement>) => {
-    handleMove(clientX, clientY, offsetWidth, offsetHeight);
+    handleMove(clientX, clientY, offsetWidth);
   };
 
   const handleTouchMove = ({
     touches,
-    currentTarget: { offsetWidth, offsetHeight }
+    currentTarget: { offsetWidth }
   }: TouchEvent<HTMLDivElement>) => {
     const { clientX, clientY } = touches[0];
 
-    handleMove(clientX, clientY, offsetWidth, offsetHeight);
+    handleMove(clientX, clientY, offsetWidth);
+  };
+
+  const handleConfirm = () => {
+    setAnimation({ translatePos: { x: 500, y: 0 }, rotate: 30, opacity: 0 });
+
+    setTimeout(onConfirm, 300);
+  };
+
+  const handleCancel = () => {
+    setAnimation({ translatePos: { x: -500, y: 0 }, rotate: -30, opacity: 0 });
+
+    setTimeout(onConfirm, 300);
   };
 
   return {
@@ -106,6 +117,8 @@ export const useTinderCard = ({ onSelect }: ComponentProps<typeof TinderCard>) =
     handleMouseMove,
     handleUp,
     handleTouchMove,
-    handleTouchStart
+    handleTouchStart,
+    handleConfirm,
+    handleCancel
   };
 };
