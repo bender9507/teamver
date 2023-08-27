@@ -12,8 +12,8 @@ export const MemberNavbarLayout = ({ children }: PropsWithElement) => {
       <Navbar
         navList={[
           { label: "Home", route: "/member", icon: "home" },
-          { label: "Chat", route: "/owner/chat", icon: "chat" },
-          { label: "List", route: "/owner/project", icon: "list" },
+          { label: "Chat", route: "/member/chat", icon: "chat" },
+          { label: "List", route: "/member/project", icon: "list" },
           { label: "My", route: "/mypage", icon: "my" }
         ]}
       />
