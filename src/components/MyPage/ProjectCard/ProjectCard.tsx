@@ -8,7 +8,6 @@ import type { ProjectCardProps } from "./ProjectCard.types";
 
 export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
   const { mount } = useModal();
-  console.log(project);
   return (
     <Styled.ProjectCard>
       <Text>{project.name}</Text>

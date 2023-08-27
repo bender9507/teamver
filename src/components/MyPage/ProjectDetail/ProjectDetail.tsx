@@ -1,10 +1,14 @@
+import { useTranslation } from "next-i18next";
+import { language } from "~/assets/icons";
 import { Avatar, Chip } from "~/components/Commons";
-import { Flex, FlexCenter, Text } from "~/styles/mixins";
+import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "./ProjectDetail.styles";
 import type { ProjectDetailProps } from "./ProjectDetail.types";
 
 export const ProjectDetail = ({ project }: ProjectDetailProps) => {
-  console.log(project.types);
+  const { t, i18n } = useTranslation("mypage");
+
+  console.log(language);
   return (
     <Styled.Container>
       <Text as="h2" size="heading2">
@@ -13,50 +17,68 @@ export const ProjectDetail = ({ project }: ProjectDetailProps) => {
 
       <FlexCenter gap={10}>
         <Avatar src={project.imageUrl} size="small" />
-        <Text>{project.ownerId}</Text>
+        <Text>{project.ownerProfile.name}</Text>
       </FlexCenter>
 
-      <Flex gap={10}>
+      <Styled.ChipsContainer>
         {project.types.map((type) => (
           <Chip bgColor="gray5" color="white" key={type.id}>
-            {type.ko}
+            dd
           </Chip>
         ))}
-      </Flex>
+      </Styled.ChipsContainer>
 
       <Styled.InfoContainer>
         <Text as="h3" size="heading3">
-          프로젝트 소개
+          {t("프로젝트 소개")}
         </Text>
-        <Text>프로젝트 소개입니다.</Text>
+        <Text>{project.description}</Text>
       </Styled.InfoContainer>
 
       <Styled.InfoContainer>
         <Text as="h3" size="heading3">
-          모집 포지션
+          {t("모집 포지션")}
         </Text>
-        <Text>포지션 chips</Text>
+        <Styled.ChipsContainer>
+          {project.positions.map((position) => (
+            <Chip bgColor="gray5" color="white" key={position.id}>
+              {position.ko}
+            </Chip>
+          ))}
+        </Styled.ChipsContainer>
       </Styled.InfoContainer>
 
       <Styled.InfoContainer>
         <Text as="h3" size="heading3">
-          희망 역량
+          {t("희망 역량")}
         </Text>
         <Text>이런 역량을 갖추고 있다면 더 좋아요!</Text>
       </Styled.InfoContainer>
 
       <Styled.InfoContainer>
         <Text as="h3" size="heading3">
-          주요 언어
+          {t("주요 언어")}
         </Text>
-        <Text>언어 chips</Text>
+        <Styled.ChipsContainer>
+          {project.languages.map((language) => (
+            <Chip bgColor="gray5" color="white" key={language.id}>
+              {language.name}
+            </Chip>
+          ))}
+        </Styled.ChipsContainer>
       </Styled.InfoContainer>
 
       <Styled.InfoContainer>
         <Text as="h3" size="heading3">
-          사용 기술
+          {t("사용 기술")}
         </Text>
-        <Text>기술 chips</Text>
+        <Styled.ChipsContainer>
+          {project.skills.map((skill) => (
+            <Chip bgColor="gray5" color="white" key={skill.id}>
+              {skill.name}
+            </Chip>
+          ))}
+        </Styled.ChipsContainer>
       </Styled.InfoContainer>
     </Styled.Container>
   );
