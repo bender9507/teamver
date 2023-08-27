@@ -37,12 +37,15 @@ export const useChatRoom = (
 
   const formatTime = (timeString: string) => {
     const date = new Date(timeString);
+
     let hours = date.getHours();
+
     const minutes = date.getMinutes();
-    let period = "오전";
+
+    let period = t("오전");
 
     if (hours >= 12) {
-      period = "오후";
+      period = t("오후");
       hours -= 12;
     }
 

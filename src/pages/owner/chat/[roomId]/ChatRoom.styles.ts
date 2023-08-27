@@ -19,7 +19,7 @@ export const ChatMessageWrapper = styled.div`
 `;
 
 export const ChatFromWrapper = styled.form`
-  position: fixed;
+  position: absolute;
 
   bottom: 0;
 

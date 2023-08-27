@@ -80,7 +80,7 @@ export const selectChatRooms = async (userId: string) => {
       }[]
     >();
 
-  if (error) throw error;
+  if (error) throw Error("채팅방 목록을 불러오는데 실패하였습니다.");
 
   return data;
 };
