@@ -33,7 +33,7 @@ const Chat = ({ user }: { user: User }) => {
 
               <FlexColumn>
                 <Text>{room.memberName || t("알 수 없음")}</Text>
-                <Text>{room.lastMessage || t("아직 대화가 없습니다")}</Text>
+                <Text>{room.lastMessage || t("채팅이 시작되었습니다")}</Text>
               </FlexColumn>
             </Styled.ChatRoomBox>
           ))

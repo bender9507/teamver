@@ -3,12 +3,13 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
+import { ChatRoomOut } from "~/components/ChatRoomOut";
 import { Avatar, Button, Input, PreviousButton } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { ProjectInvite } from "~/components/ProjectInvite";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
-import { PROJECT_INVITE_MODAL } from "./ChatRoom.constants";
+import { CHAT_ROOM_OUT_MODAL, PROJECT_INVITE_MODAL } from "./ChatRoom.constants";
 import { useChatRoom } from "./ChatRoom.hooks";
 import * as Styled from "./ChatRoom.styles";
 
@@ -19,8 +20,12 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
 
   const app = useChatRoom(user.id, roomId, message, setMessage);
 
-  const handleOpenModal = () => {
+  const handleOpenProjectInviteModal = () => {
     mount(<ProjectInvite ownerId={user.id} />, { id: PROJECT_INVITE_MODAL });
+  };
+
+  const handleOpenChatRoomOutModal = () => {
+    mount(<ChatRoomOut />, { id: CHAT_ROOM_OUT_MODAL });
   };
 
   return (
@@ -33,8 +38,8 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         </FlexCenter>
 
         <FlexCenter gap={20}>
-          <Button onClick={handleOpenModal}>{app.t("팀원으로초대하기")}</Button>
-          <Button>{app.t("•••")}</Button>
+          <Button onClick={handleOpenProjectInviteModal}>{app.t("팀원으로초대하기")}</Button>
+          <Button onClick={handleOpenChatRoomOutModal}>{app.t("•••")}</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>
 
@@ -54,8 +59,6 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
           )
         )}
       </Styled.ChatMessageWrapper>
-
-      <ProjectInvite ownerId={user.id} />
 
       <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>
         <Input
