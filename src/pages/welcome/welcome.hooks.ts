@@ -1,16 +1,23 @@
 import { useTranslation } from "next-i18next";
-import type { ChangeEvent } from "react";
+import { useRouter } from "next/router";
+import type { ChangeEvent, ComponentProps } from "react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDialog } from "~/components/Commons";
 import { useGetConstantQuery } from "~/states/server/constant";
-import { checkNameValidation } from "~/states/server/profile";
+import { checkNameValidation, useInsertProfileMutate } from "~/states/server/profile";
+import { useUploadProfileImageMutate } from "~/states/server/storage";
 import { debounce } from "~/utils";
+import type Welcome from "./index.page";
 import { requiredSteps, steps } from "./welcome.constants";
 import type { WelcomeForm } from "./welcome.types";
 
-export const useWelcome = () => {
+export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
   const [step, setStep] = useState(0);
   const [successMessage, setSuccessMessage] = useState("");
+
+  const route = useRouter();
+  const { toast } = useDialog();
   const { t } = useTranslation("welcome");
 
   const { data: constants } = useGetConstantQuery([
@@ -30,6 +37,22 @@ export const useWelcome = () => {
       shouldFocusError: false
     });
 
+  const { mutate: insertProfileMutate } = useInsertProfileMutate({
+    onSuccess: () => {
+      toast({ type: "success", message: t("환영합니다!") });
+
+      if (watch("role") === 1) {
+        route.replace("/owner");
+      } else {
+        route.replace("/member");
+      }
+    },
+    onError: () => {
+      toast({ type: "error", message: t("프로필 생성에 실패하였습니다.") });
+    }
+  });
+  const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
+
   const isDisabled = useMemo(() => {
     const requiredStep = requiredSteps.includes(steps[step]);
 
@@ -48,8 +71,18 @@ export const useWelcome = () => {
     setStep((prevStep) => Math.max(prevStep - 1, 0));
   };
 
-  const handleCreateProfile: Parameters<typeof handleSubmit>[0] = (props) => {
-    console.log(props);
+  const handleCreateProfile: Parameters<typeof handleSubmit>[0] = async ({ imageUrl, ...rest }) => {
+    const { publicUrl } = await uploadProfileImageMutateAsync({
+      file: imageUrl,
+      name: `${rest.name}_${new Date().getTime()}`
+    });
+
+    insertProfileMutate({
+      id: user.id,
+      github: user.user_metadata.preferred_username,
+      imageUrl: publicUrl,
+      ...rest
+    });
   };
 
   const validateNickName = debounce<({ target }: ChangeEvent<HTMLInputElement>) => void>(

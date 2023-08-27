@@ -1,5 +1,6 @@
 import type {
   ConstantAreaRow,
+  ConstantJobRow,
   ConstantLanguageRow,
   ConstantPersonalityRow,
   ConstantPositionRow,
@@ -11,14 +12,14 @@ import type {
 export interface WelcomeForm {
   name: string;
   introduce: string;
-  languages: ConstantLanguageRow[];
-  skills: ConstantSkillRow[];
-  positions: ConstantPositionRow[];
-  projectTypes: ConstantProjectTypeRow[];
-  personalities: ConstantPersonalityRow[];
-  areas: ConstantAreaRow[];
+  languages: ConstantLanguageRow["id"][];
+  skills: ConstantSkillRow["id"][];
+  positions: ConstantPositionRow["id"][];
+  projectTypes: ConstantProjectTypeRow["id"][];
+  personalities: ConstantPersonalityRow["id"][];
+  areas: ConstantAreaRow["id"][];
   blog: string;
-  jobs: number;
+  job: ConstantJobRow["id"];
   imageUrl: File;
   role: ConstantRoleRow["id"];
 }
@@ -32,30 +33,3 @@ export interface ProgressStyleProps {
   current: number;
   max: number;
 }
-
-// import type { ConstantRoleRow } from "~/states/server/constant";
-
-// export interface WelcomeForm {
-//   name: string;
-//   introduce: string;
-//   languages: number[];
-//   skills: number[];
-//   positions: number[];
-//   projectTypes: number[];
-//   personalities: number[];
-//   areas: number[];
-//   blog: string;
-//   jobs: number;
-//   imageUrl: File;
-//   role: ConstantRoleRow["id"];
-// }
-
-// export type WelcomeArrayFields = Pick<
-//   WelcomeForm,
-//   "languages" | "skills" | "positions" | "projectTypes" | "personalities" | "areas"
-// >;
-
-// export interface ProgressStyleProps {
-//   current: number;
-//   max: number;
-// }
