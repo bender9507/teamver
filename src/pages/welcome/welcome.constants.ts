@@ -9,7 +9,7 @@ export const requiredSteps = [
   "projectTypes",
   "personalities",
   "areas",
-  "jobs",
+  "job",
   "imageUrl",
   "role"
 ];
@@ -24,7 +24,7 @@ export const steps = [
   "personalities",
   "areas",
   "blog",
-  "jobs",
+  "job",
   "imageUrl",
   "role"
 ] as const;

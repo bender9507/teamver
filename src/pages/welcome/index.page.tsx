@@ -1,3 +1,5 @@
+import type { User } from "@supabase/auth-helpers-nextjs";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -13,13 +15,14 @@ import {
   Textarea
 } from "~/components/Commons";
 import { HTTP_REGEX } from "~/constants/regex";
+import { routes } from "~/constants/routes";
 import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useWelcome } from "./welcome.hooks";
 import * as Styled from "./welcome.styles";
 
-const Welcome = () => {
-  const app = useWelcome();
+const Welcome = (props: { user: User }) => {
+  const app = useWelcome(props);
   const { t, i18n } = useTranslation("welcome");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -264,8 +267,8 @@ const Welcome = () => {
                 <RadioChip
                   key={job.id}
                   value={job.id}
-                  chipProps={{ isSelected: Number(app.watch("jobs")) === job.id }}
-                  {...app.register("jobs", { required: true })}
+                  chipProps={{ isSelected: Number(app.watch("job")) === job.id }}
+                  {...app.register("job", { required: true })}
                 >
                   {job[currentLanguage]}
                 </RadioChip>
@@ -351,10 +354,26 @@ const Welcome = () => {
 
 export default Welcome;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const supabaseServer = createPagesServerClient(context);
+
+  const {
+    data: { session }
+  } = await supabaseServer.auth.getSession();
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: routes.home,
+        permanent: false
+      }
+    };
+  }
+
   return {
     props: {
-      ...(await serverSideTranslations(ctx.locale, ["welcome"]))
+      user: session.user,
+      ...(await serverSideTranslations(context.locale, ["welcome"]))
     }
   };
 };
