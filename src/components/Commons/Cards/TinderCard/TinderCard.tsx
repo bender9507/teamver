@@ -18,10 +18,7 @@ export const TinderCard = ({ children, ...props }: PropsWithChildren<TinderCardP
       onTouchMove={app.handleTouchMove}
       onTouchEnd={app.handleUp}
     >
-      <Styled.Card>
-        {children}
-        {/* <Styled.Gradient /> */}
-      </Styled.Card>
+      <Styled.Card>{children}</Styled.Card>
 
       <Styled.SelectBox>
         <IconButton name="close" color="gray2" width={36} height={36} onClick={app.handleCancel} />

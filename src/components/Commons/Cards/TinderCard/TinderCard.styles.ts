@@ -56,5 +56,7 @@ export const Card = styled.div`
   position: relative;
   overflow: hidden;
 
+  ${flex({ align: "end" })};
+
   ${size({ width: "100%", height: "100%" })};
 `;
