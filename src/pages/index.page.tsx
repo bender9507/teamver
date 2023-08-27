@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { SocialLoginButton } from "~/components/Commons";
+import { routes } from "~/constants/routes";
 import { Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 
@@ -38,9 +39,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .maybeSingle();
 
     if (profile) {
+      if (profile.role === 1) {
+        return {
+          redirect: {
+            destination: routes.owner,
+            permanent: false
+          }
+        };
+      }
       return {
         redirect: {
-          destination: "/member",
+          destination: routes.member,
           permanent: false
         }
       };
@@ -48,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     return {
       redirect: {
-        destination: "/welcome",
+        destination: routes.welcome,
         permanent: false
       }
     };
