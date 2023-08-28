@@ -8,7 +8,12 @@ import type {
   ProjectInviteInsert
 } from ".";
 import { supabase } from "../config";
-import type { ConstantLanguageRow, ConstantPositionRow, ConstantSkillRow } from "../constant";
+import type {
+  ConstantAreaRow,
+  ConstantLanguageRow,
+  ConstantPositionRow,
+  ConstantSkillRow
+} from "../constant";
 import { PROJECT_ALL_DATA_QUERY } from "./constants";
 
 export const selectProject = async (projectId: string) => {
@@ -54,6 +59,7 @@ export const insertProject = async ({
   positions,
   ...projectData
 }: ProjectDataInsert & {
+  areas: ConstantAreaRow["id"][];
   skills: ConstantSkillRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
@@ -63,8 +69,6 @@ export const insertProject = async ({
     .insert(projectData)
     .select("*")
     .returns<ProjectDataRow[]>();
-
-  console.log(data);
 
   if (error) throw Error("프로젝트 생성에 실패하였습니다.");
 
@@ -89,6 +93,7 @@ export const updateProject = async ({
   ...projectData
 }: Omit<ProjectDataUpdate, "id"> & {
   id: number;
+  areas: ConstantAreaRow["id"][];
   skills: ConstantSkillRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
