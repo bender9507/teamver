@@ -66,11 +66,10 @@ export const CalendarWrapper = styled.div`
 
   .react-calendar {
     ${size({ width: "85%" })};
-    /* width: 100%;
-    max-width: 100%; */
+
     ${({ theme: { colors } }) => css`
       background-color: ${colors.black};
-    `} /* your custom styles here */
+    `}
     border: none;
   }
   .react-calendar__navigation__label > span {
@@ -98,7 +97,6 @@ export const CalendarWrapper = styled.div`
         color: ${colors.gray1};
       `}
 
-      /* font-size: 1rem; */
       font-weight: 300;
     }
   }
