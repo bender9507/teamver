@@ -24,6 +24,7 @@ import * as Styled from "./create.styles";
 
 const Create = (props: { user: User }) => {
   const app = useCreate(props);
+
   const { t, i18n } = useTranslation("projectCreate");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -142,8 +143,8 @@ const Create = (props: { user: User }) => {
             <Input
               placeholder="모집 인원"
               type="number"
-              max={100000}
-              {...app.register("recruitCount", { required: true, max: 100000 })}
+              maxLength={5}
+              {...app.register("recruitCount", { required: true, maxLength: 5 })}
             />
             <Text>명</Text>
           </Flex>
@@ -268,7 +269,9 @@ const Create = (props: { user: User }) => {
 
         <SizeBox height={32} />
 
-        <Button type="submit">저장</Button>
+        <Button type="submit" disabled={!app.formState.isValid}>
+          저장
+        </Button>
       </Styled.Container>
     </>
   );

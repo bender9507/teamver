@@ -28,9 +28,11 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   });
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
-  const { register, handleSubmit, watch, control, setValue } = useForm<ProjectCreatorForm>({
-    defaultValues: { startDate: null, endDate: null }
-  });
+  const { register, handleSubmit, watch, control, setValue, formState } =
+    useForm<ProjectCreatorForm>({
+      defaultValues: { startDate: null, endDate: null },
+      mode: "all"
+    });
 
   const { data: constants } = useGetConstantQuery([
     "projectTypes",
@@ -83,6 +85,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   return {
     control,
     constants,
+    formState,
     register,
     handleSubmit,
     handleCreateProject,
