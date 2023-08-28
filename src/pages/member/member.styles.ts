@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { flex, position, size, text } from "~/styles/mixins";
+import { FlexColumn, flex, position, size, text } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
 import { hexToRgba, styleHelper } from "~/styles/utils";
 
@@ -81,4 +81,8 @@ export const CardContainer = styled.div`
   ${position.absolute({ top: 0, left: 0 })};
 
   ${size({ width: "100%", height: "100%" })};
+`;
+
+export const FilterContainer = styled(FlexColumn)`
+  padding: 42px 36px 78px 36px;
 `;

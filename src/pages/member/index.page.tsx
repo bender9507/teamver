@@ -33,7 +33,7 @@ const Member = (props: { user: User }) => {
             isSelected={!!app.selectedProjectType}
             onClick={() =>
               app.mount(
-                <FlexColumn as="form" onSubmit={app.handleSubmit(app.handleChangeProjectType)}>
+                <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
                     <Text size="heading4">{t("어떤 프로젝트를 찾으시나요")}</Text>
                     <Text size="paragraph3">
@@ -69,7 +69,7 @@ const Member = (props: { user: User }) => {
                   <SizeBox height={60} />
 
                   <Button>{t("확인")}</Button>
-                </FlexColumn>,
+                </Styled.FilterContainer>,
                 { id: "selectProjectType", type: "bottom" }
               )
             }

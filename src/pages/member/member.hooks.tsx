@@ -6,7 +6,6 @@ import { useImmutableState } from "~/hooks";
 import type { ConstantProjectTypeRow } from "~/states/server/constant";
 import { useGetConstantQuery } from "~/states/server/constant";
 import { useSelectProfileQuery } from "~/states/server/profile";
-import type { ProjectAllDataRow } from "~/states/server/project";
 import {
   useInsertFollowProjectMutate,
   useSelectRecommendedProjectsQuery
@@ -42,7 +41,7 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     [randomProjects?.pages, selectedItem]
   );
 
-  const handleChangeProjectType: Parameters<typeof handleSubmit>[0] = ({ projectType }) => {
+  const handleChangeFilter = handleSubmit(({ projectType }) => {
     const selectedProjectType = constants.projectTypes.find(
       (_projectType) => _projectType.id === Number(projectType)
     );
@@ -50,7 +49,7 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     setSelectedProjectType(selectedProjectType);
 
     unmount("selectProjectType");
-  };
+  });
 
   const handleConfirm = (projectId: number) => {
     setSelectedItem({ [projectId]: true });
@@ -68,21 +67,15 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     }
   }, [fetchNextPage, filteredRandomProjects]);
 
-  const sample = (project: ProjectAllDataRow) => {
-    mount(<div>{project.name}</div>, { id: "projectDetail", type: "bottom" });
-  };
-
   return {
-    sample,
     mount,
     profile,
     constants,
     randomProjects,
     fetchNextPage,
     register,
-    handleSubmit,
     selectedProjectType,
-    handleChangeProjectType,
+    handleChangeFilter,
     handleConfirm,
     handleCancel,
     filteredRandomProjects
