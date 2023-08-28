@@ -30,7 +30,7 @@ export const useCard = (project: ComponentProps<typeof Card>) => {
     }
   });
 
-  const handleUpdateProject = (newState: "DONE_RECRUIT" | "DONE_PROJECT") => {
+  const handleUpdateProject = (newState: "IN_RECRUIT" | "DONE_RECRUIT" | "DONE_PROJECT") => {
     const skills = project.skills.map((skill) => skill.id);
     const languages = project.languages.map((language) => language.id);
     const positions = project.positions.map((position) => position.id);

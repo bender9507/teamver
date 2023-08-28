@@ -26,7 +26,7 @@ const Project = ({ user }: { user: User }) => {
         </Styled.ProfileBox>
         <SizeBox height={46} />
       </FlexColumn>
-      <Styled.ProjectContainer>
+      <FlexColumn>
         <Flex wrap="wrap">
           <Styled.Category>
             <Text size="heading5" onClick={() => app.setSelectedCategory("IN_PROGRESS")}>
@@ -84,7 +84,7 @@ const Project = ({ user }: { user: User }) => {
             <Icon name="add" color="gray3" width={28} height={28} />
           </Styled.ImageUploadButton>
         </Link>
-      </Styled.ProjectContainer>
+      </FlexColumn>
     </>
   );
 };

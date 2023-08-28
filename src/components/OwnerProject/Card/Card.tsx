@@ -29,8 +29,8 @@ export const Card = (project: ProjectAllDataRow) => {
           onClick={() => {
             if (app.project.state === "IN_RECRUIT") {
               mount(
-                <FlexColumn gap={26} align="center" style={{ padding: "20px 0" }}>
-                  <div>프로젝트 수정</div>
+                <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
+                  <Text>프로젝트 수정</Text>
                   <Text onClick={() => app.handleUpdateProject("DONE_RECRUIT")}>
                     팀원 모집 마감
                   </Text>
@@ -45,9 +45,27 @@ export const Card = (project: ProjectAllDataRow) => {
                 }
               );
             } else if (app.project.state === "DONE_RECRUIT") {
-              mount(<div>모집이 완료된 프로젝트입니다.</div>, { id: "sample", type: "bottom" });
+              mount(
+                <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
+                  <Text>프로젝트 수정</Text>
+                  <Text onClick={() => app.handleUpdateProject("IN_RECRUIT")}>팀원 모집 받기</Text>
+                  <Text onClick={() => app.handleUpdateProject("DONE_PROJECT")}>
+                    진행상태 완료로 변경
+                  </Text>
+                  <Text onClick={app.handleDeleteProject}>프로젝트 삭제</Text>
+                </FlexColumn>,
+                { id: "CARD_MODAL", type: "bottom" }
+              );
             } else if (app.project.state === "DONE_PROJECT") {
-              mount(<div>모집이 완료된 프로젝트입니다.</div>, { id: "sample", type: "bottom" });
+              mount(
+                <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
+                  <Text onClick={app.handleDeleteProject}>프로젝트 삭제</Text>{" "}
+                </FlexColumn>,
+                {
+                  id: "CARD_MODAL",
+                  type: "bottom"
+                }
+              );
             }
           }}
         />
