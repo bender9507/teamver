@@ -21,15 +21,19 @@ const containerStyle = ({
 
     ${size({ width: "100%", height: "100%" })};
 
-    border: 1px solid black;
     border-radius: 24px;
 
     background-color: ${colors.backgroundSecondary};
 
     transform: translate(${translatePos.x}px, ${translatePos.y}px) rotate(${rotate}deg);
-    ${transition && styleHelper("transition", `${transition}ms`)}
+    ${transition && styleHelper("transition", `${transition}ms`)};
 
-    ${!event && styleHelper("pointerEvents", "none")}
+    ${!event && styleHelper("pointerEvents", "none")};
+
+    * {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
   `;
 };
 

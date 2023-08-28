@@ -149,3 +149,34 @@ export const selectFollowProjects = async (myId?: string) => {
 
   return data;
 };
+
+export const selectRecommendedProjects = async ({
+  seedValue,
+  userId,
+  projectType,
+  pageParam = 0,
+  limit = 10
+}: {
+  seedValue: number;
+  userId: string;
+  projectType?: number;
+  pageParam?: number;
+  limit?: number;
+}) => {
+  let query = supabase
+    .rpc("select_recommended_projects", { seedValue, userId })
+    .eq("state", "IN_RECRUIT");
+
+  if (projectType) {
+    query = query.eq("projectType", projectType);
+  }
+
+  const { data, error } = await query
+    .range(pageParam * limit, (pageParam + 1) * limit - 1)
+    .select(`*, ${PROJECT_ALL_DATA_QUERY}`)
+    .returns<ProjectAllDataRow[]>();
+
+  if (error) throw error;
+
+  return { data, nextPage: data.length === limit ? pageParam + 1 : undefined };
+};

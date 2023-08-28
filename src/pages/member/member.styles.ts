@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { flex, position, size, text } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
-import { hexToRgba } from "~/styles/utils";
+import { hexToRgba, styleHelper } from "~/styles/utils";
 
 export const Container = styled.div`
   display: grid;
@@ -18,8 +18,6 @@ export const Container = styled.div`
 export const Profile = styled(Image)`
   object-fit: cover;
   object-position: center;
-
-  -webkit-user-drag: none;
 
   border-radius: 0px 0px 28px 28px;
 `;
@@ -61,12 +59,12 @@ export const BlurChip = styled.span`
   color: ${colors.content1};
 `;
 
-export const TypeButton = styled.button`
+export const TypeButton = styled.button<{ isSelected: boolean }>`
   ${flex.center({ gap: 6 })};
 
   padding: 0 20px;
 
-  ${({ theme: { sizes, colors } }) => css`
+  ${({ theme: { sizes, colors }, isSelected }) => css`
     ${size({ height: sizes.height.large })};
 
     background-color: ${colors.backgroundSecondary};
@@ -75,8 +73,12 @@ export const TypeButton = styled.button`
 
     color: ${colors.content1};
 
-    &:focus {
-      box-shadow: inset 0 0 0 1px ${colors.primary};
-    }
+    ${isSelected && styleHelper("boxShadow", `inset 0 0 0 1px ${colors.primary}`)};
   `};
+`;
+
+export const CardContainer = styled.div`
+  ${position.absolute({ top: 0, left: 0 })};
+
+  ${size({ width: "100%", height: "100%" })};
 `;

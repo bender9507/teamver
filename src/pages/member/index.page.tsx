@@ -1,15 +1,18 @@
+import type { User } from "@supabase/auth-helpers-nextjs";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Button, Icon, RadioChip, TinderCard } from "~/components/Commons";
 import { MemberNavbarLayout } from "~/components/Layouts";
-import { Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
+import { routes } from "~/constants/routes";
+import { Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useMember } from "./member.hooks";
 import * as Styled from "./member.styles";
 
-const Member = () => {
-  const app = useMember();
+const Member = (props: { user: User }) => {
+  const app = useMember(props);
   const { t, i18n } = useTranslation("memberHome");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -19,6 +22,7 @@ const Member = () => {
       <Styled.Container>
         <Flex>
           <Styled.TypeButton
+            isSelected={!!app.selectedProjectType}
             onClick={() =>
               app.mount(
                 <FlexColumn as="form" onSubmit={app.handleSubmit(app.handleChangeProjectType)}>
@@ -30,6 +34,10 @@ const Member = () => {
                   <SizeBox height={50} />
 
                   <Flex gap={12} wrap="wrap">
+                    <RadioChip {...app.register("projectType")} color="backgroundPrimary" value="">
+                      전체
+                    </RadioChip>
+
                     {app.constants.projectTypes.map((projectType) => (
                       <RadioChip
                         {...app.register("projectType")}
@@ -50,34 +58,45 @@ const Member = () => {
               )
             }
           >
-            {app.selectedProjectType ? app.selectedProjectType[currentLanguage] : "프로젝트 타입"}
+            프로젝트 타입
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
         </Flex>
 
-        <TinderCard onConfirm={() => console.log("confirm")} onCancel={() => console.log("cancel")}>
-          <Styled.Profile
-            src="https://knjzcsrhngnomfeoymis.supabase.co/storage/v1/object/public/profileImages/g123_1693107111237"
-            alt="프로필 사진"
-            fill
-          />
+        <Position position="relative">
+          {app.filteredRandomProjects.reverse().map((project) => (
+            <Styled.CardContainer key={project.id}>
+              <TinderCard
+                onConfirm={() => app.handleConfirm(project.id)}
+                onCancel={() => app.handleCancel(project.id)}
+              >
+                <Styled.Profile
+                  src={project.imageUrl}
+                  alt="프로필 사진"
+                  fill
+                  sizes="100%"
+                  priority
+                />
 
-          <Styled.Gradient />
+                <Styled.Gradient />
 
-          <Styled.Content>
-            <FlexColumn gap={12}>
-              <Flex>
-                <Styled.BlurChip>사이드 프로젝트</Styled.BlurChip>
-              </Flex>
+                <Styled.Content>
+                  <FlexColumn gap={12}>
+                    <Flex>
+                      <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
+                    </Flex>
 
-              <Text size="heading4">뮤즈 플랫폼 프로젝트</Text>
+                    <Text size="heading4">{project.name}</Text>
 
-              <Text size="paragraph3" color="gray1">
-                뮤즈들을 위한 고음질 음악 서비스를 만들고 있는데 함께 하실 웃음 부자 개발자 찾아요~
-              </Text>
-            </FlexColumn>
-          </Styled.Content>
-        </TinderCard>
+                    <Text size="paragraph3" color="gray1">
+                      {project.description}
+                    </Text>
+                  </FlexColumn>
+                </Styled.Content>
+              </TinderCard>
+            </Styled.CardContainer>
+          ))}
+        </Position>
       </Styled.Container>
     </MemberNavbarLayout>
   );
@@ -86,8 +105,24 @@ const Member = () => {
 export default Member;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const supabaseServer = createPagesServerClient(context);
+
+  const {
+    data: { session }
+  } = await supabaseServer.auth.getSession();
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: routes.home,
+        permanent: false
+      }
+    };
+  }
+
   return {
     props: {
+      user: session.user,
       ...(await serverSideTranslations(context.locale, ["welcome"]))
     }
   };

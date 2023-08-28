@@ -1,10 +1,10 @@
-import type { PropsWithChildren } from "react";
+import { memo, type PropsWithChildren } from "react";
 import { IconButton } from "~/components/Commons";
 import { useTinderCard } from "./TinderCard.hooks";
 import * as Styled from "./TinderCard.styles";
 import type { TinderCardProps } from "./TinderCard.types";
 
-export const TinderCard = ({ children, ...props }: PropsWithChildren<TinderCardProps>) => {
+export const TinderCard = memo(({ children, ...props }: PropsWithChildren<TinderCardProps>) => {
   const app = useTinderCard(props);
 
   return (
@@ -33,4 +33,4 @@ export const TinderCard = ({ children, ...props }: PropsWithChildren<TinderCardP
       </Styled.SelectBox>
     </Styled.Container>
   );
-};
+});
