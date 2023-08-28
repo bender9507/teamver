@@ -14,7 +14,7 @@ import {
 } from "~/components/Commons";
 import { MemberNavbarLayout } from "~/components/Layouts";
 import { routes } from "~/constants/routes";
-import { Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useMember } from "./member.hooks";
 import * as Styled from "./member.styles";
@@ -28,9 +28,9 @@ const Member = (props: { user: User }) => {
   return (
     <MemberNavbarLayout>
       <Styled.Container>
-        <Flex>
+        <Flex gap={12}>
           <Styled.TypeButton
-            isSelected={!!app.selectedProjectType}
+            isSelected={!!app.filter.projectType}
             onClick={() =>
               app.mount(
                 <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
@@ -44,15 +44,6 @@ const Member = (props: { user: User }) => {
                   <SizeBox height={50} />
 
                   <Flex gap={12} wrap="wrap">
-                    <SelectChip
-                      type="radio"
-                      value=""
-                      color="backgroundPrimary"
-                      {...app.register("projectType")}
-                    >
-                      {t("전체")}
-                    </SelectChip>
-
                     {app.constants.projectTypes.map((projectType) => (
                       <SelectChip
                         key={projectType.id}
@@ -75,6 +66,46 @@ const Member = (props: { user: User }) => {
             }
           >
             {t("프로젝트 타입")}
+            <Icon name="arrowDown" width={20} height={20} />
+          </Styled.TypeButton>
+
+          <Styled.TypeButton
+            isSelected={app.filter.areas.length > 0}
+            onClick={() =>
+              app.mount(
+                <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
+                  <FlexColumn gap={12}>
+                    <Text size="heading4">{t("프로젝트 활동 지역이 어디인가요")}</Text>
+
+                    <Text size="paragraph3">
+                      {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
+                    </Text>
+                  </FlexColumn>
+
+                  <SizeBox height={52} />
+
+                  <Grid gap={12} column={5}>
+                    {app.constants.areas.map((area) => (
+                      <SelectChip
+                        key={area.id}
+                        value={area.id}
+                        color="backgroundPrimary"
+                        {...app.register("areas")}
+                      >
+                        {area[currentLanguage]}
+                      </SelectChip>
+                    ))}
+                  </Grid>
+
+                  <SizeBox height={60} />
+
+                  <Button>확인</Button>
+                </Styled.FilterContainer>,
+                { id: "selectLanguages", type: "bottom" }
+              )
+            }
+          >
+            {t("활동 지역")}
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
         </Flex>

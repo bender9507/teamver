@@ -8,5 +8,11 @@ export const projectsKey = {
   selectMemberProjects: (myId?: string) => [PROJECT_KEY, "selectMemberProjects", myId] as const,
   selectFollowProjects: (myId?: string) => [PROJECT_KEY, "selectFollowProjects", myId] as const,
   selectRecommendedProjects: (filter: Parameters<typeof selectRecommendedProjects>[0]) =>
-    [PROJECT_KEY, "selectRecommendedProjects", filter.seedValue, filter.projectType] as const
+    [
+      PROJECT_KEY,
+      "selectRecommendedProjects",
+      filter.seedValue,
+      filter.projectType,
+      ...filter.areas
+    ] as const
 } as const;

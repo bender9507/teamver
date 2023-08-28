@@ -160,18 +160,20 @@ export const selectFollowProjects = async (myId: string) => {
 export const selectRecommendedProjects = async ({
   seedValue,
   userId,
+  areas,
   projectType,
   pageParam = 0,
   limit = 10
 }: {
   seedValue: number;
   userId: string;
+  areas: ConstantAreaRow["id"][];
   projectType?: number;
   pageParam?: number;
   limit?: number;
 }) => {
   let query = supabase
-    .rpc("select_recommended_projects", { seedValue, userId })
+    .rpc("select_recommended_projects", { seedValue, userId, areas })
     .eq("state", "IN_RECRUIT");
 
   if (projectType) {
