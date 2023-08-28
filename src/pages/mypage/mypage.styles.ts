@@ -1,5 +1,6 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Text, flex, grid, size } from "~/styles/mixins";
+import { Text, flex, grid, position, size } from "~/styles/mixins";
 
 export const Container = styled.div`
   ${flex.column({ gap: 15, align: "center" })};
@@ -10,7 +11,7 @@ export const Container = styled.div`
 `;
 
 export const ProjectContainer = styled.div`
-  ${flex.column({ align: "start", gap: 10 })}
+  ${flex.column({ gap: 10, align: "start" })}
 
   ${size({ width: "100%" })}
 
@@ -18,28 +19,39 @@ export const ProjectContainer = styled.div`
 `;
 
 export const TabButtonContainer = styled.div`
-  ${grid({ column: 2, autoColumnSize: false })}
-  width: 100%;
-  border-bottom: 1px solid gray;
   position: relative;
+  ${grid({ column: 2, autoColumnSize: false })}
+
+  ${size({ width: "100%" })};
+
+  ${({ theme: { colors } }) => css`
+    border-bottom: 1px solid ${colors.gray3};
+  `}}
 
   .submenu {
-    padding: 10px;
-    color: gray;
+    ${({ theme: { colors } }) => css`
+      padding: 10px;
+      color: ${colors.gray3};
+    `}
   }
 
   .clicked {
-    padding: 10px;
-    color: white;
+    ${({ theme: { colors } }) => css`
+      padding: 10px;
+      color: ${colors.white};
+    `}
   }
 `;
 
 export const SelectedBorder = styled(Text)`
-  position: absolute;
-  width: 50%;
-  height: 3px;
-  background-color: white;
-  bottom: calc(0% - 2px);
+  ${position.absolute({ bottom: "calc(0% - 2px)" })};
+
+  ${size({ width: "50%", height: "3px" })};
+
+  ${({ theme: { colors } }) => css`
+    background-color: ${colors.white};
+  `}
+
   transition: 0.2s transform;
   transform: ${({ tabState }: { tabState: number }) => `translateX(${tabState * 100}%)`};
 `;

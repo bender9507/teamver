@@ -57,11 +57,9 @@ function MyPage({ userId }: MyPageProps) {
         <Styled.ProjectContainer>
           {app.tabState === 0
             ? app.proceedProjects.map((project) => (
-                <ProjectCard project={project} projectState="proceed" key={project.id} />
+                <ProjectCard project={project} key={project.id} />
               ))
-            : app.doneProjects.map((project) => (
-                <ProjectCard project={project} projectState="previous" key={project.id} />
-              ))}
+            : app.doneProjects.map((project) => <ProjectCard project={project} key={project.id} />)}
         </Styled.ProjectContainer>
       </Styled.Container>
     </>

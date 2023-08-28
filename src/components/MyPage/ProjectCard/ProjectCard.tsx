@@ -1,18 +1,23 @@
 import Link from "next/link";
-import { Button } from "~/components/Commons";
+import { Avatar, Button } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
-import { Flex, Text } from "~/styles/mixins";
-import { ProjectDetail } from "../ProjectDetail";
+import { FlexColumn, Text } from "~/styles/mixins";
 import * as Styled from "./ProjectCard.styles";
 import type { ProjectCardProps } from "./ProjectCard.types";
 
-export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
+export const ProjectCard = ({ project }: ProjectCardProps) => {
   const { mount } = useModal();
   return (
     <Styled.ProjectCard>
-      <Text>{project.name}</Text>
+      <Avatar src={project.imageUrl} size="medium" />
+      <FlexColumn gap={10}>
+        <Text>{project.name}</Text>
 
-      {projectState === "proceed" && (
+        <Button>
+          <Link href={`/project/${project.id}`}>팀원 보기</Link>
+        </Button>
+      </FlexColumn>
+      {/* {projectState === "proceed" && (
         <Flex gap={5}>
           <Button
             onClick={() =>
@@ -21,11 +26,8 @@ export const ProjectCard = ({ projectState, project }: ProjectCardProps) => {
           >
             정보
           </Button>
-          <Button>
-            <Link href={`/project/${project.id}`}>멤버</Link>
-          </Button>
         </Flex>
-      )}
+      )} */}
     </Styled.ProjectCard>
   );
 };

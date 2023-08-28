@@ -1,14 +1,10 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { flex, size } from "~/styles/mixins";
 
 export const ProjectCard = styled.div`
-  ${flex({ justify: "between", align: "center" })};
+  ${flex({ justify: "start", align: "center", gap: 10 })};
 
   ${size({ width: "100%" })};
 
-  ${({ theme: { colors } }) => css`
-    padding: 10px;
-    background-color: ${colors.gray5};
-  `}
+  padding: 10px;
 `;
