@@ -4,11 +4,7 @@ import { useLockBodyScroll } from "react-use";
 import { useImmutableState } from "~/hooks";
 import type { TinderCard } from ".";
 
-export const useTinderCard = ({
-  onConfirm,
-  onCancel,
-  onClick
-}: ComponentProps<typeof TinderCard>) => {
+export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof TinderCard>) => {
   const [drag, setDrag] = useImmutableState({
     state: false,
     startPos: { x: 0, y: 0 }
@@ -115,7 +111,7 @@ export const useTinderCard = ({
   const handleCancel = () => {
     setAnimation({ translatePos: { x: -500, y: -100 }, rotate: -30, opacity: 0 });
 
-    setTimeout(onConfirm, 300);
+    setTimeout(onCancel, 300);
   };
 
   return {
