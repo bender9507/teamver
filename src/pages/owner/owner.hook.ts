@@ -1,4 +1,4 @@
-import { useMemo, type ComponentProps } from "react";
+import { useEffect, useMemo, type ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
 import { useImmutableState } from "~/hooks";
@@ -23,7 +23,7 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
 
   const { mount, unmount } = useModal();
   const { data: constants } = useGetConstantQuery(["positions", "skills", "languages"]);
-  const { data: randomProfiles } = useSelectRecommendedProfilesQuery({
+  const { data: randomProfiles, fetchNextPage } = useSelectRecommendedProfilesQuery({
     seedValue: SEED,
     userId: user.id,
     ...filter
@@ -57,6 +57,12 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
     unmount("selectLanguages");
     unmount("selectSkills");
   });
+
+  useEffect(() => {
+    if (filteredRandomProfiles.length <= 1) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, filteredRandomProfiles.length]);
 
   return {
     mount,
