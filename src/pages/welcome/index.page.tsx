@@ -264,12 +264,7 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.jobs.map((job) => (
-                <RadioChip
-                  key={job.id}
-                  value={job.id}
-                  chipProps={{ isSelected: Number(app.watch("job")) === job.id }}
-                  {...app.register("job", { required: true })}
-                >
+                <RadioChip key={job.id} value={job.id} {...app.register("job", { required: true })}>
                   {job[currentLanguage]}
                 </RadioChip>
               ))}
@@ -330,7 +325,7 @@ const Welcome = (props: { user: User }) => {
                 <RadioChip
                   key={role.id}
                   value={role.id}
-                  chipProps={{ isSelected: Number(app.watch("role")) === role.id, size: "large" }}
+                  size="large"
                   {...app.register("role", { required: true })}
                 >
                   {role[currentLanguage]}
