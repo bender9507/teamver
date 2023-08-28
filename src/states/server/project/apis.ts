@@ -24,7 +24,7 @@ export const selectProject = async (projectId: string) => {
   return data;
 };
 
-export const selectOwnerProjects = async (myId?: string) => {
+export const selectOwnerProjects = async (myId: string) => {
   const { data, error } = await supabase
     .from("projects")
     .select(`${PROJECT_ALL_DATA_QUERY}`)
@@ -36,7 +36,7 @@ export const selectOwnerProjects = async (myId?: string) => {
   return data;
 };
 
-export const selectMemberProjects = async (myId?: string) => {
+export const selectMemberProjects = async (myId: string) => {
   const { data, error } = await supabase
     .from("projectMembers")
     .select(`...projects!inner(${PROJECT_ALL_DATA_QUERY})`)
@@ -138,7 +138,7 @@ export const insertFollowProject = async ({ followerId, projectId }: FollowProje
   if (error) throw error;
 };
 
-export const selectFollowProjects = async (myId?: string) => {
+export const selectFollowProjects = async (myId: string) => {
   const { data, error } = await supabase
     .from("followProject")
     .select(`id, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
