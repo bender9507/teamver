@@ -7,5 +7,13 @@ export const profileKeys = {
   selectFollows: (myId: string) => [PROFILE_KEY, "selectFollows", myId] as const,
   selectFollowers: (myId: string) => [PROFILE_KEY, "selectFollowers", myId] as const,
   selectRecommendedProfiles: (filter: Parameters<typeof selectRecommendedProfiles>[0]) =>
-    [PROFILE_KEY, "selectRecommendedProfiles", filter.seedValue, filter.userId] as const
+    [
+      PROFILE_KEY,
+      "selectRecommendedProfiles",
+      filter.seedValue,
+      filter.userId,
+      ...(filter.languages ?? []),
+      ...(filter.skills ?? []),
+      ...(filter.positions ?? [])
+    ] as const
 } as const;

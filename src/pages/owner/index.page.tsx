@@ -22,29 +22,26 @@ const Owner = ({ user }: { user: User }) => {
       <Styled.Container>
         <Styled.FilterList>
           <Styled.TypeButton
-            isSelected={app.filter.positions.length > 0}
+            isSelected={app.filter.languages.length > 0}
             onClick={() =>
               app.mount(
                 <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">어떤 포지션의 팀원을 원하시나요?</Text>
-
-                    <Text size="paragraph3">
-                      필요한 포지션을 선택해주세요! 여러개 선택 가능해요.
-                    </Text>
+                    <Text size="heading4">어떤 주요 언어가 필요한가요?</Text>
+                    <Text size="paragraph3">프로젝트에 필요한 주요 언어를 선택해주세요!</Text>
                   </FlexColumn>
 
                   <SizeBox height={52} />
 
                   <Flex gap={12} wrap="wrap">
-                    {app.constants.positions.map((position) => (
+                    {app.constants.languages.map((language) => (
                       <SelectChip
-                        key={position.id}
-                        value={position.id}
+                        key={language.id}
+                        value={language.id}
                         color="backgroundPrimary"
-                        {...app.register("positions")}
+                        {...app.register("languages")}
                       >
-                        {position[currentLanguage]}
+                        {language.name}
                       </SelectChip>
                     ))}
                   </Flex>
@@ -53,7 +50,7 @@ const Owner = ({ user }: { user: User }) => {
 
                   <Button>확인</Button>
                 </Styled.FilterContainer>,
-                { id: "selectPositions", type: "bottom" }
+                { id: "selectLanguages", type: "bottom" }
               )
             }
           >
@@ -102,26 +99,29 @@ const Owner = ({ user }: { user: User }) => {
           </Styled.TypeButton>
 
           <Styled.TypeButton
-            isSelected={app.filter.languages.length > 0}
+            isSelected={app.filter.positions.length > 0}
             onClick={() =>
               app.mount(
                 <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">어떤 주요 언어가 필요한가요?</Text>
-                    <Text size="paragraph3">프로젝트에 필요한 주요 언어를 선택해주세요!</Text>
+                    <Text size="heading4">어떤 포지션의 팀원을 원하시나요?</Text>
+
+                    <Text size="paragraph3">
+                      필요한 포지션을 선택해주세요! 여러개 선택 가능해요.
+                    </Text>
                   </FlexColumn>
 
                   <SizeBox height={52} />
 
                   <Flex gap={12} wrap="wrap">
-                    {app.constants.languages.map((language) => (
+                    {app.constants.positions.map((position) => (
                       <SelectChip
-                        key={language.id}
-                        value={language.id}
+                        key={position.id}
+                        value={position.id}
                         color="backgroundPrimary"
-                        {...app.register("languages")}
+                        {...app.register("positions")}
                       >
-                        {language.name}
+                        {position[currentLanguage]}
                       </SelectChip>
                     ))}
                   </Flex>
@@ -130,7 +130,7 @@ const Owner = ({ user }: { user: User }) => {
 
                   <Button>확인</Button>
                 </Styled.FilterContainer>,
-                { id: "selectLanguages", type: "bottom" }
+                { id: "selectPositions", type: "bottom" }
               )
             }
           >
