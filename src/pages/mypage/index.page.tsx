@@ -12,13 +12,15 @@ import { Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import { useMyPage } from "./mypage.hooks";
 import * as Styled from "./mypage.styles";
-
-export interface MyPageProps {
-  userId: string;
-}
+import type { MyPageProps } from "./mypage.types";
 
 function MyPage({ userId }: MyPageProps) {
   const { t } = useTranslation("mypage");
+
+  const PROJECT_TAB = [
+    { name: t("진행중인 프로젝트"), id: 0 },
+    { name: t("지난 프로젝트"), id: 1 }
+  ];
 
   const app = useMyPage(userId);
 
@@ -38,25 +40,29 @@ function MyPage({ userId }: MyPageProps) {
           <Text>{t("포지션 수정")}</Text>
         </Button>
 
-        <Styled.ProceedingProjectContainer>
-          <Text as="h3" size="heading3">
-            {t("진행중인 프로젝트")}
-          </Text>
-
-          {app.proceedProjects.map((project) => (
-            <ProjectCard key={project.id} projectState="proceed" project={project} />
+        <Styled.TabButtonContainer>
+          {PROJECT_TAB.map((tab) => (
+            <Text
+              key={tab.id}
+              as="button"
+              className={app.tabState === tab.id ? "clicked" : "submenu"}
+              onClick={() => app.setTabState(tab.id)}
+            >
+              {tab.name}
+            </Text>
           ))}
-        </Styled.ProceedingProjectContainer>
+          <Styled.SelectedBorder tabState={app.tabState} />
+        </Styled.TabButtonContainer>
 
-        <Styled.PreviousProjectContainer>
-          <Text as="h3" size="heading3">
-            {t("지난 프로젝트")}
-          </Text>
-
-          {app.doneProjects.map((project) => (
-            <ProjectCard key={project.id} projectState="previous" project={project} />
-          ))}
-        </Styled.PreviousProjectContainer>
+        <Styled.ProjectContainer>
+          {app.tabState === 0
+            ? app.proceedProjects.map((project) => (
+                <ProjectCard project={project} projectState="proceed" key={project.id} />
+              ))
+            : app.doneProjects.map((project) => (
+                <ProjectCard project={project} projectState="previous" key={project.id} />
+              ))}
+        </Styled.ProjectContainer>
       </Styled.Container>
     </>
   );

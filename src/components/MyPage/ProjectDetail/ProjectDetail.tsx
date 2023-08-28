@@ -21,11 +21,7 @@ export const ProjectDetail = ({ project }: ProjectDetailProps) => {
       </FlexCenter>
 
       <Styled.ChipsContainer>
-        {project.types.map((type) => (
-          <Chip bgColor="gray5" color="white" key={type.id}>
-            dd
-          </Chip>
-        ))}
+        <Chip color="white">{project.projectType.ko}</Chip>
       </Styled.ChipsContainer>
 
       <Styled.InfoContainer>
@@ -41,7 +37,7 @@ export const ProjectDetail = ({ project }: ProjectDetailProps) => {
         </Text>
         <Styled.ChipsContainer>
           {project.positions.map((position) => (
-            <Chip bgColor="gray5" color="white" key={position.id}>
+            <Chip color="white" key={position.id}>
               {position.ko}
             </Chip>
           ))}
@@ -61,7 +57,7 @@ export const ProjectDetail = ({ project }: ProjectDetailProps) => {
         </Text>
         <Styled.ChipsContainer>
           {project.languages.map((language) => (
-            <Chip bgColor="gray5" color="white" key={language.id}>
+            <Chip color="white" key={language.id}>
               {language.name}
             </Chip>
           ))}
@@ -74,7 +70,7 @@ export const ProjectDetail = ({ project }: ProjectDetailProps) => {
         </Text>
         <Styled.ChipsContainer>
           {project.skills.map((skill) => (
-            <Chip bgColor="gray5" color="white" key={skill.id}>
+            <Chip color="white" key={skill.id}>
               {skill.name}
             </Chip>
           ))}
