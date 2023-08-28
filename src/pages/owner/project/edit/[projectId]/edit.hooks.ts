@@ -7,13 +7,17 @@ import { useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { useBoolean } from "~/hooks";
 import { useGetConstantQuery } from "~/states/server/constant";
-import { projectsKey, useInsertProjectMutate } from "~/states/server/project";
+import {
+  projectsKey,
+  useSelectProjectQuery,
+  useUpdateProjectMutate
+} from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
 
 import type { ProjectEditForm } from "./edit.types";
 import type Create from "./index.page";
 
-export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
+export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
   const queryClient = useQueryClient();
 
   const { mount, unmount } = useModal();
@@ -22,7 +26,9 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
-  const { mutate: insertProjectMutate } = useInsertProjectMutate({
+  const { data: projectData } = useSelectProjectQuery(String(project.id));
+
+  const { mutate: updateProjectMutate } = useUpdateProjectMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
     }
@@ -38,23 +44,23 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     "projectTypes",
     "positions",
     "languages",
-    "skills"
+    "skills",
+    "areas"
   ]);
 
-  const handleCreateProject: Parameters<typeof handleSubmit>[0] = async ({
+  const handleEditProject: Parameters<typeof handleSubmit>[0] = async ({
     imageUrl: imageFile,
     startDate,
     endDate,
     ...rest
   }) => {
-    const cleanedName = rest.name.replace(/[^a-zA-Z0-9]/g, "_");
-
     const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
       file: imageFile,
-      name: `${cleanedName}_${new Date().getTime()}`
+      name: `${user.id}_${new Date().getTime()}`
     });
 
-    insertProjectMutate({
+    updateProjectMutate({
+      id: projectData.id,
       ownerId: user.id,
       startDate: startDate?.toDateString(),
       endDate: endDate?.toDateString(),
@@ -82,7 +88,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     formState,
     register,
     handleSubmit,
-    handleCreateProject,
+    handleEditProject,
     watch,
     mount,
     unmount,

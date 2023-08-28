@@ -37,7 +37,7 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
         <Text>프로젝트 생성하기</Text>
       </Styled.Header>
 
-      <Styled.Container as="form" gap={32} onSubmit={app.handleSubmit(app.handleCreateProject)}>
+      <Styled.Container as="form" gap={32} onSubmit={app.handleSubmit(app.handleEditProject)}>
         <FlexColumn gap={16}>
           <Text size="heading4">프로젝트 이미지</Text>
 
@@ -96,7 +96,7 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                 key={projectType.id}
                 value={projectType.id}
                 chipProps={{
-                  isSelected: props.project.projectType.id === projectType.id // 수정된 부분
+                  isSelected: Number(app.watch("projectType")) === projectType.id
                 }}
                 {...app.register("projectType", { required: true })}
               >
@@ -270,6 +270,24 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                 {...app.register("skills", { required: true })}
               >
                 {skill.name}
+              </CheckboxChip>
+            ))}
+          </Flex>
+        </FlexColumn>
+        <FlexColumn gap={16}>
+          <FlexColumn gap={12}>
+            <Text size="heading4">활동 지역</Text>
+            <Text size="paragraph3">프로젝트 활동 지역을 선택해주세요! 여러개 선택 가능해요.</Text>
+          </FlexColumn>
+
+          <Flex gap={12} wrap="wrap">
+            {app.constants.areas.map((area) => (
+              <CheckboxChip
+                key={area.id}
+                value={area.id}
+                {...app.register("areas", { required: true })}
+              >
+                {area[currentLanguage]}
               </CheckboxChip>
             ))}
           </Flex>
