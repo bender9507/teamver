@@ -9,9 +9,9 @@ import { useModal } from "~/components/Commons/Modal";
 import { ProjectInvite } from "~/components/ProjectInvite";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
-import { CHAT_ROOM_OUT_MODAL } from "./ChatRoom.constants";
-import { useChatRoom } from "./ChatRoom.hooks";
-import * as Styled from "./ChatRoom.styles";
+import { CHAT_ROOM_OUT_MODAL } from "./room.constants";
+import { useChatRoom } from "./room.hooks";
+import * as Styled from "./room.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
   const [message, setMessage] = useState("");
