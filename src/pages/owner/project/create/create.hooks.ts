@@ -14,6 +14,7 @@ import type Create from "./index.page";
 
 export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   const queryClient = useQueryClient();
+
   const { mount, unmount } = useModal();
   const { toast } = useDialog();
 
@@ -25,12 +26,13 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
     }
   });
-
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
-  const { register, handleSubmit, watch, control, setValue } = useForm<ProjectCreatorForm>({
-    defaultValues: { startDate: null, endDate: null }
-  });
+  const { register, handleSubmit, watch, control, setValue, formState } =
+    useForm<ProjectCreatorForm>({
+      defaultValues: { startDate: null, endDate: null },
+      mode: "all"
+    });
 
   const { data: constants } = useGetConstantQuery([
     "projectTypes",
@@ -45,8 +47,6 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     endDate,
     ...rest
   }) => {
-    console.log(rest.name);
-
     const cleanedName = rest.name.replace(/[^a-zA-Z0-9]/g, "_");
 
     const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
@@ -79,6 +79,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   return {
     control,
     constants,
+    formState,
     register,
     handleSubmit,
     handleCreateProject,
