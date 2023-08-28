@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useModal } from "~/components/Commons";
 import {
@@ -11,6 +12,7 @@ import { CARD_MODAL } from "./Card.constants";
 
 export const useCard = (project: ComponentProps<typeof Card>) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { unmount } = useModal();
 
@@ -50,5 +52,13 @@ export const useCard = (project: ComponentProps<typeof Card>) => {
     deleteProjectMutate(project.id);
   };
 
-  return { project, handleUpdateProject, handleDeleteProject };
+  const handleToEditForm = (event: React.MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+
+    unmount(CARD_MODAL);
+
+    router.push(`project/edit/${project.id}`);
+  };
+
+  return { project, handleUpdateProject, handleDeleteProject, handleToEditForm };
 };
