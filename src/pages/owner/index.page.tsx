@@ -27,8 +27,8 @@ const Owner = ({ user }: { user: User }) => {
               app.mount(
                 <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">어떤 주요 언어가 필요한가요?</Text>
-                    <Text size="paragraph3">프로젝트에 필요한 주요 언어를 선택해주세요!</Text>
+                    <Text size="heading4">{t("어떤 주요 언어가 필요한가요")}</Text>
+                    <Text size="paragraph3">{t("프로젝트에 필요한 주요 언어를 선택해주세요")}</Text>
                   </FlexColumn>
 
                   <SizeBox height={52} />
@@ -54,7 +54,7 @@ const Owner = ({ user }: { user: User }) => {
               )
             }
           >
-            주요 언어
+            {t("주요 언어")}
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
 
@@ -64,10 +64,10 @@ const Owner = ({ user }: { user: User }) => {
               app.mount(
                 <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">어떤 기술 스택이 필요한가요?</Text>
+                    <Text size="heading4">{t("어떤 기술 스택이 필요한가요")}</Text>
 
                     <Text size="paragraph3">
-                      프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요!
+                      {t("프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요")}
                     </Text>
                   </FlexColumn>
 
@@ -88,13 +88,13 @@ const Owner = ({ user }: { user: User }) => {
 
                   <SizeBox height={60} />
 
-                  <Button>확인</Button>
+                  <Button>{t("확인")}</Button>
                 </Styled.FilterContainer>,
                 { id: "selectSkills", type: "bottom" }
               )
             }
           >
-            사용 기술
+            {t("사용 기술")}
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
 
@@ -104,10 +104,10 @@ const Owner = ({ user }: { user: User }) => {
               app.mount(
                 <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">어떤 포지션의 팀원을 원하시나요?</Text>
+                    <Text size="heading4">{t("어떤 포지션의 팀원을 원하시나요")}</Text>
 
                     <Text size="paragraph3">
-                      필요한 포지션을 선택해주세요! 여러개 선택 가능해요.
+                      {t("필요한 포지션을 선택해주세요 여러개 선택 가능해요")}
                     </Text>
                   </FlexColumn>
 
@@ -128,13 +128,13 @@ const Owner = ({ user }: { user: User }) => {
 
                   <SizeBox height={60} />
 
-                  <Button>확인</Button>
+                  <Button>{t("확인")}</Button>
                 </Styled.FilterContainer>,
                 { id: "selectPositions", type: "bottom" }
               )
             }
           >
-            포지션
+            {t("포지션")}
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
         </Styled.FilterList>
