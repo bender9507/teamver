@@ -4,6 +4,8 @@ import { useLockBodyScroll } from "react-use";
 import { useImmutableState } from "~/hooks";
 import type { TinderCard } from ".";
 
+const ANIMATION_TRANSITION = 600;
+
 export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof TinderCard>) => {
   const [drag, setDrag] = useImmutableState({
     state: false,
@@ -52,7 +54,7 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
   const handleUp = () => {
     if (selectedDirection) {
       setAnimation({
-        transition: 300,
+        transition: ANIMATION_TRANSITION,
         translatePos: { x: animation.translatePos.x * 4, y: animation.translatePos.y * 4 },
         event: false
       });
@@ -66,7 +68,7 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
       }, 300);
     } else {
       setAnimation({
-        transition: 300,
+        transition: ANIMATION_TRANSITION,
         translatePos: { x: 0, y: 0 },
         rotate: 0
       });
@@ -105,13 +107,13 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
   const handleConfirm = () => {
     setAnimation({ translatePos: { x: 500, y: -100 }, rotate: 30, opacity: 0 });
 
-    setTimeout(onConfirm, 300);
+    setTimeout(onConfirm, ANIMATION_TRANSITION);
   };
 
   const handleCancel = () => {
     setAnimation({ translatePos: { x: -500, y: -100 }, rotate: -30, opacity: 0 });
 
-    setTimeout(onCancel, 300);
+    setTimeout(onCancel, ANIMATION_TRANSITION);
   };
 
   return {
