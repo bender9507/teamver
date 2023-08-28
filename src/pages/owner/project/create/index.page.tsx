@@ -142,7 +142,7 @@ const Create = (props: { user: User }) => {
           <Flex gap={12} align="center" wrap="wrap">
             <Input
               placeholder="모집 인원"
-              type="number"
+              type="string"
               maxLength={5}
               {...app.register("recruitCount", { required: true, maxLength: 5 })}
             />

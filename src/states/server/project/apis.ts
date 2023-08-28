@@ -80,6 +80,12 @@ export const insertProject = async ({
   await Promise.all(tasks);
 };
 
+export const deleteProject = async (projectId: number) => {
+  const { error } = await supabase.from("projects").delete().eq("id", projectId);
+
+  if (error) throw error;
+};
+
 export const updateProject = async ({
   skills,
   languages,
