@@ -19,8 +19,8 @@ export type FollowProjectInsert = Table["followProject"]["Insert"];
 
 export type ProjectMembersRow = Table["projectMembers"]["Row"];
 
-export type ProjectAllDataRow = ProjectDataRow & {
-  types: ConstantProjectTypeRow[];
+export type ProjectAllDataRow = Omit<ProjectDataRow, "projectType"> & {
+  projectType: ConstantProjectTypeRow;
   skills: ConstantSkillRow[];
   positions: ConstantPositionRow[];
   languages: ConstantLanguageRow[];
