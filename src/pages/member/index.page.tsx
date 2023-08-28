@@ -9,7 +9,7 @@ import {
   IconButton,
   PROJECT_DETAIL_MODAL,
   ProjectDetail,
-  RadioChip,
+  SelectChip,
   TinderCard
 } from "~/components/Commons";
 import { MemberNavbarLayout } from "~/components/Layouts";
@@ -44,19 +44,25 @@ const Member = (props: { user: User }) => {
                   <SizeBox height={50} />
 
                   <Flex gap={12} wrap="wrap">
-                    <RadioChip {...app.register("projectType")} color="backgroundPrimary" value="">
+                    <SelectChip
+                      type="radio"
+                      value=""
+                      color="backgroundPrimary"
+                      {...app.register("projectType")}
+                    >
                       {t("전체")}
-                    </RadioChip>
+                    </SelectChip>
 
                     {app.constants.projectTypes.map((projectType) => (
-                      <RadioChip
-                        {...app.register("projectType")}
+                      <SelectChip
                         key={projectType.id}
-                        color="backgroundPrimary"
+                        type="radio"
                         value={projectType.id}
+                        color="backgroundPrimary"
+                        {...app.register("projectType")}
                       >
                         {projectType[currentLanguage]}
-                      </RadioChip>
+                      </SelectChip>
                     ))}
                   </Flex>
 

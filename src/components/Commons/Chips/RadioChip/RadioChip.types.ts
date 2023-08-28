@@ -1,6 +1,6 @@
-import type { ColorsKey, SizesKey } from "~/styles/theme";
+import type { ComponentProps } from "react";
+import type { Chip } from "..";
 
 export interface RadioChipProps {
-  color?: ColorsKey;
-  size?: SizesKey;
+  chipProps?: ComponentProps<typeof Chip>;
 }
