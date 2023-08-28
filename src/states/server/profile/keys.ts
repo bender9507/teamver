@@ -12,8 +12,8 @@ export const profileKeys = {
       "selectRecommendedProfiles",
       filter.seedValue,
       filter.userId,
-      ...(filter.languages ?? []),
-      ...(filter.skills ?? []),
-      ...(filter.positions ?? [])
+      ...filter.languages,
+      ...filter.skills,
+      ...filter.positions
     ] as const
 } as const;

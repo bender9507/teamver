@@ -19,8 +19,6 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
     skills: []
   });
 
-  console.log(filter);
-
   const { register, handleSubmit, watch } = useForm<FilterForm>();
 
   const { mount, unmount } = useModal();
@@ -52,8 +50,8 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
     setSelectedProfiles({ [profileId]: true });
   };
 
-  const handleChangeFilter = handleSubmit((filter) => {
-    setFilter(filter);
+  const handleChangeFilter = handleSubmit(({ languages, skills, positions }) => {
+    setFilter({ languages: languages ?? [], skills: skills ?? [], positions: positions ?? [] });
 
     unmount("selectPositions");
     unmount("selectLanguages");
