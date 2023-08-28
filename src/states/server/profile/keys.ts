@@ -14,6 +14,7 @@ export const profileKeys = {
       filter.userId,
       ...filter.languages,
       ...filter.skills,
-      ...filter.positions
+      ...filter.positions,
+      ...filter.areas
     ] as const
 } as const;

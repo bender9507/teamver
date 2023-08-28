@@ -16,13 +16,14 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
   const [filter, setFilter] = useImmutableState<FilterForm>({
     positions: [],
     languages: [],
-    skills: []
+    skills: [],
+    areas: []
   });
 
   const { register, handleSubmit, watch } = useForm<FilterForm>();
 
   const { mount, unmount } = useModal();
-  const { data: constants } = useGetConstantQuery(["positions", "skills", "languages"]);
+  const { data: constants } = useGetConstantQuery(["positions", "skills", "languages", "areas"]);
   const { data: randomProfiles, fetchNextPage } = useSelectRecommendedProfilesQuery({
     seedValue: SEED,
     userId: user.id,
@@ -50,8 +51,13 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
     setSelectedProfiles({ [profileId]: true });
   };
 
-  const handleChangeFilter = handleSubmit(({ languages, skills, positions }) => {
-    setFilter({ languages: languages ?? [], skills: skills ?? [], positions: positions ?? [] });
+  const handleChangeFilter = handleSubmit(({ languages, skills, positions, areas }) => {
+    setFilter({
+      languages: languages || [],
+      skills: skills || [],
+      positions: positions || [],
+      areas: areas || []
+    });
 
     unmount("selectPositions");
     unmount("selectLanguages");

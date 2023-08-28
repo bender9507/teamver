@@ -6,7 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Button, Icon, IconButton, SelectChip, TinderCard } from "~/components/Commons";
 import { OwnerNavbarLayout } from "~/components/Layouts";
 import { routes } from "~/constants/routes";
-import { Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useOwner } from "./owner.hook";
 import * as Styled from "./owner.styles";
@@ -135,6 +135,46 @@ const Owner = ({ user }: { user: User }) => {
             }
           >
             {t("포지션")}
+            <Icon name="arrowDown" width={20} height={20} />
+          </Styled.TypeButton>
+
+          <Styled.TypeButton
+            isSelected={app.filter.areas.length > 0}
+            onClick={() =>
+              app.mount(
+                <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
+                  <FlexColumn gap={12}>
+                    <Text size="heading4">{t("프로젝트 활동 지역이 어디인가요")}</Text>
+
+                    <Text size="paragraph3">
+                      {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
+                    </Text>
+                  </FlexColumn>
+
+                  <SizeBox height={52} />
+
+                  <Grid gap={12} column={5}>
+                    {app.constants.areas.map((area) => (
+                      <SelectChip
+                        key={area.id}
+                        value={area.id}
+                        color="backgroundPrimary"
+                        {...app.register("areas")}
+                      >
+                        {area[currentLanguage]}
+                      </SelectChip>
+                    ))}
+                  </Grid>
+
+                  <SizeBox height={60} />
+
+                  <Button>확인</Button>
+                </Styled.FilterContainer>,
+                { id: "selectLanguages", type: "bottom" }
+              )
+            }
+          >
+            {t("활동 지역")}
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
         </Styled.FilterList>
