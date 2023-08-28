@@ -15,19 +15,19 @@ export const Confirm = ({
   return (
     <Dialogs {...props}>
       {title && (
-        <Text as="h3" size="heading4">
+        <Text as="h3" size="heading4" color="backgroundSecondary">
           {title}
         </Text>
       )}
 
-      <Text as="p" color="content1">
+      <Text as="span" color="content1">
         {message}
       </Text>
 
       <Flex gap={8}>
-        <Button onClick={onConfirm}>{confirmLabel}</Button>
-
         <Button onClick={onCancel}>{cancelLabel}</Button>
+
+        <Button onClick={onConfirm}>{confirmLabel}</Button>
       </Flex>
     </Dialogs>
   );

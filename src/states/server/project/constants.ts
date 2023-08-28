@@ -9,5 +9,3 @@ export const PROJECT_ALL_DATA_QUERY = `
     ${PROFILE_ALL_DATA_QUERY}
     ))
     `;
-
-// types:projectTypes!inner(...constantProjectTypes(*)),

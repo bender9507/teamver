@@ -2,8 +2,14 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { flex } from "~/styles/mixins";
 
-export const ChatRoomsTitleBox = styled.div`
-  ${flex({ justify: "between", align: "center" })}
+export const ChatRoomTopBar = styled.div`
+  ${flex({ align: "center", justify: "between" })}
+
+  padding: 14px 34px;
+`;
+
+export const ChatRoomsRequestButtonBox = styled.div`
+  ${flex({ justify: "end" })}
 
   width: 100%;
 

@@ -4,28 +4,43 @@ import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
 import { ChatRoomOut } from "~/components/ChatRoomOut";
-import { Avatar, Button, Input, PreviousButton } from "~/components/Commons";
+import { Avatar, Button, Input, PreviousButton, useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { ProjectInvite } from "~/components/ProjectInvite";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
-import { CHAT_ROOM_OUT_MODAL, PROJECT_INVITE_MODAL } from "./ChatRoom.constants";
+import { CHAT_ROOM_OUT_MODAL } from "./ChatRoom.constants";
 import { useChatRoom } from "./ChatRoom.hooks";
 import * as Styled from "./ChatRoom.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
   const [message, setMessage] = useState("");
+  const [selectedProjectId, setSelectedProjectId] = useState<number>(0);
 
   const { mount } = useModal();
 
+  const { confirm } = useDialog();
+
   const app = useChatRoom(user.id, roomId, message, setMessage);
 
-  const handleOpenProjectInviteModal = () => {
-    mount(<ProjectInvite ownerId={user.id} />, { id: PROJECT_INVITE_MODAL });
+  const handleOpenProjectInviteConfirm = () => {
+    confirm({
+      title: "어떤 프로젝트에 초대할까요",
+      confirmLabel: "초대하기",
+      message: <ProjectInvite ownerId={user.id} onProjectSelect={setSelectedProjectId} />
+    }).then((confirmed) => {
+      if (confirmed && selectedProjectId !== 0) {
+        app.InsertProjectInviteMutateAsync({
+          projectId: selectedProjectId,
+          receiverId: app.memberId,
+          requesterId: user.id
+        });
+      }
+    });
   };
 
   const handleOpenChatRoomOutModal = () => {
-    mount(<ChatRoomOut />, { id: CHAT_ROOM_OUT_MODAL });
+    mount(<ChatRoomOut roomId={roomId} userId={user.id} />, { id: CHAT_ROOM_OUT_MODAL });
   };
 
   return (
@@ -38,7 +53,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         </FlexCenter>
 
         <FlexCenter gap={20}>
-          <Button onClick={handleOpenProjectInviteModal}>{app.t("팀원으로초대하기")}</Button>
+          <Button onClick={handleOpenProjectInviteConfirm}>{app.t("팀원으로초대하기")}</Button>
           <Button onClick={handleOpenChatRoomOutModal}>{app.t("•••")}</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>

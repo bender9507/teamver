@@ -25,6 +25,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
     }
   });
+
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
   const { register, handleSubmit, watch, control, setValue } = useForm<ProjectCreatorForm>({

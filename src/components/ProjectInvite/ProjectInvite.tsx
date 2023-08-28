@@ -1,26 +1,40 @@
-import { useTranslation } from "next-i18next";
-import { Flex, FlexCenter, Text } from "~/styles/mixins";
+import { useState } from "react";
+import type { ProjectAllDataRow } from "~/states/server/project";
+import { Text } from "~/styles/mixins";
 import { Avatar, Icon } from "../Commons";
 import { useProjectInvite } from "./ProjectInvite.hooks";
+import * as Styled from "./ProjectInvite.styles";
 
-export const ProjectInvite = ({ ownerId }: { ownerId: string }) => {
-  const { t } = useTranslation("project");
+export const ProjectInvite = ({
+  ownerId,
+  onProjectSelect
+}: {
+  ownerId: string;
+  onProjectSelect: (projectId: number) => void;
+}) => {
+  const [localSelectedProjectId, setLocalSelectedProjectId] = useState<number | null>(null);
+
   const app = useProjectInvite(ownerId);
-  console.log("프로젝트", app);
+
+  const handleProjectSelect = (project: ProjectAllDataRow) => {
+    setLocalSelectedProjectId(project.id);
+    onProjectSelect(project.id);
+  };
 
   return (
-    <FlexCenter direction="column" gap={37}>
-      <Text>{t("어떤 프로젝트에 초대할까요")}</Text>
+    <Styled.ProjectListWrapper>
+      {app.projects.map((project) => (
+        <Styled.ProjectListBox key={project.id} onClick={() => handleProjectSelect(project)}>
+          <Icon
+            name="success"
+            color={localSelectedProjectId === project.id ? "tertiary" : "gray2"}
+          />
 
-      <Flex direction="column" gap={25}>
-        {app.projects.map((project) => (
-          <Flex align="center" gap={12}>
-            <Icon name="success" color="gray2" />
-            <Avatar src={project.imageUrl} size="small" />
-            <Text key={project.id}>{project.name}</Text>
-          </Flex>
-        ))}
-      </Flex>
-    </FlexCenter>
+          <Avatar src={project.imageUrl} size="small" />
+
+          <Text color="gray5">{project.name}</Text>
+        </Styled.ProjectListBox>
+      ))}
+    </Styled.ProjectListWrapper>
   );
 };

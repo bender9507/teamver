@@ -7,6 +7,7 @@ import {
 } from "~/states/server/chat";
 import type { ChatMessageRow } from "~/states/server/chat/types";
 import { supabase } from "~/states/server/config";
+import { useInsertProjectInviteMutate } from "~/states/server/project";
 
 export const useChatRoom = (
   userId: string,
@@ -22,11 +23,15 @@ export const useChatRoom = (
 
   const { mutateAsync: InsertChatMessageMutateAsync } = useInsertChatMessageMutate();
 
+  const { mutateAsync: InsertProjectInviteMutateAsync } = useInsertProjectInviteMutate();
+
   const { data: memberData } = useSelectChatRoomsQuery(userId);
 
   const currentRoomMember = memberData?.find((room) => room.id === roomId)?.members[0];
 
   const memberName = currentRoomMember?.name || "";
+
+  const memberId = currentRoomMember?.id || "";
 
   const memberImageUrl = currentRoomMember?.imageUrl || "";
 
@@ -95,5 +100,14 @@ export const useChatRoom = (
     };
   }, [roomId, messageData]);
 
-  return { t, formattedMessages, memberName, memberImageUrl, handleSubmitMessage, memberData };
+  return {
+    t,
+    memberId,
+    memberData,
+    memberName,
+    memberImageUrl,
+    formattedMessages,
+    handleSubmitMessage,
+    InsertProjectInviteMutateAsync
+  };
 };

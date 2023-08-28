@@ -3,8 +3,8 @@ import type { User } from "@supabase/supabase-js";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Avatar, Button } from "~/components/Commons";
-import { FlexCenter, FlexColumn, Text } from "~/styles/mixins";
+import { Avatar, Button, PreviousButton } from "~/components/Commons";
+import { FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import { useSelectChatRooms } from "./chat.hooks";
 import * as Styled from "./chat.styles";
@@ -16,14 +16,14 @@ const Chat = ({ user }: { user: User }) => {
 
   return (
     <FlexColumn>
-      <FlexCenter>
+      <Styled.ChatRoomTopBar>
+        <PreviousButton />
         <Text>{t("채팅")}</Text>
-      </FlexCenter>
+      </Styled.ChatRoomTopBar>
 
-      <Styled.ChatRoomsTitleBox>
-        <Text>{t("채팅")}</Text>
+      <Styled.ChatRoomsRequestButtonBox>
         <Button onClick={app.handleRequestClick}>{t("요청")}</Button>
-      </Styled.ChatRoomsTitleBox>
+      </Styled.ChatRoomsRequestButtonBox>
 
       <Styled.ChatRoomsWrapper>
         {app.rooms && app.rooms.length > 0 ? (
