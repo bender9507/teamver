@@ -5,6 +5,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { Controller } from "react-hook-form";
 import {
   Button,
@@ -169,12 +170,20 @@ const Create = (props: { user: User }) => {
                   name="startDate"
                   control={app.control}
                   render={({ field: { onChange } }) => (
-                    <Calendar
-                      onChange={(date) => {
-                        app.setStartDateIsOpen.off();
-                        onChange(date);
-                      }}
-                    />
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        formatDay={(locale, date) => dayjs(date).format("D")}
+                        onChange={(date) => {
+                          app.setStartDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
                   )}
                 />
               )}
@@ -199,12 +208,19 @@ const Create = (props: { user: User }) => {
                   name="endDate"
                   control={app.control}
                   render={({ field: { onChange } }) => (
-                    <Calendar
-                      onChange={(date) => {
-                        app.setEndDateIsOpen.off();
-                        onChange(date);
-                      }}
-                    />
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        onChange={(date) => {
+                          app.setEndDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
                   )}
                 />
               )}

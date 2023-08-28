@@ -59,3 +59,73 @@ export const ImageUploadButton = styled.div`
 
   border-radius: 50%;
 `;
+export const CalendarWrapper = styled.div`
+  ${flex.column({ align: "center" })};
+
+  padding: 10px 0;
+
+  .react-calendar {
+    ${size({ width: "85%" })};
+    /* width: 100%;
+    max-width: 100%; */
+    ${({ theme: { colors } }) => css`
+      background-color: ${colors.black};
+    `} /* your custom styles here */
+    border: none;
+  }
+  .react-calendar__navigation__label > span {
+    ${({ theme: { colors } }) => css`
+      color: ${colors.white};
+    `}
+
+    font-size: 1rem;
+  }
+  .react-calendar__navigation button {
+    ${({ theme: { colors } }) => css`
+      color: ${colors.white};
+    `}
+  }
+  .react-calendar__navigation button:enabled:hover,
+  .react-calendar__navigation button:enabled:focus {
+    ${({ theme: { colors } }) => css`
+      background-color: ${colors.black};
+    `}
+  }
+
+  .react-calendar__month-view__weekdays {
+    abbr {
+      ${({ theme: { colors } }) => css`
+        color: ${colors.gray1};
+      `}
+
+      /* font-size: 1rem; */
+      font-weight: 300;
+    }
+  }
+
+  .react-calendar__tile--now {
+    ${({ theme: { colors } }) => css`
+      background-color: ${colors.black};
+    `}
+  }
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus {
+    ${({ theme: { colors } }) => css`
+      color: ${colors.black};
+    `}
+  }
+  .react-calendar__tile {
+    ${({ theme: { colors } }) => css`
+      color: ${colors.gray3};
+      background-color: ${colors.black};
+    `}
+  }
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    ${({ theme: { colors } }) => css`
+      color: ${colors.black};
+      background-color: ${colors.primary};
+    `}
+    border-radius: 10px;
+  }
+`;
