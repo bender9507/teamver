@@ -136,20 +136,25 @@ const Member = (props: { user: User }) => {
 
                       <Text size="heading4">{project.name}</Text>
 
-                      <Text size="paragraph3" color="gray1">
-                        {project.description}
-                      </Text>
+                      <Flex align="end" justify="between" gap={18}>
+                        <Text size="paragraph3" color="gray1" lineClamp={2}>
+                          {project.description}
+                        </Text>
 
-                      <IconButton
-                        name="chat"
-                        color="white"
-                        onClick={() =>
-                          app.mount(<ProjectDetail project={project} profile={app.profile} />, {
-                            id: PROJECT_DETAIL_MODAL,
-                            type: "bottom"
-                          })
-                        }
-                      />
+                        <IconButton
+                          name="upButton"
+                          width={26}
+                          height={26}
+                          color="white"
+                          onClick={() =>
+                            app.mount(<ProjectDetail project={project} profile={app.profile} />, {
+                              id: PROJECT_DETAIL_MODAL,
+                              type: "bottom"
+                            })
+                          }
+                          style={{ flexShrink: 0 }}
+                        />
+                      </Flex>
                     </FlexColumn>
                   </Styled.Content>
                 </TinderCard>

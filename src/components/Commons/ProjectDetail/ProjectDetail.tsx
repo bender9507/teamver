@@ -60,7 +60,7 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="heading4">{t("모집 포지션")}</Text>
 
-            <Flex gap={12}>
+            <Flex gap={12} wrap="wrap">
               {project.positions.map((position) => (
                 <Chip
                   key={position.id}
@@ -76,7 +76,7 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="heading4">{t("주요 언어")}</Text>
 
-            <Flex gap={12}>
+            <Flex gap={12} wrap="wrap">
               {project.languages.map((language) => (
                 <Chip
                   key={language.id}
@@ -92,7 +92,7 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="heading4">{t("기술 스택")}</Text>
 
-            <Flex gap={12}>
+            <Flex gap={12} wrap="wrap">
               {project.skills.map((skill) => (
                 <Chip
                   key={skill.id}
