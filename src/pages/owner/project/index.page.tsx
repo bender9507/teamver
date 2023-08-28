@@ -11,7 +11,6 @@ import * as Styled from "./project.styles";
 
 const Project = ({ user }: { user: User }) => {
   const app = useProject(user.id);
-  console.log(app.profile);
 
   return (
     <>

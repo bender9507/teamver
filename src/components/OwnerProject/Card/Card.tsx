@@ -6,7 +6,7 @@ import * as Styled from "./Card.styles";
 
 export const Card = (project: ProjectDataRow) => {
   const app = useCard(project);
-  console.log(app);
+
   return (
     <Flex gap={18}>
       <div>

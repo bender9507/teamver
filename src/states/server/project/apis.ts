@@ -64,8 +64,6 @@ export const insertProject = async ({
     .select("*")
     .returns<ProjectDataRow[]>();
 
-  console.log(data);
-
   if (error) throw Error("프로젝트 생성에 실패하였습니다.");
 
   const mapping = {
