@@ -38,7 +38,8 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     "projectTypes",
     "positions",
     "languages",
-    "skills"
+    "skills",
+    "areas"
   ]);
 
   const handleCreateProject: Parameters<typeof handleSubmit>[0] = async ({

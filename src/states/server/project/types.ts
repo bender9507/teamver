@@ -1,5 +1,6 @@
 import type { Database } from "~/types/database";
 import type {
+  ConstantAreaRow,
   ConstantLanguageRow,
   ConstantPositionRow,
   ConstantProjectTypeRow,
@@ -22,6 +23,7 @@ export type ProjectMembersRow = Table["projectMembers"]["Row"];
 export type ProjectAllDataRow = Omit<ProjectDataRow, "projectType"> & {
   projectType: ConstantProjectTypeRow;
   ownerProfile: ProfileRow;
+  areas: ConstantAreaRow[];
   skills: ConstantSkillRow[];
   positions: ConstantPositionRow[];
   languages: ConstantLanguageRow[];

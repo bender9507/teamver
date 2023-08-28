@@ -36,13 +36,15 @@ export const useCard = (project: ComponentProps<typeof Card>) => {
     const skills = project.skills.map((skill) => skill.id);
     const languages = project.languages.map((language) => language.id);
     const positions = project.positions.map((position) => position.id);
+    const areas = project.areas.map((area) => area.id);
 
     updateProjectMutate({
       id: project.id,
       state: newState,
       skills,
       languages,
-      positions
+      positions,
+      areas
     });
   };
 

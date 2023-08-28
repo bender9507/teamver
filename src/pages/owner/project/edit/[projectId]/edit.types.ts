@@ -1,4 +1,5 @@
 import type {
+  ConstantAreaRow,
   ConstantLanguageRow,
   ConstantPositionRow,
   ConstantProjectTypeRow,
@@ -13,6 +14,7 @@ export interface ProjectEditForm {
   recruitCount: string;
   languages: ConstantLanguageRow["id"][];
   skills: ConstantSkillRow["id"][];
+  areas: ConstantAreaRow["id"][];
   imageUrl: File;
   startDate: Date | null;
   endDate: Date | null;

@@ -8,7 +8,12 @@ import type {
   ProjectInviteInsert
 } from ".";
 import { supabase } from "../config";
-import type { ConstantLanguageRow, ConstantPositionRow, ConstantSkillRow } from "../constant";
+import type {
+  ConstantAreaRow,
+  ConstantLanguageRow,
+  ConstantPositionRow,
+  ConstantSkillRow
+} from "../constant";
 import { PROJECT_ALL_DATA_QUERY } from "./constants";
 
 export const selectProject = async (projectId: string) => {
@@ -52,8 +57,10 @@ export const insertProject = async ({
   skills,
   languages,
   positions,
+  areas,
   ...projectData
 }: ProjectDataInsert & {
+  areas: ConstantAreaRow["id"][];
   skills: ConstantSkillRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
@@ -70,7 +77,8 @@ export const insertProject = async ({
     projectLanguages: languages.map((id) => ({ languageId: id, projectId: data[0].id })),
     projectMembers: [{ memberId: projectData.ownerId, projectId: data[0].id }],
     projectPositions: positions.map((id) => ({ positionId: id, projectId: data[0].id })),
-    projectSkills: skills.map((id) => ({ skillId: id, projectId: data[0].id }))
+    projectSkills: skills.map((id) => ({ skillId: id, projectId: data[0].id })),
+    projectAreas: areas.map((id) => ({ areaId: id, projectId: data[0].id }))
   };
   const tasks = Object.entries(mapping).map(async ([table, data]) => {
     const { error } = await supabase.from(table).insert(data);
@@ -90,9 +98,11 @@ export const updateProject = async ({
   skills,
   languages,
   positions,
+  areas,
   ...projectData
 }: Omit<ProjectDataUpdate, "id"> & {
   id: number;
+  areas: ConstantAreaRow["id"][];
   skills: ConstantSkillRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
@@ -104,7 +114,8 @@ export const updateProject = async ({
   const mappings = {
     projectLanguages: languages.map((id) => ({ languageId: id, projectId: projectData.id })),
     projectPositions: positions.map((id) => ({ positionId: id, projectId: projectData.id })),
-    projectSkills: skills.map((id) => ({ skillId: id, projectId: projectData.id }))
+    projectSkills: skills.map((id) => ({ skillId: id, projectId: projectData.id })),
+    projectAreas: areas.map((id) => ({ areaId: id, projectId: projectData.id }))
   };
 
   const tasks = Object.entries(mappings).map(async ([table, data]) => {

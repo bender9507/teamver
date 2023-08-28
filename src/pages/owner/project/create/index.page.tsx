@@ -122,6 +122,7 @@ const Create = (props: { user: User }) => {
 
         <FlexColumn gap={16}>
           <Text size="heading4">모집 포지션</Text>
+          <Text size="paragraph3">여러개 선택 가능해요.</Text>
 
           <Flex gap={12} wrap="wrap">
             {app.constants.positions.map((position) => (
@@ -232,7 +233,9 @@ const Create = (props: { user: User }) => {
         <FlexColumn gap={16}>
           <FlexColumn gap={12}>
             <Text size="heading4">주요 언어</Text>
-            <Text size="paragraph3">프로젝트에 필요한 주요 언어를 선택해주세요!</Text>
+            <Text size="paragraph3">
+              프로젝트에 필요한 주요 언어를 선택해주세요! 여러개 선택 가능해요.
+            </Text>
           </FlexColumn>
 
           <Flex gap={12} wrap="wrap">
@@ -251,7 +254,9 @@ const Create = (props: { user: User }) => {
         <FlexColumn gap={16}>
           <FlexColumn gap={12}>
             <Text size="heading4">기술 스택</Text>
-            <Text size="paragraph3">프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요!</Text>
+            <Text size="paragraph3">
+              프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요! 여러개 선택 가능해요.
+            </Text>
           </FlexColumn>
 
           <Flex gap={12} wrap="wrap">
@@ -262,6 +267,25 @@ const Create = (props: { user: User }) => {
                 {...app.register("skills", { required: true })}
               >
                 {skill.name}
+              </CheckboxChip>
+            ))}
+          </Flex>
+        </FlexColumn>
+
+        <FlexColumn gap={16}>
+          <FlexColumn gap={12}>
+            <Text size="heading4">활동 지역</Text>
+            <Text size="paragraph3">프로젝트 활동 지역을 선택해주세요! 여러개 선택 가능해요.</Text>
+          </FlexColumn>
+
+          <Flex gap={12} wrap="wrap">
+            {app.constants.areas.map((area) => (
+              <CheckboxChip
+                key={area.id}
+                value={area.id}
+                {...app.register("areas", { required: true })}
+              >
+                {area[currentLanguage]}
               </CheckboxChip>
             ))}
           </Flex>
