@@ -50,12 +50,3 @@ export const useSelectRecommendedProjectsQuery = (
     getNextPageParam: (page) => page.nextPage
   });
 };
-// export const useSelectRecommendedProjectsQuery = (
-//   filter: Parameters<typeof selectRecommendedProjects>[0]
-// ) => {
-//   return useQuery({
-//     queryKey: projectsKey.selectRecommendedProjects(filter),
-//     queryFn: () => selectRecommendedProjects(filter),
-//     initialData: []
-//   });
-// };

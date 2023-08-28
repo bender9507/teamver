@@ -129,3 +129,32 @@ export const checkNameValidation = async (nickname: string) => {
 
   return !data;
 };
+
+export const selectRecommendedProfiles = async ({
+  seedValue,
+  userId,
+  pageParam = 0,
+  limit = 10
+}: {
+  seedValue: number;
+  userId: string;
+  pageParam?: number;
+  limit?: number;
+}) => {
+  const query = supabase
+    .rpc("select_recommended_profiles", { seedValue, userId })
+    .neq("id", userId);
+
+  // if (projectType) {
+  //   query = query.eq("projectType", projectType);
+  // }
+
+  const { data, error } = await query
+    .range(pageParam * limit, (pageParam + 1) * limit - 1)
+    .select(`*, ${PROFILE_ALL_DATA_QUERY}`)
+    .returns<ProfileAllDataRow[]>();
+
+  if (error) throw error;
+
+  return { data, nextPage: data.length === limit ? pageParam + 1 : undefined };
+};
