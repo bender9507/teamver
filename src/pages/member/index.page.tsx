@@ -35,15 +35,17 @@ const Member = (props: { user: User }) => {
               app.mount(
                 <FlexColumn as="form" onSubmit={app.handleSubmit(app.handleChangeProjectType)}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">어떤 프로젝트를 찾으시나요?</Text>
-                    <Text size="paragraph3">도전해보고 싶은 프로젝트 타입을 선택해주세요!</Text>
+                    <Text size="heading4">{t("어떤 프로젝트를 찾으시나요")}</Text>
+                    <Text size="paragraph3">
+                      {t("도전해보고 싶은 프로젝트 타입을 선택해주세요")}
+                    </Text>
                   </FlexColumn>
 
                   <SizeBox height={50} />
 
                   <Flex gap={12} wrap="wrap">
                     <RadioChip {...app.register("projectType")} color="backgroundPrimary" value="">
-                      전체
+                      {t("전체")}
                     </RadioChip>
 
                     {app.constants.projectTypes.map((projectType) => (
@@ -60,13 +62,13 @@ const Member = (props: { user: User }) => {
 
                   <SizeBox height={60} />
 
-                  <Button>확인</Button>
+                  <Button>{t("확인")}</Button>
                 </FlexColumn>,
                 { id: "selectProjectType", type: "bottom" }
               )
             }
           >
-            프로젝트 타입
+            {t("프로젝트 타입")}
             <Icon name="arrowDown" width={20} height={20} />
           </Styled.TypeButton>
         </Flex>
