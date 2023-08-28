@@ -33,14 +33,9 @@ export type ProfileLanguageInsert = ProfileLanguageTable["Insert"];
 export type ProfileAreaTable = Table["profileAreas"];
 export type ProfileAreaInsert = ProfileAreaTable["Insert"];
 
-<<<<<<< HEAD
-export type ProfileAllDataRow = ProfileRow & {
-  roles: ConstantRoleRow[];
-=======
 export type ProfileAllDataRow = Omit<ProfileRow, "role" | "job"> & {
   role: ConstantRoleRow;
   job: ConstantJobRow;
->>>>>>> 6fc8128c2d6f366d34ba301c15f55efec746ef2e
   languages: ConstantLanguageRow[];
   skills: ConstantSkillRow[];
   areas: ConstantAreaRow[];
