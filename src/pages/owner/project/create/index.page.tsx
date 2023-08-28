@@ -5,6 +5,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { Controller } from "react-hook-form";
 import {
   Button,
@@ -23,6 +24,7 @@ import * as Styled from "./create.styles";
 
 const Create = (props: { user: User }) => {
   const app = useCreate(props);
+
   const { t, i18n } = useTranslation("projectCreate");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -71,7 +73,11 @@ const Create = (props: { user: User }) => {
           <Text size="heading4">프로젝트 이름</Text>
 
           <FlexColumn gap={8}>
-            <Input placeholder="프로젝트 이름" {...app.register("name", { required: true })} />
+            <Input
+              placeholder="프로젝트 이름"
+              maxLength={16}
+              {...app.register("name", { required: true, maxLength: 16 })}
+            />
 
             <Styled.Desc size="paragraph3" color="gray4">
               최대 16자
@@ -137,7 +143,8 @@ const Create = (props: { user: User }) => {
             <Input
               placeholder="모집 인원"
               type="number"
-              {...app.register("recruitCount", { required: true })}
+              maxLength={5}
+              {...app.register("recruitCount", { required: true, maxLength: 5 })}
             />
             <Text>명</Text>
           </Flex>
@@ -164,12 +171,20 @@ const Create = (props: { user: User }) => {
                   name="startDate"
                   control={app.control}
                   render={({ field: { onChange } }) => (
-                    <Calendar
-                      onChange={(date) => {
-                        app.setStartDateIsOpen.off();
-                        onChange(date);
-                      }}
-                    />
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        formatDay={(locale, date) => dayjs(date).format("D")}
+                        onChange={(date) => {
+                          app.setStartDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
                   )}
                 />
               )}
@@ -194,12 +209,19 @@ const Create = (props: { user: User }) => {
                   name="endDate"
                   control={app.control}
                   render={({ field: { onChange } }) => (
-                    <Calendar
-                      onChange={(date) => {
-                        app.setEndDateIsOpen.off();
-                        onChange(date);
-                      }}
-                    />
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        onChange={(date) => {
+                          app.setEndDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
                   )}
                 />
               )}
@@ -247,7 +269,9 @@ const Create = (props: { user: User }) => {
 
         <SizeBox height={32} />
 
-        <Button>저장</Button>
+        <Button type="submit" disabled={!app.formState.isValid}>
+          저장
+        </Button>
       </Styled.Container>
     </>
   );

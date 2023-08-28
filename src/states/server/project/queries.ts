@@ -16,25 +16,23 @@ export const useSelectProjectQuery = (projectId: string) => {
   });
 };
 
-export const useSelectOwnerProjectsQuery = (myId?: string) => {
+export const useSelectOwnerProjectsQuery = (myId: string) => {
   return useQuery({
     queryKey: projectsKey.selectOwnerProjects(myId),
     queryFn: () => selectOwnerProjects(myId),
-    initialData: [],
-    enabled: !!myId
+    initialData: []
   });
 };
 
-export const useSelectMemberProjectsQuery = (myId?: string) => {
+export const useSelectMemberProjectsQuery = (myId: string) => {
   return useQuery({
     queryKey: projectsKey.selectMemberProjects(myId),
     queryFn: () => selectMemberProjects(myId),
-    initialData: [],
-    enabled: !!myId
+    initialData: []
   });
 };
 
-export const useSelectFollowProjectsQuery = (myId?: string) => {
+export const useSelectFollowProjectsQuery = (myId: string) => {
   return useQuery({
     queryKey: projectsKey.selectFollowProjects(myId),
     queryFn: () => selectFollowProjects(myId),
