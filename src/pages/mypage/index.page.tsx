@@ -4,6 +4,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import Link from "next/link";
 import { Avatar, Button } from "~/components/Commons";
 import { ProjectCard } from "~/components/MyPage";
 import { profileKeys, selectProfile } from "~/states/server/profile";
@@ -37,7 +38,7 @@ function MyPage({ userId }: MyPageProps) {
         </Text>
 
         <Button>
-          <Text>{t("포지션 수정")}</Text>
+          <Link href="/mypage/profile/edit">{t("프로필 수정")}</Link>
         </Button>
 
         <Styled.TabButtonContainer>
