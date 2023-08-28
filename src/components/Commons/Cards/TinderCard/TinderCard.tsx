@@ -21,11 +21,17 @@ export const TinderCard = memo(({ children, ...props }: PropsWithChildren<Tinder
       <Styled.Card>{children}</Styled.Card>
 
       <Styled.SelectBox>
-        <IconButton name="close" color="gray2" width={36} height={36} onClick={app.handleCancel} />
+        <IconButton
+          name="close"
+          color={app.selectedDirection === "left" ? "primary" : "gray2"}
+          width={36}
+          height={36}
+          onClick={app.handleCancel}
+        />
 
         <IconButton
           name="bookmark"
-          color="gray2"
+          color={app.selectedDirection === "right" ? "primary" : "gray2"}
           width={36}
           height={36}
           onClick={app.handleConfirm}

@@ -113,6 +113,7 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
 
   return {
     animation,
+    selectedDirection,
     handleMouseDown,
     handleMouseMove,
     handleUp,
