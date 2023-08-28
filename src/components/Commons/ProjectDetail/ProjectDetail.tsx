@@ -34,8 +34,8 @@ export const ProjectDetail = ({
 
       <Styled.Container>
         <Flex align="center" gap={12}>
-          <Avatar src={project.imageUrl} size="small" />
-          <Text>샘플</Text>
+          <Avatar src={project.ownerProfile.imageUrl} size="small" />
+          <Text>{project.ownerProfile.name}</Text>
         </Flex>
 
         <SizeBox height={12} />
@@ -43,12 +43,18 @@ export const ProjectDetail = ({
         <FlexColumn gap={46}>
           <FlexColumn gap={16}>
             <Text size="heading4">{project.name}</Text>
-            <Text size="paragraph2">{project.description}</Text>
+
+            <Text size="paragraph2" color="content2">
+              {project.description}
+            </Text>
           </FlexColumn>
 
           <FlexColumn gap={16}>
             <Text size="heading4">{t("프로젝트 기간")}</Text>
-            <Text size="paragraph2">{project.description}</Text>
+
+            <Text size="paragraph2" color="content2">
+              {project.startDate ?? t("기간 미정")} ~ {project.endDate ?? t("기간 미정")}
+            </Text>
           </FlexColumn>
 
           <FlexColumn gap={16}>

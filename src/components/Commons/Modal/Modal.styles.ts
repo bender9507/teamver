@@ -83,7 +83,5 @@ export const Inner = styled.div<ModalStyleProps>`
 
   position: relative;
 
-  padding: 16px;
-
   overflow-y: scroll;
 `;

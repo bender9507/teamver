@@ -15,7 +15,15 @@ const notoSansKR = NotoSansKR({
   weight: ["400", "500", "700"]
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
+    }
+  }
+});
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { supabaseClient } = useApp();

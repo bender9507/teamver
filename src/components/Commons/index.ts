@@ -10,6 +10,7 @@ export * from "./Inputs";
 export { Label } from "./Label";
 export * from "./Menu";
 export { Modal, useModal } from "./Modal";
+export * from "./ProjectDetail";
 export { RatioBox } from "./RatioBox";
 export { Textarea } from "./Textarea";
 export { Toggle } from "./Toggle";

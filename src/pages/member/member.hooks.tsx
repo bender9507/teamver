@@ -5,6 +5,8 @@ import { useModal } from "~/components/Commons";
 import { useImmutableState } from "~/hooks";
 import type { ConstantProjectTypeRow } from "~/states/server/constant";
 import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectProfileQuery } from "~/states/server/profile";
+import type { ProjectAllDataRow } from "~/states/server/project";
 import {
   useInsertFollowProjectMutate,
   useSelectRecommendedProjectsQuery
@@ -20,6 +22,7 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
   const { mount, unmount } = useModal();
   const { register, handleSubmit } = useForm<{ projectType: ConstantProjectTypeRow["id"] }>();
 
+  const { data: profile } = useSelectProfileQuery(user.id);
   const { data: constants } = useGetConstantQuery(["projectTypes"]);
   const { data: randomProjects, fetchNextPage } = useSelectRecommendedProjectsQuery({
     seedValue: SEED,
@@ -34,7 +37,8 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
       randomProjects?.pages
         .map((page) => page.data)
         .flat()
-        .filter((item) => !selectedItem[Number(item.id)]) ?? [],
+        .filter((item) => !selectedItem[Number(item.id)])
+        .reverse() ?? [],
     [randomProjects?.pages, selectedItem]
   );
 
@@ -64,8 +68,14 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     }
   }, [fetchNextPage, filteredRandomProjects]);
 
+  const sample = (project: ProjectAllDataRow) => {
+    mount(<div>{project.name}</div>, { id: "projectDetail", type: "bottom" });
+  };
+
   return {
+    sample,
     mount,
+    profile,
     constants,
     randomProjects,
     fetchNextPage,

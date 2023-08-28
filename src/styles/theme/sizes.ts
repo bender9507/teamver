@@ -2,7 +2,7 @@ export const SIZE_KEY_LIST = ["small", "medium", "large"] as const;
 
 export const sizes = {
   height: {
-    small: 28,
+    small: 34,
     medium: 44,
     large: 52,
     header: 60,

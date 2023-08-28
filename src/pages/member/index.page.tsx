@@ -3,7 +3,15 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Button, Icon, RadioChip, TinderCard } from "~/components/Commons";
+import {
+  Button,
+  Icon,
+  IconButton,
+  PROJECT_DETAIL_MODAL,
+  ProjectDetail,
+  RadioChip,
+  TinderCard
+} from "~/components/Commons";
 import { MemberNavbarLayout } from "~/components/Layouts";
 import { routes } from "~/constants/routes";
 import { Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
@@ -64,38 +72,51 @@ const Member = (props: { user: User }) => {
         </Flex>
 
         <Position position="relative">
-          {app.filteredRandomProjects.reverse().map((project) => (
-            <Styled.CardContainer key={project.id}>
-              <TinderCard
-                onConfirm={() => app.handleConfirm(project.id)}
-                onCancel={() => app.handleCancel(project.id)}
-              >
-                <Styled.Profile
-                  src={project.imageUrl}
-                  alt="프로필 사진"
-                  fill
-                  sizes="100%"
-                  priority
-                />
+          {app.filteredRandomProjects.map((project) => {
+            return (
+              <Styled.CardContainer key={project.id}>
+                <TinderCard
+                  onConfirm={() => app.handleConfirm(project.id)}
+                  onCancel={() => app.handleCancel(project.id)}
+                >
+                  <Styled.Profile
+                    src={project.imageUrl}
+                    alt="프로필 사진"
+                    fill
+                    sizes="100%"
+                    priority
+                  />
 
-                <Styled.Gradient />
+                  <Styled.Gradient />
 
-                <Styled.Content>
-                  <FlexColumn gap={12}>
-                    <Flex>
-                      <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
-                    </Flex>
+                  <Styled.Content>
+                    <FlexColumn gap={12}>
+                      <Flex>
+                        <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
+                      </Flex>
 
-                    <Text size="heading4">{project.name}</Text>
+                      <Text size="heading4">{project.name}</Text>
 
-                    <Text size="paragraph3" color="gray1">
-                      {project.description}
-                    </Text>
-                  </FlexColumn>
-                </Styled.Content>
-              </TinderCard>
-            </Styled.CardContainer>
-          ))}
+                      <Text size="paragraph3" color="gray1">
+                        {project.description}
+                      </Text>
+
+                      <IconButton
+                        name="chat"
+                        color="white"
+                        onClick={() =>
+                          app.mount(<ProjectDetail project={project} profile={app.profile} />, {
+                            id: PROJECT_DETAIL_MODAL,
+                            type: "bottom"
+                          })
+                        }
+                      />
+                    </FlexColumn>
+                  </Styled.Content>
+                </TinderCard>
+              </Styled.CardContainer>
+            );
+          })}
         </Position>
       </Styled.Container>
     </MemberNavbarLayout>
