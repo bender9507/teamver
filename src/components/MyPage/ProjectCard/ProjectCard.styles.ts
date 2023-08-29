@@ -5,6 +5,9 @@ export const ProjectCard = styled.div`
   ${flex({ justify: "start", align: "center", gap: 10 })};
 
   ${size({ width: "100%" })};
+`;
+export const Image = styled.img`
+  ${size({ width: 64, height: 64 })};
 
-  padding: 10px;
+  border-radius: 7px;
 `;
