@@ -10,5 +10,5 @@ export const PROJECT_ALL_DATA_QUERY = `
   languages:projectLanguages!inner(...constantLanguages(*)),
   members:projectMembers!inner(...profiles(
     ${PROFILE_ALL_DATA_QUERY}
-  ))
- `;
+    ))
+    `;

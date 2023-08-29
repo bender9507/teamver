@@ -1,0 +1,1 @@
+export const CHAT_ROOM_OUT_MODAL = "CHAT_ROOM_OUT_MODAL";

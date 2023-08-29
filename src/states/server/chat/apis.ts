@@ -84,3 +84,13 @@ export const selectChatRooms = async (userId: string) => {
 
   return data;
 };
+
+export const deleteChatMember = async ({ roomId, userId }: { roomId: number; userId: string }) => {
+  const { error } = await supabase
+    .from("chatMembers")
+    .delete()
+    .eq("roomId", roomId)
+    .eq("userId", userId);
+
+  if (error) throw new Error("채팅방을 삭제하는데 실패하였습니다.");
+};
