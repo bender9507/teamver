@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
 import {
@@ -30,6 +31,10 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
   return (
     <>
+      <Head>
+        <title>{t("프로젝트 수정")}</title>
+      </Head>
+
       <Styled.Header>
         <PreviousButton />
         <Text>프로젝트 생성하기</Text>
