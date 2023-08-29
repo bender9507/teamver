@@ -9,12 +9,11 @@ import "react-calendar/dist/Calendar.css";
 import { Controller } from "react-hook-form";
 import {
   Button,
-  CheckboxChip,
   Icon,
   ImageUploader,
   Input,
   PreviousButton,
-  RadioChip,
+  SelectChip,
   Textarea
 } from "~/components/Commons";
 import { Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
@@ -87,19 +86,18 @@ const Create = (props: { user: User }) => {
 
         <FlexColumn gap={16}>
           <Text size="heading4">프로젝트 타입</Text>
+          <Text size="paragraph3">여러개 선택 가능해요.</Text>
 
           <Flex gap={12} wrap="wrap">
             {app.constants.projectTypes.map((projectType) => (
-              <RadioChip
+              <SelectChip
+                type="radio"
                 key={projectType.id}
                 value={projectType.id}
-                chipProps={{
-                  isSelected: Number(app.watch("projectType")) === projectType.id
-                }}
                 {...app.register("projectType", { required: true })}
               >
                 {projectType[currentLanguage]}
-              </RadioChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -126,13 +124,13 @@ const Create = (props: { user: User }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.positions.map((position) => (
-              <CheckboxChip
+              <SelectChip
                 key={position.id}
                 value={position.id}
                 {...app.register("positions", { required: true })}
               >
                 {position[currentLanguage]}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -240,13 +238,13 @@ const Create = (props: { user: User }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.languages.map((language) => (
-              <CheckboxChip
+              <SelectChip
                 key={language.id}
                 value={language.id}
                 {...app.register("languages", { required: true })}
               >
                 {language.name}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -261,13 +259,13 @@ const Create = (props: { user: User }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.skills.map((skill) => (
-              <CheckboxChip
+              <SelectChip
                 key={skill.id}
                 value={skill.id}
                 {...app.register("skills", { required: true })}
               >
                 {skill.name}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -280,13 +278,13 @@ const Create = (props: { user: User }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.areas.map((area) => (
-              <CheckboxChip
+              <SelectChip
                 key={area.id}
                 value={area.id}
                 {...app.register("areas", { required: true })}
               >
                 {area[currentLanguage]}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>

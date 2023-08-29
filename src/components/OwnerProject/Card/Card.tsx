@@ -16,8 +16,10 @@ export const Card = (project: ProjectAllDataRow) => {
           <Styled.Image src={app.project.imageUrl} alt="Project Image" />
         </div>
         <FlexColumn justify="around">
-          <div>{app.project.name}</div>
-          <Button style={{ borderRadius: "10px", height: "25px" }}>팀원보기</Button>
+          <Text>{app.project.name}</Text>
+          <Flex>
+            <Button>팀원보기</Button>
+          </Flex>
         </FlexColumn>
       </Flex>
 

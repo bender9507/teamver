@@ -48,11 +48,9 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     endDate,
     ...rest
   }) => {
-    const cleanedName = rest.name.replace(/[^a-zA-Z0-9]/g, "_");
-
     const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
       file: imageFile,
-      name: `${cleanedName}_${new Date().getTime()}`
+      name: `${user.id}_${new Date().getTime()}`
     });
 
     insertProjectMutate({

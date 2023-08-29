@@ -3,7 +3,8 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import { Avatar, Button, Icon, PreviousButton } from "~/components/Commons";
+import { Avatar, Button, Icon } from "~/components/Commons";
+import { OwnerNavbarLayout } from "~/components/Layouts";
 import { Card } from "~/components/OwnerProject/Card";
 import { Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
 import { useProject } from "./project.hooks";
@@ -13,10 +14,7 @@ const Project = ({ user }: { user: User }) => {
   const app = useProject(user.id);
 
   return (
-    <>
-      <Styled.Header>
-        <PreviousButton />
-      </Styled.Header>
+    <OwnerNavbarLayout>
       <FlexColumn align="center">
         <SizeBox height={62} />
         <Styled.ProfileBox>
@@ -85,7 +83,7 @@ const Project = ({ user }: { user: User }) => {
           </Styled.ImageUploadButton>
         </Link>
       </FlexColumn>
-    </>
+    </OwnerNavbarLayout>
   );
 };
 

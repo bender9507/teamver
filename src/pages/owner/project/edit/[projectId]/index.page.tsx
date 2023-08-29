@@ -8,12 +8,10 @@ import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
 import {
   Button,
-  CheckboxChip,
-  Icon,
   ImageUploader,
   Input,
   PreviousButton,
-  RadioChip,
+  SelectChip,
   Textarea
 } from "~/components/Commons";
 import type { ProjectAllDataRow } from "~/states/server/project";
@@ -45,7 +43,6 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
             <Controller
               name="imageUrl"
               control={app.control}
-              rules={{ required: true }}
               render={({ field: { onChange } }) => (
                 <Styled.ImageContainer>
                   <ImageUploader onChange={onChange}>
@@ -57,11 +54,12 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                         alt="project img"
                       />
                     ) : (
-                      <Styled.ImageUploadBox>
-                        <Styled.ImageUploadButton>
-                          <Icon name="add" color="white" width={32} height={32} />
-                        </Styled.ImageUploadButton>
-                      </Styled.ImageUploadBox>
+                      <Styled.ImagePreview
+                        fill
+                        sizes="100%"
+                        src={props.project.imageUrl}
+                        alt="project img"
+                      />
                     )}
                   </ImageUploader>
                 </Styled.ImageContainer>
@@ -89,19 +87,18 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
 
         <FlexColumn gap={16}>
           <Text size="heading4">프로젝트 타입</Text>
+          <Text size="paragraph3">여러개 선택 가능해요.</Text>
 
           <Flex gap={12} wrap="wrap">
             {app.constants.projectTypes.map((projectType) => (
-              <RadioChip
+              <SelectChip
+                type="radio"
                 key={projectType.id}
                 value={projectType.id}
-                chipProps={{
-                  isSelected: Number(app.watch("projectType")) === projectType.id
-                }}
                 {...app.register("projectType", { required: true })}
               >
                 {projectType[currentLanguage]}
-              </RadioChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -128,13 +125,13 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.positions.map((position) => (
-              <CheckboxChip
+              <SelectChip
                 key={position.id}
                 value={position.id}
                 {...app.register("positions", { required: true })}
               >
                 {position[currentLanguage]}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -157,84 +154,86 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
         <FlexColumn gap={16}>
           <Text size="heading4">프로젝트 기간</Text>
 
-          <FlexColumn gap={8}>
-            <Text>Start Date</Text>
+          <Flex>
+            <FlexColumn>
+              <Text>Start Date</Text>
 
-            <FlexColumn gap={12}>
-              <Input
-                placeholder="시작일"
-                readOnly
-                value={
-                  app.watch("startDate")
-                    ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
-                    : dayjs(props.project.startDate).format("DD. MM. YYYY")
-                }
-                onClick={app.setStartDateIsOpen.toggle}
-              />
-
-              {app.startDateIsOpen && (
-                <Controller
-                  name="startDate"
-                  control={app.control}
-                  render={({ field: { onChange } }) => (
-                    <Styled.CalendarWrapper>
-                      <Calendar
-                        locale="en-EN"
-                        nextLabel=">"
-                        prevLabel="<"
-                        next2Label={null}
-                        prev2Label={null}
-                        formatDay={(locale, date) => dayjs(date).format("D")}
-                        onChange={(date) => {
-                          app.setStartDateIsOpen.off();
-                          onChange(date);
-                        }}
-                      />
-                    </Styled.CalendarWrapper>
-                  )}
+              <FlexColumn gap={12}>
+                <Input
+                  placeholder="시작일"
+                  readOnly
+                  value={
+                    app.watch("startDate")
+                      ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
+                      : dayjs(props.project.startDate).format("DD. MM. YYYY")
+                  }
+                  onClick={app.setStartDateIsOpen.toggle}
                 />
-              )}
+
+                {app.startDateIsOpen && (
+                  <Controller
+                    name="startDate"
+                    control={app.control}
+                    render={({ field: { onChange } }) => (
+                      <Styled.CalendarWrapper>
+                        <Calendar
+                          locale="en-EN"
+                          nextLabel=">"
+                          prevLabel="<"
+                          next2Label={null}
+                          prev2Label={null}
+                          formatDay={(locale, date) => dayjs(date).format("D")}
+                          onChange={(date) => {
+                            app.setStartDateIsOpen.off();
+                            onChange(date);
+                          }}
+                        />
+                      </Styled.CalendarWrapper>
+                    )}
+                  />
+                )}
+              </FlexColumn>
             </FlexColumn>
-          </FlexColumn>
 
-          <FlexColumn gap={8}>
-            <Text>Due Date</Text>
+            <FlexColumn gap={8}>
+              <Text>Due Date</Text>
 
-            <FlexColumn gap={12}>
-              <Input
-                placeholder="종료일"
-                readOnly
-                value={
-                  app.watch("startDate")
-                    ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
-                    : dayjs(props.project.endDate).format("DD. MM. YYYY")
-                }
-                onClick={app.setEndDateIsOpen.toggle}
-              />
-
-              {app.endDateIsOpen && (
-                <Controller
-                  name="endDate"
-                  control={app.control}
-                  render={({ field: { onChange } }) => (
-                    <Styled.CalendarWrapper>
-                      <Calendar
-                        locale="en-EN"
-                        nextLabel=">"
-                        prevLabel="<"
-                        next2Label={null}
-                        prev2Label={null}
-                        onChange={(date) => {
-                          app.setEndDateIsOpen.off();
-                          onChange(date);
-                        }}
-                      />
-                    </Styled.CalendarWrapper>
-                  )}
+              <FlexColumn gap={12}>
+                <Input
+                  placeholder="종료일"
+                  readOnly
+                  value={
+                    app.watch("endDate")
+                      ? dayjs(app.watch("endDate")).format("DD. MM. YYYY")
+                      : dayjs(props.project.endDate).format("DD. MM. YYYY")
+                  }
+                  onClick={app.setEndDateIsOpen.toggle}
                 />
-              )}
+
+                {app.endDateIsOpen && (
+                  <Controller
+                    name="endDate"
+                    control={app.control}
+                    render={({ field: { onChange } }) => (
+                      <Styled.CalendarWrapper>
+                        <Calendar
+                          locale="en-EN"
+                          nextLabel=">"
+                          prevLabel="<"
+                          next2Label={null}
+                          prev2Label={null}
+                          onChange={(date) => {
+                            app.setEndDateIsOpen.off();
+                            onChange(date);
+                          }}
+                        />
+                      </Styled.CalendarWrapper>
+                    )}
+                  />
+                )}
+              </FlexColumn>
             </FlexColumn>
-          </FlexColumn>
+          </Flex>
         </FlexColumn>
 
         <FlexColumn gap={16}>
@@ -245,13 +244,13 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.languages.map((language) => (
-              <CheckboxChip
+              <SelectChip
                 key={language.id}
                 value={language.id}
                 {...app.register("languages", { required: true })}
               >
                 {language.name}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -264,13 +263,13 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.skills.map((skill) => (
-              <CheckboxChip
+              <SelectChip
                 key={skill.id}
                 value={skill.id}
                 {...app.register("skills", { required: true })}
               >
                 {skill.name}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>
@@ -282,13 +281,13 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
 
           <Flex gap={12} wrap="wrap">
             {app.constants.areas.map((area) => (
-              <CheckboxChip
+              <SelectChip
                 key={area.id}
                 value={area.id}
                 {...app.register("areas", { required: true })}
               >
                 {area[currentLanguage]}
-              </CheckboxChip>
+              </SelectChip>
             ))}
           </Flex>
         </FlexColumn>

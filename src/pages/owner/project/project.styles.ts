@@ -38,7 +38,7 @@ export const ProjectBox = styled(FlexColumn)`
 `;
 
 export const ImageUploadButton = styled.div`
-  ${position.fixed({ right: 28, bottom: 28 })};
+  ${position.fixed({ right: 28, bottom: 88 })};
 
   ${flex.center()};
 

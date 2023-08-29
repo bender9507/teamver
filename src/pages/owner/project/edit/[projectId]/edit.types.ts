@@ -1,20 +1,12 @@
-import type {
-  ConstantAreaRow,
-  ConstantLanguageRow,
-  ConstantPositionRow,
-  ConstantProjectTypeRow,
-  ConstantSkillRow
-} from "~/states/server/constant";
-
 export interface ProjectEditForm {
   name: string;
-  projectType: ConstantProjectTypeRow["id"];
+  projectType: string;
   description: string;
-  positions: ConstantPositionRow["id"][];
+  positions: string[];
   recruitCount: string;
-  languages: ConstantLanguageRow["id"][];
-  skills: ConstantSkillRow["id"][];
-  areas: ConstantAreaRow["id"][];
+  languages: string[];
+  skills: string[];
+  areas: string[];
   imageUrl: File;
   startDate: Date | null;
   endDate: Date | null;

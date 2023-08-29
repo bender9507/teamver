@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import type { ComponentProps } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
@@ -26,6 +26,8 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
+  const [currentDateType, setCurrentDateType] = useState("");
+
   const { data: projectData } = useSelectProjectQuery(String(project.id));
 
   const { mutate: updateProjectMutate } = useUpdateProjectMutate({
@@ -36,7 +38,15 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
   const { register, handleSubmit, watch, control, setValue, formState } = useForm<ProjectEditForm>({
-    defaultValues: { startDate: null, endDate: null },
+    defaultValues: {
+      startDate: null,
+      endDate: null,
+      positions: project.positions.map((el) => String(el.id)),
+      projectType: String(project.projectType.id),
+      skills: project.skills.map((el) => String(el.id)),
+      languages: project.languages.map((el) => String(el.id)),
+      areas: project.areas.map((el) => String(el.id))
+    },
     mode: "all"
   });
 
@@ -52,8 +62,30 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
     imageUrl: imageFile,
     startDate,
     endDate,
+    positions,
+    projectType,
+    skills,
+    languages,
+    areas,
     ...rest
   }) => {
+    if (!imageFile) {
+      updateProjectMutate({
+        id: projectData.id,
+        ownerId: user.id,
+        startDate: startDate?.toDateString(),
+        endDate: endDate?.toDateString(),
+        positions: positions.map((position) => Number(position)),
+        projectType: Number(projectType),
+        skills: skills.map((skill) => Number(skill)),
+        languages: languages.map((language) => Number(language)),
+        areas: areas.map((area) => Number(area)),
+        ...rest
+      });
+
+      return;
+    }
+
     const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
       file: imageFile,
       name: `${user.id}_${new Date().getTime()}`
@@ -65,6 +97,11 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
       startDate: startDate?.toDateString(),
       endDate: endDate?.toDateString(),
       imageUrl,
+      positions: positions.map((position) => Number(position)),
+      projectType: Number(projectType),
+      skills: skills.map((skill) => Number(skill)),
+      languages: languages.map((language) => Number(language)),
+      areas: areas.map((area) => Number(area)),
       ...rest
     });
   };
@@ -86,6 +123,8 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
     control,
     constants,
     formState,
+    currentDateType,
+    setCurrentDateType,
     register,
     handleSubmit,
     handleEditProject,
