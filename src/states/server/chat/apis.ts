@@ -96,16 +96,13 @@ export const deleteChatMember = async ({ roomId, userId }: { roomId: number; use
 };
 
 export const updateChatRequestState = async ({
-  receiverId,
+  id,
   state
 }: {
-  receiverId: string;
+  id: number;
   state: "GRANT" | "DENIED";
 }) => {
-  const { error } = await supabase
-    .from("chatRequest")
-    .update({ state })
-    .eq("receiverId", receiverId);
+  const { error } = await supabase.from("chatRequest").update({ state }).eq("id", id);
 
   if (error) throw new Error("요청 변경에 실패하였습니다.");
 };

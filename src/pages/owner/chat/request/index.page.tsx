@@ -30,7 +30,7 @@ const ChatRequest = ({ user }: { user: User }) => {
 
             <Flex gap={12}>
               <Button>{t("수락")}</Button>
-              <Button>{t("삭제")}</Button>
+              <Button onClick={() => app.handleDenyClick(requester.id)}>{t("삭제")}</Button>
             </Flex>
           </Flex>
         ))}

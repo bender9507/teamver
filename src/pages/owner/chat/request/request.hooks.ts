@@ -1,16 +1,23 @@
-import { useSelectChatRequestsQuery } from "~/states/server/chat";
+import { useSelectChatRequestsQuery, useUpdateChatRequestStateMutate } from "~/states/server/chat";
 
 export const useChatRequest = (receiverId: string) => {
-  const { data: chatRequests } = useSelectChatRequestsQuery({
+  const { data: chatRequests, refetch } = useSelectChatRequestsQuery({
     receiverId,
     state: "PENDING"
   });
 
+  const { mutateAsync: updateChatRequestState } = useUpdateChatRequestStateMutate();
+
   const requesters = chatRequests?.map((requester) => ({
-    ...requester,
+    ...(requester || ""),
     name: requester.requesterProfile?.name || "",
     imageUrl: requester.requesterProfile?.imageUrl || ""
   }));
 
-  return { chatRequests, requesters };
+  const handleDenyClick = async (id: number) => {
+    updateChatRequestState({ id, state: "DENIED" });
+    refetch();
+  };
+
+  return { chatRequests, requesters, handleDenyClick };
 };
