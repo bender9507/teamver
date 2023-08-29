@@ -3,6 +3,14 @@ import styled from "@emotion/styled";
 
 import { FlexColumn, flex, position, selector, size } from "~/styles/mixins";
 
+export const Container = styled.div`
+  ${flex.column({ gap: 15, align: "center" })};
+
+  ${size({ width: "100%", minHeight: "100vh" })};
+  margin: 0 auto;
+  padding-top: 15px;
+`;
+
 export const Header = styled.header`
   ${flex.center()};
 
@@ -52,8 +60,6 @@ export const ImageUploadButton = styled.div`
 `;
 export const SectionDisplay = styled.div`
   overflow: hidden;
-
-  /* flex: 1; */
 `;
 export const SectionContainer = styled.div<{ isInProgressSelected: boolean }>`
   ${flex({ gap: "0" })};
@@ -66,7 +72,6 @@ export const SectionContainer = styled.div<{ isInProgressSelected: boolean }>`
   `}
 `;
 export const Section = styled.div<{ isGrid?: boolean }>`
-  /* ${flex.column({ gap: 70 })}; */
   flex-shrink: 0;
 
   width: 100%;

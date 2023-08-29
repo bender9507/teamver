@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Controller } from "react-hook-form";
@@ -30,6 +31,10 @@ const Create = (props: { user: User }) => {
 
   return (
     <>
+      <Head>
+        <title>{t("프로젝트 생성")}</title>
+      </Head>
+
       <Styled.Header>
         <PreviousButton />
         <Text>프로젝트 생성하기</Text>
