@@ -6,9 +6,12 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Avatar, Button, PreviousButton } from "~/components/Commons";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
+import { useChatRequest } from "./request.hooks";
 
 const ChatRequest = ({ user }: { user: User }) => {
   const { t } = useTranslation("chat");
+
+  const app = useChatRequest(user.id);
 
   return (
     <FlexColumn>
@@ -17,17 +20,21 @@ const ChatRequest = ({ user }: { user: User }) => {
         <Text>{t("채팅 요청")}</Text>
       </Flex>
 
-      <Flex justify="between" align="center">
-        <Flex align="center" gap={16}>
-          <Avatar src="" />
-          <Text>사용자 이름</Text>
-        </Flex>
+      <FlexColumn gap={18}>
+        {app.requesters.map((requester) => (
+          <Flex key={requester.id} justify="between" align="center">
+            <Flex align="center" gap={16}>
+              <Avatar src={requester.imageUrl} />
+              <Text>{requester.name}</Text>
+            </Flex>
 
-        <Flex gap={12}>
-          <Button>{t("수락")}</Button>
-          <Button>{t("삭제")}</Button>
-        </Flex>
-      </Flex>
+            <Flex gap={12}>
+              <Button>{t("수락")}</Button>
+              <Button>{t("삭제")}</Button>
+            </Flex>
+          </Flex>
+        ))}
+      </FlexColumn>
     </FlexColumn>
   );
 };

@@ -2,7 +2,7 @@ import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChatRoomOut } from "~/components/ChatRoomOut";
 import { Avatar, Button, Input, PreviousButton, useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
@@ -21,7 +21,15 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
 
   const { confirm, toast } = useDialog();
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   const app = useChatRoom(user.id, roomId, message, setMessage);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [app.formattedMessages]);
 
   const handleOpenProjectInviteConfirm = () => {
     confirm({
@@ -80,6 +88,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
             </Flex>
           )
         )}
+        <div ref={messagesEndRef} />
       </Styled.ChatMessageWrapper>
 
       <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>

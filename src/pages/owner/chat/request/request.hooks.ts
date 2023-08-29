@@ -1,10 +1,16 @@
 import { useSelectChatRequestsQuery } from "~/states/server/chat";
 
-export const useChatRequest = (requesterId: string) => {
+export const useChatRequest = (receiverId: string) => {
   const { data: chatRequests } = useSelectChatRequestsQuery({
-    requesterId,
+    receiverId,
     state: "PENDING"
   });
 
-  return { chatRequests };
+  const requesters = chatRequests?.map((requester) => ({
+    ...requester,
+    name: requester.requesterProfile?.name || "",
+    imageUrl: requester.requesterProfile?.imageUrl || ""
+  }));
+
+  return { chatRequests, requesters };
 };
