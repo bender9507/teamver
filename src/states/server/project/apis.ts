@@ -8,7 +8,12 @@ import type {
   ProjectInviteInsert
 } from ".";
 import { supabase } from "../config";
-import type { ConstantLanguageRow, ConstantPositionRow, ConstantSkillRow } from "../constant";
+import type {
+  ConstantAreaRow,
+  ConstantLanguageRow,
+  ConstantPositionRow,
+  ConstantSkillRow
+} from "../constant";
 import { PROJECT_ALL_DATA_QUERY } from "./constants";
 
 export const selectProject = async (projectId: string) => {
@@ -54,6 +59,7 @@ export const insertProject = async ({
   positions,
   ...projectData
 }: ProjectDataInsert & {
+  areas: ConstantAreaRow["id"][];
   skills: ConstantSkillRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
@@ -63,8 +69,6 @@ export const insertProject = async ({
     .insert(projectData)
     .select("*")
     .returns<ProjectDataRow[]>();
-
-  console.log(data);
 
   if (error) throw Error("프로젝트 생성에 실패하였습니다.");
 
@@ -89,6 +93,7 @@ export const updateProject = async ({
   ...projectData
 }: Omit<ProjectDataUpdate, "id"> & {
   id: number;
+  areas: ConstantAreaRow["id"][];
   skills: ConstantSkillRow["id"][];
   languages: ConstantLanguageRow["id"][];
   positions: ConstantPositionRow["id"][];
@@ -152,8 +157,35 @@ export const selectFollowProjects = async (myId: string) => {
   return data;
 };
 
-export const deleteProject = async (projectId: string) => {
-  const { error } = await supabase.from("projects").delete().eq("id", projectId);
+export const selectRecommendedProjects = async ({
+  seedValue,
+  userId,
+  areas,
+  projectType,
+  pageParam = 0,
+  limit = 10
+}: {
+  seedValue: number;
+  userId: string;
+  areas: ConstantAreaRow["id"][];
+  projectType?: number;
+  pageParam?: number;
+  limit?: number;
+}) => {
+  let query = supabase
+    .rpc("select_recommended_projects", { seedValue, userId, areas })
+    .eq("state", "IN_RECRUIT");
+
+  if (projectType) {
+    query = query.eq("projectType", projectType);
+  }
+
+  const { data, error } = await query
+    .range(pageParam * limit, (pageParam + 1) * limit - 1)
+    .select(`*, ${PROJECT_ALL_DATA_QUERY}`)
+    .returns<ProjectAllDataRow[]>();
 
   if (error) throw error;
+
+  return { data, nextPage: data.length === limit ? pageParam + 1 : undefined };
 };

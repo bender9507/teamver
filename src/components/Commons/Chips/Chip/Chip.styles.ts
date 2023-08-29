@@ -8,6 +8,7 @@ import type { ChipProps } from "./Chip.types";
 const containerStyle = ({
   theme: { colors, sizes },
   isSelected,
+  color = "backgroundSecondary",
   size: _size = "small"
 }: WithTheme<ChipProps>) => css`
   ${flex.center()};
@@ -16,7 +17,7 @@ const containerStyle = ({
 
   padding: 0 16px;
 
-  background-color: ${colors.backgroundSecondary};
+  background-color: ${colors[color]};
 
   ${isSelected && styleHelper("boxShadow", `inset 0 0 0 1px ${colors.primary}`)};
 
