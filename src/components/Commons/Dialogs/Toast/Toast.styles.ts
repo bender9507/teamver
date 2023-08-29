@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { fade, slideYCenter } from "~/styles/animation";
 import { position } from "~/styles/mixins";
@@ -7,9 +8,14 @@ export const Container = styled.div<ToastStyleProps>`
   ${position.posCenterX({ position: "fixed", top: 30 })}
   overflow: hidden;
 
-  padding: 12px;
+  padding: 18px 16px;
 
-  border-radius: 8px;
+  ${({ theme: { colors }, type = "info" }) => css`
+    background-color: ${colors.backgroundPrimary};
+    color: ${colors[type]};
+  `}
+
+  border-radius: 50px;
 
   animation: ${fade(0)} 300ms, ${slideYCenter(-20)} 300ms;
 `;
