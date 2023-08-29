@@ -19,7 +19,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
 
   const { mount } = useModal();
 
-  const { confirm } = useDialog();
+  const { confirm, toast } = useDialog();
 
   const app = useChatRoom(user.id, roomId, message, setMessage);
 
@@ -30,17 +30,24 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       message: <ProjectInvite ownerId={user.id} onProjectSelect={setSelectedProjectId} />
     }).then((confirmed) => {
       if (confirmed && selectedProjectId !== 0) {
-        app.InsertProjectInviteMutateAsync({
-          projectId: selectedProjectId,
-          receiverId: app.memberId,
-          requesterId: user.id
-        });
+        app
+          .InsertProjectInviteMutateAsync({
+            projectId: selectedProjectId,
+            receiverId: app.memberId,
+            requesterId: user.id
+          })
+          .then(() => {
+            toast({ type: "success", message: app.t("성공적으로 초대했습니다") });
+          });
       }
     });
   };
 
   const handleOpenChatRoomOutModal = () => {
-    mount(<ChatRoomOut roomId={roomId} userId={user.id} />, { id: CHAT_ROOM_OUT_MODAL });
+    mount(<ChatRoomOut roomId={roomId} userId={user.id} />, {
+      id: CHAT_ROOM_OUT_MODAL,
+      type: "bottom"
+    });
   };
 
   return (

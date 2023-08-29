@@ -31,7 +31,7 @@ const Chat = ({ user }: { user: User }) => {
             <Styled.ChatRoomBox key={room.roomId} onClick={() => app.handleRoomClick(room.roomId)}>
               <Avatar src={room.memberImageUrl} />
 
-              <FlexColumn>
+              <FlexColumn justify="center">
                 <Text>{room.memberName || t("알 수 없음")}</Text>
                 <Text>{room.lastMessage || t("채팅이 시작되었습니다")}</Text>
               </FlexColumn>
