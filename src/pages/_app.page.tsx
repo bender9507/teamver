@@ -49,7 +49,10 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
               `}
             />
             <Styled.Container>
-              <Component {...pageProps} />
+              <Styled.Content>
+                <Component {...pageProps} />
+              </Styled.Content>
+
               <Overlay />
             </Styled.Container>
           </ThemeProvider>

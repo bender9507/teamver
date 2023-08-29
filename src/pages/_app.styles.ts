@@ -6,7 +6,7 @@ export const Container = styled.div`
   position: relative;
   overflow: hidden;
 
-  ${size({ width: "100%", maxWidth: "500px", minHeight: "100vh" })};
+  ${size({ width: "100%", maxWidth: "500px", height: "100vh" })};
 
   margin: 0 auto;
 
@@ -16,6 +16,12 @@ export const Container = styled.div`
   `}
 
   @supports (-webkit-touch-callout: none) {
-    min-height: -webkit-fill-available;
+    max-height: -webkit-fill-available;
   }
+`;
+
+export const Content = styled.div`
+  overflow: scroll;
+
+  height: 100%;
 `;
