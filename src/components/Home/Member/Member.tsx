@@ -9,7 +9,7 @@ import {
   SelectChip,
   TinderCard
 } from "~/components/Commons";
-import { MemberNavbarLayout } from "~/components/Layouts";
+import { LogoHeaderWithNavbarLayout } from "~/components/Layouts";
 import { CommonContainer, Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import {
@@ -31,7 +31,7 @@ export const Member = (props: { user: User }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
 
   return (
-    <MemberNavbarLayout>
+    <LogoHeaderWithNavbarLayout>
       <Container>
         <Select>
           <Button onClick={app.handleRestore}>복원</Button>
@@ -162,6 +162,6 @@ export const Member = (props: { user: User }) => {
           })}
         </Position>
       </Container>
-    </MemberNavbarLayout>
+    </LogoHeaderWithNavbarLayout>
   );
 };

@@ -1,7 +1,7 @@
 import { Text } from "~/styles/mixins";
-import * as Styled from "./Header.styles";
+import * as Styled from "./LogoHeader.styles";
 
-export const Header = () => {
+export const LogoHeader = () => {
   return (
     <Styled.Header>
       <Text>TEAMVER</Text>

@@ -1,24 +1,22 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { Icon } from "~/components/Commons";
 import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "./Navbar.styles";
 
-export const Navbar = ({
-  navList
-}: {
-  navList: {
-    label: string;
-    route: string;
-    icon: ComponentProps<typeof Icon>["name"];
-  }[];
-}) => {
+const list = [
+  { label: "Home", route: "/home", icon: "home" },
+  { label: "Chat", route: "/chat", icon: "chat" },
+  { label: "List", route: "/like", icon: "list" },
+  { label: "My", route: "/profile", icon: "my" }
+] as const;
+
+export const Navbar = () => {
   const router = useRouter();
 
   return (
     <Styled.Navbar>
-      {navList.map(({ label, route, icon }) => (
+      {list.map(({ label, route, icon }) => (
         <Link href={route} key={route}>
           <FlexCenter gap={4} direction="column">
             <Icon

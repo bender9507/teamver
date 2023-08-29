@@ -9,7 +9,7 @@ import {
   TinderCard
 } from "~/components/Commons";
 import { PROFILE_DETAIL_MODAL } from "~/components/Commons/ProfileDetail";
-import { OwnerNavbarLayout } from "~/components/Layouts";
+import { LogoHeaderWithNavbarLayout } from "~/components/Layouts";
 import { CommonContainer, Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import {
@@ -31,7 +31,7 @@ export const Owner = (props: { user: User }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
 
   return (
-    <OwnerNavbarLayout>
+    <LogoHeaderWithNavbarLayout>
       <Container>
         <Select>
           <Button onClick={app.handleRestore}>복원</Button>
@@ -239,6 +239,6 @@ export const Owner = (props: { user: User }) => {
           ))}
         </Position>
       </Container>
-    </OwnerNavbarLayout>
+    </LogoHeaderWithNavbarLayout>
   );
 };
