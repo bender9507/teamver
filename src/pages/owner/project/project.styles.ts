@@ -50,3 +50,24 @@ export const ImageUploadButton = styled.div`
 
   border-radius: 50%;
 `;
+export const SectionDisplay = styled.div`
+  overflow: hidden;
+
+  /* flex: 1; */
+`;
+export const SectionContainer = styled.div<{ isInProgressSelected: boolean }>`
+  ${flex({ gap: "0" })};
+
+  height: 100%;
+
+  ${({ isInProgressSelected }) => css`
+    transition: 300ms;
+    transform: translateX(${isInProgressSelected ? "0%" : "-100%"});
+  `}
+`;
+export const Section = styled.div<{ isGrid?: boolean }>`
+  /* ${flex.column({ gap: 70 })}; */
+  flex-shrink: 0;
+
+  width: 100%;
+`;

@@ -27,61 +27,69 @@ const Project = ({ user }: { user: User }) => {
       <FlexColumn>
         <Flex wrap="wrap">
           <Styled.Category>
-            <Text size="heading5" onClick={() => app.setSelectedCategory("IN_PROGRESS")}>
+            <Text size="heading5" onClick={() => app.handleCategoryClick("IN_PROGRESS")}>
               진행 중인 프로젝트
             </Text>
           </Styled.Category>
           <Styled.Category>
-            <Text size="heading5" onClick={() => app.setSelectedCategory("DONE_PROJECT")}>
+            <Text size="heading5" onClick={() => app.handleCategoryClick("DONE_PROJECT")}>
               완료된 프로젝트
             </Text>
           </Styled.Category>
         </Flex>
-        {app.selectedCategory === "IN_PROGRESS" && (
-          <Styled.ProjectBox gap={26}>
-            <FlexColumn gap={26}>
-              <Text size="heading4">모집 중인 프로젝트</Text>
-              <FlexColumn gap={26}>
-                {app.projects
-                  .filter((project) => project.state === "IN_RECRUIT")
-                  .map((project) => (
-                    <Card key={project.id} {...project} />
-                  ))}
-              </FlexColumn>
-            </FlexColumn>
-            <FlexColumn gap={26}>
-              <Text size="heading4" style={{ paddingTop: 28 }}>
-                모집 완료된 프로젝트
-              </Text>
-              <FlexColumn gap={26}>
-                {app.projects
-                  .filter((project) => project.state === "DONE_RECRUIT")
-                  .map((project) => (
-                    <Card key={project.id} {...project} />
-                  ))}
-              </FlexColumn>
-            </FlexColumn>
-          </Styled.ProjectBox>
-        )}
-        {app.selectedCategory === "DONE_PROJECT" && (
-          <>
-            <SizeBox height={14} />
-            <Styled.ProjectBox gap={26}>
-              <FlexColumn gap={16}>
-                {app.projects
-                  .filter((project) => project.state === "DONE_PROJECT")
-                  .map((project) => (
-                    <Card key={project.id} {...project} />
-                  ))}
-              </FlexColumn>
-            </Styled.ProjectBox>
-          </>
-        )}
-        <Link href="/owner/project/create">
-          <Styled.ImageUploadButton>
-            <Icon name="add" color="gray3" width={28} height={28} />
-          </Styled.ImageUploadButton>
-        </Link>
+        <Styled.SectionDisplay>
+          <Styled.SectionContainer isInProgressSelected={app.isInProgressSelected}>
+            <Styled.Section>
+              {app.selectedCategory === "IN_PROGRESS" && (
+                <Styled.ProjectBox gap={26}>
+                  <FlexColumn gap={26}>
+                    <Text size="heading4">모집 중인 프로젝트</Text>
+                    <FlexColumn gap={26}>
+                      {app.projects
+                        .filter((project) => project.state === "IN_RECRUIT")
+                        .map((project) => (
+                          <Card key={project.id} {...project} />
+                        ))}
+                    </FlexColumn>
+                  </FlexColumn>
+                  <FlexColumn gap={26}>
+                    <Text size="heading4" style={{ paddingTop: 28 }}>
+                      모집 완료된 프로젝트
+                    </Text>
+                    <FlexColumn gap={26}>
+                      {app.projects
+                        .filter((project) => project.state === "DONE_RECRUIT")
+                        .map((project) => (
+                          <Card key={project.id} {...project} />
+                        ))}
+                    </FlexColumn>
+                  </FlexColumn>
+                </Styled.ProjectBox>
+              )}
+            </Styled.Section>
+            <Styled.Section>
+              {app.selectedCategory === "DONE_PROJECT" && (
+                <>
+                  <SizeBox height={14} />
+                  <Styled.ProjectBox gap={26}>
+                    <FlexColumn gap={16}>
+                      {app.projects
+                        .filter((project) => project.state === "DONE_PROJECT")
+                        .map((project) => (
+                          <Card key={project.id} {...project} />
+                        ))}
+                    </FlexColumn>
+                  </Styled.ProjectBox>
+                </>
+              )}
+            </Styled.Section>
+          </Styled.SectionContainer>
+          <Link href="/owner/project/create">
+            <Styled.ImageUploadButton>
+              <Icon name="add" color="gray3" width={28} height={28} />
+            </Styled.ImageUploadButton>
+          </Link>
+        </Styled.SectionDisplay>
       </FlexColumn>
     </OwnerNavbarLayout>
   );

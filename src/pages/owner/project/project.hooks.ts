@@ -7,6 +7,12 @@ export const useProject = (userId: string) => {
   const { data: projects } = useSelectOwnerProjectsQuery(userId);
 
   const [selectedCategory, setSelectedCategory] = useState("IN_PROGRESS");
+  const [isInProgressSelected, setIsInProgressSelected] = useState(true);
+
+  const handleCategoryClick = (category: string) => {
+    setIsInProgressSelected(category === "IN_PROGRESS");
+    setSelectedCategory(category); // 선택된 카테고리도 업데이트합니다.
+  };
 
   const filteredProjects = projects.filter((project) =>
     selectedCategory === "DONE_PROJECT"
@@ -18,6 +24,9 @@ export const useProject = (userId: string) => {
     projects,
     filteredProjects,
     selectedCategory,
-    setSelectedCategory
+    setSelectedCategory,
+    isInProgressSelected,
+    setIsInProgressSelected,
+    handleCategoryClick
   };
 };
