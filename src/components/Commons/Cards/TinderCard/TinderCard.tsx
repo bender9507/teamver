@@ -13,7 +13,6 @@ export const TinderCard = memo(({ children, ...props }: PropsWithChildren<Tinder
       onMouseDown={app.handleMouseDown}
       onMouseMove={app.handleMouseMove}
       onMouseUp={app.handleUp}
-      onMouseLeave={app.handleUp}
       onTouchStart={app.handleTouchStart}
       onTouchMove={app.handleTouchMove}
       onTouchEnd={app.handleUp}
