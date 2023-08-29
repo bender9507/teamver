@@ -1,0 +1,1 @@
+export { ChatRoomOut } from "./ChatRoomOut";
