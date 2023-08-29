@@ -2,6 +2,7 @@ export const colors = {
   white: "#F0F0F0",
   black: "#111111",
   primary: "#DEFF00",
+  primary1: "#CAE800",
   secondary: "#F3F3F3",
   tertiary: "#0651FB",
   error: "#FF5C00",

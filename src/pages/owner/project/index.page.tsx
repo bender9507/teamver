@@ -3,7 +3,8 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import { Avatar, Button, Icon, PreviousButton } from "~/components/Commons";
+import { Avatar, Button, Icon } from "~/components/Commons";
+import { OwnerNavbarLayout } from "~/components/Layouts";
 import { Card } from "~/components/OwnerProject/Card";
 import { Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
 import { useProject } from "./project.hooks";
@@ -11,13 +12,9 @@ import * as Styled from "./project.styles";
 
 const Project = ({ user }: { user: User }) => {
   const app = useProject(user.id);
-  console.log(app.profile);
 
   return (
-    <>
-      <Styled.Header>
-        <PreviousButton />
-      </Styled.Header>
+    <OwnerNavbarLayout>
       <FlexColumn align="center">
         <SizeBox height={62} />
         <Styled.ProfileBox>
@@ -27,7 +24,7 @@ const Project = ({ user }: { user: User }) => {
         </Styled.ProfileBox>
         <SizeBox height={46} />
       </FlexColumn>
-      <Styled.ProjectContainer>
+      <FlexColumn>
         <Flex wrap="wrap">
           <Styled.Category>
             <Text size="heading5" onClick={() => app.setSelectedCategory("IN_PROGRESS")}>
@@ -85,8 +82,8 @@ const Project = ({ user }: { user: User }) => {
             <Icon name="add" color="gray3" width={28} height={28} />
           </Styled.ImageUploadButton>
         </Link>
-      </Styled.ProjectContainer>
-    </>
+      </FlexColumn>
+    </OwnerNavbarLayout>
   );
 };
 

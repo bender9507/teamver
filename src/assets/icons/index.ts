@@ -12,6 +12,7 @@ export { default as info } from "./info.svg";
 export { default as kakao } from "./kakao.svg";
 export { default as language } from "./language.svg";
 export { default as list } from "./list.svg";
+export { default as more } from "./more.svg";
 export { default as my } from "./my.svg";
 export { default as success } from "./success.svg";
 export { default as upButton } from "./upButton.svg";
