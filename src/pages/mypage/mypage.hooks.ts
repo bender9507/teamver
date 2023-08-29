@@ -6,7 +6,8 @@ export const useMyPage = (userId: string) => {
   const { data: projects } = useSelectMemberProjectsQuery(userId);
   const { data: user } = useSelectProfileQuery(userId);
 
-  const [tabState, setTabState] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState("IN_PROGRESS");
+
   const [isInProgressSelected, setIsInProgressSelected] = useState(true);
 
   const handleCategoryClick = (category: string) => {
@@ -20,9 +21,9 @@ export const useMyPage = (userId: string) => {
     proceedProjects,
     doneProjects,
     user,
-    tabState,
-    setTabState,
     isInProgressSelected,
-    handleCategoryClick
+    handleCategoryClick,
+    selectedCategory,
+    setSelectedCategory
   };
 };

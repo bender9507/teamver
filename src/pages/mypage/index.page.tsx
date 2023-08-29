@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import Link from "next/link";
-import { Avatar, Button } from "~/components/Commons";
+import { Avatar, Button, Tab } from "~/components/Commons";
 import { MemberNavbarLayout } from "~/components/Layouts";
 import { ProjectCard } from "~/components/MyPage";
 import { profileKeys, selectProfile } from "~/states/server/profile";
@@ -19,11 +19,6 @@ import type { MyPageProps } from "./mypage.types";
 function MyPage({ userId }: MyPageProps) {
   const { t } = useTranslation("mypage");
 
-  const PROJECT_TAB = [
-    { name: t("진행중인 프로젝트"), id: 0 },
-    { name: t("지난 프로젝트"), id: 1 }
-  ];
-
   const app = useMyPage(userId);
 
   return (
@@ -35,33 +30,46 @@ function MyPage({ userId }: MyPageProps) {
         <FlexColumn>
           <FlexColumn align="center">
             <SizeBox height={62} />
+
             <FlexColumn gap={12} align="center">
               <Avatar src={app.user.imageUrl} size="large" />
+
               <Text>{app.user.name}</Text>
+
               <Link href="/mypage/profile/edit">
                 <Button>{t("프로필 수정")}</Button>
               </Link>
             </FlexColumn>
+
             <SizeBox height={46} />
           </FlexColumn>
 
-          <Styled.TabButtonContainer>
-            {PROJECT_TAB.map((tab) => (
-              <Text
-                key={tab.id}
-                as="button"
-                className={app.tabState === tab.id ? "clicked" : "submenu"}
-                onClick={() => {
-                  app.setTabState(tab.id);
-                  app.handleCategoryClick(tab.name);
-                }}
-              >
-                {tab.name}
-              </Text>
-            ))}
-            <Styled.SelectedBorder tabState={app.tabState} />
-          </Styled.TabButtonContainer>
-          <Styled.SectionDisplay>
+          <Tab
+            items={[
+              { id: "IN_PROGRESS", label: "진행 중인 프로젝트" },
+              { id: "DONE_PROJECT", label: "완료된 프로젝트" }
+            ]}
+            selectedItem={app.selectedCategory}
+            onClick={app.setSelectedCategory}
+          />
+
+          {app.selectedCategory === "IN_PROGRESS" && (
+            <Styled.ProjectContainer>
+              {app.proceedProjects.map((project) => (
+                <ProjectCard project={project} key={project.id} />
+              ))}
+            </Styled.ProjectContainer>
+          )}
+
+          {app.selectedCategory === "DONE_PROJECT" && (
+            <Styled.ProjectContainer>
+              {app.doneProjects.map((project) => (
+                <ProjectCard project={project} key={project.id} />
+              ))}
+            </Styled.ProjectContainer>
+          )}
+
+          {/* <Styled.SectionDisplay>
             <Styled.SectionContainer isInProgressSelected={app.isInProgressSelected}>
               <Styled.Section>
                 <Styled.ProjectContainer>
@@ -75,7 +83,7 @@ function MyPage({ userId }: MyPageProps) {
                 </Styled.ProjectContainer>
               </Styled.Section>
             </Styled.SectionContainer>
-          </Styled.SectionDisplay>
+          </Styled.SectionDisplay> */}
         </FlexColumn>
       </MemberNavbarLayout>
     </>

@@ -19,8 +19,7 @@ export const buttonStyle = ({
 
   padding: 0 16px;
 
-  ${text("paragraph2")};
-
+  ${text(sizes.paragraph[_size])};
   color: ${colors[color]};
 `;
 

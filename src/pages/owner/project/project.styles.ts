@@ -58,9 +58,11 @@ export const ImageUploadButton = styled.div`
 
   border-radius: 50%;
 `;
+
 export const SectionDisplay = styled.div`
   overflow: hidden;
 `;
+
 export const SectionContainer = styled.div<{ isInProgressSelected: boolean }>`
   ${flex({ gap: "0" })};
 
@@ -71,6 +73,7 @@ export const SectionContainer = styled.div<{ isInProgressSelected: boolean }>`
     transform: translateX(${isInProgressSelected ? "0%" : "-100%"});
   `}
 `;
+
 export const Section = styled.div<{ isGrid?: boolean }>`
   flex-shrink: 0;
 
