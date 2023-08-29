@@ -39,17 +39,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .maybeSingle();
 
     if (profile) {
-      if (profile.role === 1) {
-        return {
-          redirect: {
-            destination: routes.owner,
-            permanent: false
-          }
-        };
-      }
       return {
         redirect: {
-          destination: routes.member,
+          destination: routes.main,
           permanent: false
         }
       };
