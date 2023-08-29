@@ -1,34 +1,26 @@
-import type { LabelHTMLAttributes } from "react";
+import { FlexColumn } from "~/styles/mixins";
 import type { PropsWithElement } from "~/types";
 import * as Styled from "./Label.styles";
-
-export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
-  title: string;
-  desc?: string;
-  required?: boolean;
-  direction?: "column" | "row";
-  full?: boolean;
-}
 
 export const Label = ({
   children,
   title,
   desc,
-  required,
-  direction,
-  ...props
-}: PropsWithElement<LabelProps>) => {
+  itemDesc
+}: PropsWithElement<{ title: string; desc?: string; itemDesc?: string }>) => {
   return (
-    <Styled.Label direction={direction} {...props}>
-      {title && <Styled.Title required={required}>{title}</Styled.Title>}
+    <FlexColumn>
+      <Styled.Title size="heading3">{title}</Styled.Title>
+
+      {desc && <Styled.Desc size="paragraph3">{desc}</Styled.Desc>}
 
       {children}
 
-      {desc && (
-        <Styled.Desc color="content3" size="paragraph3">
-          {desc}
-        </Styled.Desc>
+      {itemDesc && (
+        <Styled.ItemDesc size="paragraph3" color="content2">
+          {itemDesc}
+        </Styled.ItemDesc>
       )}
-    </Styled.Label>
+    </FlexColumn>
   );
 };

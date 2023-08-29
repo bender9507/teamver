@@ -68,22 +68,6 @@ function MyPage({ userId }: MyPageProps) {
               ))}
             </Styled.ProjectContainer>
           )}
-
-          {/* <Styled.SectionDisplay>
-            <Styled.SectionContainer isInProgressSelected={app.isInProgressSelected}>
-              <Styled.Section>
-                <Styled.ProjectContainer>
-                  {app.isInProgressSelected
-                    ? app.proceedProjects.map((project) => (
-                        <ProjectCard project={project} key={project.id} />
-                      ))
-                    : app.doneProjects.map((project) => (
-                        <ProjectCard project={project} key={project.id} />
-                      ))}
-                </Styled.ProjectContainer>
-              </Styled.Section>
-            </Styled.SectionContainer>
-          </Styled.SectionDisplay> */}
         </FlexColumn>
       </MemberNavbarLayout>
     </>

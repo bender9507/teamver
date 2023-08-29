@@ -1,36 +1,42 @@
+import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { Icon } from "~/components/Commons";
+import { routes } from "~/constants/routes";
 import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "./Navbar.styles";
 
-const list = [
-  { label: "Home", route: "/home", icon: "home" },
-  { label: "Chat", route: "/chat", icon: "chat" },
-  { label: "List", route: "/like", icon: "list" },
-  { label: "My", route: "/profile", icon: "my" }
-] as const;
-
 export const Navbar = () => {
-  const router = useRouter();
+  const user = useUser();
 
   return (
     <Styled.Navbar>
-      {list.map(({ label, route, icon }) => (
-        <Link href={route} key={route}>
-          <FlexCenter gap={4} direction="column">
-            <Icon
-              name={icon}
-              width={27}
-              height={27}
-              color={router.pathname.includes(route) ? "primary" : "white"}
-            />
-            <Text size="paragraph3" color={router.pathname.includes(route) ? "primary" : "white"}>
-              {label}
-            </Text>
-          </FlexCenter>
-        </Link>
-      ))}
+      <Link href={routes.home}>
+        <FlexCenter gap={4} direction="column">
+          <Icon name="home" />
+          <Text>Home</Text>
+        </FlexCenter>
+      </Link>
+
+      <Link href={routes.chat}>
+        <FlexCenter gap={4} direction="column">
+          <Icon name="chat" />
+          <Text>Chat</Text>
+        </FlexCenter>
+      </Link>
+
+      <Link href={routes.like}>
+        <FlexCenter gap={4} direction="column">
+          <Icon name="list" />
+          <Text>List</Text>
+        </FlexCenter>
+      </Link>
+
+      <Link href={routes.profile(user?.id ?? "")}>
+        <FlexCenter gap={4} direction="column">
+          <Icon name="my" />
+          <Text>My</Text>
+        </FlexCenter>
+      </Link>
     </Styled.Navbar>
   );
 };

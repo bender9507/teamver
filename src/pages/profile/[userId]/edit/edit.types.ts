@@ -1,4 +1,4 @@
-export interface MyPageForm {
+export interface ProfileEditForm {
   positions: string[];
   projectTypes: string[];
   skills: string[];
