@@ -1,10 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
+import { routes } from "~/constants/routes";
 import { useBoolean } from "~/hooks";
 import { useGetConstantQuery } from "~/states/server/constant";
 import { projectsKey, useInsertProjectMutate } from "~/states/server/project";
@@ -14,6 +16,7 @@ import type Create from "./index.page";
 
 export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { mount, unmount } = useModal();
   const { toast } = useDialog();
@@ -24,6 +27,8 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   const { mutate: insertProjectMutate } = useInsertProjectMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
+
+      router.push(routes.profile(user.id));
     }
   });
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
