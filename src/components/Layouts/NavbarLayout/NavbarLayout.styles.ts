@@ -8,6 +8,6 @@ export const Container = styled.div`
   ${size({ fullScreen: true })};
 `;
 
-export const Main = styled.main`
+export const Main = styled.div`
   overflow: scroll;
 `;

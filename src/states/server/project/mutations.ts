@@ -5,7 +5,8 @@ import {
   insertProject,
   insertProjectInvite,
   updateProject,
-  updateProjectInviteState
+  updateProjectInviteState,
+  updateProjectState
 } from ".";
 import type { PickMutationOptions } from "../server.types";
 
@@ -59,6 +60,15 @@ export const useInsertFollowProjectMutate = (
 ) => {
   return useMutation({
     mutationFn: insertFollowProject,
+    ...options
+  });
+};
+
+export const useUpdateProjectStateMutate = (
+  options?: PickMutationOptions<typeof updateProjectState, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateProjectState,
     ...options
   });
 };

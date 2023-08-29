@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import { useState, type ComponentProps } from "react";
+import { routes } from "~/constants/routes";
 import { useSelectProfileQuery } from "~/states/server/profile";
-import { useSelectMemberProjectsQuery } from "~/states/server/project";
-import type { Member } from "./Member";
+import { useSelectOwnerProjectsQuery } from "~/states/server/project";
+import type { Owner } from "./Owner";
 
-export const useMember = ({ user }: ComponentProps<typeof Member>) => {
+export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
   const [selectedTab, setSelectedTab] = useState("IN_PROJECT");
 
   const router = useRouter();
@@ -12,15 +13,20 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
   const userId = router.query.userId as string;
 
   const { data: profile } = useSelectProfileQuery(userId);
-  const { data: projects } = useSelectMemberProjectsQuery(userId);
+  const { data: projects } = useSelectOwnerProjectsQuery(userId);
 
   const isMine = userId === user.id;
+
+  const handleProjectCreate = () => {
+    router.push(routes.projectCreate);
+  };
 
   return {
     profile,
     projects,
     isMine,
     selectedTab,
-    setSelectedTab
+    setSelectedTab,
+    handleProjectCreate
   };
 };

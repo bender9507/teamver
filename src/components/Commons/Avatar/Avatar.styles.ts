@@ -8,7 +8,8 @@ import type { AvatarStyleProps } from "./Avatar.types";
 
 export const avatarContainerStyle = ({
   theme,
-  size: _size = "medium"
+  size: _size = "medium",
+  shape = "circle"
 }: WithTheme<AvatarStyleProps>) => {
   const avatarSize = avatarSizeMap[_size];
 
@@ -20,7 +21,9 @@ export const avatarContainerStyle = ({
     ${size({ width: avatarSize, height: avatarSize })}
     overflow: hidden;
 
-    border-radius: 50%;
+    ${shape === "circle"}
+
+    border-radius: ${shape === "circle" ? "50%" : "8px"};
 
     background-color: ${theme.colors.backgroundSecondary};
   `;

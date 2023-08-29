@@ -10,7 +10,7 @@ export const Navbar = () => {
 
   return (
     <Styled.Navbar>
-      <Link href={routes.home}>
+      <Link href={routes.main}>
         <FlexCenter gap={4} direction="column">
           <Icon name="home" />
           <Text>Home</Text>

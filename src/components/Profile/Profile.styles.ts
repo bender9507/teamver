@@ -1,8 +1,21 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex } from "~/styles/mixins";
+import { FlexColumn, flex, position, size } from "~/styles/mixins";
 
-export const ProfileContainer = styled.div`
-  ${flex.center({ direction: "column", gap: 12 })};
+export const SectionContainer = styled(FlexColumn)`
+  padding: 32px;
+`;
 
-  padding: 62px 0 34px 0;
+export const CreateProject = styled.button`
+  ${position.absolute({ bottom: 84, right: 24 })};
+
+  ${flex.center()};
+
+  ${size({ width: 50, height: 50 })};
+
+  ${({ theme: { colors } }) => css`
+    background-color: ${colors.primary};
+  `};
+
+  border-radius: 50%;
 `;
