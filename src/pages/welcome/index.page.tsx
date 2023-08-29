@@ -6,12 +6,11 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Controller } from "react-hook-form";
 import {
   Button,
-  CheckboxChip,
   Icon,
   IconButton,
   ImageUploader,
   Input,
-  RadioChip,
+  SelectChip,
   Textarea
 } from "~/components/Commons";
 import { HTTP_REGEX } from "~/constants/regex";
@@ -110,13 +109,13 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.languages.map((language) => (
-                <CheckboxChip
+                <SelectChip
                   key={language.id}
                   value={language.id}
                   {...app.register("languages", { required: true })}
                 >
                   {language.name}
-                </CheckboxChip>
+                </SelectChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -134,13 +133,13 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.skills.map((skill) => (
-                <CheckboxChip
+                <SelectChip
                   key={skill.id}
                   value={skill.id}
                   {...app.register("skills", { required: true })}
                 >
                   {skill.name}
-                </CheckboxChip>
+                </SelectChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -158,13 +157,13 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.positions.map((position) => (
-                <CheckboxChip
+                <SelectChip
                   key={position.id}
                   value={position.id}
                   {...app.register("positions", { required: true })}
                 >
                   {position[currentLanguage]}
-                </CheckboxChip>
+                </SelectChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -182,13 +181,13 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.projectTypes.map((pt) => (
-                <CheckboxChip
+                <SelectChip
                   key={pt.id}
                   value={pt.id}
                   {...app.register("projectTypes", { required: true })}
                 >
                   {pt[currentLanguage]}
-                </CheckboxChip>
+                </SelectChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -206,7 +205,7 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.personalities.map((personality) => (
-                <CheckboxChip
+                <SelectChip
                   key={personality.id}
                   value={personality.id}
                   {...app.register("personalities", {
@@ -215,7 +214,7 @@ const Welcome = (props: { user: User }) => {
                   })}
                 >
                   {personality[currentLanguage]}
-                </CheckboxChip>
+                </SelectChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -233,13 +232,13 @@ const Welcome = (props: { user: User }) => {
 
             <Grid gap={12} column={5}>
               {app.constants.areas.map((area) => (
-                <CheckboxChip
+                <SelectChip
                   key={area.id}
                   value={area.id}
                   {...app.register("areas", { required: true, maxLength: 2 })}
                 >
                   {area[currentLanguage]}
-                </CheckboxChip>
+                </SelectChip>
               ))}
             </Grid>
           </Styled.Section>
@@ -264,9 +263,13 @@ const Welcome = (props: { user: User }) => {
 
             <Flex gap={12} wrap="wrap">
               {app.constants.jobs.map((job) => (
-                <RadioChip key={job.id} value={job.id} {...app.register("job", { required: true })}>
+                <SelectChip
+                  key={job.id}
+                  value={job.id}
+                  {...app.register("job", { required: true })}
+                >
                   {job[currentLanguage]}
-                </RadioChip>
+                </SelectChip>
               ))}
             </Flex>
           </Styled.Section>
@@ -322,14 +325,15 @@ const Welcome = (props: { user: User }) => {
 
             <Grid column={2} gap={8}>
               {app.constants.roles.map((role) => (
-                <RadioChip
+                <SelectChip
                   key={role.id}
                   value={role.id}
+                  type="radio"
                   size="large"
                   {...app.register("role", { required: true })}
                 >
                   {role[currentLanguage]}
-                </RadioChip>
+                </SelectChip>
               ))}
             </Grid>
           </Styled.Section>

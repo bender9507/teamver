@@ -10,7 +10,7 @@ import {
   useSelectRecommendedProjectsQuery
 } from "~/states/server/project";
 import type { Member } from "./Member";
-import type { FilterForm } from "./member.types";
+import type { FilterForm } from "./Member.types";
 
 const SEED = Math.random();
 
