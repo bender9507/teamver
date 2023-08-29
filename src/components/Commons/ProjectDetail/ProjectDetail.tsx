@@ -74,6 +74,31 @@ export const ProjectDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
+            <Text size="heading4">{t("모집 인원")}</Text>
+
+            <Text size="paragraph2" color="content2">
+              {project.recruitCount}
+              {t("명")}
+            </Text>
+          </FlexColumn>
+
+          <FlexColumn gap={16}>
+            <Text size="heading4">{t("활동 지역")}</Text>
+
+            <Flex gap={12} wrap="wrap">
+              {project.areas.map((area) => (
+                <Chip
+                  key={area.id}
+                  color="backgroundPrimary"
+                  isSelected={!!profile.areas.find((_area) => _area.id === area.id)}
+                >
+                  {area[currentLanguage]}
+                </Chip>
+              ))}
+            </Flex>
+          </FlexColumn>
+
+          <FlexColumn gap={16}>
             <Text size="heading4">{t("주요 언어")}</Text>
 
             <Flex gap={12} wrap="wrap">

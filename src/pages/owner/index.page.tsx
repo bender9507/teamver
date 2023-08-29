@@ -3,7 +3,15 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Button, Icon, IconButton, SelectChip, TinderCard } from "~/components/Commons";
+import {
+  Button,
+  Icon,
+  IconButton,
+  ProfileDetail,
+  SelectChip,
+  TinderCard
+} from "~/components/Commons";
+import { PROFILE_DETAIL_MODAL } from "~/components/Commons/ProfileDetail";
 import { OwnerNavbarLayout } from "~/components/Layouts";
 import { routes } from "~/constants/routes";
 import { Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
@@ -208,11 +216,25 @@ const Owner = ({ user }: { user: User }) => {
 
                     <Text size="heading4">{profile.name}</Text>
 
-                    <Text size="paragraph3" color="gray1">
-                      {profile.introduce}
-                    </Text>
+                    <Flex align="end" justify="between" gap={18}>
+                      <Text size="paragraph3" color="gray1" lineClamp={2}>
+                        {profile.introduce}
+                      </Text>
 
-                    <IconButton name="chat" color="white" />
+                      <IconButton
+                        name="upButton"
+                        width={26}
+                        height={26}
+                        color="white"
+                        style={{ flexShrink: 0 }}
+                        onClick={() =>
+                          app.mount(<ProfileDetail profile={profile} filter={app.filter} />, {
+                            id: PROFILE_DETAIL_MODAL,
+                            type: "bottom"
+                          })
+                        }
+                      />
+                    </Flex>
                   </FlexColumn>
                 </Styled.Content>
               </TinderCard>
