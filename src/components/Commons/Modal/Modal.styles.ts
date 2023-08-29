@@ -40,10 +40,11 @@ export const Outer = styled.div<ModalStyleProps>`
   ${(props) => outerTypeStyle(props)}
   ${(props) => outerBackgroundStyle(props)}
 
-  ${position.fixed({ top: 0, left: 0 })}
+  ${position.posCenter()};
+  position: fixed;
 
-  ${size({ fullScreen: true })}
-
+  ${size({ fullScreen: true })};
+  width: 500px;
 
   ${({ theme }) => css`
     z-index: ${theme.zIndex.modal};
