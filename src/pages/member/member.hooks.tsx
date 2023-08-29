@@ -1,8 +1,8 @@
 import type { ComponentProps } from "react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
-import { useImmutableState } from "~/hooks";
+import { useCardSelect, useImmutableState } from "~/hooks";
 import { useGetConstantQuery } from "~/states/server/constant";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import {
@@ -15,8 +15,6 @@ import type { FilterForm } from "./member.types";
 const SEED = Math.random();
 
 export const useMember = ({ user }: ComponentProps<typeof Member>) => {
-  const [selectedItem, setSelectedItem] = useImmutableState<Record<string, boolean>>({});
-
   const [filter, setFilter] = useImmutableState<FilterForm>({
     areas: []
   });
@@ -32,17 +30,16 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     ...filter
   });
 
-  const { mutate: insertFollowProject } = useInsertFollowProjectMutate();
-
-  const filteredRandomProjects = useMemo(
-    () =>
-      randomProjects?.pages
-        .map((page) => page.data)
-        .flat()
-        .filter((item) => !selectedItem[Number(item.id)])
-        .reverse() ?? [],
-    [randomProjects?.pages, selectedItem]
+  const {
+    filteredCards: filteredRandomProjects,
+    handleAccept,
+    handleReject,
+    handleRestore
+  } = useCardSelect(randomProjects?.pages.map((page) => page.data).flat() ?? [], (projectId) =>
+    insertFollowProject({ followerId: user.id, projectId: projectId as number })
   );
+
+  const { mutate: insertFollowProject } = useInsertFollowProjectMutate();
 
   const handleChangeFilter = handleSubmit(({ projectType, areas }) => {
     setFilter({ areas: areas || [], projectType });
@@ -50,16 +47,6 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     unmount("selectProjectType");
     unmount("selectLanguages");
   });
-
-  const handleConfirm = (projectId: number) => {
-    setSelectedItem({ [projectId]: true });
-
-    insertFollowProject({ followerId: user.id, projectId });
-  };
-
-  const handleCancel = (projectId: number) => {
-    setSelectedItem({ [projectId]: true });
-  };
 
   useEffect(() => {
     if (filteredRandomProjects.length <= 1) {
@@ -71,13 +58,12 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
     mount,
     profile,
     filter,
-    register,
     constants,
-    randomProjects,
-    fetchNextPage,
+    register,
     handleChangeFilter,
-    handleConfirm,
-    handleCancel,
+    handleAccept,
+    handleReject,
+    handleRestore,
     filteredRandomProjects
   };
 };

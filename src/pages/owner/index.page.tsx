@@ -29,6 +29,8 @@ const Owner = ({ user }: { user: User }) => {
     <OwnerNavbarLayout>
       <Styled.Container>
         <Styled.FilterList>
+          <Button onClick={app.handleRestore}>복원</Button>
+
           <Styled.TypeButton
             isSelected={app.filter.languages.length > 0}
             onClick={() =>
@@ -191,8 +193,8 @@ const Owner = ({ user }: { user: User }) => {
           {app.filteredRandomProfiles.map((profile) => (
             <Styled.CardContainer key={profile.id}>
               <TinderCard
-                onConfirm={() => app.handleConfirm(profile.id)}
-                onCancel={() => app.handleCancel(profile.id)}
+                onConfirm={() => app.handleAccept(profile.id)}
+                onCancel={() => app.handleReject(profile.id)}
               >
                 <Styled.Profile
                   src={profile.imageUrl}

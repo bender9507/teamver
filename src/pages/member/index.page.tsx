@@ -29,6 +29,8 @@ const Member = (props: { user: User }) => {
     <MemberNavbarLayout>
       <Styled.Container>
         <Flex gap={12}>
+          <Button onClick={app.handleRestore}>복원</Button>
+
           <Styled.TypeButton
             isSelected={!!app.filter.projectType}
             onClick={() =>
@@ -115,8 +117,8 @@ const Member = (props: { user: User }) => {
             return (
               <Styled.CardContainer key={project.id}>
                 <TinderCard
-                  onConfirm={() => app.handleConfirm(project.id)}
-                  onCancel={() => app.handleCancel(project.id)}
+                  onConfirm={() => app.handleAccept(project.id)}
+                  onCancel={() => app.handleReject(project.id)}
                 >
                   <Styled.Profile
                     src={project.imageUrl}
