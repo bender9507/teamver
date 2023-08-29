@@ -39,8 +39,9 @@ export const Gradient = styled.div`
 `;
 
 export const Content = styled.div`
-  position: absolute;
   z-index: 2;
+
+  width: 100%;
 
   padding: 36px 24px;
 `;
