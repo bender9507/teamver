@@ -149,6 +149,3 @@ export const CalendarWrapper = styled.div`
     border-radius: 10px;
   }
 `;
-export const DateBox = styled(FlexColumn)`
-  width: 50%;
-`;
