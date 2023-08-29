@@ -42,25 +42,22 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     "areas"
   ]);
 
-  const handleCreateProject: Parameters<typeof handleSubmit>[0] = async ({
-    imageUrl: imageFile,
-    startDate,
-    endDate,
-    ...rest
-  }) => {
-    const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
-      file: imageFile,
-      name: `${user.id}_${new Date().getTime()}`
-    });
+  const handleCreateProject = handleSubmit(
+    async ({ imageUrl: imageFile, startDate, endDate, ...rest }) => {
+      const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
+        file: imageFile,
+        name: `${user.id}_${new Date().getTime()}`
+      });
 
-    insertProjectMutate({
-      ownerId: user.id,
-      startDate: startDate?.toDateString(),
-      endDate: endDate?.toDateString(),
-      imageUrl,
-      ...rest
-    });
-  };
+      insertProjectMutate({
+        ownerId: user.id,
+        startDate: startDate?.toDateString(),
+        endDate: endDate?.toDateString(),
+        imageUrl,
+        ...rest
+      });
+    }
+  );
 
   useEffect(() => {
     watch(({ startDate, endDate }) => {

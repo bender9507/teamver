@@ -2,12 +2,14 @@ import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 import { Member, Owner } from "~/components/Profile";
 import { routes } from "~/constants/routes";
 import { useSelectProfileQuery } from "~/states/server/profile";
 
 const Profile = (props: { user: User }) => {
-  const { data: profile } = useSelectProfileQuery(props.user.id);
+  const router = useRouter();
+  const { data: profile } = useSelectProfileQuery(router.query.userId as string);
 
   if (profile.role.id === 1) {
     return <Owner {...props} />;
