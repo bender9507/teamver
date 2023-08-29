@@ -5,8 +5,8 @@ import { useCardSelect, useImmutableState } from "~/hooks";
 
 import { useGetConstantQuery } from "~/states/server/constant";
 import { useInsertFollowMutate, useSelectRecommendedProfilesQuery } from "~/states/server/profile";
-import type Owner from "./index.page";
-import type { FilterForm } from "./owner.types";
+import type { Owner } from "./Owner";
+import type { FilterForm } from "./Owner.types";
 
 const SEED = Math.random();
 

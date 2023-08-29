@@ -1,8 +1,5 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
-import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
   Button,
   Icon,
@@ -13,13 +10,21 @@ import {
   TinderCard
 } from "~/components/Commons";
 import { MemberNavbarLayout } from "~/components/Layouts";
-import { routes } from "~/constants/routes";
-import { Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
+import { CommonContainer, Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import { useMember } from "./member.hooks";
-import * as Styled from "./member.styles";
+import {
+  BlurChip,
+  CardContainer,
+  Container,
+  Content,
+  Gradient,
+  OptionButton,
+  Profile,
+  Select
+} from "../Home.styles";
+import { useMember } from "./Member.hooks";
 
-const Member = (props: { user: User }) => {
+export const Member = (props: { user: User }) => {
   const app = useMember(props);
   const { t, i18n } = useTranslation("memberHome");
 
@@ -27,15 +32,15 @@ const Member = (props: { user: User }) => {
 
   return (
     <MemberNavbarLayout>
-      <Styled.Container>
-        <Flex gap={12}>
+      <Container>
+        <Select>
           <Button onClick={app.handleRestore}>복원</Button>
 
-          <Styled.TypeButton
+          <OptionButton
             isSelected={!!app.filter.projectType}
             onClick={() =>
               app.mount(
-                <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
+                <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
                     <Text size="heading4">{t("어떤 프로젝트를 찾으시나요")}</Text>
                     <Text size="paragraph3">
@@ -62,20 +67,20 @@ const Member = (props: { user: User }) => {
                   <SizeBox height={60} />
 
                   <Button>{t("확인")}</Button>
-                </Styled.FilterContainer>,
+                </CommonContainer>,
                 { id: "selectProjectType", type: "bottom" }
               )
             }
           >
             {t("프로젝트 타입")}
             <Icon name="arrowDown" width={20} height={20} />
-          </Styled.TypeButton>
+          </OptionButton>
 
-          <Styled.TypeButton
+          <OptionButton
             isSelected={app.filter.areas.length > 0}
             onClick={() =>
               app.mount(
-                <Styled.FilterContainer as="form" onSubmit={app.handleChangeFilter}>
+                <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
                     <Text size="heading4">{t("프로젝트 활동 지역이 어디인가요")}</Text>
 
@@ -102,95 +107,61 @@ const Member = (props: { user: User }) => {
                   <SizeBox height={60} />
 
                   <Button>확인</Button>
-                </Styled.FilterContainer>,
+                </CommonContainer>,
                 { id: "selectLanguages", type: "bottom" }
               )
             }
           >
             {t("활동 지역")}
             <Icon name="arrowDown" width={20} height={20} />
-          </Styled.TypeButton>
-        </Flex>
+          </OptionButton>
+        </Select>
 
         <Position position="relative">
           {app.filteredRandomProjects.map((project) => {
             return (
-              <Styled.CardContainer key={project.id}>
+              <CardContainer key={project.id}>
                 <TinderCard
                   onConfirm={() => app.handleAccept(project.id)}
                   onCancel={() => app.handleReject(project.id)}
                 >
-                  <Styled.Profile
-                    src={project.imageUrl}
-                    alt="프로필 사진"
-                    fill
-                    sizes="100%"
-                    priority
-                  />
+                  <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
 
-                  <Styled.Gradient />
+                  <Gradient />
 
-                  <Styled.Content>
-                    <FlexColumn gap={12}>
-                      <Flex>
-                        <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
-                      </Flex>
+                  <Content>
+                    <Flex>
+                      <BlurChip>{project.projectType[currentLanguage]}</BlurChip>
+                    </Flex>
 
-                      <Text size="heading4">{project.name}</Text>
+                    <Text size="heading4">{project.name}</Text>
 
-                      <Flex align="end" justify="between" gap={18}>
-                        <Text size="paragraph3" color="gray1" lineClamp={2}>
-                          {project.description}
-                        </Text>
+                    <Flex align="end" justify="between" gap={18}>
+                      <Text size="paragraph3" color="gray1" lineClamp={2}>
+                        {project.description}
+                      </Text>
 
-                        <IconButton
-                          name="upButton"
-                          width={26}
-                          height={26}
-                          color="white"
-                          onClick={() =>
-                            app.mount(<ProjectDetail project={project} profile={app.profile} />, {
-                              id: PROJECT_DETAIL_MODAL,
-                              type: "bottom"
-                            })
-                          }
-                          style={{ flexShrink: 0 }}
-                        />
-                      </Flex>
-                    </FlexColumn>
-                  </Styled.Content>
+                      <IconButton
+                        name="upButton"
+                        width={26}
+                        height={26}
+                        color="white"
+                        onClick={() =>
+                          app.mount(<ProjectDetail project={project} profile={app.profile} />, {
+                            id: PROJECT_DETAIL_MODAL,
+                            type: "bottom"
+                          })
+                        }
+                        style={{ flexShrink: 0 }}
+                      />
+                    </Flex>
+                  </Content>
                 </TinderCard>
-              </Styled.CardContainer>
+              </CardContainer>
             );
           })}
         </Position>
-      </Styled.Container>
+      </Container>
     </MemberNavbarLayout>
   );
-};
-
-export default Member;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const supabaseServer = createPagesServerClient(context);
-
-  const {
-    data: { session }
-  } = await supabaseServer.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: routes.home,
-        permanent: false
-      }
-    };
-  }
-
-  return {
-    props: {
-      user: session.user,
-      ...(await serverSideTranslations(context.locale, ["memberHome"]))
-    }
-  };
 };

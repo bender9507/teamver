@@ -1,9 +1,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { FlexColumn, flex, position, size, text } from "~/styles/mixins";
-import { colors } from "~/styles/theme/colors";
+import { flex, position, size, text } from "~/styles/mixins";
 import { hexToRgba, styleHelper } from "~/styles/utils";
+
+import { colors } from "~/styles/theme/colors";
 
 export const Container = styled.div`
   display: grid;
@@ -39,6 +40,7 @@ export const Gradient = styled.div`
 `;
 
 export const Content = styled.div`
+  ${flex.column({ gap: 12 })};
   z-index: 2;
 
   width: 100%;
@@ -60,7 +62,19 @@ export const BlurChip = styled.span`
   color: ${colors.content1};
 `;
 
-export const TypeButton = styled.button<{ isSelected: boolean }>`
+export const CardContainer = styled.div`
+  ${position.absolute({ top: 0, left: 0 })};
+
+  ${size({ width: "100%", height: "100%" })};
+`;
+
+export const Select = styled.div`
+  ${flex({ gap: 12 })};
+
+  overflow: scroll;
+`;
+
+export const OptionButton = styled.button<{ isSelected: boolean }>`
   ${flex.center({ gap: 6 })};
   flex-shrink: 0;
 
@@ -77,20 +91,4 @@ export const TypeButton = styled.button<{ isSelected: boolean }>`
 
     ${isSelected && styleHelper("boxShadow", `inset 0 0 0 1px ${colors.primary}`)};
   `};
-`;
-
-export const CardContainer = styled.div`
-  ${position.absolute({ top: 0, left: 0 })};
-
-  ${size({ width: "100%", height: "100%" })};
-`;
-
-export const FilterList = styled.div`
-  ${flex({ gap: 12 })};
-
-  overflow: scroll;
-`;
-
-export const FilterContainer = styled(FlexColumn)`
-  padding: 42px 36px 78px 36px;
 `;

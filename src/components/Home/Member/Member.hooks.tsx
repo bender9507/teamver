@@ -9,7 +9,7 @@ import {
   useInsertFollowProjectMutate,
   useSelectRecommendedProjectsQuery
 } from "~/states/server/project";
-import type Member from "./index.page";
+import type { Member } from "./Member";
 import type { FilterForm } from "./member.types";
 
 const SEED = Math.random();
