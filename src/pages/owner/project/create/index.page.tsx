@@ -152,80 +152,83 @@ const Create = (props: { user: User }) => {
         <FlexColumn gap={16}>
           <Text size="heading4">프로젝트 기간</Text>
 
-          <FlexColumn gap={8}>
-            <Text>Start Date</Text>
+          <Flex justify="between">
+            <FlexColumn gap={12} style={{ width: "48%" }}>
+              <Text>Start Date</Text>
 
-            <FlexColumn gap={12}>
-              <Input
-                placeholder="시작일"
-                readOnly
-                value={
-                  app.watch("startDate") ? dayjs(app.watch("startDate")).format("DD. MM. YYYY") : ""
-                }
-                onClick={app.setStartDateIsOpen.toggle}
-              />
-
-              {app.startDateIsOpen && (
-                <Controller
-                  name="startDate"
-                  control={app.control}
-                  render={({ field: { onChange } }) => (
-                    <Styled.CalendarWrapper>
-                      <Calendar
-                        locale="en-EN"
-                        nextLabel=">"
-                        prevLabel="<"
-                        next2Label={null}
-                        prev2Label={null}
-                        formatDay={(locale, date) => dayjs(date).format("D")}
-                        onChange={(date) => {
-                          app.setStartDateIsOpen.off();
-                          onChange(date);
-                        }}
-                      />
-                    </Styled.CalendarWrapper>
-                  )}
+              <FlexColumn gap={12}>
+                <Input
+                  placeholder="시작일"
+                  readOnly
+                  value={
+                    app.watch("startDate")
+                      ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
+                      : ""
+                  }
+                  onClick={app.setStartDateIsOpen.toggle}
                 />
-              )}
+              </FlexColumn>
             </FlexColumn>
-          </FlexColumn>
 
-          <FlexColumn gap={8}>
-            <Text>Due Date</Text>
+            <FlexColumn gap={12} style={{ width: "48%" }}>
+              <Text>Due Date</Text>
 
-            <FlexColumn gap={12}>
-              <Input
-                placeholder="종료일"
-                readOnly
-                value={
-                  app.watch("endDate") ? dayjs(app.watch("endDate")).format("DD. MM. YYYY") : ""
-                }
-                onClick={app.setEndDateIsOpen.toggle}
-              />
-
-              {app.endDateIsOpen && (
-                <Controller
-                  name="endDate"
-                  control={app.control}
-                  render={({ field: { onChange } }) => (
-                    <Styled.CalendarWrapper>
-                      <Calendar
-                        locale="en-EN"
-                        nextLabel=">"
-                        prevLabel="<"
-                        next2Label={null}
-                        prev2Label={null}
-                        onChange={(date) => {
-                          app.setEndDateIsOpen.off();
-                          onChange(date);
-                        }}
-                      />
-                    </Styled.CalendarWrapper>
-                  )}
+              <FlexColumn gap={12}>
+                <Input
+                  placeholder="종료일"
+                  readOnly
+                  value={
+                    app.watch("endDate") ? dayjs(app.watch("endDate")).format("DD. MM. YYYY") : ""
+                  }
+                  onClick={app.setEndDateIsOpen.toggle}
                 />
-              )}
+              </FlexColumn>
             </FlexColumn>
-          </FlexColumn>
+          </Flex>
+
+          {app.startDateIsOpen && (
+            <Controller
+              name="startDate"
+              control={app.control}
+              render={({ field: { onChange } }) => (
+                <Styled.CalendarWrapper>
+                  <Calendar
+                    locale="en-EN"
+                    nextLabel=">"
+                    prevLabel="<"
+                    next2Label={null}
+                    prev2Label={null}
+                    formatDay={(locale, date) => dayjs(date).format("D")}
+                    onChange={(date) => {
+                      app.setStartDateIsOpen.off();
+                      onChange(date);
+                    }}
+                  />
+                </Styled.CalendarWrapper>
+              )}
+            />
+          )}
+          {app.endDateIsOpen && (
+            <Controller
+              name="endDate"
+              control={app.control}
+              render={({ field: { onChange } }) => (
+                <Styled.CalendarWrapper>
+                  <Calendar
+                    locale="en-EN"
+                    nextLabel=">"
+                    prevLabel="<"
+                    next2Label={null}
+                    prev2Label={null}
+                    onChange={(date) => {
+                      app.setEndDateIsOpen.off();
+                      onChange(date);
+                    }}
+                  />
+                </Styled.CalendarWrapper>
+              )}
+            />
+          )}
         </FlexColumn>
 
         <FlexColumn gap={16}>

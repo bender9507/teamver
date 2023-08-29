@@ -65,12 +65,17 @@ export const CalendarWrapper = styled.div`
   padding: 10px 0;
 
   .react-calendar {
+    ${flex.column({ align: "center" })};
+
     ${size({ width: "85%" })};
 
     ${({ theme: { colors } }) => css`
       background-color: ${colors.black};
     `}
     border: none;
+  }
+  .react-calendar__navigation {
+    padding-bottom: 20px;
   }
   .react-calendar__navigation__label > span {
     ${({ theme: { colors } }) => css`
@@ -80,6 +85,8 @@ export const CalendarWrapper = styled.div`
     font-size: 1rem;
   }
   .react-calendar__navigation button {
+    padding: 0 20px;
+
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
     `}
@@ -89,6 +96,19 @@ export const CalendarWrapper = styled.div`
     ${({ theme: { colors } }) => css`
       background-color: ${colors.black};
     `}
+  }
+  .react-calendar__month-view__weekdays__weekday {
+    ${flex({ justify: "center" })};
+
+    width: 100%;
+
+    padding-bottom: 20px;
+
+    font-size: 0.8rem;
+
+    abbr[title] {
+      text-decoration: none;
+    }
   }
 
   .react-calendar__month-view__weekdays {
@@ -100,7 +120,9 @@ export const CalendarWrapper = styled.div`
       font-weight: 300;
     }
   }
-
+  .react-calendar__month-view__days {
+    height: 120%;
+  }
   .react-calendar__tile--now {
     ${({ theme: { colors } }) => css`
       background-color: ${colors.black};

@@ -154,8 +154,8 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
         <FlexColumn gap={16}>
           <Text size="heading4">프로젝트 기간</Text>
 
-          <Flex>
-            <FlexColumn>
+          <Flex justify="between">
+            <FlexColumn gap={12} style={{ width: "48%" }}>
               <Text>Start Date</Text>
 
               <FlexColumn gap={12}>
@@ -169,33 +169,10 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                   }
                   onClick={app.setStartDateIsOpen.toggle}
                 />
-
-                {app.startDateIsOpen && (
-                  <Controller
-                    name="startDate"
-                    control={app.control}
-                    render={({ field: { onChange } }) => (
-                      <Styled.CalendarWrapper>
-                        <Calendar
-                          locale="en-EN"
-                          nextLabel=">"
-                          prevLabel="<"
-                          next2Label={null}
-                          prev2Label={null}
-                          formatDay={(locale, date) => dayjs(date).format("D")}
-                          onChange={(date) => {
-                            app.setStartDateIsOpen.off();
-                            onChange(date);
-                          }}
-                        />
-                      </Styled.CalendarWrapper>
-                    )}
-                  />
-                )}
               </FlexColumn>
             </FlexColumn>
 
-            <FlexColumn gap={8}>
+            <FlexColumn gap={12} style={{ width: "48%" }}>
               <Text>Due Date</Text>
 
               <FlexColumn gap={12}>
@@ -209,31 +186,53 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                   }
                   onClick={app.setEndDateIsOpen.toggle}
                 />
-
-                {app.endDateIsOpen && (
-                  <Controller
-                    name="endDate"
-                    control={app.control}
-                    render={({ field: { onChange } }) => (
-                      <Styled.CalendarWrapper>
-                        <Calendar
-                          locale="en-EN"
-                          nextLabel=">"
-                          prevLabel="<"
-                          next2Label={null}
-                          prev2Label={null}
-                          onChange={(date) => {
-                            app.setEndDateIsOpen.off();
-                            onChange(date);
-                          }}
-                        />
-                      </Styled.CalendarWrapper>
-                    )}
-                  />
-                )}
               </FlexColumn>
             </FlexColumn>
           </Flex>
+
+          {app.startDateIsOpen && (
+            <Controller
+              name="startDate"
+              control={app.control}
+              render={({ field: { onChange } }) => (
+                <Styled.CalendarWrapper>
+                  <Calendar
+                    locale="en-EN"
+                    nextLabel=">"
+                    prevLabel="<"
+                    next2Label={null}
+                    prev2Label={null}
+                    formatDay={(locale, date) => dayjs(date).format("D")}
+                    onChange={(date) => {
+                      app.setStartDateIsOpen.off();
+                      onChange(date);
+                    }}
+                  />
+                </Styled.CalendarWrapper>
+              )}
+            />
+          )}
+          {app.endDateIsOpen && (
+            <Controller
+              name="endDate"
+              control={app.control}
+              render={({ field: { onChange } }) => (
+                <Styled.CalendarWrapper>
+                  <Calendar
+                    locale="en-EN"
+                    nextLabel=">"
+                    prevLabel="<"
+                    next2Label={null}
+                    prev2Label={null}
+                    onChange={(date) => {
+                      app.setEndDateIsOpen.off();
+                      onChange(date);
+                    }}
+                  />
+                </Styled.CalendarWrapper>
+              )}
+            />
+          )}
         </FlexColumn>
 
         <FlexColumn gap={16}>
