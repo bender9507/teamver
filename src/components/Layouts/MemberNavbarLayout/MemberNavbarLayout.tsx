@@ -1,8 +1,8 @@
+import type { PropsWithChildren } from "react";
 import { Header, Navbar } from "~/components/Shared";
-import type { PropsWithElement } from "~/types";
 import * as Styled from "./MemberNavbarLayout.styles";
 
-export const MemberNavbarLayout = ({ children }: PropsWithElement) => {
+export const MemberNavbarLayout = ({ children }: PropsWithChildren) => {
   return (
     <Styled.Container>
       <Header />

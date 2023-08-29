@@ -2,8 +2,6 @@ import type { ReactNode } from "react";
 import { useCallback } from "react";
 import { useOverlayStore } from "~/states/client";
 import { uuid } from "~/utils";
-import type { AlertProps } from "./Alert";
-import { Alert } from "./Alert";
 import { Confirm } from "./Confirm";
 import type { ConfirmProps } from "./Confirm/Confirm.types";
 import { Toast } from "./Toast";
@@ -23,21 +21,6 @@ export const useDialog = () => {
       }) as Promise<boolean>;
     },
     [mount]
-  );
-
-  const alert = useCallback(
-    (props: Omit<AlertProps, "id" | "onConfirm">) =>
-      render((id, resolve) => (
-        <Alert
-          {...props}
-          id={id}
-          onConfirm={() => {
-            resolve(true);
-            unmount(id);
-          }}
-        />
-      )),
-    [render, unmount]
   );
 
   const confirm = useCallback(
@@ -65,7 +48,6 @@ export const useDialog = () => {
   );
 
   return {
-    alert,
     confirm,
     toast
   };

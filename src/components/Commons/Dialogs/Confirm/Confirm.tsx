@@ -1,34 +1,47 @@
-import { Button } from "~/components/Commons";
-import { Flex, Text } from "~/styles/mixins";
-import { Dialogs } from "../Dialogs";
+import type { MouseEvent } from "react";
+import { useLockBodyScroll } from "react-use";
+import { useOverlayStore } from "~/states/client";
+import { Text } from "~/styles/mixins";
+import * as Styled from "./Confirm.styles";
 import type { ConfirmProps } from "./Confirm.types";
 
 export const Confirm = ({
+  id,
   title,
   message,
   confirmLabel = "확인",
   onConfirm,
   cancelLabel = "취소",
-  onCancel,
-  ...props
+  onCancel
 }: ConfirmProps) => {
+  const { unmount } = useOverlayStore();
+
+  const handleClose = ({ target, currentTarget }: MouseEvent<HTMLDivElement>) => {
+    if (target === currentTarget) unmount(id);
+  };
+
+  useLockBodyScroll(true);
+
   return (
-    <Dialogs {...props}>
-      {title && (
-        <Text as="h3" size="heading4" color="backgroundSecondary">
-          {title}
-        </Text>
-      )}
+    <Styled.Outer onClick={handleClose}>
+      <Styled.Inner>
+        <Styled.Content>
+          <Text as="h3" size="heading4" color="black" whiteSpace="pre-wrap" textAlign="center">
+            {title}
+          </Text>
 
-      <Text as="span" color="content1">
-        {message}
-      </Text>
+          {message && (
+            <Text as="span" color="black" size="paragraph3" textAlign="center">
+              {message}
+            </Text>
+          )}
+        </Styled.Content>
 
-      <Flex gap={8}>
-        <Button onClick={onCancel}>{cancelLabel}</Button>
-
-        <Button onClick={onConfirm}>{confirmLabel}</Button>
-      </Flex>
-    </Dialogs>
+        <Styled.ButtonBox>
+          <Styled.Button onClick={onCancel}>{cancelLabel}</Styled.Button>
+          <Styled.Button onClick={onConfirm}>{confirmLabel}</Styled.Button>
+        </Styled.ButtonBox>
+      </Styled.Inner>
+    </Styled.Outer>
   );
 };
