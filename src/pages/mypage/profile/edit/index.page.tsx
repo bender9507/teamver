@@ -69,7 +69,7 @@ const EditProfile = ({ userId }: EditProfileProps) => {
           <Input
             placeholder={t("소개")}
             maxLength={500}
-            {...app.register("introduce", { maxLength: 500 })}
+            {...app.register("introduce", { maxLength: 500, required: true })}
           />
           <Styled.Desc size="paragraph3">{t("최대 500자")}</Styled.Desc>
         </Styled.ProfileItem>
@@ -81,7 +81,11 @@ const EditProfile = ({ userId }: EditProfileProps) => {
 
           <Styled.ChipsContainer>
             {app.constant.positions.map((position) => (
-              <SelectChip key={position.id} value={position.id} {...app.register("positions")}>
+              <SelectChip
+                key={position.id}
+                value={position.id}
+                {...app.register("positions", { required: true })}
+              >
                 {position[currentLanguage]}
               </SelectChip>
             ))}
@@ -99,7 +103,11 @@ const EditProfile = ({ userId }: EditProfileProps) => {
 
           <Styled.ChipsContainer>
             {app.constant.languages.map((language) => (
-              <SelectChip key={language.id} value={language.id} {...app.register("languages")}>
+              <SelectChip
+                key={language.id}
+                value={language.id}
+                {...app.register("languages", { required: true })}
+              >
                 {language.name}
               </SelectChip>
             ))}
@@ -117,7 +125,11 @@ const EditProfile = ({ userId }: EditProfileProps) => {
 
           <Styled.ChipsContainer>
             {app.constant.skills.map((skill) => (
-              <SelectChip key={skill.id} value={skill.id} {...app.register("skills")}>
+              <SelectChip
+                key={skill.id}
+                value={skill.id}
+                {...app.register("skills", { required: true })}
+              >
                 {skill.name}
               </SelectChip>
             ))}
@@ -134,7 +146,7 @@ const EditProfile = ({ userId }: EditProfileProps) => {
               <SelectChip
                 key={projectType.id}
                 value={projectType.id}
-                {...app.register("projectTypes")}
+                {...app.register("projectTypes", { required: true })}
               >
                 {projectType[currentLanguage]}
               </SelectChip>
@@ -154,7 +166,7 @@ const EditProfile = ({ userId }: EditProfileProps) => {
               <SelectChip
                 key={personality.id}
                 value={personality.id}
-                {...app.register("personalities")}
+                {...app.register("personalities", { required: true })}
               >
                 {personality[currentLanguage]}
               </SelectChip>
@@ -169,7 +181,12 @@ const EditProfile = ({ userId }: EditProfileProps) => {
 
           <Styled.ChipsContainer>
             {app.constant.jobs.map((job) => (
-              <SelectChip key={job.id} value={job.id} {...app.register("job")} type="radio">
+              <SelectChip
+                key={job.id}
+                value={job.id}
+                {...app.register("job", { required: true })}
+                type="radio"
+              >
                 {job[currentLanguage]}
               </SelectChip>
             ))}
@@ -183,7 +200,11 @@ const EditProfile = ({ userId }: EditProfileProps) => {
 
           <Styled.ChipsContainer>
             {app.constant.areas.map((area) => (
-              <SelectChip key={area.id} value={area.id} {...app.register("areas")}>
+              <SelectChip
+                key={area.id}
+                value={area.id}
+                {...app.register("areas", { required: true })}
+              >
                 {area[currentLanguage]}
               </SelectChip>
             ))}
