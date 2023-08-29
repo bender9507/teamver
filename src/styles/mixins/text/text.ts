@@ -9,7 +9,7 @@ import type { FontSizeKey } from "./text.types";
 export const text = (size: FontSizeKey) => css`
   font-size: ${fontSize[size]}px;
   font-weight: ${fontWeight[size]};
-  line-height: ${lineHeight[size]}px;
+  ${styleHelper("lineHeight", lineHeight[size])};
 `;
 
 export const ellipsis = () => css`

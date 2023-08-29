@@ -29,7 +29,7 @@ export const lineHeight = {
   heading4: 28,
   heading5: 24,
   heading6: 20,
-  paragraph1: 32,
-  paragraph2: 24,
-  paragraph3: 20
+  paragraph1: "normal",
+  paragraph2: "normal",
+  paragraph3: "normal"
 } as const;

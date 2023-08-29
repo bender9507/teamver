@@ -1,28 +1,31 @@
 import { Global, ThemeProvider, css } from "@emotion/react";
-import type { Session } from "@supabase/auth-helpers-react";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
-import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
-import type { AppProps } from "next/app";
 import { Noto_Sans_KR as NotoSansKR } from "next/font/google";
 import { Overlay } from "~/components/Commons";
 import { more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
 import { useApp } from "./_app.hooks";
 import * as Styled from "./_app.styles";
+import type { AppPropsWithLayout } from "./_app.types";
 
 const notoSansKR = NotoSansKR({
   subsets: ["latin"],
   weight: ["400", "500", "700"]
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
+    }
+  }
+});
 
-const App = ({
-  Component,
-  pageProps
-}: AppProps<{ dehydratedState: DehydratedState; initialSession: Session }>) => {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { supabaseClient } = useApp();
 
   return (

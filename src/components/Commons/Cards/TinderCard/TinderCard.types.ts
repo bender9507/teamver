@@ -1,5 +1,6 @@
 export interface TinderCardProps {
-  onSelect: (direction: "up" | "down" | "left" | "right") => void;
+  onConfirm: VoidFunction;
+  onCancel: VoidFunction;
 }
 
 export interface TinderCardAnimation {

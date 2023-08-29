@@ -1,4 +1,10 @@
 import { supabase } from "../config";
+import type {
+  ConstantAreaRow,
+  ConstantLanguageRow,
+  ConstantPositionRow,
+  ConstantSkillRow
+} from "../constant";
 
 import { PROFILE_ALL_DATA_QUERY } from "./constants";
 import type { ProfileAllDataInsert, ProfileAllDataRow, ProfileAllDataUpdate } from "./types";
@@ -128,4 +134,30 @@ export const checkNameValidation = async (nickname: string) => {
   if (error) throw Error("이름 중복 검사에 실패하였습니다.");
 
   return !data;
+};
+
+export const selectRecommendedProfiles = async ({
+  pageParam = 0,
+  limit = 10,
+  ...filter
+}: {
+  skills: ConstantSkillRow["id"][];
+  languages: ConstantLanguageRow["id"][];
+  positions: ConstantPositionRow["id"][];
+  areas: ConstantAreaRow["id"][];
+  seedValue: number;
+  userId: string;
+  pageParam?: number;
+  limit?: number;
+}) => {
+  const query = supabase.rpc("select_recommended_members", filter).neq("id", filter.userId);
+
+  const { data, error } = await query
+    .range(pageParam * limit, (pageParam + 1) * limit - 1)
+    .select(`*, ${PROFILE_ALL_DATA_QUERY}`)
+    .returns<ProfileAllDataRow[]>();
+
+  if (error) throw error;
+
+  return { data, nextPage: data.length === limit ? pageParam + 1 : undefined };
 };
