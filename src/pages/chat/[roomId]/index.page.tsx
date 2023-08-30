@@ -2,7 +2,7 @@ import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChatRoomOut } from "~/components/ChatRoomOut";
 import { Avatar, Button, Input, PreviousButton, useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
@@ -19,9 +19,17 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
 
   const { mount } = useModal();
 
-  const { confirm } = useDialog();
+  const { confirm, toast } = useDialog();
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const app = useChatRoom(user.id, roomId, message, setMessage);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [app.formattedMessages]);
 
   const handleOpenProjectInviteConfirm = () => {
     confirm({
@@ -30,17 +38,24 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       message: <ProjectInvite ownerId={user.id} onProjectSelect={setSelectedProjectId} />
     }).then((confirmed) => {
       if (confirmed && selectedProjectId !== 0) {
-        app.InsertProjectInviteMutateAsync({
-          projectId: selectedProjectId,
-          receiverId: app.memberId,
-          requesterId: user.id
-        });
+        app
+          .InsertProjectInviteMutateAsync({
+            projectId: selectedProjectId,
+            receiverId: app.memberId,
+            requesterId: user.id
+          })
+          .then(() => {
+            toast({ type: "success", message: app.t("성공적으로 초대했습니다") });
+          });
       }
     });
   };
 
   const handleOpenChatRoomOutModal = () => {
-    mount(<ChatRoomOut roomId={roomId} userId={user.id} />, { id: CHAT_ROOM_OUT_MODAL });
+    mount(<ChatRoomOut roomId={roomId} userId={user.id} />, {
+      id: CHAT_ROOM_OUT_MODAL,
+      type: "bottom"
+    });
   };
 
   return (
@@ -73,6 +88,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
             </Flex>
           )
         )}
+        <div ref={messagesEndRef} />
       </Styled.ChatMessageWrapper>
 
       <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>

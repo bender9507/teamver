@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 import { Avatar, Button, IconButton } from "~/components/Commons";
 import { type ProjectAllDataRow } from "~/states/server/project";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
@@ -25,9 +26,11 @@ export const ProjectCard = ({
         </Text>
 
         <Flex>
-          <Button size="small" color="white" bgColor="backgroundSecondary">
-            {t("팀원보기")}
-          </Button>
+          <Link href={`/project/members/${project.id}`}>
+            <Button size="small" color="white" bgColor="backgroundSecondary">
+              {t("팀원보기")}
+            </Button>
+          </Link>
         </Flex>
       </Styled.Content>
 

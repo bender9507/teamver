@@ -16,6 +16,10 @@ export const ChatRoomTopBar = styled.section`
 
 export const ChatMessageWrapper = styled.div`
   ${flex.column({ gap: 10 })}
+
+  height: 750px;
+
+  overflow-y: scroll;
 `;
 
 export const ChatFromWrapper = styled.form`
