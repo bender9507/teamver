@@ -106,7 +106,8 @@ export const selectFollows = async (myId: string) => {
   const { error, data } = await supabase
     .from("follow")
     .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
-    .eq("myId", myId);
+    .eq("myId", myId)
+    .returns<ProfileAllDataRow[]>();
 
   if (error) throw Error("내가 찜한 사용자를 불러올 수 없습니다.");
 

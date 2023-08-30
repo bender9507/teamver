@@ -14,6 +14,7 @@ export type ProjectDataInsert = Table["projects"]["Insert"];
 export type ProjectDataUpdate = Table["projects"]["Update"];
 
 export type ProjectInviteInsert = Table["projectInvite"]["Insert"];
+export type ProjectInviteRow = Table["projectInvite"]["Row"];
 
 export type FollowProjectRow = Table["followProject"]["Row"];
 export type FollowProjectInsert = Table["followProject"]["Insert"];
