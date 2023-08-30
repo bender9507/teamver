@@ -10,14 +10,18 @@ export const Label = ({
 }: PropsWithElement<{ title: string; desc?: string; itemDesc?: string }>) => {
   return (
     <FlexColumn>
-      <Styled.Title size="heading3">{title}</Styled.Title>
+      <Styled.Title size="titleMedium">{title}</Styled.Title>
 
-      {desc && <Styled.Desc size="paragraph3">{desc}</Styled.Desc>}
+      {desc && (
+        <Styled.Desc size="textSmallBold" color="gray9">
+          {desc}
+        </Styled.Desc>
+      )}
 
       {children}
 
       {itemDesc && (
-        <Styled.ItemDesc size="paragraph3" color="content2">
+        <Styled.ItemDesc size="textSmall" color="gray4">
           {itemDesc}
         </Styled.ItemDesc>
       )}

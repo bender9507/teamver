@@ -39,7 +39,7 @@ const Edit = (props: { user: User }) => {
         <Text>{t("프로젝트 생성하기")}</Text>
       </Styled.Header>
 
-      <Styled.Container as="form" gap={32} onSubmit={app.handleEditProject}>
+      <Styled.Container as="form" gap={36} onSubmit={app.handleEditProject}>
         <Label title={t("프로젝트 이미지")}>
           <Controller
             name="imageUrl"

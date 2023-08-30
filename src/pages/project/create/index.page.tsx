@@ -38,10 +38,11 @@ const Create = (props: { user: User }) => {
 
       <Styled.Header>
         <PreviousButton />
+
         <Text>{t("프로젝트 생성하기")}</Text>
       </Styled.Header>
 
-      <Styled.Container as="form" gap={32} onSubmit={app.handleCreateProject}>
+      <Styled.Container as="form" gap={36} onSubmit={app.handleCreateProject}>
         <Label title={t("프로젝트 이미지")}>
           <Controller
             name="imageUrl"
