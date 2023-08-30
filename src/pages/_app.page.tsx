@@ -13,9 +13,8 @@ import { useMount } from "react-use";
 import { Overlay } from "~/components/Commons";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
-import { more, reset } from "~/styles/base";
+import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
-import { colors } from "~/styles/theme/colors";
 import * as Styled from "./_app.styles";
 
 const notoSansKR = NotoSansKR({
@@ -61,15 +60,7 @@ const App = ({
               styles={css`
                 ${reset}
                 ${more}
-                body {
-                  background-color: ${colors.backgroundPrimary};
-                }
-                body,
-                button,
-                input,
-                textarea {
-                  font-family: ${notoSansKR.style.fontFamily};
-                }
+                ${font}
               `}
             />
             <Styled.Container>
