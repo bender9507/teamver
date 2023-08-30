@@ -5,6 +5,7 @@ import {
   selectMemberProjects,
   selectOwnerProjects,
   selectProject,
+  selectProjectInvites,
   selectRecommendedProjects
 } from "./apis";
 import { projectsKey } from "./keys";
@@ -48,5 +49,13 @@ export const useSelectRecommendedProjectsQuery = (
     queryKey: projectsKey.selectRecommendedProjects(filter),
     queryFn: ({ pageParam }) => selectRecommendedProjects({ pageParam, limit: 10, ...filter }),
     getNextPageParam: (page) => page.nextPage
+  });
+};
+
+export const useSelectProjectInvitesQuery = (receiverId: string) => {
+  return useQuery({
+    queryKey: projectsKey.selectProjectInvites(receiverId),
+    queryFn: () => selectProjectInvites(receiverId),
+    initialData: []
   });
 };

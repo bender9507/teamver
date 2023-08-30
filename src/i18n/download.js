@@ -9,13 +9,12 @@ async function downloadSheetToJSON() {
     const rows = await sheet.getRows();
 
     LANGUAGES.forEach(async (language) => {
-      const data = rows.reduce(
-        (_data, row) => ({
+      const data = rows.reduce((_data, row) => {
+        return {
           ..._data,
-          [row.get("key")]: row.get(language)?.replace("\\n", "\n") ?? ""
-        }),
-        {}
-      );
+          [row.get("key")]: row.get(language)?.replaceAll("\\n", "\n") ?? ""
+        };
+      }, {});
 
       await createFile(`${LOCALE_DIR}/${language}/${title}.json`, data);
     });

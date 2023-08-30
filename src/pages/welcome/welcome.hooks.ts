@@ -39,7 +39,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
 
   const { mutate: insertProfileMutate } = useInsertProfileMutate({
     onSuccess: () => {
-      toast({ type: "success", message: t("환영합니다!") });
+      toast({ type: "success", message: t("환영합니다") });
 
       if (watch("role") === 1) {
         route.replace("/owner");
@@ -48,7 +48,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
       }
     },
     onError: () => {
-      toast({ type: "error", message: t("프로필 생성에 실패하였습니다.") });
+      toast({ type: "error", message: t("프로필 생성에 실패하였습니다") });
     }
   });
   const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
