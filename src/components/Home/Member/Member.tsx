@@ -34,8 +34,6 @@ export const Member = (props: { user: User }) => {
     <LogoHeaderWithNavbarLayout>
       <Container>
         <Select>
-          <Button onClick={app.handleRestore}>복원</Button>
-
           <OptionButton
             isSelected={!!app.filter.projectType}
             onClick={() =>
@@ -124,6 +122,7 @@ export const Member = (props: { user: User }) => {
                 <TinderCard
                   onConfirm={() => app.handleAccept(project.id)}
                   onCancel={() => app.handleReject(project.id)}
+                  onRestore={() => app.handleRestore}
                 >
                   <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
 
