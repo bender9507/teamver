@@ -37,7 +37,7 @@ export const Text = styled.span<{
 
   ${({
     theme,
-    color = "content1",
+    color = "content2",
     ellipsis: _ellipsis,
     lineClamp: _lineClamp,
     whiteSpace,

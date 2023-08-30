@@ -3,8 +3,8 @@ export const SIZE_KEY_LIST = ["small", "medium", "large"] as const;
 export const sizes = {
   height: {
     small: 34,
-    medium: 44,
-    large: 52,
+    medium: 43,
+    large: 55,
     header: 60,
     navbar: 60
   } as const,
@@ -22,5 +22,10 @@ export const sizes = {
     small: "paragraph3",
     medium: "paragraph2",
     large: "paragraph1"
-  } as const
+  } as const,
+  button: {
+    small: "buttonSmall",
+    medium: "buttonSmall",
+    large: "buttonMedium"
+  }
 } as const;

@@ -33,7 +33,7 @@ export const Textarea = forwardRef<
       onInput={() => {
         if (textareaRef.current) {
           textareaRef.current.style.height = `${sizes.height.medium}px`;
-          textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+          textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
         }
       }}
       onBlur={(event) => event.target.scrollIntoView()}

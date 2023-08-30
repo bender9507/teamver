@@ -7,7 +7,7 @@ import type { ButtonProps } from "./Button.types";
 export const buttonStyle = ({
   theme: { sizes, colors },
   size: _size = "large",
-  color = "black",
+  color = "gray2",
   bgColor = "secondary"
 }: WithTheme<ButtonProps>) => css`
   ${size({ height: sizes.height[_size] })}
@@ -19,7 +19,7 @@ export const buttonStyle = ({
 
   padding: 0 16px;
 
-  ${text(sizes.paragraph[_size])};
+  ${text(sizes.button[_size])};
   color: ${colors[color]};
 `;
 

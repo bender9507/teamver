@@ -1,7 +1,7 @@
 export const fontSize = {
   titleLarge: 24,
   titleMedium: 22,
-  titleSmall: 22,
+  titleSmall: 18,
   textLarge: 16,
   textMedium: 14,
   textMediumBold: 14,

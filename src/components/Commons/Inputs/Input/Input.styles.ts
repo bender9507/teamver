@@ -11,7 +11,7 @@ const inputStyle = ({
   return css`
     ${size({ height: sizes.height.medium, maxWidth: "100%" })}
 
-    padding: 0 ${sizes.padding.large}px;
+    padding: 11px 18px 8px 18px;
 
     background-color: ${colors[color]};
 
@@ -20,8 +20,8 @@ const inputStyle = ({
 
     border-radius: 30px;
 
-    color: ${colors.gray2};
-    ${text(sizes.paragraph.medium)}
+    ${text("textMediumBold")}
+    color: ${colors.content2};
   `;
 };
 
