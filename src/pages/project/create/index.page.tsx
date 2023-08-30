@@ -26,7 +26,7 @@ import * as Styled from "./create.styles";
 const Create = (props: { user: User }) => {
   const app = useCreate(props);
 
-  const { t, i18n } = useTranslation("projectCreate");
+  const { t, i18n } = useTranslation("project");
 
   const currentLanguage = i18n.language as OneOfLanguage;
 
@@ -93,7 +93,7 @@ const Create = (props: { user: User }) => {
           </Flex>
         </Label>
 
-        <Label title={t("프로젝트 소개")} itemDesc={t("최대 500자")}>
+        <Label title={t("프로젝트 소개")} itemDesc={t("최대 N자", { count: 500 })}>
           <Textarea
             placeholder={t("프로젝트 소개")}
             maxLength={500}
@@ -290,7 +290,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user: session.user,
-      ...(await serverSideTranslations(context.locale, ["projectCreate"]))
+      ...(await serverSideTranslations(context.locale, ["project"]))
     }
   };
 };

@@ -25,7 +25,7 @@ import * as Styled from "./edit.styles";
 
 const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
   const app = useEdit(props);
-  const { t, i18n } = useTranslation("projectCreate");
+  const { t, i18n } = useTranslation("project");
 
   const currentLanguage = i18n.language as OneOfLanguage;
   return (
@@ -98,7 +98,7 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
           </Flex>
         </Label>
 
-        <Label title={t("프로젝트 소개")} itemDesc={t("최대 500자")}>
+        <Label title={t("프로젝트 소개")} itemDesc={t("최대 N자", { count: 300 })}>
           <Textarea
             placeholder={t("프로젝트 소개")}
             maxLength={500}
@@ -309,7 +309,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       user: session.user,
       project,
-      ...(await serverSideTranslations(context.locale, ["projectCreate"]))
+      ...(await serverSideTranslations(context.locale, ["project"]))
     }
   };
 };

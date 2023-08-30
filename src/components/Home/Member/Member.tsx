@@ -26,7 +26,7 @@ import { useMember } from "./Member.hooks";
 
 export const Member = (props: { user: User }) => {
   const app = useMember(props);
-  const { t, i18n } = useTranslation("memberHome");
+  const { t, i18n } = useTranslation("home");
 
   const currentLanguage = i18n.language as OneOfLanguage;
 
