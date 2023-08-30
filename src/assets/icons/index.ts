@@ -6,6 +6,7 @@ export { default as bookmark } from "./bookmark.svg";
 export { default as chat } from "./chat.svg";
 export { default as close } from "./close.svg";
 export { default as error } from "./error.svg";
+export { default as floatingButton } from "./floatingButton.svg";
 export { default as github } from "./github.svg";
 export { default as home } from "./home.svg";
 export { default as info } from "./info.svg";

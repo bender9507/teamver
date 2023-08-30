@@ -6,7 +6,7 @@ import type { InputProps } from "./Input.types";
 export const Input = forwardRef<
   HTMLInputElement,
   InputProps & InputHTMLAttributes<HTMLInputElement>
->(({ onInvalid, ...props }, ref) => {
+>(({ onInvalid, blurFocus, ...props }, ref) => {
   const handleOnInvalid = (event: FormEvent<HTMLInputElement>) => {
     event.preventDefault();
 
@@ -18,7 +18,11 @@ export const Input = forwardRef<
       ref={ref}
       {...props}
       onInvalid={handleOnInvalid}
-      onBlur={(event) => event.target.scrollIntoView()}
+      onBlur={(event) => {
+        if (blurFocus) {
+          event.target.scrollIntoView();
+        }
+      }}
     />
   );
 });

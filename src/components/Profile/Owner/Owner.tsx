@@ -1,9 +1,9 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
-import { Icon } from "~/components/Commons";
+import { IconButton } from "~/components/Commons";
 import { NavbarLayout } from "~/components/Layouts";
-import { FlexColumn, Text } from "~/styles/mixins";
-import { CreateProject, SectionContainer } from "../Profile.styles";
+import { FlexColumn, Position, Text } from "~/styles/mixins";
+import { SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
 import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
@@ -28,10 +28,10 @@ export const Owner = ({ user }: { user: User }) => {
 
       {app.selectedTab === "IN_PROJECT" && (
         <SectionContainer gap={46}>
-          <FlexColumn gap={26}>
-            <Text size="heading4">모집 중인 프로젝트</Text>
+          <FlexColumn gap={18}>
+            <Text size="titleSmall">모집 중</Text>
 
-            <FlexColumn gap={26}>
+            <FlexColumn gap={12}>
               {app.projects
                 .filter((project) => project.state === "IN_RECRUIT")
                 .map((project) => (
@@ -40,10 +40,10 @@ export const Owner = ({ user }: { user: User }) => {
             </FlexColumn>
           </FlexColumn>
 
-          <FlexColumn gap={26}>
-            <Text size="heading4">모집 완료된 프로젝트</Text>
+          <FlexColumn gap={18}>
+            <Text size="titleSmall">모집 완료</Text>
 
-            <FlexColumn gap={26}>
+            <FlexColumn gap={12}>
               {app.projects
                 .filter((project) => project.state === "DONE_RECRUIT")
                 .map((project) => (
@@ -65,9 +65,14 @@ export const Owner = ({ user }: { user: User }) => {
       )}
 
       {app.isMine && (
-        <CreateProject onClick={app.handleProjectCreate}>
-          <Icon name="add" width={32} height={32} />
-        </CreateProject>
+        <Position position="absolute" bottom={84} right={24}>
+          <IconButton
+            name="floatingButton"
+            width={50}
+            height={50}
+            onClick={app.handleProjectCreate}
+          />
+        </Position>
       )}
     </NavbarLayout>
   );

@@ -18,7 +18,7 @@ import {
   Textarea
 } from "~/components/Commons";
 import { projectsKey } from "~/states/server/project";
-import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useEdit } from "./edit.hooks";
 import * as Styled from "./edit.styles";
@@ -261,8 +261,6 @@ const Edit = (props: { user: User }) => {
             ))}
           </Grid>
         </Label>
-
-        <SizeBox height={32} />
 
         <Button type="submit" disabled={!app.formState.isValid}>
           {t("저장")}

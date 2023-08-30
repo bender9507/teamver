@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { flex } from "~/styles/mixins";
 
 export const Container = styled.div`
-  ${flex({ gap: 18 })};
+  ${flex({ gap: 8 })};
 `;
 
 export const Content = styled.div`

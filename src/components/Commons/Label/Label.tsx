@@ -10,7 +10,7 @@ export const Label = ({
 }: PropsWithElement<{ title: string; desc?: string; itemDesc?: string }>) => {
   return (
     <FlexColumn>
-      <Styled.Title size="titleMedium">{title}</Styled.Title>
+      <Styled.Title size="titleSmall">{title}</Styled.Title>
 
       {desc && (
         <Styled.Desc size="textSmallBold" color="gray9">

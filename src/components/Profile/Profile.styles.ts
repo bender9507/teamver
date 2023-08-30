@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { FlexColumn, flex, position, size } from "~/styles/mixins";
 
 export const SectionContainer = styled(FlexColumn)`
-  padding: 32px;
+  padding: 32px 20px;
 `;
 
 export const CreateProject = styled.button`

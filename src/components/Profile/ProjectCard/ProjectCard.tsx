@@ -20,7 +20,7 @@ export const ProjectCard = ({
       <Avatar src={project.imageUrl} size="medium" shape="square" />
 
       <Styled.Content>
-        <Text size="paragraph3" ellipsis>
+        <Text size="textMedium" ellipsis>
           {project.name}
         </Text>
 
