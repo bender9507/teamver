@@ -1,11 +1,13 @@
-import { Avatar, Button, IconButton, ProfileDetail } from "~/components/Commons";
+import { IconButton } from "~/components/Commons";
 import { NavbarLayout } from "~/components/Layouts";
-import { FlexCenter, FlexColumn, Text } from "~/styles/mixins";
+import { FlexColumn, Text } from "~/styles/mixins";
 import * as Styled from "../Like.styles";
+import { LikeCard } from "../LikeCard/LikeCard";
 import { useOwner } from "./Owner.hooks";
 
 export const Owner = ({ userId }: { userId: string }) => {
   const app = useOwner(userId);
+  console.log(app.follows);
   return (
     <NavbarLayout>
       <FlexColumn style={{ padding: "20px" }}>
@@ -23,30 +25,7 @@ export const Owner = ({ userId }: { userId: string }) => {
 
         <FlexColumn gap={15}>
           {app.follows.map((follow) => (
-            <Styled.Card key={follow.id}>
-              <FlexCenter
-                as="button"
-                gap={10}
-                onClick={() =>
-                  app.mount(<ProfileDetail profile={follow} filter={app.filteredData} />, {
-                    id: "LIKE_OWNER",
-                    type: "bottom"
-                  })
-                }
-              >
-                <Avatar src={follow.imageUrl} size="medium" />
-                <Text>{follow.name}</Text>
-              </FlexCenter>
-
-              <FlexCenter gap={10}>
-                <Button size="small" onClick={() => app.handleChatRequest(follow.id)}>
-                  {app.requests.findIndex((el) => el.receiverProfile.id === follow.id) === -1
-                    ? "채팅 요청"
-                    : "요청 취소"}
-                </Button>
-                <IconButton type="button" name="bookmark" color="content1" />
-              </FlexCenter>
-            </Styled.Card>
+            <LikeCard data={follow} userId={userId} key={follow.id} />
           ))}
         </FlexColumn>
       </FlexColumn>

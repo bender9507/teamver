@@ -37,6 +37,31 @@ export const selectChatRequests = async ({
   return data;
 };
 
+export const selectChatRequestsOwner = async ({
+  requesterId,
+  state
+}: {
+  requesterId: string;
+  state: "PENDING" | "GRANT" | "DENIED" | "ALL";
+}) => {
+  let query = supabase
+    .from("chatRequestOwner")
+    .select(`*, receiverProfile:receiverId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("requesterId", requesterId);
+
+  if (state !== "ALL") {
+    query = query.eq("state", state);
+  }
+
+  const { data, error } = await query.returns<
+    (Pick<ChatRequestRow, "id" | "state"> & { receiverProfile: ProfileAllDataRow })[]
+  >();
+
+  if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
+
+  return data;
+};
+
 export const insertChatMessage = async (message: {
   roomId: number;
   senderId: string;
