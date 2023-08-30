@@ -36,6 +36,7 @@ export const Textarea = forwardRef<
           textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
       }}
+      onBlur={(event) => event.target.scrollIntoView()}
     />
   );
 });

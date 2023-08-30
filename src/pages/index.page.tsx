@@ -3,8 +3,9 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import { SocialLoginButton } from "~/components/Commons";
+import { Button, SocialLoginButton } from "~/components/Commons";
 import { routes } from "~/constants/routes";
+import { supabase } from "~/states/server/config";
 import { Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 
@@ -18,6 +19,17 @@ export default function Home() {
       </Head>
 
       <Text>corder</Text>
+
+      <Button
+        onClick={async () => {
+          await supabase.auth.signInWithPassword({
+            email: "mutoh3897@gmail.com",
+            password: "gorkd1"
+          });
+        }}
+      >
+        로그인
+      </Button>
 
       <SocialLoginButton provider="github" />
     </>

@@ -15,6 +15,7 @@ import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
+import { colors } from "~/styles/theme/colors";
 import * as Styled from "./_app.styles";
 
 const notoSansKR = NotoSansKR({
@@ -60,19 +61,19 @@ const App = ({
               styles={css`
                 ${reset}
                 ${more}
-              body,
-              button,
-              input,
-              textarea {
+                body {
+                  background-color: ${colors.backgroundPrimary};
+                }
+                body,
+                button,
+                input,
+                textarea {
                   font-family: ${notoSansKR.style.fontFamily};
                 }
               `}
             />
             <Styled.Container>
-              <Styled.Content>
-                <Component {...pageProps} />
-              </Styled.Content>
-
+              <Component {...pageProps} />
               <Overlay />
             </Styled.Container>
           </ThemeProvider>

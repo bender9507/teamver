@@ -16,7 +16,7 @@ import {
 import { HTTP_REGEX } from "~/constants/regex";
 import { routes } from "~/constants/routes";
 import { selectProfile } from "~/states/server/profile";
-import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useWelcome } from "./welcome.hooks";
 import * as Styled from "./welcome.styles";
@@ -28,17 +28,15 @@ const Welcome = (props: { user: User }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
 
   return (
-    <Styled.Container onSubmit={app.handleSubmit(app.handleCreateProfile)}>
+    <Styled.Container>
       <Styled.Header>
         <IconButton type="button" name="arrowBack" color="content1" onClick={app.prevStep} />
       </Styled.Header>
 
-      <Styled.Progress current={app.step} max={app.lastStep} />
+      <Styled.SectionContainer onSubmit={app.handleCreateProfile}>
+        <Styled.Progress current={app.step} max={app.lastStep} />
 
-      <SizeBox height={26} />
-
-      <Styled.SectionDisplay>
-        <Styled.SectionContainer step={app.step}>
+        {app.step === 0 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3" whiteSpace="pre-wrap">
@@ -51,7 +49,12 @@ const Welcome = (props: { user: User }) => {
             </FlexColumn>
 
             <FlexColumn gap={14}>
-              <Input onChange={app.validateNickName} maxLength={16} placeholder={t("닉네임")} />
+              <Input
+                {...app.register("name")}
+                onChange={app.validateNickName}
+                maxLength={16}
+                placeholder={t("닉네임")}
+              />
 
               <Flex style={{ marginLeft: "18px" }}>
                 {!app.successMessage && !app.errorMessage && (
@@ -72,7 +75,9 @@ const Welcome = (props: { user: User }) => {
               </Flex>
             </FlexColumn>
           </Styled.Section>
+        )}
 
+        {app.step === 1 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
@@ -96,7 +101,9 @@ const Welcome = (props: { user: User }) => {
               </Text>
             </FlexColumn>
           </Styled.Section>
+        )}
 
+        {app.step === 2 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
@@ -120,7 +127,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 3 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
@@ -144,7 +153,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 4 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3">
@@ -168,7 +179,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 5 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3" whiteSpace="pre-wrap">
@@ -192,7 +205,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 6 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3" whiteSpace="pre-wrap">
@@ -219,7 +234,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 7 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3" whiteSpace="pre-wrap">
@@ -243,7 +260,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Grid>
           </Styled.Section>
+        )}
 
+        {app.step === 8 && (
           <Styled.Section>
             <Text as="h3" size="heading3" whiteSpace="pre-wrap">
               {t("운영 블로그가 있다면 알려주세요")}
@@ -256,7 +275,9 @@ const Welcome = (props: { user: User }) => {
               placeholder={t("블로그 주소")}
             />
           </Styled.Section>
+        )}
 
+        {app.step === 9 && (
           <Styled.Section>
             <Text as="h3" size="heading3" whiteSpace="pre-wrap">
               {t("거의 다 왔어요 어떤 일을 하고 계시나요")}
@@ -266,6 +287,7 @@ const Welcome = (props: { user: User }) => {
               {app.constants.jobs.map((job) => (
                 <SelectChip
                   key={job.id}
+                  type="radio"
                   value={job.id}
                   {...app.register("job", { required: true })}
                 >
@@ -274,7 +296,9 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 10 && (
           <Styled.Section>
             <Text as="h3" size="heading3">
               {t("마지막으로 나를 나타낼 수 있는 프로필 사진을 올려볼까요")}
@@ -314,7 +338,9 @@ const Welcome = (props: { user: User }) => {
               )}
             />
           </Styled.Section>
+        )}
 
+        {app.step === 11 && (
           <Styled.Section>
             <FlexColumn gap={16}>
               <Text as="h3" size="heading3" whiteSpace="pre-wrap">
@@ -340,16 +366,16 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Grid>
           </Styled.Section>
-        </Styled.SectionContainer>
-      </Styled.SectionDisplay>
+        )}
 
-      {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
+        {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
 
-      {app.step !== app.lastStep && (
-        <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
-          {t("다음")}
-        </Button>
-      )}
+        {app.step !== app.lastStep && (
+          <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
+            {t("다음")}
+          </Button>
+        )}
+      </Styled.SectionContainer>
     </Styled.Container>
   );
 };

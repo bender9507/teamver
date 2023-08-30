@@ -13,5 +13,12 @@ export const Input = forwardRef<
     if (onInvalid) onInvalid(event);
   };
 
-  return <Styled.Input ref={ref} {...props} onInvalid={handleOnInvalid} />;
+  return (
+    <Styled.Input
+      ref={ref}
+      {...props}
+      onInvalid={handleOnInvalid}
+      onBlur={(event) => event.target.scrollIntoView()}
+    />
+  );
 });
