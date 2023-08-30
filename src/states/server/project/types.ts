@@ -13,12 +13,17 @@ export type ProjectDataRow = Table["projects"]["Row"];
 export type ProjectDataInsert = Table["projects"]["Insert"];
 export type ProjectDataUpdate = Table["projects"]["Update"];
 
+export type ProjectInviteRow = Table["projectInvite"]["Row"];
+export type ProjectInviteAllRow = ProjectInviteRow & {
+  project: ProjectAllDataRow;
+};
 export type ProjectInviteInsert = Table["projectInvite"]["Insert"];
 
 export type FollowProjectRow = Table["followProject"]["Row"];
 export type FollowProjectInsert = Table["followProject"]["Insert"];
 
 export type ProjectMembersRow = Table["projectMembers"]["Row"];
+export type ProjectMembersInsert = Table["projectMembers"]["Insert"];
 
 export type ProjectAllDataRow = Omit<ProjectDataRow, "projectType"> & {
   projectType: ConstantProjectTypeRow;

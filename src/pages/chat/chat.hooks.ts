@@ -1,9 +1,12 @@
 import router from "next/router";
 import { routes } from "~/constants/routes";
 import { useSelectChatRoomsQuery } from "~/states/server/chat";
+import { useSelectProjectInvitesQuery } from "~/states/server/project";
 
 export const useSelectChatRooms = (userId: string) => {
   const { data } = useSelectChatRoomsQuery(userId);
+  const { data: invites } = useSelectProjectInvitesQuery(userId);
+  console.log(invites);
 
   const rooms = data?.map((room) => ({
     roomId: room.id,
@@ -14,7 +17,7 @@ export const useSelectChatRooms = (userId: string) => {
 
   const handleRoomClick = (roomId: number) => {
     router.push({
-      pathname: routes.ownerChat(roomId)
+      pathname: routes.chatRoom(roomId)
     });
   };
 
@@ -24,5 +27,5 @@ export const useSelectChatRooms = (userId: string) => {
     });
   };
 
-  return { rooms, handleRoomClick, handleRequestClick };
+  return { rooms, invites, handleRoomClick, handleRequestClick };
 };

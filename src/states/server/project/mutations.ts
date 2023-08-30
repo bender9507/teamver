@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
   deleteProject,
   insertFollowProject,
+  insertMemberToProject,
   insertProject,
   insertProjectInvite,
   updateProject,
@@ -51,6 +52,15 @@ export const useUpdateProjectInviteStateMutate = (
 ) => {
   return useMutation({
     mutationFn: updateProjectInviteState,
+    ...options
+  });
+};
+
+export const useInsertMemberToProjectMutate = (
+  options?: PickMutationOptions<typeof insertMemberToProject, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertMemberToProject,
     ...options
   });
 };

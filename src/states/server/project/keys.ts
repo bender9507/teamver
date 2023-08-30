@@ -14,5 +14,7 @@ export const projectsKey = {
       filter.seedValue,
       filter.projectType,
       ...filter.areas
-    ] as const
+    ] as const,
+  selectProjectInvites: (receiverId: string) =>
+    [PROJECT_KEY, "selectProjectInvites", receiverId] as const
 } as const;
