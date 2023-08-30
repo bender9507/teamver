@@ -25,7 +25,7 @@ export const ProfileDetail = ({
     areas: ConstantAreaRow["id"][];
   };
 }) => {
-  const { t, i18n } = useTranslation("projectDetail");
+  const { t, i18n } = useTranslation("profile");
 
   const currentLanguage = i18n.language as OneOfLanguage;
 

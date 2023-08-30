@@ -42,11 +42,11 @@ const ProfileEdit = (props: { user: User }) => {
         )}
       />
 
-      <Label title={t("닉네임")} itemDesc={t("최대 16자")}>
+      <Label title={t("닉네임")} itemDesc={t("최대 N자", { count: 16 })}>
         <Input maxLength={16} {...app.register("name", { required: true, maxLength: 16 })} />
       </Label>
 
-      <Label title={t("자기소개")} itemDesc={t("최대 500자")}>
+      <Label title={t("자기소개")} itemDesc={t("최대 N자", { count: 500 })}>
         <Textarea
           maxLength={500}
           {...app.register("introduce", { required: true, maxLength: 500 })}

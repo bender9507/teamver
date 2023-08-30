@@ -99,13 +99,6 @@ export const ProfileCardContainer = styled(Grid)`
 
   ${({ theme: { colors } }) => css`
     background-color: ${colors.gray4};
-
-    background-image: linear-gradient(
-      180deg,
-      rgba(34, 34, 34, 0) 0%,
-      rgba(34, 34, 34, 0.57) 65.35%,
-      #222 100%
-    );
   `};
 
   border-radius: 28px;
@@ -130,4 +123,17 @@ export const ProfileDesc = styled(FlexColumn)`
 export const ProfileImage = styled(Image)`
   object-fit: cover;
   object-position: center;
+`;
+
+export const Gradient = styled.div`
+  ${position.absolute({ bottom: 0, left: 0 })};
+
+  ${size({ width: "100%", height: "45%" })};
+
+  background: linear-gradient(
+    180deg,
+    rgba(34, 34, 34, 0) 0%,
+    rgba(34, 34, 34, 0.57) 65.35%,
+    #222 100%
+  );
 `;

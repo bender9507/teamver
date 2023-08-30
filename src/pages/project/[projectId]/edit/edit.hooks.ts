@@ -19,9 +19,11 @@ import { routes } from "~/constants/routes";
 import type { ProjectEditForm } from "./edit.types";
 import type Create from "./index.page";
 
-export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
+export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const projectId = router.query.projectId as string;
 
   const { mount, unmount } = useModal();
   const { toast } = useDialog();
@@ -31,7 +33,7 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
 
   const [currentDateType, setCurrentDateType] = useState("");
 
-  const { data: projectData } = useSelectProjectQuery(String(project.id));
+  const { data: project } = useSelectProjectQuery(projectId);
 
   const { mutate: updateProjectMutate } = useUpdateProjectMutate({
     onSuccess: () => {
@@ -77,7 +79,7 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
     }) => {
       if (!imageFile) {
         updateProjectMutate({
-          id: projectData.id,
+          id: project.id,
           ownerId: user.id,
           startDate: startDate?.toDateString(),
           endDate: endDate?.toDateString(),
@@ -98,7 +100,7 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
       });
 
       updateProjectMutate({
-        id: projectData.id,
+        id: project.id,
         ownerId: user.id,
         startDate: startDate?.toDateString(),
         endDate: endDate?.toDateString(),
@@ -130,6 +132,7 @@ export const useEdit = ({ user, project }: ComponentProps<typeof Create>) => {
     control,
     constants,
     formState,
+    project,
     currentDateType,
     setCurrentDateType,
     register,

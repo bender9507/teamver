@@ -15,6 +15,7 @@ import {
 } from "~/components/Commons";
 import { HTTP_REGEX } from "~/constants/regex";
 import { routes } from "~/constants/routes";
+import { selectProfile } from "~/states/server/profile";
 import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useWelcome } from "./welcome.hooks";
@@ -55,7 +56,7 @@ const Welcome = (props: { user: User }) => {
               <Flex style={{ marginLeft: "18px" }}>
                 {!app.successMessage && !app.errorMessage && (
                   <Text color="gray4" size="paragraph3">
-                    {t("최대 16글자")}
+                    {t("최대 N글자", { count: 16 })}
                   </Text>
                 )}
                 {app.successMessage && (
@@ -85,13 +86,13 @@ const Welcome = (props: { user: User }) => {
 
             <FlexColumn gap={14}>
               <Textarea
-                {...app.register("introduce", { required: true, maxLength: 300 })}
-                maxLength={300}
+                {...app.register("introduce", { required: true, maxLength: 500 })}
+                maxLength={500}
                 placeholder={t("내 소개")}
               />
 
               <Text color="gray4" size="paragraph3" style={{ marginLeft: "18px" }}>
-                {t("최대 300자")}
+                {t("최대 N자", { count: 500 })}
               </Text>
             </FlexColumn>
           </Styled.Section>
@@ -299,6 +300,8 @@ const Welcome = (props: { user: User }) => {
                       </Styled.ProfileAddButton>
                     )}
 
+                    <Styled.Gradient />
+
                     <Styled.ProfileDesc gap={16}>
                       <Text size="heading3">{app.watch("name")}</Text>
 
@@ -356,11 +359,13 @@ export default Welcome;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabaseServer = createPagesServerClient(context);
 
-  const {
-    data: { session }
-  } = await supabaseServer.auth.getSession();
+  const { data: userData } = await supabaseServer.auth.getUser();
 
-  if (!session) {
+  const user = userData.user as User;
+
+  const profile = await selectProfile(user.id);
+
+  if (profile) {
     return {
       redirect: {
         destination: routes.home,
@@ -371,7 +376,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      user: session.user,
+      user,
       ...(await serverSideTranslations(context.locale, ["welcome"]))
     }
   };
