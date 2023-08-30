@@ -4,6 +4,7 @@ import type { SizesKey } from "~/styles/theme";
 
 export interface AvatarStyleProps {
   size?: SizesKey | "xLarge" | "fill";
+  shape?: "square" | "circle";
 }
 
 export interface AvatarProps

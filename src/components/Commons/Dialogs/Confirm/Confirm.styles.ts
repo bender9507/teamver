@@ -5,13 +5,15 @@ import { flex, position, size, text } from "~/styles/mixins";
 import { hexToRgba } from "~/styles/utils";
 
 export const Outer = styled.div`
-  ${position.fixed({ top: 0, left: 0 })};
+  ${position.absolute({ top: 0, left: 0 })};
 
   ${flex({ justify: "center", align: "center" })};
 
   ${size({ fullScreen: true })};
 
-  ${({ theme: { colors } }) => css`
+  ${({ theme: { colors, zIndex } }) => css`
+    z-index: ${zIndex.modal};
+
     background-color: ${hexToRgba(colors.black, 0.54)};
   `}
 
