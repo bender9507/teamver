@@ -7,8 +7,12 @@ import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import { Noto_Sans_KR as NotoSansKR } from "next/font/google";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useMount } from "react-use";
 import { Overlay } from "~/components/Commons";
+import { routes } from "~/constants/routes";
+import { supabase } from "~/states/server/config";
 import { more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
 import * as Styled from "./_app.styles";
@@ -33,6 +37,16 @@ const App = ({
   pageProps
 }: AppProps<{ dehydratedState: DehydratedState; initialSession: Session }>) => {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
+
+  const router = useRouter();
+
+  useMount(() => {
+    supabase.auth.onAuthStateChange((state) => {
+      if (state === "SIGNED_IN") {
+        router.push(routes.home);
+      }
+    });
+  });
 
   return (
     <SessionContextProvider

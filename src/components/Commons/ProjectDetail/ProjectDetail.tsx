@@ -14,7 +14,7 @@ export const ProjectDetail = ({
   project: ProjectAllDataRow;
   profile: ProfileAllDataRow;
 }) => {
-  const { t, i18n } = useTranslation("projectDetail");
+  const { t, i18n } = useTranslation("project");
 
   const currentLanguage = i18n.language as OneOfLanguage;
 

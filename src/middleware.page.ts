@@ -5,7 +5,7 @@ import { routes } from "./constants/routes";
 import type { Database } from "./types/database";
 
 export const config = {
-  matcher: ["/member"]
+  matcher: ["/home(/.*)?", "/profile(/.*)?", "/project(/.*)?", "/like(/.*)?", "/chat(/.*)?"]
 };
 
 export const middleware = async (req: NextRequest) => {
