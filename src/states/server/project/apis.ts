@@ -54,19 +54,6 @@ export const selectMemberProjects = async (myId: string) => {
   return data;
 };
 
-export const selectProjectInvites = async (receiverId: string) => {
-  const { data, error } = await supabase
-    .from("projectInvite")
-    .select(`*, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
-    .eq("receiverId", receiverId)
-    .eq("state", "PENDING")
-    .returns<ProjectInviteAllRow[]>();
-
-  if (error) throw error;
-
-  return data;
-};
-
 export const insertProject = async ({
   skills,
   languages,
@@ -149,6 +136,19 @@ export const insertProjectInvite = async (projectInviteData: ProjectInviteInsert
   const { error } = await supabase.from("projectInvite").insert(projectInviteData);
 
   if (error) throw error;
+};
+
+export const selectProjectInvites = async (receiverId: string) => {
+  const { data, error } = await supabase
+    .from("projectInvite")
+    .select(`*, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
+    .eq("receiverId", receiverId)
+    .eq("state", "PENDING")
+    .returns<ProjectInviteAllRow[]>();
+
+  if (error) throw error;
+
+  return data;
 };
 
 export const updateProjectInviteState = async ({

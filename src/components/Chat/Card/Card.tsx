@@ -1,9 +1,10 @@
-import { Avatar, Button, useModal } from "~/components/Commons";
+import { Avatar, Button } from "~/components/Commons";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
+import { useCard } from "./Card.hooks";
 import type { CardProps } from "./Card.types";
 
 export const Card = ({ invite }: CardProps) => {
-  const { mount } = useModal();
+  const app = useCard({ invite });
 
   return (
     <Flex justify="between">
@@ -20,14 +21,17 @@ export const Card = ({ invite }: CardProps) => {
           size="small"
           color="white"
           bgColor="backgroundSecondary"
-          onClick={() => {
-            mount(<Text>안녕하세요</Text>, { id: "sample", type: "bottom" });
-          }}
+          onClick={() => app.handleStateChange("GRANT")}
         >
           수락
         </Button>
-        <Button size="small" color="white" bgColor="backgroundSecondary">
-          수락
+        <Button
+          size="small"
+          color="white"
+          bgColor="backgroundSecondary"
+          onClick={() => app.handleStateChange("DENIED")}
+        >
+          삭제
         </Button>
       </Flex>
     </Flex>
