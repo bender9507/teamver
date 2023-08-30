@@ -6,7 +6,8 @@ import type {
   ProjectDataRow,
   ProjectDataUpdate,
   ProjectInviteAllRow,
-  ProjectInviteInsert
+  ProjectInviteInsert,
+  ProjectMembersInsert
 } from ".";
 import { supabase } from "../config";
 import type {
@@ -52,6 +53,12 @@ export const selectMemberProjects = async (myId: string) => {
   if (error) throw error;
 
   return data;
+};
+
+export const insertMemberToProject = async (projectMembersInsertData: ProjectMembersInsert) => {
+  const { error } = await supabase.from("projectMembers").insert(projectMembersInsertData);
+
+  if (error) throw error;
 };
 
 export const insertProject = async ({

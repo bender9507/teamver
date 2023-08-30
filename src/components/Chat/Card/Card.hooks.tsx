@@ -1,7 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import type { ComponentProps } from "react";
 import { useDialog } from "~/components/Commons";
-import { projectsKey, useUpdateProjectInviteStateMutate } from "~/states/server/project";
+import {
+  projectsKey,
+  useInsertMemberToProjectMutate,
+  useUpdateProjectInviteStateMutate
+} from "~/states/server/project";
 import type { Card } from "./Card";
 
 export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
@@ -15,6 +19,8 @@ export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
     }
   });
 
+  const { mutate: insertMemberToProject } = useInsertMemberToProjectMutate();
+
   const handleStateChange = async (state: "GRANT" | "DENIED") => {
     const confirmMessages = {
       GRANT: "팀원 요청을 수락할까요?",
@@ -24,6 +30,13 @@ export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
     if (!(await confirm({ title: confirmMessages[state] }))) return;
 
     updateProjectStateMutate({ id: invite.id, state });
+
+    if (state === "GRANT") {
+      insertMemberToProject({
+        memberId: invite.receiverId,
+        projectId: invite.projectId
+      });
+    }
   };
 
   return { handleStateChange };
