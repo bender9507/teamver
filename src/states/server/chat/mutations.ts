@@ -4,6 +4,7 @@ import {
   deleteChatMember,
   insertChatMessage,
   insertChatRequest,
+  insertChatRoomWithMember,
   updateChatRequestState
 } from "./apis";
 
@@ -39,6 +40,15 @@ export const useUpdateChatRequestStateMutate = (
 ) => {
   return useMutation({
     mutationFn: updateChatRequestState,
+    ...options
+  });
+};
+
+export const useInsertChatRoomWithMemberMutate = (
+  options?: PickMutationOptions<typeof insertChatRoomWithMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertChatRoomWithMember,
     ...options
   });
 };

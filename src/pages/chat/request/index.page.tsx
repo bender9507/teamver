@@ -21,16 +21,26 @@ const ChatRequest = ({ user }: { user: User }) => {
       </Flex>
 
       <FlexColumn gap={18}>
-        {app.requesters.map((requester) => (
-          <Flex key={requester.id} justify="between" align="center">
+        {app.requests.map((request) => (
+          <Flex key={request.id} justify="between" align="center">
             <Flex align="center" gap={16}>
-              <Avatar src={requester.imageUrl} />
-              <Text>{requester.name}</Text>
+              <Avatar src={request.imageUrl} />
+              <Text>{request.name}</Text>
             </Flex>
 
             <Flex gap={12}>
-              <Button>{t("수락")}</Button>
-              <Button onClick={() => app.handleDenyClick(requester.id)}>{t("삭제")}</Button>
+              <Button
+                onClick={() =>
+                  app.handleAcceptClick({
+                    id: request.id,
+                    requesterId: request.requesterId,
+                    receiverId: user.id
+                  })
+                }
+              >
+                {t("수락")}
+              </Button>
+              <Button onClick={() => app.handleDenyClick(request.id)}>{t("삭제")}</Button>
             </Flex>
           </Flex>
         ))}
@@ -45,23 +55,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient<Database>(ctx);
 
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
+    data: { user }
+  } = await supabase.auth.getUser();
 
   const roomId = Number(ctx.params?.roomId);
 
   return {
     props: {
-      user: session.user,
+      user: user as User,
       roomId,
       ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
     }

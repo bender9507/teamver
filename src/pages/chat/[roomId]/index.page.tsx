@@ -68,7 +68,9 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         </FlexCenter>
 
         <FlexCenter gap={20}>
-          <Button onClick={handleOpenProjectInviteConfirm}>{app.t("팀원으로초대하기")}</Button>
+          {app.profile.role.id === 1 && (
+            <Button onClick={handleOpenProjectInviteConfirm}>{app.t("팀원으로초대하기")}</Button>
+          )}
           <Button onClick={handleOpenChatRoomOutModal}>{app.t("•••")}</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>

@@ -106,3 +106,74 @@ export const updateChatRequestState = async ({
 
   if (error) throw new Error("요청 변경에 실패하였습니다.");
 };
+
+// export const insertChatRoomWithMember = async ({
+//   requesterId,
+//   receiverId
+// }: {
+//   requesterId: string;
+//   receiverId: string;
+// }) => {
+//   const { data, error }: InsertChatRoomResponse = await supabase
+//     .from("chatRoom")
+//     .insert([{ createdAt: new Date() }]);
+
+//   if (error) throw new Error("채팅방을 생성하는데 실패했습니다.");
+
+//   if (data && "id" in data[0]) {
+//     const roomId = (data as ChatRoomRow[])[0].id;
+
+//     const { error: memberError } = await supabase.from("chatMembers").insert([
+//       { roomId, userId: receiverId },
+//       { roomId, userId: requesterId }
+//     ]);
+
+//     if (memberError) throw new Error("채팅멤버을 생성하는데 실패했습니다.");
+//   }
+// };
+
+export const insertChatRoomWithMember = async ({
+  requesterId,
+  receiverId
+}: {
+  requesterId: string;
+  receiverId: string;
+}) => {
+  const { error } = await supabase.rpc("insert_chatroom_with_member", {
+    requester_id: requesterId,
+    receiver_id: receiverId
+  });
+
+  if (error) throw new Error("채팅방 및 멤버 생성에 실패했습니다.");
+};
+
+// export const insertChatRoomWithMember = async ({
+//   requesterId,
+//   receiverId
+// }: {
+//   requesterId: string;
+//   receiverId: string;
+// }) => {
+//   // chatRooms 테이블에 새로운 row를 추가
+//   const { data: roomData, error: roomError } = await supabase
+//     .from("chatRooms")
+//     .insert([{ createdAt: new Date().toISOString() }]);
+
+//   if (roomError || !roomData) {
+//     console.error("error :", roomError);
+//     throw new Error("채팅방 생성에 실패했습니다.");
+//   }
+
+//   const newRoomId = roomData[0].id;
+
+//   // chatMembers 테이블에 새로운 row를 추가
+//   const { error: memberError } = await supabase.from("chatMembers").insert([
+//     { roomId: newRoomId, userId: requesterId, createdAt: new Date().toISOString() },
+//     { roomId: newRoomId, userId: receiverId, createdAt: new Date().toISOString() }
+//   ]);
+
+//   if (memberError) {
+//     console.error("error :", memberError);
+//     throw new Error("멤버 생성에 실패했습니다.");
+//   }
+// };
