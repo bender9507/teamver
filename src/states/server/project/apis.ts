@@ -199,3 +199,15 @@ export const selectRecommendedProjects = async ({
 
   return { data, nextPage: data.length === limit ? pageParam + 1 : undefined };
 };
+
+export const updateProjectState = async ({
+  id,
+  state
+}: {
+  id: number;
+  state: ProjectDataRow["state"];
+}) => {
+  const { error } = await supabase.from("projects").update({ state }).eq("id", id);
+
+  if (error) throw error;
+};

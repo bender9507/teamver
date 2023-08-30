@@ -1,2 +1,2 @@
-export { MemberNavbarLayout } from "./MemberNavbarLayout";
-export { OwnerNavbarLayout } from "./OwnerNavbarLayout";
+export { LogoHeaderWithNavbarLayout } from "./LogoHeaderWithNavbarLayout";
+export { NavbarLayout } from "./NavbarLayout";

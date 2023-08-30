@@ -2,13 +2,13 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { flex, size, text } from "~/styles/mixins";
 import type { WithTheme } from "~/types";
-import type { RadioChipProps } from "./RadioChip.types";
+import type { SelectChipProps } from "./SelectChip.types";
 
 const chipStyle = ({
   theme: { colors, sizes },
   color = "backgroundSecondary",
   size: _size = "small"
-}: WithTheme<RadioChipProps>) => css`
+}: WithTheme<SelectChipProps>) => css`
   ${flex.center()};
 
   ${size({ height: sizes.height[_size] })};
@@ -27,7 +27,7 @@ const chipStyle = ({
   cursor: pointer;
 `;
 
-export const Chip = styled.span<RadioChipProps>`
+export const Chip = styled.span<SelectChipProps>`
   ${(props) => chipStyle(props)}
 `;
 

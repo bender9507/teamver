@@ -13,6 +13,7 @@ export { Modal, useModal } from "./Modal";
 export { ProfileDetail } from "./ProfileDetail";
 export * from "./ProjectDetail";
 export { RatioBox } from "./RatioBox";
+export { Tab } from "./Tab";
 export { Textarea } from "./Textarea";
 export { Toggle } from "./Toggle";
 export * from "./Utils";
