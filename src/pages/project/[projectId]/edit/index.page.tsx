@@ -1,5 +1,6 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { QueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -16,14 +17,13 @@ import {
   SelectChip,
   Textarea
 } from "~/components/Commons";
-import type { ProjectAllDataRow } from "~/states/server/project";
-import { PROJECT_ALL_DATA_QUERY } from "~/states/server/project/constants";
+import { projectsKey } from "~/states/server/project";
 import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useEdit } from "./edit.hooks";
 import * as Styled from "./edit.styles";
 
-const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
+const Edit = (props: { user: User }) => {
   const app = useEdit(props);
   const { t, i18n } = useTranslation("project");
 
@@ -58,7 +58,7 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                     <Styled.ImagePreview
                       fill
                       sizes="100%"
-                      src={props.project.imageUrl}
+                      src={app.project.imageUrl}
                       alt="project img"
                     />
                   )}
@@ -73,7 +73,6 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
             <Input
               placeholder={t("프로젝트 이름")}
               maxLength={16}
-              defaultValue={props.project.name}
               {...app.register("name", { required: true, maxLength: 16 })}
             />
 
@@ -102,7 +101,6 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
           <Textarea
             placeholder={t("프로젝트 소개")}
             maxLength={500}
-            defaultValue={props.project.description}
             {...app.register("description", { required: true, maxLength: 500 })}
           />
         </Label>
@@ -126,7 +124,6 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
             <Input
               placeholder={t("모집 인원")}
               maxLength={5}
-              defaultValue={props.project.recruitCount}
               {...app.register("recruitCount", { required: true, maxLength: 5 })}
             />
             <Text>명</Text>
@@ -146,7 +143,7 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                     value={
                       app.watch("startDate")
                         ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
-                        : dayjs(props.project.startDate).format("DD. MM. YYYY")
+                        : dayjs(app.project.startDate).format("DD. MM. YYYY")
                     }
                     onClick={app.setStartDateIsOpen.toggle}
                   />
@@ -163,7 +160,7 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
                     value={
                       app.watch("endDate")
                         ? dayjs(app.watch("endDate")).format("DD. MM. YYYY")
-                        : dayjs(props.project.endDate).format("DD. MM. YYYY")
+                        : dayjs(app.project.endDate).format("DD. MM. YYYY")
                     }
                     onClick={app.setEndDateIsOpen.toggle}
                   />
@@ -278,37 +275,20 @@ const Edit = (props: { user: User; project: ProjectAllDataRow }) => {
 export default Edit;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
   const supabaseServer = createPagesServerClient(context);
 
-  const {
-    data: { session }
-  } = await supabaseServer.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
   const { projectId } = context.params;
 
-  const { data: project, error } = await supabaseServer
-    .from("projects")
-    .select(`${PROJECT_ALL_DATA_QUERY}`)
-    .eq("id", projectId)
-    .returns<ProjectAllDataRow[]>()
-    .single();
+  const {
+    data: { user }
+  } = await supabaseServer.auth.getUser();
 
-  if (error || !project) {
-    return;
-  }
+  await queryClient.prefetchQuery({ queryKey: projectsKey.selectProject(projectId) });
 
   return {
     props: {
-      user: session.user,
-      project,
+      user: user as User,
       ...(await serverSideTranslations(context.locale, ["project"]))
     }
   };

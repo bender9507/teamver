@@ -15,6 +15,7 @@ import {
 } from "~/components/Commons";
 import { HTTP_REGEX } from "~/constants/regex";
 import { routes } from "~/constants/routes";
+import { selectProfile } from "~/states/server/profile";
 import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useWelcome } from "./welcome.hooks";
@@ -358,11 +359,13 @@ export default Welcome;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabaseServer = createPagesServerClient(context);
 
-  const {
-    data: { session }
-  } = await supabaseServer.auth.getSession();
+  const { data: userData } = await supabaseServer.auth.getUser();
 
-  if (!session) {
+  const user = userData.user as User;
+
+  const profile = await selectProfile(user.id);
+
+  if (profile) {
     return {
       redirect: {
         destination: routes.home,
@@ -373,7 +376,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      user: session.user,
+      user,
       ...(await serverSideTranslations(context.locale, ["welcome"]))
     }
   };

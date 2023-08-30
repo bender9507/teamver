@@ -275,21 +275,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabaseServer = createPagesServerClient(context);
 
   const {
-    data: { session }
-  } = await supabaseServer.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
+    data: { user }
+  } = await supabaseServer.auth.getUser();
 
   return {
     props: {
-      user: session.user,
+      user: user as User,
       ...(await serverSideTranslations(context.locale, ["project"]))
     }
   };
