@@ -12,10 +12,10 @@ export const Header = styled.header`
 `;
 
 export const MembersContainer = styled(FlexColumn)`
-  ${flex.column({ gap: 30, align: "start" })};
+  ${flex.column({ gap: 12, align: "start" })};
   ${size({ width: "100%", minHeight: "100vh" })};
   margin: 0 auto;
-  padding: 15px;
+  padding: 48px 22px 0;
 `;
 
 export const MemberCard = styled.div`

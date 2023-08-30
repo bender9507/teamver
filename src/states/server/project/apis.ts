@@ -7,7 +7,8 @@ import type {
   ProjectDataUpdate,
   ProjectInviteAllRow,
   ProjectInviteInsert,
-  ProjectMembersInsert
+  ProjectMembersInsert,
+  ProjectMembersUpdate
 } from ".";
 import { supabase } from "../config";
 import type {
@@ -18,7 +19,7 @@ import type {
 } from "../constant";
 import { PROJECT_ALL_DATA_QUERY } from "./constants";
 
-export const selectProject = async (projectId: string) => {
+export const selectProject = async (projectId: number) => {
   const { data, error } = await supabase
     .from("projects")
     .select(`${PROJECT_ALL_DATA_QUERY}`)
@@ -57,6 +58,16 @@ export const selectMemberProjects = async (myId: string) => {
 
 export const insertMemberToProject = async (projectMembersInsertData: ProjectMembersInsert) => {
   const { error } = await supabase.from("projectMembers").insert(projectMembersInsertData);
+
+  if (error) throw error;
+};
+
+export const deleteMemberInProject = async ({ projectId, memberId }: ProjectMembersUpdate) => {
+  const { error } = await supabase
+    .from("projectMembers")
+    .delete()
+    .eq("projectId", projectId)
+    .eq("memberId", memberId);
 
   if (error) throw error;
 };

@@ -7,7 +7,7 @@ import type { ProjectMembersProps } from "../ProjectMembers.types";
 import { PROFILE_DETAIL_OWNER } from "./Owner.constants";
 import { useProjectMembers } from "./Owner.hooks";
 
-export const Owner = ({ projectId }: ProjectMembersProps) => {
+export const Owner = ({ projectId, user }: ProjectMembersProps) => {
   const { t } = useTranslation("projectMembers");
   const app = useProjectMembers(projectId);
 
@@ -26,7 +26,7 @@ export const Owner = ({ projectId }: ProjectMembersProps) => {
           <Styled.MemberCard key={member.id}>
             <FlexCenter
               as="button"
-              gap={10}
+              gap={8}
               onClick={() =>
                 app.mount(<ProfileDetail profile={member} filter={app.filteredData} />, {
                   id: PROFILE_DETAIL_OWNER,
@@ -38,7 +38,18 @@ export const Owner = ({ projectId }: ProjectMembersProps) => {
               <Text>{member.name}</Text>
             </FlexCenter>
 
-            <Button>{t("삭제")}</Button>
+            {user.id !== member.id && (
+              <Button
+                size="small"
+                color="white"
+                bgColor="backgroundSecondary"
+                onClick={() => {
+                  app.handleDeleteMember({ memberId: member.id, projectId });
+                }}
+              >
+                {t("삭제")}
+              </Button>
+            )}
           </Styled.MemberCard>
         ))}
       </Styled.MembersContainer>
