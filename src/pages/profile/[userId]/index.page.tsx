@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user: session.user,
-      ...(await serverSideTranslations(context.locale, ["memberHome"]))
+      ...(await serverSideTranslations(context.locale, ["profile"]))
     }
   };
 };

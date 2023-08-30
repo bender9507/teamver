@@ -10,8 +10,6 @@ async function downloadSheetToJSON() {
 
     LANGUAGES.forEach(async (language) => {
       const data = rows.reduce((_data, row) => {
-        console.log(row.get(language));
-
         return {
           ..._data,
           [row.get("key")]: row.get(language)?.replaceAll("\\n", "\n") ?? ""
