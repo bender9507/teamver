@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useModal } from "~/components/Commons";
 import { useSelectProjectQuery } from "~/states/server/project";
 
-export const useProjectMembers = (projectId: string) => {
+export const useProjectMembers = (projectId: number) => {
   const router = useRouter();
   const { mount } = useModal();
 

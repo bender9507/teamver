@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useModal } from "~/components/Commons";
+import { useDialog, useModal } from "~/components/Commons";
 import type { ProjectMembersUpdate } from "~/states/server/project";
 import {
   projectsKey,
@@ -13,6 +13,7 @@ export const useProjectMembers = (projectId: number) => {
 
   const router = useRouter();
   const { mount } = useModal();
+  const { confirm } = useDialog();
 
   const { data: projectData } = useSelectProjectQuery(projectId);
 
@@ -31,8 +32,15 @@ export const useProjectMembers = (projectId: number) => {
     areas: []
   };
 
-  const handleDeleteMember = ({ memberId, projectId }: ProjectMembersUpdate) => {
-    deleteMemberInProjectMutate({ memberId, projectId });
+  const handleDeleteMember = async ({ memberId, projectId }: ProjectMembersUpdate) => {
+    const confirmed = await confirm({
+      title: "팀원 삭제",
+      message: "팀원을 정말 삭제하시겠어요?"
+    });
+
+    if (confirmed) {
+      deleteMemberInProjectMutate({ memberId, projectId });
+    }
   };
 
   const handleBack = () => {
