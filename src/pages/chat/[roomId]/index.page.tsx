@@ -3,7 +3,7 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useRef, useState } from "react";
-import { ChatRoomOut } from "~/components/ChatRoomOut";
+import { ChatRoomOut } from "~/components/Chat";
 import { Avatar, Button, Input, PreviousButton, useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { ProjectInvite } from "~/components/ProjectInvite";
@@ -113,23 +113,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient<Database>(ctx);
 
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
+    data: { user }
+  } = await supabase.auth.getUser();
 
   const roomId = Number(ctx.params?.roomId);
 
   return {
     props: {
-      user: session.user,
+      user: user as User,
       roomId,
       ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
     }

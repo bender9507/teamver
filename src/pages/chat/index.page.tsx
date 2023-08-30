@@ -51,21 +51,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient<Database>(ctx);
 
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
+    data: { user }
+  } = await supabase.auth.getUser();
 
   return {
     props: {
-      user: session.user,
+      user: user as User,
       ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
     }
   };

@@ -1,16 +1,17 @@
 import {
   useInsertChatRoomWithMemberMutate,
-  useSelectChatRequestsQuery,
-  useUpdateChatRequestStateMutate
+  useSelectChatRequestOwnerQuery,
+  useUpdateChatRequestStateOwnerMutate
 } from "~/states/server/chat";
 
-export const useChatRequest = (receiverId: string) => {
-  const { data: chatRequests, refetch } = useSelectChatRequestsQuery({
+export const useChatRequestOwner = (receiverId: string) => {
+  const { data: chatRequests, refetch } = useSelectChatRequestOwnerQuery({
     receiverId,
     state: "PENDING"
   });
 
-  const { mutateAsync: updateChatRequestStateMutateAsync } = useUpdateChatRequestStateMutate();
+  const { mutateAsync: UpdateChatRequestStateOwnerMutateAsync } =
+    useUpdateChatRequestStateOwnerMutate();
 
   const { mutateAsync: InsertChatRoomWithMemberMutateAsync } = useInsertChatRoomWithMemberMutate();
 
@@ -23,7 +24,7 @@ export const useChatRequest = (receiverId: string) => {
     })) ?? [];
 
   const handleDenyClick = async (id: number) => {
-    updateChatRequestStateMutateAsync({ id, state: "DENIED" });
+    UpdateChatRequestStateOwnerMutateAsync({ id, state: "DENIED" });
     refetch();
   };
 
@@ -37,7 +38,7 @@ export const useChatRequest = (receiverId: string) => {
     receiverId: string;
   }) => {
     await Promise.all([
-      updateChatRequestStateMutateAsync({ id, state: "GRANT" }),
+      UpdateChatRequestStateOwnerMutateAsync({ id, state: "GRANT" }),
       InsertChatRoomWithMemberMutateAsync({ requesterId, receiverId })
     ]);
     refetch();

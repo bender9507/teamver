@@ -5,7 +5,8 @@ import {
   insertChatMessage,
   insertChatRequest,
   insertChatRoomWithMember,
-  updateChatRequestState
+  updateChatRequestMemberState,
+  updateChatRequestOwnerState
 } from "./apis";
 
 export const useInsertChatRequestMutate = (
@@ -35,11 +36,20 @@ export const useDeleteChatMemberMutate = (
   });
 };
 
-export const useUpdateChatRequestStateMutate = (
-  options?: PickMutationOptions<typeof updateChatRequestState, "onSuccess" | "onError">
+export const useUpdateChatRequestStateOwnerMutate = (
+  options?: PickMutationOptions<typeof updateChatRequestOwnerState, "onSuccess" | "onError">
 ) => {
   return useMutation({
-    mutationFn: updateChatRequestState,
+    mutationFn: updateChatRequestOwnerState,
+    ...options
+  });
+};
+
+export const useUpdateChatRequestStateMemberMutate = (
+  options?: PickMutationOptions<typeof updateChatRequestMemberState, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateChatRequestMemberState,
     ...options
   });
 };

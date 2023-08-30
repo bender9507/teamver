@@ -1,7 +1,7 @@
 import { supabase } from "../config";
 import type { ProfileAllDataRow } from "../profile";
 import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
-import type { ChatMessageRow, ChatRequestRow } from "./types";
+import type { ChatMessageRow, ChatRequestMemberRow, ChatRequestOwnerRow } from "./types";
 
 export const insertChatRequest = async (chatRequest: {
   requesterId: string;
@@ -12,7 +12,7 @@ export const insertChatRequest = async (chatRequest: {
   if (error) throw Error("채팅 요청에 실패하였습니다.");
 };
 
-export const selectChatRequests = async ({
+export const selectChatRequestOwner = async ({
   receiverId,
   state
 }: {
@@ -20,8 +20,8 @@ export const selectChatRequests = async ({
   state: "PENDING" | "GRANT" | "DENIED" | "ALL";
 }) => {
   let query = supabase
-    .from("chatRequest")
-    .select(`id, state, requesterProfile:requesterId(${PROFILE_ALL_DATA_QUERY})`)
+    .from("chatRequestOwner")
+    .select(`id, state, followId, requesterProfile:requesterId(${PROFILE_ALL_DATA_QUERY})`)
     .eq("receiverId", receiverId);
 
   if (state !== "ALL") {
@@ -29,7 +29,32 @@ export const selectChatRequests = async ({
   }
 
   const { data, error } = await query.returns<
-    (Pick<ChatRequestRow, "id" | "state"> & { requesterProfile: ProfileAllDataRow })[]
+    (Pick<ChatRequestOwnerRow, "id" | "state"> & { requesterProfile: ProfileAllDataRow })[]
+  >();
+
+  if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
+
+  return data;
+};
+
+export const selectChatRequestMember = async ({
+  receiverId,
+  state
+}: {
+  receiverId: string;
+  state: "PENDING" | "GRANT" | "DENIED" | "ALL";
+}) => {
+  let query = supabase
+    .from("chatRequestMember")
+    .select(`id, state, followProjectId, requesterProfile:requesterId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("receiverId", receiverId);
+
+  if (state !== "ALL") {
+    query = query.eq("state", state);
+  }
+
+  const { data, error } = await query.returns<
+    (Pick<ChatRequestMemberRow, "id" | "state"> & { requesterProfile: ProfileAllDataRow })[]
   >();
 
   if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
@@ -95,42 +120,29 @@ export const deleteChatMember = async ({ roomId, userId }: { roomId: number; use
   if (error) throw new Error("채팅방을 삭제하는데 실패하였습니다.");
 };
 
-export const updateChatRequestState = async ({
+export const updateChatRequestOwnerState = async ({
   id,
   state
 }: {
   id: number;
   state: "GRANT" | "DENIED";
 }) => {
-  const { error } = await supabase.from("chatRequest").update({ state }).eq("id", id);
+  const { error } = await supabase.from("chatRequestOwner").update({ state }).eq("id", id);
 
   if (error) throw new Error("요청 변경에 실패하였습니다.");
 };
 
-// export const insertChatRoomWithMember = async ({
-//   requesterId,
-//   receiverId
-// }: {
-//   requesterId: string;
-//   receiverId: string;
-// }) => {
-//   const { data, error }: InsertChatRoomResponse = await supabase
-//     .from("chatRoom")
-//     .insert([{ createdAt: new Date() }]);
+export const updateChatRequestMemberState = async ({
+  id,
+  state
+}: {
+  id: number;
+  state: "GRANT" | "DENIED";
+}) => {
+  const { error } = await supabase.from("chatRequestMember").update({ state }).eq("id", id);
 
-//   if (error) throw new Error("채팅방을 생성하는데 실패했습니다.");
-
-//   if (data && "id" in data[0]) {
-//     const roomId = (data as ChatRoomRow[])[0].id;
-
-//     const { error: memberError } = await supabase.from("chatMembers").insert([
-//       { roomId, userId: receiverId },
-//       { roomId, userId: requesterId }
-//     ]);
-
-//     if (memberError) throw new Error("채팅멤버을 생성하는데 실패했습니다.");
-//   }
-// };
+  if (error) throw new Error("요청 변경에 실패하였습니다.");
+};
 
 export const insertChatRoomWithMember = async ({
   requesterId,
@@ -146,34 +158,3 @@ export const insertChatRoomWithMember = async ({
 
   if (error) throw new Error("채팅방 및 멤버 생성에 실패했습니다.");
 };
-
-// export const insertChatRoomWithMember = async ({
-//   requesterId,
-//   receiverId
-// }: {
-//   requesterId: string;
-//   receiverId: string;
-// }) => {
-//   // chatRooms 테이블에 새로운 row를 추가
-//   const { data: roomData, error: roomError } = await supabase
-//     .from("chatRooms")
-//     .insert([{ createdAt: new Date().toISOString() }]);
-
-//   if (roomError || !roomData) {
-//     console.error("error :", roomError);
-//     throw new Error("채팅방 생성에 실패했습니다.");
-//   }
-
-//   const newRoomId = roomData[0].id;
-
-//   // chatMembers 테이블에 새로운 row를 추가
-//   const { error: memberError } = await supabase.from("chatMembers").insert([
-//     { roomId: newRoomId, userId: requesterId, createdAt: new Date().toISOString() },
-//     { roomId: newRoomId, userId: receiverId, createdAt: new Date().toISOString() }
-//   ]);
-
-//   if (memberError) {
-//     console.error("error :", memberError);
-//     throw new Error("멤버 생성에 실패했습니다.");
-//   }
-// };
