@@ -5,6 +5,7 @@ import type {
   ProjectDataInsert,
   ProjectDataRow,
   ProjectDataUpdate,
+  ProjectInviteAllRow,
   ProjectInviteInsert
 } from ".";
 import { supabase } from "../config";
@@ -53,42 +54,17 @@ export const selectMemberProjects = async (myId: string) => {
   return data;
 };
 
-// export const selectProjectInvites = async (receiverId: string) => {
-//   const { data, error } = await supabase
-//     .from("projectInvite")
-//     .select(`invite: *, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
-//     .eq("receiverId", receiverId)
-//     .eq("state", "PENDING")
-//     .returns<{ invite: ProjectInviteRow; project: ProjectAllDataRow }[]>();
-
-//   if (error) throw error;
-
-//   return data;
-// };
-
 export const selectProjectInvites = async (receiverId: string) => {
-  // Get project invites
-  const { data: inviteData, error: inviteError } = await supabase
+  const { data, error } = await supabase
     .from("projectInvite")
-    .select("*")
+    .select(`*, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
     .eq("receiverId", receiverId)
-    .eq("state", "PENDING");
+    .eq("state", "PENDING")
+    .returns<ProjectInviteAllRow[]>();
 
-  if (inviteError) throw inviteError;
+  if (error) throw error;
 
-  // Assuming that projectId is a field in the projectInvite table
-  const projectIds = inviteData.map((invite) => invite.projectId);
-
-  // Get projects
-  const { data: projectData, error: projectError } = await supabase
-    .from("projects")
-    .select(PROJECT_ALL_DATA_QUERY)
-    .in("id", projectIds);
-
-  if (projectError) throw projectError;
-
-  // Combine the data as needed
-  return { invite: inviteData, projects: projectData };
+  return data;
 };
 
 export const insertProject = async ({

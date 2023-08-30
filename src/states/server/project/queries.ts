@@ -56,6 +56,6 @@ export const useSelectProjectInvitesQuery = (receiverId: string) => {
   return useQuery({
     queryKey: projectsKey.selectProjectInvites(receiverId),
     queryFn: () => selectProjectInvites(receiverId),
-    initialData: { invite: [], projects: [] }
+    initialData: []
   });
 };
