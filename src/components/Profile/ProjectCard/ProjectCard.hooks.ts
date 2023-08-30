@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useDialog, useModal } from "~/components/Commons";
@@ -14,6 +15,7 @@ import type { ProjectCard } from "./ProjectCard";
 export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { t } = useTranslation("profile");
 
   const { confirm } = useDialog();
   const { mount, unmount } = useModal();
@@ -34,9 +36,9 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
 
   const handleStateChange = async (state: ProjectDataRow["state"]) => {
     const confirmMessages = {
-      DONE_RECRUIT: "프로젝트 모집을 마감하시겠어요",
-      DONE_PROJECT: "진행상태를 완료로 변경하시겠어요",
-      IN_RECRUIT: "다시 프로젝트의 팀원 모집을 받으시겠어요"
+      DONE_RECRUIT: t("프로젝트 모집을 마감하시겠어요"),
+      DONE_PROJECT: t("진행상태를 완료로 변경하시겠어요"),
+      IN_RECRUIT: t("다시 프로젝트의 팀원 모집을 받으시겠어요")
     } as const;
 
     if (!(await confirm({ title: confirmMessages[state] }))) return;
@@ -47,8 +49,8 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
   const handleDeleteProject = async () => {
     if (
       !(await confirm({
-        title: "프로젝트를 정말 삭제하시겠어요",
-        message: "한번 삭제된 프로젝트는 복구되지 않아요"
+        title: t("프로젝트를 정말 삭제하시겠어요"),
+        message: t("한번 삭제된 프로젝트는 복구되지 않아요")
       }))
     )
       return;
