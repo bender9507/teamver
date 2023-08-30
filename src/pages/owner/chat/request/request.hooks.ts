@@ -8,11 +8,12 @@ export const useChatRequest = (receiverId: string) => {
 
   const { mutateAsync: updateChatRequestState } = useUpdateChatRequestStateMutate();
 
-  const requesters = chatRequests?.map((requester) => ({
-    ...(requester || ""),
-    name: requester.requesterProfile?.name || "",
-    imageUrl: requester.requesterProfile?.imageUrl || ""
-  }));
+  const requesters =
+    chatRequests?.map((requester) => ({
+      ...(requester || ""),
+      name: requester.requesterProfile?.name || "",
+      imageUrl: requester.requesterProfile?.imageUrl || ""
+    })) ?? [];
 
   const handleDenyClick = async (id: number) => {
     updateChatRequestState({ id, state: "DENIED" });
