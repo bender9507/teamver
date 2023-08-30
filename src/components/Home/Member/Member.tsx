@@ -122,7 +122,7 @@ export const Member = (props: { user: User }) => {
                 <TinderCard
                   onConfirm={() => app.handleAccept(project.id)}
                   onCancel={() => app.handleReject(project.id)}
-                  onRestore={() => app.handleRestore}
+                  onRestore={app.handleRestore}
                 >
                   <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
 
@@ -136,7 +136,7 @@ export const Member = (props: { user: User }) => {
                     <Text size="titleMedium">{project.name}</Text>
 
                     <Flex align="end" justify="between" gap={18}>
-                      <Text size="paragraph3" color="gray2" lineClamp={2}>
+                      <Text size="textSmallBold" color="gray9" lineClamp={2}>
                         {project.description}
                       </Text>
 

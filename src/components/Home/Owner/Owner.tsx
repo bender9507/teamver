@@ -34,8 +34,6 @@ export const Owner = (props: { user: User }) => {
     <LogoHeaderWithNavbarLayout>
       <Container>
         <Select>
-          {/* <Button onClick={app.handleRestore}>복원</Button> */}
-
           <OptionButton
             isSelected={app.filter.languages.length > 0}
             onClick={() =>
