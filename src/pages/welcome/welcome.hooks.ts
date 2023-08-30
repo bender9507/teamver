@@ -4,6 +4,7 @@ import type { ChangeEvent, ComponentProps } from "react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
+import { routes } from "~/constants/routes";
 import { useGetConstantQuery } from "~/states/server/constant";
 import { checkNameValidation, useInsertProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
@@ -41,11 +42,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
     onSuccess: () => {
       toast({ type: "success", message: t("환영합니다") });
 
-      if (watch("role") === 1) {
-        route.replace("/owner");
-      } else {
-        route.replace("/member");
-      }
+      route.replace(routes.main);
     },
     onError: () => {
       toast({ type: "error", message: t("프로필 생성에 실패하였습니다") });
@@ -71,7 +68,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
     setStep((prevStep) => Math.max(prevStep - 1, 0));
   };
 
-  const handleCreateProfile: Parameters<typeof handleSubmit>[0] = async ({ imageUrl, ...rest }) => {
+  const handleCreateProfile = handleSubmit(async ({ imageUrl, ...rest }) => {
     const { publicUrl } = await uploadProfileImageMutateAsync({
       file: imageUrl,
       name: `${rest.name}_${new Date().getTime()}`
@@ -83,7 +80,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
       imageUrl: publicUrl,
       ...rest
     });
-  };
+  });
 
   const validateNickName = debounce<({ target }: ChangeEvent<HTMLInputElement>) => void>(
     async ({ target: { value: nickname } }) => {

@@ -16,11 +16,11 @@ export const ProfileSection = ({
     <Styled.ProfileContainer>
       <Avatar src={profile.imageUrl} size="large" />
 
-      <Text size="heading3">{profile.name}</Text>
+      <Text size="titleSmall">{profile.name}</Text>
 
       {isMine && (
         <Link href={routes.profileEdit(profile.id)}>
-          <Button size="small" color="content1" bgColor="backgroundSecondary">
+          <Button size="medium" color="content1" bgColor="backgroundSecondary">
             프로필 수정
           </Button>
         </Link>

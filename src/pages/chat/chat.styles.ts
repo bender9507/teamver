@@ -1,30 +1,26 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex } from "~/styles/mixins";
+import { FlexColumn, flex } from "~/styles/mixins";
 
-export const ChatRoomTopBar = styled.div`
-  ${flex({ align: "center", justify: "between" })}
+export const Header = styled.header`
+  ${flex.center()};
 
-  padding: 14px 34px;
+  ${({ theme: { sizes } }) => css`
+    height: ${sizes.height.header}px;
+  `}
 `;
 
-export const ChatRoomsRequestButtonBox = styled.div`
-  ${flex({ justify: "end" })}
-
-  width: 100%;
-
-  padding: 15px 20px;
+export const Container = styled(FlexColumn)`
+  padding: 49px 22px;
 `;
 
 export const ChatRoomsWrapper = styled.ul`
-  ${flex.column({ gap: 16 })}
+  ${flex.column({ gap: 12 })}
 `;
 
 export const ChatRoomBox = styled.li`
   ${({ theme: { colors } }) => css`
-    ${flex({ gap: 16 })}
-
-    padding-left: 20px;
+    ${flex({ gap: 8 })}
 
     cursor: pointer;
     &:hover {

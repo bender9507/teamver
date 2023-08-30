@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 import { Avatar, Button, IconButton } from "~/components/Commons";
 import { type ProjectAllDataRow } from "~/states/server/project";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
@@ -20,14 +21,16 @@ export const ProjectCard = ({
       <Avatar src={project.imageUrl} size="medium" shape="square" />
 
       <Styled.Content>
-        <Text size="paragraph3" ellipsis>
+        <Text size="textMedium" ellipsis>
           {project.name}
         </Text>
 
         <Flex>
-          <Button size="small" color="white" bgColor="backgroundSecondary">
-            {t("팀원보기")}
-          </Button>
+          <Link href={`/project/members/${project.id}`}>
+            <Button size="small" color="white" bgColor="backgroundSecondary">
+              {t("팀원보기")}
+            </Button>
+          </Link>
         </Flex>
       </Styled.Content>
 

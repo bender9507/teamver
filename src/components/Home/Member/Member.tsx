@@ -34,15 +34,13 @@ export const Member = (props: { user: User }) => {
     <LogoHeaderWithNavbarLayout>
       <Container>
         <Select>
-          <Button onClick={app.handleRestore}>복원</Button>
-
           <OptionButton
             isSelected={!!app.filter.projectType}
             onClick={() =>
               app.mount(
                 <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">{t("어떤 프로젝트를 찾으시나요")}</Text>
+                    <Text size="titleMedium">{t("어떤 프로젝트를 찾으시나요")}</Text>
                     <Text size="paragraph3">
                       {t("도전해보고 싶은 프로젝트 타입을 선택해주세요")}
                     </Text>
@@ -82,7 +80,7 @@ export const Member = (props: { user: User }) => {
               app.mount(
                 <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">{t("프로젝트 활동 지역이 어디인가요")}</Text>
+                    <Text size="titleMedium">{t("프로젝트 활동 지역이 어디인가요")}</Text>
 
                     <Text size="paragraph3">
                       {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
@@ -124,6 +122,7 @@ export const Member = (props: { user: User }) => {
                 <TinderCard
                   onConfirm={() => app.handleAccept(project.id)}
                   onCancel={() => app.handleReject(project.id)}
+                  onRestore={app.handleRestore}
                 >
                   <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
 
@@ -134,10 +133,10 @@ export const Member = (props: { user: User }) => {
                       <BlurChip>{project.projectType[currentLanguage]}</BlurChip>
                     </Flex>
 
-                    <Text size="heading4">{project.name}</Text>
+                    <Text size="titleMedium">{project.name}</Text>
 
                     <Flex align="end" justify="between" gap={18}>
-                      <Text size="paragraph3" color="gray1" lineClamp={2}>
+                      <Text size="textSmallBold" color="gray9" lineClamp={2}>
                         {project.description}
                       </Text>
 

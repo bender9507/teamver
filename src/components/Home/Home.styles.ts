@@ -9,11 +9,11 @@ import { colors } from "~/styles/theme/colors";
 export const Container = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 52px;
+  gap: 42px;
 
   ${size({ width: "100%", height: "100%" })};
 
-  padding: 0 42px 52px 42px;
+  padding: 0 22px 15px 22px;
 `;
 
 export const Profile = styled(Image)`
@@ -45,7 +45,7 @@ export const Content = styled.div`
 
   width: 100%;
 
-  padding: 36px 24px;
+  padding: 54px 24px;
 `;
 
 export const BlurChip = styled.span`
@@ -58,7 +58,7 @@ export const BlurChip = styled.span`
 
   border-radius: 30px;
 
-  ${text("paragraph3")};
+  ${text("textSmall")};
   color: ${colors.content1};
 `;
 
@@ -78,7 +78,7 @@ export const OptionButton = styled.button<{ isSelected: boolean }>`
   ${flex.center({ gap: 6 })};
   flex-shrink: 0;
 
-  padding: 0 20px;
+  padding: 0 22px;
 
   ${({ theme: { sizes, colors }, isSelected }) => css`
     ${size({ height: sizes.height.large })};
@@ -87,6 +87,7 @@ export const OptionButton = styled.button<{ isSelected: boolean }>`
 
     border-radius: 30px;
 
+    ${text("buttonMedium")};
     color: ${colors.content1};
 
     ${isSelected && styleHelper("boxShadow", `inset 0 0 0 1px ${colors.primary}`)};

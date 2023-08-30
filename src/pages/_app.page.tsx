@@ -13,7 +13,7 @@ import { useMount } from "react-use";
 import { Overlay } from "~/components/Commons";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
-import { more, reset } from "~/styles/base";
+import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
 import * as Styled from "./_app.styles";
 
@@ -60,19 +60,11 @@ const App = ({
               styles={css`
                 ${reset}
                 ${more}
-              body,
-              button,
-              input,
-              textarea {
-                  font-family: ${notoSansKR.style.fontFamily};
-                }
+                ${font}
               `}
             />
             <Styled.Container>
-              <Styled.Content>
-                <Component {...pageProps} />
-              </Styled.Content>
-
+              <Component {...pageProps} />
               <Overlay />
             </Styled.Container>
           </ThemeProvider>

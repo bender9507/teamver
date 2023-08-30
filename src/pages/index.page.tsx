@@ -3,7 +3,6 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import { useState } from "react";
 import { Button, SocialLoginButton } from "~/components/Commons";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
@@ -13,11 +12,6 @@ import type { Database } from "~/types/database";
 export default function Home() {
   const { t } = useTranslation("common");
 
-  // 모바일 테스트를 위한 useState
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // 모바일 테스트를 위한 useState
-
   return (
     <>
       <Head>
@@ -26,33 +20,18 @@ export default function Home() {
 
       <Text>corder</Text>
 
-      <SocialLoginButton provider="github" />
-
-      {/* 모바일 테스트를 위한 영역 -시작- */}
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-
       <Button
         onClick={async () => {
           await supabase.auth.signInWithPassword({
-            email,
-            password
+            email: "mutoh3897@gmail.com",
+            password: "gorkd1"
           });
         }}
       >
         로그인
       </Button>
-      {/* 모바일 테스트를 위한 영역 -끝- */}
+
+      <SocialLoginButton provider="github" />
     </>
   );
 }

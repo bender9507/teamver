@@ -7,7 +7,7 @@ const textareaStyle = ({ theme: { sizes, colors } }: WithTheme) => {
   return css`
     ${size({ height: sizes.height.medium, maxWidth: "100%" })};
 
-    padding: 10px ${sizes.padding.large}px;
+    padding: 11px 18px;
 
     background-color: ${colors.backgroundSecondary};
 
@@ -15,8 +15,8 @@ const textareaStyle = ({ theme: { sizes, colors } }: WithTheme) => {
     border-radius: 30px;
     ${selector("borderColor", { focus: colors.primary })};
 
+    ${text("textMediumBold")}
     color: ${colors.content2};
-    ${text(sizes.paragraph.medium)};
 
     resize: none;
   `;

@@ -42,12 +42,9 @@ export const Container = styled.div<TinderCardAnimation>`
 `;
 
 export const SelectBox = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-items: center;
-  justify-items: center;
+  ${flex({ justify: "around", align: "center" })};
 
-  ${size({ width: "100%", height: 68 })}
+  ${size({ width: "100%", height: 74 })}
 
   background-image: linear-gradient(
     180deg,

@@ -34,19 +34,20 @@ export const Owner = (props: { user: User }) => {
     <LogoHeaderWithNavbarLayout>
       <Container>
         <Select>
-          <Button onClick={app.handleRestore}>복원</Button>
-
           <OptionButton
             isSelected={app.filter.languages.length > 0}
             onClick={() =>
               app.mount(
                 <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">{t("어떤 주요 언어가 필요한가요")}</Text>
-                    <Text size="paragraph3">{t("프로젝트에 필요한 주요 언어를 선택해주세요")}</Text>
+                    <Text size="titleMedium">{t("어떤 주요 언어가 필요한가요")}</Text>
+
+                    <Text size="textSmallBold" color="gray9">
+                      {t("프로젝트에 필요한 주요 언어를 선택해주세요")}
+                    </Text>
                   </FlexColumn>
 
-                  <SizeBox height={52} />
+                  <SizeBox height={48} />
 
                   <Flex gap={12} wrap="wrap">
                     {app.constants.languages.map((language) => (
@@ -79,14 +80,14 @@ export const Owner = (props: { user: User }) => {
               app.mount(
                 <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">{t("어떤 기술 스택이 필요한가요")}</Text>
+                    <Text size="titleMedium">{t("어떤 기술 스택이 필요한가요")}</Text>
 
-                    <Text size="paragraph3">
+                    <Text size="textSmallBold" color="gray9">
                       {t("프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요")}
                     </Text>
                   </FlexColumn>
 
-                  <SizeBox height={52} />
+                  <SizeBox height={48} />
 
                   <Flex gap={12} wrap="wrap">
                     {app.constants.skills.map((skill) => (
@@ -119,14 +120,14 @@ export const Owner = (props: { user: User }) => {
               app.mount(
                 <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">{t("어떤 포지션의 팀원을 원하시나요")}</Text>
+                    <Text size="titleMedium">{t("어떤 포지션의 팀원을 원하시나요")}</Text>
 
-                    <Text size="paragraph3">
+                    <Text size="textSmallBold" color="gray9">
                       {t("필요한 포지션을 선택해주세요 여러개 선택 가능해요")}
                     </Text>
                   </FlexColumn>
 
-                  <SizeBox height={52} />
+                  <SizeBox height={48} />
 
                   <Flex gap={12} wrap="wrap">
                     {app.constants.positions.map((position) => (
@@ -159,14 +160,14 @@ export const Owner = (props: { user: User }) => {
               app.mount(
                 <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
                   <FlexColumn gap={12}>
-                    <Text size="heading4">{t("프로젝트 활동 지역이 어디인가요")}</Text>
+                    <Text size="titleMedium">{t("프로젝트 활동 지역이 어디인가요")}</Text>
 
-                    <Text size="paragraph3">
+                    <Text size="textSmallBold" color="gray9">
                       {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
                     </Text>
                   </FlexColumn>
 
-                  <SizeBox height={52} />
+                  <SizeBox height={48} />
 
                   <Grid gap={12} column={5}>
                     {app.constants.areas.map((area) => (
@@ -200,6 +201,7 @@ export const Owner = (props: { user: User }) => {
               <TinderCard
                 onConfirm={() => app.handleAccept(profile.id)}
                 onCancel={() => app.handleReject(profile.id)}
+                onRestore={app.handleRestore}
               >
                 <Profile src={profile.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
 
@@ -212,10 +214,12 @@ export const Owner = (props: { user: User }) => {
                     ))}
                   </Flex>
 
-                  <Text size="heading4">{profile.name}</Text>
+                  <Text size="titleMedium" ellipsis>
+                    {profile.name}
+                  </Text>
 
                   <Flex align="end" justify="between" gap={18}>
-                    <Text size="paragraph3" color="gray1" lineClamp={2}>
+                    <Text size="textSmallBold" color="gray9" lineClamp={2}>
                       {profile.introduce}
                     </Text>
 

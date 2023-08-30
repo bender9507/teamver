@@ -5,15 +5,32 @@ import { FlexColumn, Grid, PosCenter, flex, position, size } from "~/styles/mixi
 import type { WithTheme } from "~/types";
 import type { ProgressStyleProps } from "./welcome.types";
 
-export const Container = styled.form`
-  ${flex.column({ justify: "between" })};
+export const Header = styled.header`
+  ${flex({ align: "center" })};
 
-  ${size({ fullScreen: true })};
+  ${({ theme: { sizes } }) => css`
+    height: ${sizes.height.header}px;
+  `};
+
+  padding: 0 21px;
+`;
+
+export const Container = styled.div`
+  height: 100svh;
+`;
+
+export const SectionContainer = styled.form`
+  ${flex.column({ gap: 28, justify: "between" })};
+
+  height: calc(100svh - 60px);
 
   padding: 0 32px 32px 32px;
 `;
 
-export const Content = styled.div``;
+export const Section = styled.div`
+  ${flex.column({ gap: 70 })};
+  flex: 1;
+`;
 
 export const progressStyle = ({
   theme: { colors },
@@ -48,43 +65,7 @@ export const progressStyle = ({
 };
 
 export const Progress = styled.div<ProgressStyleProps>`
-  ${(props) => progressStyle(props)}
-`;
-
-export const Header = styled.header`
-  ${flex({ align: "center" })};
-
-  ${({ theme: { sizes } }) => css`
-    height: ${sizes.height.header}px;
-  `}
-`;
-
-export const SectionDisplay = styled.div`
-  overflow: hidden;
-
-  flex: 1;
-`;
-
-export const SectionContainer = styled.div<{ step: number }>`
-  ${flex({ gap: 100 })};
-
-  height: 100%;
-
-  ${({ step }) => css`
-    transition: 300ms;
-    transform: translateX(calc(-${step * 100}% - ${step * 100}px));
-  `}
-`;
-
-export const Section = styled.div<{ isGrid?: boolean }>`
-  ${flex.column({ gap: 70 })};
-  flex-shrink: 0;
-
-  width: 100%;
-`;
-
-export const TitleBox = styled(FlexColumn)`
-  height: 100px;
+  ${(props) => progressStyle(props)};
 `;
 
 export const ProfileCardContainer = styled(Grid)`

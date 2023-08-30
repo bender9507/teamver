@@ -5,7 +5,10 @@ import type {
   ProjectDataInsert,
   ProjectDataRow,
   ProjectDataUpdate,
-  ProjectInviteInsert
+  ProjectInviteAllRow,
+  ProjectInviteInsert,
+  ProjectMembersInsert,
+  ProjectMembersUpdate
 } from ".";
 import { supabase } from "../config";
 import type {
@@ -16,7 +19,7 @@ import type {
 } from "../constant";
 import { PROJECT_ALL_DATA_QUERY } from "./constants";
 
-export const selectProject = async (projectId: string) => {
+export const selectProject = async (projectId: number) => {
   const { data, error } = await supabase
     .from("projects")
     .select(`${PROJECT_ALL_DATA_QUERY}`)
@@ -51,6 +54,22 @@ export const selectMemberProjects = async (myId: string) => {
   if (error) throw error;
 
   return data;
+};
+
+export const insertMemberToProject = async (projectMembersInsertData: ProjectMembersInsert) => {
+  const { error } = await supabase.from("projectMembers").insert(projectMembersInsertData);
+
+  if (error) throw error;
+};
+
+export const deleteMemberInProject = async ({ projectId, memberId }: ProjectMembersUpdate) => {
+  const { error } = await supabase
+    .from("projectMembers")
+    .delete()
+    .eq("projectId", projectId)
+    .eq("memberId", memberId);
+
+  if (error) throw error;
 };
 
 export const insertProject = async ({
@@ -135,6 +154,19 @@ export const insertProjectInvite = async (projectInviteData: ProjectInviteInsert
   const { error } = await supabase.from("projectInvite").insert(projectInviteData);
 
   if (error) throw error;
+};
+
+export const selectProjectInvites = async (receiverId: string) => {
+  const { data, error } = await supabase
+    .from("projectInvite")
+    .select(`*, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
+    .eq("receiverId", receiverId)
+    .eq("state", "PENDING")
+    .returns<ProjectInviteAllRow[]>();
+
+  if (error) throw error;
+
+  return data;
 };
 
 export const updateProjectInviteState = async ({
