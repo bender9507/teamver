@@ -12,6 +12,6 @@ export const routes = {
   projectCreate: `/project/create`,
   projectEdit: (projectId: number) => `/project/${projectId}/edit`,
   create: "/project/create",
-  chatRequest: "/owner/chat/request",
-  ownerChat: (roomId: number) => `/owner/chat/${roomId}`
+  chatRequest: "/chat/request",
+  chatRoom: (roomId: number) => `/chat/${roomId}`
 } as const;

@@ -13,23 +13,23 @@ export const insertChatRequest = async (chatRequest: {
 };
 
 export const selectChatRequests = async ({
-  requesterId,
+  receiverId,
   state
 }: {
-  requesterId: string;
+  receiverId: string;
   state: "PENDING" | "GRANT" | "DENIED" | "ALL";
 }) => {
   let query = supabase
     .from("chatRequest")
-    .select(`id, state, receiverProfile:receiverId(${PROFILE_ALL_DATA_QUERY})`)
-    .eq("requesterId", requesterId);
+    .select(`id, state, requesterProfile:requesterId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("receiverId", receiverId);
 
   if (state !== "ALL") {
     query = query.eq("state", state);
   }
 
   const { data, error } = await query.returns<
-    (Pick<ChatRequestRow, "id" | "state"> & { receiverProfile: ProfileAllDataRow })[]
+    (Pick<ChatRequestRow, "id" | "state"> & { requesterProfile: ProfileAllDataRow })[]
   >();
 
   if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
@@ -93,4 +93,16 @@ export const deleteChatMember = async ({ roomId, userId }: { roomId: number; use
     .eq("userId", userId);
 
   if (error) throw new Error("채팅방을 삭제하는데 실패하였습니다.");
+};
+
+export const updateChatRequestState = async ({
+  id,
+  state
+}: {
+  id: number;
+  state: "GRANT" | "DENIED";
+}) => {
+  const { error } = await supabase.from("chatRequest").update({ state }).eq("id", id);
+
+  if (error) throw new Error("요청 변경에 실패하였습니다.");
 };

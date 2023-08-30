@@ -77,7 +77,7 @@ export const useChatRoom = (
   };
 
   useEffect(() => {
-    if (messageData) setMessages(messageData || []);
+    if (messageData) setMessages(messageData);
 
     const subscription = supabase
       .channel(`chat:${roomId}`)
