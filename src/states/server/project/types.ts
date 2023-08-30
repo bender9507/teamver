@@ -24,6 +24,7 @@ export type FollowProjectInsert = Table["followProject"]["Insert"];
 
 export type ProjectMembersRow = Table["projectMembers"]["Row"];
 export type ProjectMembersInsert = Table["projectMembers"]["Insert"];
+export type ProjectMembersUpdate = Table["projectMembers"]["Update"];
 
 export type ProjectAllDataRow = Omit<ProjectDataRow, "projectType"> & {
   projectType: ConstantProjectTypeRow;

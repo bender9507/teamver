@@ -16,7 +16,6 @@ const Chat = ({ user }: { user: User }) => {
   const { t } = useTranslation("chat");
 
   const app = useSelectChatRooms(user.id);
-  console.log(app.invites);
 
   return (
     <>

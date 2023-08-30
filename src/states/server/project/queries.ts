@@ -10,7 +10,7 @@ import {
 } from "./apis";
 import { projectsKey } from "./keys";
 
-export const useSelectProjectQuery = (projectId: string) => {
+export const useSelectProjectQuery = (projectId: number) => {
   return useSuspendedQuery({
     queryKey: projectsKey.selectProject(projectId),
     queryFn: () => selectProject(projectId)

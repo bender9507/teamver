@@ -12,6 +12,7 @@ export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
   const queryClient = useQueryClient();
 
   const { confirm } = useDialog();
+  const { toast } = useDialog();
 
   const { mutate: updateProjectStateMutate } = useUpdateProjectInviteStateMutate({
     onSuccess: () => {
@@ -37,6 +38,8 @@ export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
         projectId: invite.projectId
       });
     }
+
+    toast({ type: "success", message: "프로젝트 팀원 합류에 성공했어요!" });
   };
 
   return { handleStateChange };
