@@ -39,7 +39,11 @@ export const Owner = ({ userId }: { userId: string }) => {
               </FlexCenter>
 
               <FlexCenter gap={10}>
-                <Button size="small">채팅 요청</Button>
+                <Button size="small" onClick={() => app.handleChatRequest(follow.id)}>
+                  {app.requests.findIndex((el) => el.receiverProfile.id === follow.id) === -1
+                    ? "채팅 요청"
+                    : "요청 취소"}
+                </Button>
                 <IconButton type="button" name="bookmark" color="content1" />
               </FlexCenter>
             </Styled.Card>
