@@ -2,6 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import type { PickMutationOptions } from "../server.types";
 import {
   deleteChatMember,
+  deleteChatRequestMember,
+  deleteChatRequestOwner,
   insertChatMessage,
   insertChatRequestMember,
   insertChatRequestOwner,

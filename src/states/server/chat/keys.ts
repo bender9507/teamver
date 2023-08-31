@@ -1,8 +1,19 @@
-import type { selectChatRequestMember, selectChatRequestOwner } from "./apis";
+import type {
+  selectChatRequestMember,
+  selectChatRequestOwner,
+  selectChatRequestsMember,
+  selectChatRequestsOwner
+} from "./apis";
 
 const CHAT_KEY = "CHAT";
 
 export const chatKeys = {
+  selectChatRequestsMember: (requests: Parameters<typeof selectChatRequestsMember>[0]) =>
+    [CHAT_KEY, "selectChatRequests", requests.requesterId, requests.state] as const,
+
+  selectChatRequestsOwner: (requests: Parameters<typeof selectChatRequestsOwner>[0]) =>
+    [CHAT_KEY, "selectChatRequestsOwner", requests.requesterId, requests.state] as const,
+
   selectChatRequestOwner: (requests: Parameters<typeof selectChatRequestOwner>[0]) =>
     [CHAT_KEY, "selectChatRequestOwner", requests.receiverId, requests.state] as const,
 
