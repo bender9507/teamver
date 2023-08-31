@@ -76,19 +76,29 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
       </Styled.ChatRoomTopBar>
 
       <Styled.ChatMessageWrapper>
-        {app.formattedMessages.map((message) =>
-          message.senderId === user.id ? (
-            <Styled.ChatMessageRight key={message.id}>
-              <Text>{message.createdAt}</Text>
-              <Text>{message.message}</Text>
-            </Styled.ChatMessageRight>
-          ) : (
-            <Flex key={message.id} align="center" gap={16}>
-              <Avatar size="small" src={app.memberImageUrl} />
-              <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
-              <Text>{message.createdAt}</Text>
-            </Flex>
+        {app.formattedMessages.length > 0 ? (
+          app.formattedMessages.map((message) =>
+            message.senderId === user.id ? (
+              <Styled.ChatMessageRight key={message.id}>
+                <Text>{message.createdAt}</Text>
+                <Text>{message.message}</Text>
+              </Styled.ChatMessageRight>
+            ) : (
+              <Flex key={message.id} align="center" gap={16}>
+                <Avatar size="small" src={app.memberImageUrl} />
+                <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
+                <Text>{message.createdAt}</Text>
+              </Flex>
+            )
           )
+        ) : (
+          <Styled.NoMessageBox>
+            <FlexCenter direction="column">
+              <Text>{`${app.memberName}님과`}</Text>
+              <Text>매칭이 되었어요</Text>
+            </FlexCenter>
+            <Avatar size="xLarge" src={app.memberImageUrl} />
+          </Styled.NoMessageBox>
         )}
         <div ref={messagesEndRef} />
       </Styled.ChatMessageWrapper>

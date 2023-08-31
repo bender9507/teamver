@@ -16,11 +16,18 @@ export const useChatRequestOwner = (receiverId: string) => {
   const { mutateAsync: InsertChatRoomWithMemberMutateAsync } = useInsertChatRoomWithMemberMutate();
 
   const requests =
-    chatRequests?.map((requeste) => ({
-      ...(requeste || ""),
-      requesterId: requeste.requesterProfile?.id || "",
-      name: requeste.requesterProfile?.name || "",
-      imageUrl: requeste.requesterProfile?.imageUrl || ""
+    chatRequests?.map((request) => ({
+      ...(request || ""),
+      requesterId: request.requesterProfile?.id || "",
+      name: request.requesterProfile?.name || "",
+      imageUrl: request.requesterProfile?.imageUrl || "",
+      requesterProfile: request.requesterProfile,
+      filteredProfiles: {
+        positions: request.requesterProfile.positions.map((p) => p.id),
+        languages: request.requesterProfile.languages.map((l) => l.id),
+        skills: request.requesterProfile.skills.map((s) => s.id),
+        areas: request.requesterProfile.areas.map((a) => a.id)
+      }
     })) ?? [];
 
   const handleDenyClick = async (id: number) => {

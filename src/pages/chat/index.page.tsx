@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { Card } from "~/components/Chat/Card";
-import { Avatar, PreviousButton } from "~/components/Commons";
+import { Avatar } from "~/components/Commons";
 import { NavbarLayout } from "~/components/Layouts";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
@@ -25,7 +25,6 @@ const Chat = ({ user }: { user: User }) => {
 
       <NavbarLayout>
         <Styled.Header>
-          <PreviousButton />
           <Text>{t("채팅")}</Text>
         </Styled.Header>
 
