@@ -61,7 +61,7 @@ export default ProfileSetting;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
-      ...(await serverSideTranslations(context.locale, ["profile"]))
+      ...(await serverSideTranslations(context.locale, ["setting"]))
     }
   };
 };
