@@ -18,10 +18,12 @@ export const ProjectCard = ({
 
   return (
     <Styled.Container>
-      <Avatar src={project.imageUrl} size="medium" shape="square" />
+      <Flex onClick={() => app.handleOpenProjectDetail()}>
+        <Avatar src={project.imageUrl} size="medium" shape="square" />
+      </Flex>
 
       <Styled.Content>
-        <Text size="textMedium" ellipsis>
+        <Text size="textMedium" ellipsis onClick={() => app.handleOpenProjectDetail()}>
           {project.name}
         </Text>
 
