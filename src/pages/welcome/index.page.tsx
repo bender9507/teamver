@@ -248,7 +248,7 @@ const Welcome = (props: { user: User }) => {
               </Text>
             </FlexColumn>
 
-            <Grid gap={10} column={5}>
+            <Flex gap={10} wrap="wrap">
               {app.constants.areas.map((area) => (
                 <SelectChip
                   key={area.id}
@@ -258,7 +258,7 @@ const Welcome = (props: { user: User }) => {
                   {area[currentLanguage]}
                 </SelectChip>
               ))}
-            </Grid>
+            </Flex>
           </Styled.Section>
         )}
 
