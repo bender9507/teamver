@@ -1,24 +1,11 @@
-import { useState } from "react";
 import { Avatar, Button, IconButton, ProfileDetail } from "~/components/Commons";
-import type { ChatRequestOwnerRow } from "~/states/server/chat/types";
-import type { ProfileAllDataRow } from "~/states/server/profile";
 import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "../Like.styles";
 import { useLikeCardOwner } from "./LikeCardOwner.hooks";
-
-interface LikeCardOwnerProps {
-  data: {
-    id: number;
-    follow: ProfileAllDataRow;
-    chatRequest: ChatRequestOwnerRow;
-  };
-  userId: string;
-}
+import type { LikeCardOwnerProps } from "./LikeCardOwner.types";
 
 export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
-  const app = useLikeCardOwner({ followId: data.id, userId });
-  const [isChatRequested, setIsChatRequested] = useState<boolean>(false);
-  console.log(data);
+  const app = useLikeCardOwner({ data, userId });
 
   return (
     <Styled.Card>
@@ -37,8 +24,12 @@ export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
       </FlexCenter>
 
       <FlexCenter gap={10}>
-        <Button size="small" onClick={() => setIsChatRequested((prev) => !prev)}>
-          {isChatRequested ? "요청 취소" : "채팅 요청"}
+        <Button
+          size="small"
+          disabled={data.chatRequest[data.chatRequest.length - 1]?.state === "GRANT"}
+          onClick={app.handleRequest}
+        >
+          {app.requestState()}
         </Button>
         <IconButton
           type="button"

@@ -3,7 +3,8 @@ import { IconButton } from "~/components/Commons";
 import { NavbarLayout } from "~/components/Layouts";
 import { FlexColumn, Text } from "~/styles/mixins";
 import * as Styled from "../Like.styles";
-import { LikeCardMember } from "../LikeCardMember/LikeCardMember";
+
+import { LikeCardMember } from "../LikeCardMember";
 import { useMember } from "./Member.hooks";
 
 export const Member = ({ userId }: { userId: string }) => {

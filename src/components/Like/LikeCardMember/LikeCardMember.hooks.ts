@@ -18,13 +18,6 @@ export const useLikeCardMember = ({ data, userId }: LikeCardMemberProps) => {
 
   const { data: profile } = useSelectProfileQuery(userId);
 
-  const { mutate: deleteFollowProjectMutate } = useDeleteFollowProjectStateMutate({
-    onSuccess: () => {
-      queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
-      toast({ type: "success", message: t("찜 해제 완료") });
-    }
-  });
-
   const { mutate: insertChatRequestMemberMutate } = useInsertChatRequestsMemberMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
@@ -34,6 +27,13 @@ export const useLikeCardMember = ({ data, userId }: LikeCardMemberProps) => {
   const { mutate: deleteChatRequestMemberMutate } = useDeleteChatRequestsMemberMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
+    }
+  });
+
+  const { mutate: deleteFollowProjectMutate } = useDeleteFollowProjectStateMutate({
+    onSuccess: () => {
+      queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
+      toast({ type: "success", message: t("찜 해제 완료") });
     }
   });
 

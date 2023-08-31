@@ -110,14 +110,14 @@ export const selectFollows = async (myId: string) => {
       `id, follow:opponentId!inner(${PROFILE_ALL_DATA_QUERY}), chatRequest:chatRequestOwner(*)`
     )
     .eq("myId", myId)
-    .returns<{ id: number; follow: ProfileAllDataRow; chatRequest: ChatRequestOwnerRow }[]>();
+    .returns<{ id: number; follow: ProfileAllDataRow; chatRequest: ChatRequestOwnerRow[] }[]>();
 
   if (error) throw Error("내가 찜한 사용자를 불러올 수 없습니다.");
 
   return data;
 };
 
-export const deleteFollow = async ({ followId }: { followId: number }) => {
+export const deleteFollow = async (followId: number) => {
   const { error } = await supabase.from("follow").delete().eq("id", followId);
 
   if (error) throw error;
