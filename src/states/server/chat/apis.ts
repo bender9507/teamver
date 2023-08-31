@@ -158,3 +158,11 @@ export const insertChatRoomWithMember = async ({
 
   if (error) throw new Error("채팅방 및 멤버 생성에 실패했습니다.");
 };
+
+export const selectChatReadStatusUnreadMessageCount = async (userId: string) => {
+  const { data, error } = await supabase.rpc("unread_message_count", { userid: userId });
+
+  if (error) throw new Error("메세지 읽음 상태를 가져오는데 실패했습니다.");
+
+  return data;
+};

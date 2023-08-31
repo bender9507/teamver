@@ -105,6 +105,49 @@ export interface Database {
           }
         ]
       }
+      chatReadStatus: {
+        Row: {
+          createdAt: string
+          id: number
+          lastReadMessageId: number
+          roomId: number
+          userId: string
+        }
+        Insert: {
+          createdAt?: string
+          id?: number
+          lastReadMessageId: number
+          roomId: number
+          userId: string
+        }
+        Update: {
+          createdAt?: string
+          id?: number
+          lastReadMessageId?: number
+          roomId?: number
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chatReadStatus_lastReadMessageId_fkey"
+            columns: ["lastReadMessageId"]
+            referencedRelation: "chatMessages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chatReadStatus_roomId_fkey"
+            columns: ["roomId"]
+            referencedRelation: "chatRooms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chatReadStatus_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       chatRequestMember: {
         Row: {
           createdAt: string
@@ -1042,6 +1085,20 @@ export interface Database {
         }
         Returns: undefined
       }
+      select_constants: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          areas: Json
+          jobs: Json
+          languages: Json
+          personalities: Json
+          positions: Json
+          projectTypes: Json
+          reactions: Json
+          roles: Json
+          skills: Json
+        }[]
+      }
       select_recommended_members: {
         Args: {
           seedValue: number
@@ -1101,6 +1158,12 @@ export interface Database {
           startDate: string | null
           state: Database["public"]["Enums"]["project_state"]
         }[]
+      }
+      unread_message_count: {
+        Args: {
+          userid: string
+        }
+        Returns: number
       }
     }
     Enums: {

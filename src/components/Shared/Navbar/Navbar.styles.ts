@@ -6,3 +6,5 @@ export const Navbar = styled.nav`
 
   ${({ theme: { sizes } }) => size({ height: sizes.height.navbar })};
 `;
+
+export const UnreadDot = styled.span``;

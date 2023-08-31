@@ -1,3 +1,3 @@
-export { ChatRequestMember } from "./ChatRequestMember";
-export { ChatRequestOwner } from "./ChatRequestOwner";
+export { ChatRequestMember, useChatRequestMember } from "./ChatRequestMember";
+export { ChatRequestOwner, useChatRequestOwner } from "./ChatRequestOwner";
 export { ChatRoomOut } from "./ChatRoomOut";
