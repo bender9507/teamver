@@ -40,10 +40,10 @@ export const ChatRequestOwner = ({ user }: { user: User }) => {
 
   return (
     <FlexColumn>
-      <Flex justify="between" align="center">
+      <Styled.ChatRequestTitle>
         <PreviousButton />
         <Text>{t("채팅 요청")}</Text>
-      </Flex>
+      </Styled.ChatRequestTitle>
 
       <FlexColumn gap={18}>
         {app.requests.length === 0 ? (
