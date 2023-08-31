@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { useBoolean } from "~/hooks";
-import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectConstantsQuery } from "~/states/server/constant";
 import {
   projectsKey,
   useSelectProjectQuery,
@@ -37,7 +37,6 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const [currentDateType, setCurrentDateType] = useState("");
 
   const { data: project } = useSelectProjectQuery(Number(projectId));
-  console.log(project);
 
   const { mutate: updateProjectMutate } = useUpdateProjectMutate({
     onSuccess: () => {
@@ -64,13 +63,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     mode: "all"
   });
 
-  const { data: constants } = useGetConstantQuery([
-    "projectTypes",
-    "positions",
-    "languages",
-    "skills",
-    "areas"
-  ]);
+  const { data: constants } = useSelectConstantsQuery();
 
   const handleEditProject = handleSubmit(
     async ({

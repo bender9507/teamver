@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectConstantsQuery } from "~/states/server/constant";
 import { checkNameValidation, useInsertProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
 import { debounce } from "~/utils";
@@ -21,16 +21,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
   const { toast } = useDialog();
   const { t } = useTranslation("welcome");
 
-  const { data: constants } = useGetConstantQuery([
-    "areas",
-    "languages",
-    "skills",
-    "projectTypes",
-    "personalities",
-    "jobs",
-    "positions",
-    "roles"
-  ]);
+  const { data: constants } = useSelectConstantsQuery();
 
   const { register, formState, handleSubmit, setError, clearErrors, setValue, control, watch } =
     useForm<WelcomeForm>({

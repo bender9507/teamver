@@ -1,6 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import type { PickMutationOptions } from "../server.types";
-import { checkNameValidation, insertFollow, insertProfile, updateProfile } from "./apis";
+import {
+  checkNameValidation,
+  deleteFollow,
+  insertFollow,
+  insertProfile,
+  updateProfile
+} from "./apis";
 
 export const useInsertProfileMutate = (
   options?: PickMutationOptions<typeof insertProfile, "onSuccess" | "onError">
@@ -25,6 +31,15 @@ export const useInsertFollowMutate = (
 ) => {
   return useMutation({
     mutationFn: insertFollow,
+    ...options
+  });
+};
+
+export const useDeleteFollowMutate = (
+  options?: PickMutationOptions<typeof deleteFollow, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteFollow,
     ...options
   });
 };

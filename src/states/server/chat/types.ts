@@ -6,5 +6,9 @@ export type ChatRoomRow = ChatRoomTable["Row"];
 export type ChatMessageTable = Table["chatMessages"];
 export type ChatMessageRow = ChatMessageTable["Row"];
 
-export type ChatRequestTable = Table["chatRequest"];
-export type ChatRequestRow = ChatRequestTable["Row"];
+export type ChatRequestMemberTable = Table["chatRequestMember"];
+export type ChatRequestMemberRow = ChatRequestMemberTable["Row"];
+export type ChatRequestMemberInsert = ChatRequestMemberTable["Insert"];
+
+export type ChatRequestOwnerRow = Table["chatRequestOwner"]["Row"];
+export type ChatRequestOwnerInsert = Table["chatRequestOwner"]["Insert"];

@@ -9,7 +9,7 @@ import { useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { routes } from "~/constants/routes";
 import { useBoolean } from "~/hooks";
-import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectConstantsQuery } from "~/states/server/constant";
 import { projectsKey, useInsertProjectMutate } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
 import type { ProjectCreatorForm } from "./create.types";
@@ -42,13 +42,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
       mode: "all"
     });
 
-  const { data: constants } = useGetConstantQuery([
-    "projectTypes",
-    "positions",
-    "languages",
-    "skills",
-    "areas"
-  ]);
+  const { data: constants } = useSelectConstantsQuery();
 
   const handleCreateProject = handleSubmit(
     async ({ imageUrl: imageFile, startDate, endDate, ...rest }) => {

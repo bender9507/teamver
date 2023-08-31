@@ -1,3 +1,4 @@
+import type { ChatRequestOwnerRow } from "../chat/types";
 import { supabase } from "../config";
 import type {
   ConstantAreaRow,
@@ -105,23 +106,21 @@ export const insertFollow = async ({ myId, opponentId }: { myId: string; opponen
 export const selectFollows = async (myId: string) => {
   const { error, data } = await supabase
     .from("follow")
-    .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
-    .eq("myId", myId);
+    .select(
+      `id, follow:opponentId!inner(${PROFILE_ALL_DATA_QUERY}), chatRequest:chatRequestOwner(*)`
+    )
+    .eq("myId", myId)
+    .returns<{ id: number; follow: ProfileAllDataRow; chatRequest: ChatRequestOwnerRow[] }[]>();
 
   if (error) throw Error("내가 찜한 사용자를 불러올 수 없습니다.");
 
   return data;
 };
 
-export const selectFollowers = async (myId: string) => {
-  const { error, data } = await supabase
-    .from("follow")
-    .select(`...opponentId(${PROFILE_ALL_DATA_QUERY})`)
-    .eq("opponentId", myId);
+export const deleteFollow = async (followId: number) => {
+  const { error } = await supabase.from("follow").delete().eq("id", followId);
 
-  if (error) throw Error("나를 찜한 사용자를 불러올 수 없습니다.");
-
-  return data;
+  if (error) throw error;
 };
 
 export const checkNameValidation = async (nickname: string) => {

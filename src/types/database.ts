@@ -105,9 +105,10 @@ export interface Database {
           }
         ]
       }
-      chatRequest: {
+      chatRequestMember: {
         Row: {
           createdAt: string
+          followProjectId: number
           id: number
           receiverId: string
           requesterId: string
@@ -115,6 +116,7 @@ export interface Database {
         }
         Insert: {
           createdAt?: string
+          followProjectId: number
           id?: number
           receiverId: string
           requesterId: string
@@ -122,6 +124,7 @@ export interface Database {
         }
         Update: {
           createdAt?: string
+          followProjectId?: number
           id?: number
           receiverId?: string
           requesterId?: string
@@ -129,13 +132,65 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "chatRequest_receiverId_fkey"
+            foreignKeyName: "chatRequestMember_followProjectId_fkey"
+            columns: ["followProjectId"]
+            referencedRelation: "followProject"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chatRequestMember_receiverId_fkey"
             columns: ["receiverId"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "chatRequest_requesterId_fkey"
+            foreignKeyName: "chatRequestMember_requesterId_fkey"
+            columns: ["requesterId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      chatRequestOwner: {
+        Row: {
+          createdAt: string
+          followId: number
+          id: number
+          receiverId: string
+          requesterId: string
+          state: Database["public"]["Enums"]["invite_state"] | null
+        }
+        Insert: {
+          createdAt?: string
+          followId: number
+          id?: number
+          receiverId: string
+          requesterId: string
+          state?: Database["public"]["Enums"]["invite_state"] | null
+        }
+        Update: {
+          createdAt?: string
+          followId?: number
+          id?: number
+          receiverId?: string
+          requesterId?: string
+          state?: Database["public"]["Enums"]["invite_state"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chatRequestOwner_followId_fkey"
+            columns: ["followId"]
+            referencedRelation: "follow"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chatRequestOwner_receiverId_fkey"
+            columns: ["receiverId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chatRequestOwner_requesterId_fkey"
             columns: ["requesterId"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -986,6 +1041,20 @@ export interface Database {
           receiver_id: string
         }
         Returns: undefined
+      }
+      select_constants: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          areas: Json
+          jobs: Json
+          languages: Json
+          personalities: Json
+          positions: Json
+          projectTypes: Json
+          reactions: Json
+          roles: Json
+          skills: Json
+        }[]
       }
       select_recommended_members: {
         Args: {
