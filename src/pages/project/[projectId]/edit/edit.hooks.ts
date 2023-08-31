@@ -40,7 +40,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
 
   const { mutate: updateProjectMutate } = useUpdateProjectMutate({
     onSuccess: () => {
-      queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
+      queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
       router.push(routes.profile(user.id));
     }
