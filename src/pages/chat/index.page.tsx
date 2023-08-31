@@ -38,22 +38,26 @@ const Chat = ({ user }: { user: User }) => {
 
         <Styled.Container>
           <FlexColumn>
-            <Text size="heading4" style={{ marginBottom: "18px" }}>
-              {t("초대 받은 프로젝트")}
-            </Text>
-            <FlexColumn gap={12}>
-              {app.invites.map((invite) => (
-                <Card key={invite.id} invite={invite} />
-              ))}
-            </FlexColumn>
+            {app.invites && app.invites.length > 0 ? (
+              <>
+                <Text size="textLarge" style={{ margin: "49px 0 18px" }}>
+                  {t("초대 받은 프로젝트")}
+                </Text>
+                <FlexColumn gap={12} style={{ marginBottom: "22px" }}>
+                  {app.invites.map((invite) => (
+                    <Card key={invite.id} invite={invite} />
+                  ))}
+                </FlexColumn>
+              </>
+            ) : null}
           </FlexColumn>
 
-          <FlexColumn style={{ marginTop: "32px" }}>
+          <FlexColumn>
             <Flex justify="end">
               <Text
-                size="heading5"
+                size="textMedium"
                 color="primary"
-                style={{ marginBottom: "22px" }}
+                style={{ margin: "10px 0 22px 0" }}
                 onClick={app.handleRequestClick}
               >
                 {`${t("요청")} ${
@@ -63,10 +67,13 @@ const Chat = ({ user }: { user: User }) => {
                 }${t("개")}`}
               </Text>
             </Flex>
-
-            <Text size="heading4" style={{ marginBottom: "18px" }}>
-              {t("채팅")}
-            </Text>
+            <FlexColumn>
+              {app.invites && app.invites.length > 0 ? (
+                <Text size="textLarge" style={{ marginBottom: "18px" }}>
+                  {t("채팅")}
+                </Text>
+              ) : null}
+            </FlexColumn>
           </FlexColumn>
 
           <Styled.ChatRoomsWrapper>
@@ -78,9 +85,11 @@ const Chat = ({ user }: { user: User }) => {
                 >
                   <Avatar src={room.memberImageUrl} />
 
-                  <FlexColumn justify="center">
-                    <Text>{room.memberName || t("알 수 없음")}</Text>
-                    <Text>{room.lastMessage || t("채팅이 시작되었습니다")}</Text>
+                  <FlexColumn justify="around">
+                    <Text size="textMediumBold">{room.memberName || t("알 수 없음")}</Text>
+                    <Text size="textMedium" color="gray9">
+                      {room.lastMessage || t("채팅이 시작되었습니다")}
+                    </Text>
                   </FlexColumn>
                 </Styled.ChatRoomBox>
               ))

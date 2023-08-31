@@ -18,10 +18,12 @@ export const ProjectCard = ({
 
   return (
     <Styled.Container>
-      <Avatar src={project.imageUrl} size="medium" shape="square" />
+      <Flex onClick={() => app.handleOpenProjectDetail()}>
+        <Avatar src={project.imageUrl} size="medium" shape="square" />
+      </Flex>
 
       <Styled.Content>
-        <Text size="textMedium" ellipsis>
+        <Text size="textMedium" ellipsis onClick={() => app.handleOpenProjectDetail()}>
           {project.name}
         </Text>
 
@@ -41,7 +43,7 @@ export const ProjectCard = ({
             onClick={() => {
               if (project.state === "IN_RECRUIT") {
                 app.mount(
-                  <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
+                  <FlexColumn gap={36} align="center" style={{ padding: "73px 0" }}>
                     <Text onClick={app.handleEditProject}>{t("프로젝트 수정")}</Text>
 
                     <Text onClick={() => app.handleStateChange("DONE_RECRUIT")}>
@@ -61,7 +63,7 @@ export const ProjectCard = ({
                 );
               } else if (project.state === "DONE_RECRUIT") {
                 app.mount(
-                  <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
+                  <FlexColumn gap={36} align="center" style={{ padding: "73px 0" }}>
                     <Text onClick={app.handleEditProject}>{t("프로젝트 수정")}</Text>
 
                     <Text onClick={() => app.handleStateChange("IN_RECRUIT")}>
@@ -78,7 +80,7 @@ export const ProjectCard = ({
                 );
               } else if (project.state === "DONE_PROJECT") {
                 app.mount(
-                  <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
+                  <FlexColumn gap={36} align="center" style={{ padding: "73px 0" }}>
                     <Text onClick={app.handleDeleteProject}>{t("프로젝트 삭제")}</Text>
                   </FlexColumn>,
                   {

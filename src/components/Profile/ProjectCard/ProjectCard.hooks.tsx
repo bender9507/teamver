@@ -2,8 +2,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
-import { useDialog, useModal } from "~/components/Commons";
+import { PROJECT_DETAIL_MODAL, ProjectDetail, useDialog, useModal } from "~/components/Commons";
 import { routes } from "~/constants/routes";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import type { ProjectDataRow } from "~/states/server/project";
 import {
   projectsKey,
@@ -19,6 +20,9 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
 
   const { confirm } = useDialog();
   const { mount, unmount } = useModal();
+
+  const { data: profile } = useSelectProfileQuery(project.ownerId);
+
   const { mutate: updateProjectStateMutate } = useUpdateProjectStateMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(project.ownerId));
@@ -49,8 +53,7 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
   const handleDeleteProject = async () => {
     if (
       !(await confirm({
-        title: t("프로젝트를 정말 삭제하시겠어요"),
-        message: t("한번 삭제된 프로젝트는 복구되지 않아요")
+        title: t("프로젝트를 정말 삭제하시겠어요")
       }))
     )
       return;
@@ -64,10 +67,18 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
     unmount("projectStateChangeModal");
   };
 
+  const handleOpenProjectDetail = () => {
+    mount(<ProjectDetail project={project} profile={profile} />, {
+      id: PROJECT_DETAIL_MODAL,
+      type: "bottom"
+    });
+  };
+
   return {
     mount,
     handleDeleteProject,
     handleStateChange,
-    handleEditProject
+    handleEditProject,
+    handleOpenProjectDetail
   };
 };

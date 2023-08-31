@@ -26,12 +26,12 @@ export const Confirm = ({
     <Styled.Outer onClick={handleClose}>
       <Styled.Inner>
         <Styled.Content>
-          <Text as="h3" size="heading4" color="black" whiteSpace="pre-wrap" textAlign="center">
+          <Text as="h3" size="heading5" color="white" whiteSpace="pre-wrap" textAlign="center">
             {title}
           </Text>
 
           {message && (
-            <Text as="span" color="black" size="paragraph3" textAlign="center">
+            <Text as="span" color="gray9" size="textSmall" textAlign="center">
               {message}
             </Text>
           )}

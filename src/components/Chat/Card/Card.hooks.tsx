@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import type { ComponentProps } from "react";
-import { useDialog } from "~/components/Commons";
+import { PROJECT_DETAIL_MODAL, ProjectDetail, useDialog, useModal } from "~/components/Commons";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import {
   projectsKey,
   useInsertMemberToProjectMutate,
@@ -11,8 +12,10 @@ import type { Card } from "./Card";
 export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
   const queryClient = useQueryClient();
 
-  const { confirm } = useDialog();
-  const { toast } = useDialog();
+  const { confirm, toast } = useDialog();
+  const { mount } = useModal();
+
+  const { data: profile } = useSelectProfileQuery(invite.receiverId);
 
   const { mutate: updateProjectStateMutate } = useUpdateProjectInviteStateMutate({
     onSuccess: () => {
@@ -42,5 +45,12 @@ export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
     toast({ type: "success", message: "프로젝트 팀원 합류에 성공했어요!" });
   };
 
-  return { handleStateChange };
+  const handleOpenProjectDetail = () => {
+    mount(<ProjectDetail project={invite.project} profile={profile} />, {
+      id: PROJECT_DETAIL_MODAL,
+      type: "bottom"
+    });
+  };
+
+  return { mount, handleStateChange, handleOpenProjectDetail };
 };

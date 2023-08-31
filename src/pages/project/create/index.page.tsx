@@ -11,10 +11,10 @@ import { Controller } from "react-hook-form";
 import {
   Button,
   Icon,
+  IconButton,
   ImageUploader,
   Input,
   Label,
-  PreviousButton,
   SelectChip,
   Textarea
 } from "~/components/Commons";
@@ -37,7 +37,7 @@ const Create = (props: { user: User }) => {
       </Head>
 
       <Styled.Header>
-        <PreviousButton />
+        <IconButton type="button" name="arrowBack" color="content2" onClick={app.handleBack} />
 
         <Text>{t("프로젝트 생성하기")}</Text>
       </Styled.Header>
