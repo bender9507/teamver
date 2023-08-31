@@ -7,6 +7,7 @@ import {
 } from "~/states/server/chat";
 import type { ChatMessageRow } from "~/states/server/chat/types";
 import { supabase } from "~/states/server/config";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import { useInsertProjectInviteMutate } from "~/states/server/project";
 
 export const useChatRoom = (
@@ -18,6 +19,8 @@ export const useChatRoom = (
   const { t } = useTranslation("chatRoom");
 
   const [messages, setMessages] = useState<ChatMessageRow[]>([]);
+
+  const { data: profile } = useSelectProfileQuery(userId);
 
   const { data: messageData } = useSelectChatMessagesQuery(roomId);
 
@@ -102,8 +105,8 @@ export const useChatRoom = (
 
   return {
     t,
+    profile,
     memberId,
-    memberData,
     memberName,
     memberImageUrl,
     formattedMessages,

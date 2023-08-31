@@ -4,9 +4,10 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import { useChatRequestMember, useChatRequestOwner } from "~/components/Chat";
 import { Card } from "~/components/Chat/Card";
-import { Avatar, PreviousButton } from "~/components/Commons";
-import { NavbarLayout } from "~/components/Layouts";
+import { Avatar } from "~/components/Commons";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import { useSelectChatRooms } from "./chat.hooks";
@@ -17,44 +18,61 @@ const Chat = ({ user }: { user: User }) => {
 
   const app = useSelectChatRooms(user.id);
 
+  const { data: profile } = useSelectProfileQuery(user.id);
+
+  const chatRequestsOwnerApp = useChatRequestOwner(user.id);
+
+  const chatRequestsMemberApp = useChatRequestMember(user.id);
+
   return (
     <>
       <Head>
         <title>{t("채팅")}</title>
       </Head>
 
-      <NavbarLayout>
+      <>
         <Styled.Header>
-          <PreviousButton />
-          <Text>{t("채팅")}</Text>
+          <Text size="titleSmall">{t("채팅")}</Text>
         </Styled.Header>
 
         <Styled.Container>
           <FlexColumn>
-            <Text size="heading4" style={{ marginBottom: "18px" }}>
-              {t("초대 받은 프로젝트")}
-            </Text>
-            <FlexColumn gap={12}>
-              {app.invites.map((invite) => (
-                <Card key={invite.id} invite={invite} />
-              ))}
-            </FlexColumn>
+            {app.invites && app.invites.length > 0 ? (
+              <>
+                <Text size="textLarge" style={{ margin: "49px 0 18px" }}>
+                  {t("초대 받은 프로젝트")}
+                </Text>
+                <FlexColumn gap={12} style={{ marginBottom: "22px" }}>
+                  {app.invites.map((invite) => (
+                    <Card key={invite.id} invite={invite} />
+                  ))}
+                </FlexColumn>
+              </>
+            ) : null}
           </FlexColumn>
 
-          <FlexColumn style={{ marginTop: "32px" }}>
+          <FlexColumn>
             <Flex justify="end">
               <Text
-                size="heading5"
-                style={{ marginBottom: "22px" }}
+                size="textMedium"
+                color="primary"
+                style={{ margin: "10px 0 22px 0" }}
                 onClick={app.handleRequestClick}
               >
-                {t("요청")}
+                {`${t("요청")} ${
+                  profile.role.id === 1
+                    ? chatRequestsOwnerApp.requests.length
+                    : chatRequestsMemberApp.requests.length
+                }${t("개")}`}
               </Text>
             </Flex>
-
-            <Text size="heading4" style={{ marginBottom: "18px" }}>
-              {t("채팅")}
-            </Text>
+            <FlexColumn>
+              {app.invites && app.invites.length > 0 ? (
+                <Text size="textLarge" style={{ marginBottom: "18px" }}>
+                  {t("채팅")}
+                </Text>
+              ) : null}
+            </FlexColumn>
           </FlexColumn>
 
           <Styled.ChatRoomsWrapper>
@@ -66,9 +84,11 @@ const Chat = ({ user }: { user: User }) => {
                 >
                   <Avatar src={room.memberImageUrl} />
 
-                  <FlexColumn justify="center">
-                    <Text>{room.memberName || t("알 수 없음")}</Text>
-                    <Text>{room.lastMessage || t("채팅이 시작되었습니다")}</Text>
+                  <FlexColumn justify="around">
+                    <Text size="textMediumBold">{room.memberName || t("알 수 없음")}</Text>
+                    <Text size="textMedium" color="gray9">
+                      {room.lastMessage || t("채팅이 시작되었습니다")}
+                    </Text>
                   </FlexColumn>
                 </Styled.ChatRoomBox>
               ))
@@ -77,7 +97,7 @@ const Chat = ({ user }: { user: User }) => {
             )}
           </Styled.ChatRoomsWrapper>
         </Styled.Container>
-      </NavbarLayout>
+      </>
     </>
   );
 };

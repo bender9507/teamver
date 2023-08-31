@@ -11,14 +11,14 @@ import { Controller } from "react-hook-form";
 import {
   Button,
   Icon,
+  IconButton,
   ImageUploader,
   Input,
   Label,
-  PreviousButton,
   SelectChip,
   Textarea
 } from "~/components/Commons";
-import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useCreate } from "./create.hooks";
 import * as Styled from "./create.styles";
@@ -37,7 +37,7 @@ const Create = (props: { user: User }) => {
       </Head>
 
       <Styled.Header>
-        <PreviousButton />
+        <IconButton type="button" name="arrowBack" color="content2" onClick={app.handleBack} />
 
         <Text>{t("프로젝트 생성하기")}</Text>
       </Styled.Header>
@@ -247,7 +247,7 @@ const Create = (props: { user: User }) => {
           title={t("활동 지역")}
           desc={t("프로젝트 활동 지역을 선택해주세요 여러개 선택 가능해요")}
         >
-          <Grid gap={12} column={5}>
+          <Flex gap={12} wrap="wrap">
             {app.constants.areas.map((area) => (
               <SelectChip
                 key={area.id}
@@ -257,7 +257,7 @@ const Create = (props: { user: User }) => {
                 {area[currentLanguage]}
               </SelectChip>
             ))}
-          </Grid>
+          </Flex>
         </Label>
 
         <Button type="submit" disabled={!app.formState.isValid}>

@@ -1,18 +1,18 @@
 import { useTranslation } from "next-i18next";
+import type { ComponentProps } from "react";
 import { Avatar, IconButton, ProfileDetail } from "~/components/Commons";
-import { NavbarLayout } from "~/components/Layouts";
+import type ProjectMembers from "~/pages/project/members/[projectId]/index.page";
 import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "../ProjectMembers.styles";
-import type { ProjectMembersProps } from "../ProjectMembers.types";
 import { PROFILE_DETAIL_MEMBER } from "./Member.constant";
 import { useProjectMembers } from "./Member.hooks";
 
-export const Member = ({ projectId }: ProjectMembersProps) => {
+export const Member = (props: ComponentProps<typeof ProjectMembers>) => {
   const { t } = useTranslation("projectMembers");
-  const app = useProjectMembers(projectId);
+  const app = useProjectMembers(props);
 
   return (
-    <NavbarLayout>
+    <>
       <Styled.Header>
         <IconButton type="button" name="arrowBack" color="content1" onClick={app.handleBack} />
 
@@ -40,6 +40,6 @@ export const Member = ({ projectId }: ProjectMembersProps) => {
           </FlexCenter>
         ))}
       </Styled.MembersContainer>
-    </NavbarLayout>
+    </>
   );
 };

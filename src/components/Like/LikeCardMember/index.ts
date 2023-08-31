@@ -1,0 +1,1 @@
+export { LikeCardMember } from "./LikeCardMember";

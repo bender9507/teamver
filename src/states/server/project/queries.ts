@@ -37,8 +37,7 @@ export const useSelectFollowProjectsQuery = (myId: string) => {
   return useQuery({
     queryKey: projectsKey.selectFollowProjects(myId),
     queryFn: () => selectFollowProjects(myId),
-    initialData: [],
-    enabled: !!myId
+    initialData: []
   });
 };
 

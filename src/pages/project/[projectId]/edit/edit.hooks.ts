@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useEffect, useState } from "react";
@@ -23,6 +24,8 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const { t } = useTranslation("project");
+
   const projectId = router.query.projectId as string;
 
   const { mount, unmount } = useModal();
@@ -37,7 +40,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
 
   const { mutate: updateProjectMutate } = useUpdateProjectMutate({
     onSuccess: () => {
-      queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
+      queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
       router.push(routes.profile(user.id));
     }
@@ -46,6 +49,9 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
 
   const { register, handleSubmit, watch, control, setValue, formState } = useForm<ProjectEditForm>({
     defaultValues: {
+      name: project.name,
+      description: project.description,
+      recruitCount: project.recruitCount,
       startDate: null,
       endDate: null,
       positions: project.positions.map((el) => String(el.id)),

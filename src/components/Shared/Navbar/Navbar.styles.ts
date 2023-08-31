@@ -15,3 +15,5 @@ export const Navbar = styled.nav`
     background-color: ${colors.backgroundPrimary};
   `};
 `;
+
+export const UnreadDot = styled.span``;

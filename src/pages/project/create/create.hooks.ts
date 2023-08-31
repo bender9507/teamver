@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useEffect } from "react";
@@ -18,15 +19,17 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
+  const { t } = useTranslation("project");
+
   const { mount, unmount } = useModal();
-  const { toast } = useDialog();
+  const { toast, confirm } = useDialog();
 
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
   const { mutate: insertProjectMutate } = useInsertProjectMutate({
     onSuccess: () => {
-      queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
+      queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
       router.push(routes.profile(user.id));
     }
@@ -71,6 +74,17 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     });
   }, [watch, setValue, toast]);
 
+  const handleBack = async () => {
+    const confirmed = await confirm({
+      title: t("작성중인 프로젝트 글을 취소하고 그냥 나가시겠어요?"),
+      message: t("취소된 글은 저장되지 않아요!😢")
+    });
+
+    if (confirmed) {
+      router.back();
+    }
+  };
+
   return {
     control,
     constants,
@@ -85,6 +99,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     startDateIsOpen,
     setStartDateIsOpen,
     endDateIsOpen,
-    setEndDateIsOpen
+    setEndDateIsOpen,
+    handleBack
   };
 };

@@ -26,7 +26,7 @@ export const Inner = styled.div`
   ${size({ width: 270 })};
 
   ${({ theme: { colors, shadows } }) => css`
-    background-color: ${colors.secondary};
+    background-color: ${colors.gray3};
     box-shadow: ${shadows.drop3};
 
     border-radius: 14px;
@@ -38,6 +38,10 @@ export const Inner = styled.div`
 
 export const Button = styled.button`
   ${text("heading5")};
+
+  ${({ theme: { colors } }) => css`
+    color: ${colors.white};
+  `}
 `;
 
 export const ButtonBox = styled.div`
@@ -47,10 +51,10 @@ export const ButtonBox = styled.div`
   ${size({ width: "100%", height: 44 })};
 
   ${({ theme: { colors } }) => css`
-    border-top: 1px solid ${colors.gray2};
+    border-top: 1px solid ${colors.black};
 
     ${Button} + ${Button} {
-      border-left: 1px solid ${colors.gray2};
+      border-left: 1px solid ${colors.black};
     }
   `}
 `;

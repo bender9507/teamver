@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { FlexColumn, Text, flex, size } from "~/styles/mixins";
+import { FlexColumn, Text, flex, grid, size } from "~/styles/mixins";
 
 export const Header = styled.header`
-  ${flex.center()};
+  ${grid({ column: 3, justify: "center", align: "center" })}
 
   ${({ theme: { sizes } }) => css`
     height: ${sizes.height.header}px;

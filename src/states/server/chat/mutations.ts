@@ -2,16 +2,48 @@ import { useMutation } from "@tanstack/react-query";
 import type { PickMutationOptions } from "../server.types";
 import {
   deleteChatMember,
+  deleteChatRequestMember,
+  deleteChatRequestOwner,
   insertChatMessage,
-  insertChatRequest,
-  updateChatRequestState
+  insertChatRequestMember,
+  insertChatRequestOwner,
+  insertChatRoomWithMember,
+  updateChatRequestMemberState,
+  updateChatRequestOwnerState
 } from "./apis";
 
-export const useInsertChatRequestMutate = (
-  options?: PickMutationOptions<typeof insertChatRequest, "onSuccess" | "onError">
+export const useInsertChatRequestsOwnerMutate = (
+  options?: PickMutationOptions<typeof insertChatRequestOwner, "onSuccess" | "onError">
 ) => {
   return useMutation({
-    mutationFn: insertChatRequest,
+    mutationFn: insertChatRequestOwner,
+    ...options
+  });
+};
+
+export const useInsertChatRequestsMemberMutate = (
+  options?: PickMutationOptions<typeof insertChatRequestMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertChatRequestMember,
+    ...options
+  });
+};
+
+export const useDeleteChatRequestsMemberMutate = (
+  options?: PickMutationOptions<typeof deleteChatRequestMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteChatRequestMember,
+    ...options
+  });
+};
+
+export const useDeleteChatRequestsOwnerMutate = (
+  options?: PickMutationOptions<typeof deleteChatRequestOwner, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteChatRequestOwner,
     ...options
   });
 };
@@ -34,11 +66,29 @@ export const useDeleteChatMemberMutate = (
   });
 };
 
-export const useUpdateChatRequestStateMutate = (
-  options?: PickMutationOptions<typeof updateChatRequestState, "onSuccess" | "onError">
+export const useUpdateChatRequestStateOwnerMutate = (
+  options?: PickMutationOptions<typeof updateChatRequestOwnerState, "onSuccess" | "onError">
 ) => {
   return useMutation({
-    mutationFn: updateChatRequestState,
+    mutationFn: updateChatRequestOwnerState,
+    ...options
+  });
+};
+
+export const useUpdateChatRequestStateMemberMutate = (
+  options?: PickMutationOptions<typeof updateChatRequestMemberState, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateChatRequestMemberState,
+    ...options
+  });
+};
+
+export const useInsertChatRoomWithMemberMutate = (
+  options?: PickMutationOptions<typeof insertChatRoomWithMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertChatRoomWithMember,
     ...options
   });
 };

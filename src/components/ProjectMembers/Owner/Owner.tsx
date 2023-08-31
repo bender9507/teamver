@@ -1,18 +1,20 @@
 import { useTranslation } from "next-i18next";
+import type { ComponentProps } from "react";
 import { Avatar, Button, IconButton, ProfileDetail } from "~/components/Commons";
-import { NavbarLayout } from "~/components/Layouts";
+import type ProjectMembers from "~/pages/project/members/[projectId]/index.page";
 import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "../ProjectMembers.styles";
-import type { ProjectMembersProps } from "../ProjectMembers.types";
 import { PROFILE_DETAIL_OWNER } from "./Owner.constants";
 import { useProjectMembers } from "./Owner.hooks";
 
-export const Owner = ({ projectId, user }: ProjectMembersProps) => {
+export const Owner = (props: ComponentProps<typeof ProjectMembers>) => {
+  const { projectId, user } = props;
+
+  const app = useProjectMembers(props);
   const { t } = useTranslation("projectMembers");
-  const app = useProjectMembers(projectId);
 
   return (
-    <NavbarLayout>
+    <>
       <Styled.Header>
         <IconButton type="button" name="arrowBack" color="content1" onClick={app.handleBack} />
 
@@ -44,7 +46,7 @@ export const Owner = ({ projectId, user }: ProjectMembersProps) => {
                 color="white"
                 bgColor="backgroundSecondary"
                 onClick={() => {
-                  app.handleDeleteMember({ memberId: member.id, projectId });
+                  app.handleDeleteMember({ memberId: member.id, projectId: Number(projectId) });
                 }}
               >
                 {t("삭제")}
@@ -53,6 +55,6 @@ export const Owner = ({ projectId, user }: ProjectMembersProps) => {
           </Styled.MemberCard>
         ))}
       </Styled.MembersContainer>
-    </NavbarLayout>
+    </>
   );
 };

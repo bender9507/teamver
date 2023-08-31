@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
+import { useModal } from "~/components/Commons";
 import { useDeleteChatMemberMutate } from "~/states/server/chat";
-import { useModal } from "../Commons";
 import { CHAT_ROOM_OUT_MODAL } from "./ChatRoomOut.constants";
 
 export const useChatRoomOut = ({ roomId, userId }: { roomId: number; userId: string }) => {
