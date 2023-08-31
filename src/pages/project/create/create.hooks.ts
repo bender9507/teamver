@@ -29,7 +29,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
 
   const { mutate: insertProjectMutate } = useInsertProjectMutate({
     onSuccess: () => {
-      queryClient.invalidateQueries(projectsKey.selectOwnerProjects());
+      queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
       router.push(routes.profile(user.id));
     }

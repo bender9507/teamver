@@ -7,7 +7,6 @@ import Head from "next/head";
 import { useChatRequestMember, useChatRequestOwner } from "~/components/Chat";
 import { Card } from "~/components/Chat/Card";
 import { Avatar } from "~/components/Commons";
-import { NavbarLayout } from "~/components/Layouts";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
@@ -31,7 +30,7 @@ const Chat = ({ user }: { user: User }) => {
         <title>{t("채팅")}</title>
       </Head>
 
-      <NavbarLayout>
+      <>
         <Styled.Header>
           <Text size="titleSmall">{t("채팅")}</Text>
         </Styled.Header>
@@ -98,7 +97,7 @@ const Chat = ({ user }: { user: User }) => {
             )}
           </Styled.ChatRoomsWrapper>
         </Styled.Container>
-      </NavbarLayout>
+      </>
     </>
   );
 };

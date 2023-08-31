@@ -1,11 +1,4 @@
 import type { Table } from "../server.types";
-import type { constantMap } from "./apis";
-
-export type ConstantMapKey = keyof typeof constantMap;
-
-export type SelectedConstantMap<T extends ConstantMapKey[]> = {
-  [K in T[number]]: Awaited<ReturnType<(typeof constantMap)[K]>>;
-};
 
 export type ConstantLanguageTable = Table["constantLanguages"];
 export type ConstantLanguageRow = ConstantLanguageTable["Row"];
