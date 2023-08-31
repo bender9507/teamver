@@ -5,7 +5,7 @@ export const sizes = {
     small: 34,
     medium: 43,
     large: 55,
-    header: 60,
+    header: 44,
     navbar: 60
   } as const,
   padding: {

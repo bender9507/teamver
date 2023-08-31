@@ -6,6 +6,7 @@ export const routes = {
   chat: "/chat",
   profile: (userId: string) => `/profile/${userId}`,
   profileEdit: (userId: string) => `/profile/${userId}/edit`,
+  setting: "/setting",
   like: "/like",
   owner: "/owner",
   project: "/project",

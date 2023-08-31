@@ -10,6 +10,7 @@ import type {
   ProjectMembersInsert,
   ProjectMembersUpdate
 } from ".";
+import type { ChatRequestMemberRow } from "../chat/types";
 import { supabase } from "../config";
 import type {
   ConstantAreaRow,
@@ -190,13 +191,21 @@ export const insertFollowProject = async ({ followerId, projectId }: FollowProje
 export const selectFollowProjects = async (myId: string) => {
   const { data, error } = await supabase
     .from("followProject")
-    .select(`id, project:projects!inner(${PROJECT_ALL_DATA_QUERY})`)
+    .select(
+      `id, project:projects!inner(${PROJECT_ALL_DATA_QUERY}), chatRequest:chatRequestMember(*)`
+    )
     .eq("followerId", myId)
-    .returns<{ id: string; project: ProjectAllDataRow }[]>();
+    .returns<{ id: number; project: ProjectAllDataRow; chatRequest: ChatRequestMemberRow[] }[]>();
 
   if (error) throw error;
 
   return data;
+};
+
+export const deleteFollowProject = async (followProjectId: number) => {
+  const { error } = await supabase.from("followProject").delete().eq("id", followProjectId);
+
+  if (error) throw error;
 };
 
 export const selectRecommendedProjects = async ({

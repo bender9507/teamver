@@ -3,17 +3,45 @@ import type { PickMutationOptions } from "../server.types";
 import {
   deleteChatMember,
   insertChatMessage,
-  insertChatRequest,
+  insertChatRequestMember,
+  insertChatRequestOwner,
   insertChatRoomWithMember,
   updateChatRequestMemberState,
   updateChatRequestOwnerState
 } from "./apis";
 
-export const useInsertChatRequestMutate = (
-  options?: PickMutationOptions<typeof insertChatRequest, "onSuccess" | "onError">
+export const useInsertChatRequestsOwnerMutate = (
+  options?: PickMutationOptions<typeof insertChatRequestOwner, "onSuccess" | "onError">
 ) => {
   return useMutation({
-    mutationFn: insertChatRequest,
+    mutationFn: insertChatRequestOwner,
+    ...options
+  });
+};
+
+export const useInsertChatRequestsMemberMutate = (
+  options?: PickMutationOptions<typeof insertChatRequestMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertChatRequestMember,
+    ...options
+  });
+};
+
+export const useDeleteChatRequestsMemberMutate = (
+  options?: PickMutationOptions<typeof deleteChatRequestMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteChatRequestMember,
+    ...options
+  });
+};
+
+export const useDeleteChatRequestsOwnerMutate = (
+  options?: PickMutationOptions<typeof deleteChatRequestOwner, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteChatRequestOwner,
     ...options
   });
 };
