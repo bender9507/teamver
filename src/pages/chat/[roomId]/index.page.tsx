@@ -3,7 +3,7 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useRef, useState } from "react";
-import { ChatRoomOut } from "~/components/ChatRoomOut";
+import { ChatRoomOut } from "~/components/Chat";
 import { Avatar, Button, Input, PreviousButton, useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
 import { ProjectInvite } from "~/components/ProjectInvite";
@@ -68,25 +68,37 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         </FlexCenter>
 
         <FlexCenter gap={20}>
-          <Button onClick={handleOpenProjectInviteConfirm}>{app.t("팀원으로초대하기")}</Button>
+          {app.profile.role.id === 1 && (
+            <Button onClick={handleOpenProjectInviteConfirm}>{app.t("팀원으로초대하기")}</Button>
+          )}
           <Button onClick={handleOpenChatRoomOutModal}>{app.t("•••")}</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>
 
       <Styled.ChatMessageWrapper>
-        {app.formattedMessages.map((message) =>
-          message.senderId === user.id ? (
-            <Styled.ChatMessageRight key={message.id}>
-              <Text>{message.createdAt}</Text>
-              <Text>{message.message}</Text>
-            </Styled.ChatMessageRight>
-          ) : (
-            <Flex key={message.id} align="center" gap={16}>
-              <Avatar size="small" src={app.memberImageUrl} />
-              <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
-              <Text>{message.createdAt}</Text>
-            </Flex>
+        {app.formattedMessages.length > 0 ? (
+          app.formattedMessages.map((message) =>
+            message.senderId === user.id ? (
+              <Styled.ChatMessageRight key={message.id}>
+                <Text>{message.createdAt}</Text>
+                <Text>{message.message}</Text>
+              </Styled.ChatMessageRight>
+            ) : (
+              <Flex key={message.id} align="center" gap={16}>
+                <Avatar size="small" src={app.memberImageUrl} />
+                <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
+                <Text>{message.createdAt}</Text>
+              </Flex>
+            )
           )
+        ) : (
+          <Styled.NoMessageBox>
+            <FlexCenter direction="column">
+              <Text>{`${app.memberName}님과`}</Text>
+              <Text>매칭이 되었어요</Text>
+            </FlexCenter>
+            <Avatar size="xLarge" src={app.memberImageUrl} />
+          </Styled.NoMessageBox>
         )}
         <div ref={messagesEndRef} />
       </Styled.ChatMessageWrapper>
@@ -111,23 +123,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient<Database>(ctx);
 
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
+    data: { user }
+  } = await supabase.auth.getUser();
 
   const roomId = Number(ctx.params?.roomId);
 
   return {
     props: {
-      user: session.user,
+      user: user as User,
       roomId,
       ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
     }

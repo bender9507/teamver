@@ -4,9 +4,11 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import { useChatRequestMember, useChatRequestOwner } from "~/components/Chat";
 import { Card } from "~/components/Chat/Card";
-import { Avatar, PreviousButton } from "~/components/Commons";
+import { Avatar } from "~/components/Commons";
 import { NavbarLayout } from "~/components/Layouts";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import { useSelectChatRooms } from "./chat.hooks";
@@ -17,6 +19,12 @@ const Chat = ({ user }: { user: User }) => {
 
   const app = useSelectChatRooms(user.id);
 
+  const { data: profile } = useSelectProfileQuery(user.id);
+
+  const chatRequestsOwnerApp = useChatRequestOwner(user.id);
+
+  const chatRequestsMemberApp = useChatRequestMember(user.id);
+
   return (
     <>
       <Head>
@@ -25,8 +33,7 @@ const Chat = ({ user }: { user: User }) => {
 
       <NavbarLayout>
         <Styled.Header>
-          <PreviousButton />
-          <Text>{t("채팅")}</Text>
+          <Text size="titleSmall">{t("채팅")}</Text>
         </Styled.Header>
 
         <Styled.Container>
@@ -45,10 +52,15 @@ const Chat = ({ user }: { user: User }) => {
             <Flex justify="end">
               <Text
                 size="heading5"
+                color="primary"
                 style={{ marginBottom: "22px" }}
                 onClick={app.handleRequestClick}
               >
-                {t("요청")}
+                {`${t("요청")} ${
+                  profile.role.id === 1
+                    ? chatRequestsOwnerApp.requests.length
+                    : chatRequestsMemberApp.requests.length
+                }${t("개")}`}
               </Text>
             </Flex>
 
