@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useDialog, useModal } from "~/components/Commons";
 import { profileKeys, useDeleteFollowMutate } from "~/states/server/profile";
 
-export const useLikeCard = ({ followId, userId }: { followId: number; userId: string }) => {
+export const useLikeCardOwner = ({ followId, userId }: { followId: number; userId: string }) => {
   const queryClient = useQueryClient();
 
   const { mount } = useModal();

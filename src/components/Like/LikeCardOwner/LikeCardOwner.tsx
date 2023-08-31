@@ -4,9 +4,9 @@ import type { ChatRequestOwnerRow } from "~/states/server/chat/types";
 import type { ProfileAllDataRow } from "~/states/server/profile";
 import { FlexCenter, Text } from "~/styles/mixins";
 import * as Styled from "../Like.styles";
-import { useLikeCard } from "./LikeCard.hooks";
+import { useLikeCardOwner } from "./LikeCardOwner.hooks";
 
-interface LikeCardProps {
+interface LikeCardOwnerProps {
   data: {
     id: number;
     follow: ProfileAllDataRow;
@@ -15,9 +15,10 @@ interface LikeCardProps {
   userId: string;
 }
 
-export const LikeCard = ({ data, userId }: LikeCardProps) => {
-  const app = useLikeCard({ followId: data.id, userId });
+export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
+  const app = useLikeCardOwner({ followId: data.id, userId });
   const [isChatRequested, setIsChatRequested] = useState<boolean>(false);
+  console.log(data);
 
   return (
     <Styled.Card>

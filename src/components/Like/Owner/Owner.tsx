@@ -2,12 +2,12 @@ import { IconButton } from "~/components/Commons";
 import { NavbarLayout } from "~/components/Layouts";
 import { FlexColumn, Text } from "~/styles/mixins";
 import * as Styled from "../Like.styles";
-import { LikeCard } from "../LikeCard/LikeCard";
+import { LikeCardOwner } from "../LikeCardOwner/LikeCardOwner";
 import { useOwner } from "./Owner.hooks";
 
 export const Owner = ({ userId }: { userId: string }) => {
   const app = useOwner(userId);
-  console.log(app.follows);
+
   return (
     <NavbarLayout>
       <FlexColumn style={{ padding: "20px" }}>
@@ -25,7 +25,7 @@ export const Owner = ({ userId }: { userId: string }) => {
 
         <FlexColumn gap={15}>
           {app.follows.map((follow) => (
-            <LikeCard data={follow} userId={userId} key={follow.id} />
+            <LikeCardOwner data={follow} userId={userId} key={follow.id} />
           ))}
         </FlexColumn>
       </FlexColumn>

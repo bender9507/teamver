@@ -1,25 +1,27 @@
 import { useSuspendedQuery } from "~/hooks";
 import {
   selectChatMessages,
-  selectChatRequests,
-  selectChatRequestsOnLike,
+  selectChatRequestsMember,
+  selectChatRequestsOwner,
   selectChatRooms
 } from "./apis";
 import { chatKeys } from "./keys";
 
-export const useSelectChatRequestsQuery = (requests: Parameters<typeof selectChatRequests>[0]) => {
+export const useSelectChatRequestsOwnerQuery = (
+  requests: Parameters<typeof selectChatRequestsOwner>[0]
+) => {
   return useSuspendedQuery({
-    queryKey: chatKeys.selectChatRequests(requests),
-    queryFn: () => selectChatRequests(requests)
+    queryKey: chatKeys.selectChatRequestsOwner(requests),
+    queryFn: () => selectChatRequestsOwner(requests)
   });
 };
 
-export const useSelectChatRequestsOnLikeQuery = (
-  requests: Parameters<typeof selectChatRequestsOnLike>[0]
+export const useSelectChatRequestsMemberQuery = (
+  requests: Parameters<typeof selectChatRequestsMember>[0]
 ) => {
   return useSuspendedQuery({
-    queryKey: chatKeys.selectChatRequestsOnLike(requests),
-    queryFn: () => selectChatRequestsOnLike(requests)
+    queryKey: chatKeys.selectChatRequestsMember(requests),
+    queryFn: () => selectChatRequestsMember(requests)
   });
 };
 
