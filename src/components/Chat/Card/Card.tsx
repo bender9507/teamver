@@ -8,11 +8,13 @@ export const Card = ({ invite }: CardProps) => {
 
   return (
     <Flex justify="between">
-      <Flex gap={8}>
+      <Flex gap={8} onClick={() => app.handleOpenProjectDetail()}>
         <Avatar src={invite.project.imageUrl} />
         <FlexColumn justify="around">
-          <Text>{invite.project.ownerProfile.name}</Text>
-          <Text color="gray2">{invite.project.name}</Text>
+          <Text size="textMediumBold">{invite.project.ownerProfile.name}</Text>
+          <Text size="textMedium" color="gray9">
+            {invite.project.name}
+          </Text>
         </FlexColumn>
       </Flex>
 

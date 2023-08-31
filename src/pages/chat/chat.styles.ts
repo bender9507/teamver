@@ -11,7 +11,7 @@ export const Header = styled.header`
 `;
 
 export const Container = styled(FlexColumn)`
-  padding: 49px 22px;
+  padding: 0 22px;
 `;
 
 export const ChatRoomsWrapper = styled.ul`
