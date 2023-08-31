@@ -30,7 +30,6 @@ export const Member = (props: { user: User }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
 
   return (
-    // <LogoHeaderWithNavbarLayout>
     <Container>
       <Select>
         <OptionButton
@@ -158,6 +157,5 @@ export const Member = (props: { user: User }) => {
         })}
       </Position>
     </Container>
-    // </LogoHeaderWithNavbarLayout>
   );
 };

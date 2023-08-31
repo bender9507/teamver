@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
 import { useCardSelect, useImmutableState } from "~/hooks";
-import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectConstantsQuery } from "~/states/server/constant";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import {
   useInsertFollowProjectMutate,
@@ -23,7 +23,8 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
   const { register, handleSubmit } = useForm<FilterForm>();
 
   const { data: profile } = useSelectProfileQuery(user.id);
-  const { data: constants } = useGetConstantQuery(["projectTypes", "areas"]);
+
+  const { data: constants } = useSelectConstantsQuery();
   const { data: randomProjects, fetchNextPage } = useSelectRecommendedProjectsQuery({
     seedValue: SEED,
     userId: user.id,
