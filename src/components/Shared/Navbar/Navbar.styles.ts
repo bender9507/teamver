@@ -1,8 +1,15 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex, size } from "~/styles/mixins";
+import { flex, position, size } from "~/styles/mixins";
 
 export const Navbar = styled.nav`
+  ${position.sticky({ bottom: 0 })};
+
   ${flex({ align: "center", justify: "around" })};
 
-  ${({ theme: { sizes } }) => size({ height: sizes.height.navbar })};
+  ${({ theme: { sizes, colors } }) => css`
+    ${size({ height: sizes.height.navbar })}
+
+    background-color: ${colors.backgroundPrimary};
+  `};
 `;

@@ -3,16 +3,21 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Member, Owner } from "~/components/Home";
+import { LogoHeader, Navbar } from "~/components/Shared";
 import { useSelectProfileQuery } from "~/states/server/profile";
 
-const Home = (props: { user: User }) => {
-  const { data: profile } = useSelectProfileQuery(props.user.id);
+const Home = ({ user }: { user: User }) => {
+  const { data: profile } = useSelectProfileQuery(user.id);
 
-  if (profile.role.id === 1) {
-    return <Owner {...props} />;
-  }
+  return (
+    <>
+      <LogoHeader />
 
-  return <Member {...props} />;
+      {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
+
+      <Navbar user={user} />
+    </>
+  );
 };
 
 export default Home;

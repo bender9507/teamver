@@ -1,21 +1,16 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { FlexColumn, flex, position, size } from "~/styles/mixins";
+import { FlexColumn, flex, position } from "~/styles/mixins";
+
+export const Container = styled.div`
+  min-height: 100svh;
+`;
 
 export const SectionContainer = styled(FlexColumn)`
   padding: 32px 20px;
 `;
 
-export const CreateProject = styled.button`
-  ${position.absolute({ bottom: 84, right: 24 })};
+export const FloatingBox = styled.div`
+  ${position.sticky({ bottom: 84 })};
 
-  ${flex.center()};
-
-  ${size({ width: 50, height: 50 })};
-
-  ${({ theme: { colors } }) => css`
-    background-color: ${colors.primary};
-  `};
-
-  border-radius: 50%;
+  ${flex({ justify: "end" })};
 `;

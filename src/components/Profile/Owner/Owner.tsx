@@ -1,20 +1,20 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
+import type { ReactNode } from "react";
 import { IconButton } from "~/components/Commons";
-import { NavbarLayout } from "~/components/Layouts";
-import { FlexColumn, Position, Text } from "~/styles/mixins";
-import { SectionContainer } from "../Profile.styles";
+import { FlexColumn, SizeBox, Text } from "~/styles/mixins";
+import { Container, FloatingBox, SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
 import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
 import { useOwner } from "./Owner.hooks";
 
-export const Owner = ({ user }: { user: User }) => {
+export const Owner = ({ user }: { user: User }): ReactNode => {
   const app = useOwner({ user });
   const { t } = useTranslation("profile");
 
   return (
-    <NavbarLayout>
+    <Container>
       <ProfileSection profile={app.profile} isMine={app.isMine} />
 
       <SectionTab
@@ -64,16 +64,18 @@ export const Owner = ({ user }: { user: User }) => {
         </SectionContainer>
       )}
 
+      <SizeBox height={1000} />
+
       {app.isMine && (
-        <Position position="absolute" bottom={84} right={24}>
+        <FloatingBox>
           <IconButton
             name="floatingButton"
             width={50}
             height={50}
             onClick={app.handleProjectCreate}
           />
-        </Position>
+        </FloatingBox>
       )}
-    </NavbarLayout>
+    </Container>
   );
 };

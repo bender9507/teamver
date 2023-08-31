@@ -1,7 +1,6 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
-import { NavbarLayout } from "~/components/Layouts";
-import { SectionContainer } from "../Profile.styles";
+import { Container, SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
 import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
@@ -12,7 +11,7 @@ export const Member = ({ user }: { user: User }) => {
   const { t } = useTranslation("profile");
 
   return (
-    <NavbarLayout>
+    <Container>
       <ProfileSection profile={app.profile} isMine={app.isMine} />
 
       <SectionTab
@@ -43,6 +42,6 @@ export const Member = ({ user }: { user: User }) => {
             ))}
         </SectionContainer>
       )}
-    </NavbarLayout>
+    </Container>
   );
 };
