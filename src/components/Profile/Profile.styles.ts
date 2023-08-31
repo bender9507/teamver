@@ -12,5 +12,7 @@ export const SectionContainer = styled(FlexColumn)`
 export const FloatingBox = styled.div`
   ${position.sticky({ bottom: 84 })};
 
+  padding: 0 20px;
+
   ${flex({ justify: "end" })};
 `;

@@ -6,7 +6,6 @@ import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
-import { Noto_Sans_KR as NotoSansKR } from "next/font/google";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMount } from "react-use";
@@ -15,12 +14,8 @@ import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
+import type { OneOfLanguage } from "~/types";
 import * as Styled from "./_app.styles";
-
-const notoSansKR = NotoSansKR({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"]
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +40,22 @@ const App = ({
       if (state === "SIGNED_IN") {
         router.push(routes.home);
       }
+    });
+
+    router.beforePopState(({ options, url }) => {
+      const currentLocale = options.locale as OneOfLanguage;
+
+      const locale = localStorage.getItem("locale") ?? "ko";
+
+      if (locale !== currentLocale) {
+        const _url = url.replace("/en", "").replace("/jp", "");
+
+        router.replace(_url, _url, { locale });
+
+        return false;
+      }
+
+      return true;
     });
   });
 

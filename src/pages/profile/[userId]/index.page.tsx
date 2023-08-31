@@ -2,10 +2,14 @@ import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { IconButton } from "~/components/Commons";
 import { Member, Owner } from "~/components/Profile";
 import { Navbar } from "~/components/Shared";
+import { routes } from "~/constants/routes";
 import { useSelectProfileQuery } from "~/states/server/profile";
+import * as Styled from "./profile.styles";
 
 const Profile = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -13,6 +17,12 @@ const Profile = ({ user }: { user: User }) => {
 
   return (
     <>
+      <Styled.SettingHeader>
+        <Link href={routes.setting}>
+          <IconButton name="setting" />
+        </Link>
+      </Styled.SettingHeader>
+
       {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
 
       <Navbar user={user} />
