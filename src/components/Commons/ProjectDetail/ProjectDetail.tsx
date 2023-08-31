@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import type { ProfileAllDataRow } from "~/states/server/profile";
 import type { ProjectAllDataRow } from "~/states/server/project";
-import { Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
+import { CommonContainer, Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { Avatar, Chip, RatioBox } from "..";
 import * as Styled from "./ProjectDetail.styles";
@@ -32,7 +32,7 @@ export const ProjectDetail = ({
         <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
       </RatioBox>
 
-      <Styled.Container>
+      <CommonContainer>
         <Flex align="center" gap={12}>
           <Avatar src={project.ownerProfile.imageUrl} size="small" />
           <Text>{project.ownerProfile.name}</Text>
@@ -42,23 +42,23 @@ export const ProjectDetail = ({
 
         <FlexColumn gap={46}>
           <FlexColumn gap={16}>
-            <Text size="heading4">{project.name}</Text>
+            <Text size="titleMedium">{project.name}</Text>
 
-            <Text size="paragraph2" color="content2">
+            <Text size="textMediumBold" color="gray9">
               {project.description}
             </Text>
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("프로젝트 기간")}</Text>
+            <Text size="titleMedium">{t("프로젝트 기간")}</Text>
 
-            <Text size="paragraph2" color="content2">
+            <Text size="textMediumBold" color="gray9">
               {project.startDate ?? t("기간 미정")} ~ {project.endDate ?? t("기간 미정")}
             </Text>
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("모집 포지션")}</Text>
+            <Text size="titleMedium">{t("모집 포지션")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {project.positions.map((position) => (
@@ -74,16 +74,16 @@ export const ProjectDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("모집 인원")}</Text>
+            <Text size="titleMedium">{t("모집 인원")}</Text>
 
-            <Text size="paragraph2" color="content2">
+            <Text size="textMediumBold" color="gray9">
               {project.recruitCount}
               {t("명")}
             </Text>
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("활동 지역")}</Text>
+            <Text size="titleMedium">{t("활동 지역")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {project.areas.map((area) => (
@@ -99,7 +99,7 @@ export const ProjectDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("주요 언어")}</Text>
+            <Text size="titleMedium">{t("주요 언어")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {project.languages.map((language) => (
@@ -115,7 +115,7 @@ export const ProjectDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("기술 스택")}</Text>
+            <Text size="titleMedium">{t("기술 스택")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {project.skills.map((skill) => (
@@ -130,7 +130,7 @@ export const ProjectDetail = ({
             </Flex>
           </FlexColumn>
         </FlexColumn>
-      </Styled.Container>
+      </CommonContainer>
     </FlexColumn>
   );
 };
