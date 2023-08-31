@@ -1,6 +1,6 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useSuspendedQuery } from "~/hooks";
-import { selectFollowers, selectFollows, selectProfile, selectRecommendedProfiles } from "./apis";
+import { selectFollows, selectProfile, selectRecommendedProfiles } from "./apis";
 import { profileKeys } from "./keys";
 
 export const useSelectProfileQuery = (userId: string) => {
@@ -11,16 +11,10 @@ export const useSelectProfileQuery = (userId: string) => {
 };
 
 export const useSelectFollows = (myId: string) => {
-  return useSuspendedQuery({
+  return useQuery({
     queryKey: profileKeys.selectFollows(myId),
-    queryFn: () => selectFollows(myId)
-  });
-};
-
-export const useSelectFollowers = (myId: string) => {
-  return useSuspendedQuery({
-    queryKey: profileKeys.selectFollowers(myId),
-    queryFn: () => selectFollowers(myId)
+    queryFn: () => selectFollows(myId),
+    initialData: []
   });
 };
 

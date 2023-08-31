@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Member, Owner } from "~/components/ProjectMembers";
 
 import { useSelectProfileQuery } from "~/states/server/profile";
+import type { Database } from "~/types/database";
 
 const ProjectMembers = (props: { user: User; projectId: string }) => {
   const { data: profile } = useSelectProfileQuery(props.user.id);
@@ -20,7 +21,7 @@ const ProjectMembers = (props: { user: User; projectId: string }) => {
 export default ProjectMembers;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const supabaseServer = createPagesServerClient(context);
+  const supabaseServer = createPagesServerClient<Database>(context);
 
   const { projectId } = context.params;
 
