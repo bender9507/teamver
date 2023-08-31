@@ -53,8 +53,7 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
   const handleDeleteProject = async () => {
     if (
       !(await confirm({
-        title: t("프로젝트를 정말 삭제하시겠어요"),
-        message: t("한번 삭제된 프로젝트는 복구되지 않아요")
+        title: t("프로젝트를 정말 삭제하시겠어요")
       }))
     )
       return;
