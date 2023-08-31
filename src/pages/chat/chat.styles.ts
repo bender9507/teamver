@@ -19,9 +19,9 @@ export const ChatRoomsWrapper = styled.ul`
 `;
 
 export const ChatRoomBox = styled.li`
-  ${({ theme: { colors } }) => css`
-    ${flex({ gap: 8 })}
+  ${flex({ gap: 8 })}
 
+  ${({ theme: { colors } }) => css`
     cursor: pointer;
     &:hover {
       background-color: ${colors.gray5};

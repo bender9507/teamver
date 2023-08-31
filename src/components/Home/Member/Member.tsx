@@ -9,7 +9,7 @@ import {
   SelectChip,
   TinderCard
 } from "~/components/Commons";
-import { CommonContainer, Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
+import { CommonContainer, Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import {
   BlurChip,
@@ -85,7 +85,7 @@ export const Member = (props: { user: User }) => {
 
                 <SizeBox height={52} />
 
-                <Grid gap={12} column={5}>
+                <Flex gap={12} wrap="wrap">
                   {app.constants.areas.map((area) => (
                     <SelectChip
                       key={area.id}
@@ -96,7 +96,7 @@ export const Member = (props: { user: User }) => {
                       {area[currentLanguage]}
                     </SelectChip>
                   ))}
-                </Grid>
+                </Flex>
 
                 <SizeBox height={60} />
 

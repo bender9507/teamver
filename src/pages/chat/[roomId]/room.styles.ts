@@ -17,7 +17,7 @@ export const ChatRoomTopBar = styled.section`
 export const ChatMessageWrapper = styled.div`
   ${flex.column({ gap: 10 })}
 
-  height: 750px;
+  height: 90vh;
 
   overflow-y: scroll;
 `;
@@ -33,9 +33,9 @@ export const ChatFromWrapper = styled.form`
 `;
 
 export const ChatMessageRight = styled.div`
-  ${({ theme: { colors } }) => css`
-    ${flex({ align: "center", justify: "end", gap: 16 })}
+  ${flex({ align: "center", justify: "end", gap: 16 })}
 
+  ${({ theme: { colors } }) => css`
     color: ${colors.white};
   `}
 `;
@@ -46,4 +46,10 @@ export const ChatMessageLeft = styled.div`
 
     color: ${colors.white};
   `}
+`;
+
+export const NoMessageBox = styled.div`
+  ${flex.center({ direction: "column", gap: 24 })}
+
+  height: 80%
 `;

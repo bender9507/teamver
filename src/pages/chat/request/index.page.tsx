@@ -1,42 +1,19 @@
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { User } from "@supabase/supabase-js";
 import type { GetServerSideProps } from "next";
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Avatar, Button, PreviousButton } from "~/components/Commons";
-import { Flex, FlexColumn, Text } from "~/styles/mixins";
+import { ChatRequestMember, ChatRequestOwner } from "~/components/Chat";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import type { Database } from "~/types/database";
-import { useChatRequest } from "./request.hooks";
 
-const ChatRequest = ({ user }: { user: User }) => {
-  const { t } = useTranslation("chat");
+const ChatRequest = (props: { user: User }) => {
+  const { data: profile } = useSelectProfileQuery(props.user.id);
 
-  const app = useChatRequest(user.id);
+  if (profile.role.id === 1) {
+    return <ChatRequestOwner {...props} />;
+  }
 
-  return (
-    <FlexColumn>
-      <Flex justify="between" align="center">
-        <PreviousButton />
-        <Text>{t("채팅 요청")}</Text>
-      </Flex>
-
-      <FlexColumn gap={18}>
-        {app.requesters.map((requester) => (
-          <Flex key={requester.id} justify="between" align="center">
-            <Flex align="center" gap={16}>
-              <Avatar src={requester.imageUrl} />
-              <Text>{requester.name}</Text>
-            </Flex>
-
-            <Flex gap={12}>
-              <Button>{t("수락")}</Button>
-              <Button onClick={() => app.handleDenyClick(requester.id)}>{t("삭제")}</Button>
-            </Flex>
-          </Flex>
-        ))}
-      </FlexColumn>
-    </FlexColumn>
-  );
+  return <ChatRequestMember {...props} />;
 };
 
 export default ChatRequest;
@@ -45,24 +22,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient<Database>(ctx);
 
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
-
-  const roomId = Number(ctx.params?.roomId);
+    data: { user }
+  } = await supabase.auth.getUser();
 
   return {
     props: {
-      user: session.user,
-      roomId,
+      user: user as User,
       ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
     }
   };

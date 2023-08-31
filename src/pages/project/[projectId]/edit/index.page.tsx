@@ -18,7 +18,7 @@ import {
   Textarea
 } from "~/components/Commons";
 import { projectsKey } from "~/states/server/project";
-import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useEdit } from "./edit.hooks";
 import * as Styled from "./edit.styles";
@@ -249,7 +249,7 @@ const Edit = (props: { user: User }) => {
           title={t("활동 지역")}
           desc={t("프로젝트 활동 지역을 선택해주세요 여러개 선택 가능해요")}
         >
-          <Grid gap={12} column={5}>
+          <Flex gap={12} wrap="wrap">
             {app.constants.areas.map((area) => (
               <SelectChip
                 key={area.id}
@@ -259,7 +259,7 @@ const Edit = (props: { user: User }) => {
                 {area[currentLanguage]}
               </SelectChip>
             ))}
-          </Grid>
+          </Flex>
         </Label>
 
         <Button type="submit" disabled={!app.formState.isValid}>

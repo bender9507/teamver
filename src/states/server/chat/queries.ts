@@ -1,6 +1,8 @@
 import { useSuspendedQuery } from "~/hooks";
 import {
   selectChatMessages,
+  selectChatRequestMember,
+  selectChatRequestOwner,
   selectChatRequestsMember,
   selectChatRequestsOwner,
   selectChatRooms
@@ -22,6 +24,24 @@ export const useSelectChatRequestsMemberQuery = (
   return useSuspendedQuery({
     queryKey: chatKeys.selectChatRequestsMember(requests),
     queryFn: () => selectChatRequestsMember(requests)
+  });
+};
+
+export const useSelectChatRequestOwnerQuery = (
+  requests: Parameters<typeof selectChatRequestOwner>[0]
+) => {
+  return useSuspendedQuery({
+    queryKey: chatKeys.selectChatRequestOwner(requests),
+    queryFn: () => selectChatRequestOwner(requests)
+  });
+};
+
+export const useSelectChatRequestMemberQuery = (
+  requests: Parameters<typeof selectChatRequestMember>[0]
+) => {
+  return useSuspendedQuery({
+    queryKey: chatKeys.selectChatRequestMember(requests),
+    queryFn: () => selectChatRequestMember(requests)
   });
 };
 
