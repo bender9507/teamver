@@ -12,7 +12,7 @@ export const Header = styled.header`
 `;
 
 export const Container = styled(FlexColumn)`
-  padding: 32px;
+  padding: 22px;
 `;
 
 export const Desc = styled(Text)`
@@ -114,7 +114,7 @@ export const CalendarWrapper = styled.div`
   .react-calendar__month-view__weekdays {
     abbr {
       ${({ theme: { colors } }) => css`
-        color: ${colors.gray1};
+        color: ${colors.gray7};
       `}
 
       font-weight: 300;
@@ -136,7 +136,7 @@ export const CalendarWrapper = styled.div`
   }
   .react-calendar__tile {
     ${({ theme: { colors } }) => css`
-      color: ${colors.gray3};
+      color: ${colors.gray6};
       background-color: ${colors.black};
     `}
   }

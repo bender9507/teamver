@@ -1042,6 +1042,20 @@ export interface Database {
         }
         Returns: undefined
       }
+      select_constants: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          areas: Json
+          jobs: Json
+          languages: Json
+          personalities: Json
+          positions: Json
+          projectTypes: Json
+          reactions: Json
+          roles: Json
+          skills: Json
+        }[]
+      }
       select_recommended_members: {
         Args: {
           seedValue: number

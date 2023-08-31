@@ -16,7 +16,7 @@ import {
 import { HTTP_REGEX } from "~/constants/regex";
 import { routes } from "~/constants/routes";
 import { selectProfile } from "~/states/server/profile";
-import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useWelcome } from "./welcome.hooks";
 import * as Styled from "./welcome.styles";
@@ -28,58 +28,63 @@ const Welcome = (props: { user: User }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
 
   return (
-    <Styled.Container onSubmit={app.handleSubmit(app.handleCreateProfile)}>
+    <Styled.Container>
       <Styled.Header>
         <IconButton type="button" name="arrowBack" color="content1" onClick={app.prevStep} />
       </Styled.Header>
 
-      <Styled.Progress current={app.step} max={app.lastStep} />
+      <Styled.SectionContainer onSubmit={app.handleCreateProfile}>
+        <Styled.Progress current={app.step} max={app.lastStep} />
 
-      <SizeBox height={26} />
-
-      <Styled.SectionDisplay>
-        <Styled.SectionContainer step={app.step}>
+        {app.step === 0 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("팀버에서만의 닉네임을 만들어보세요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2" whiteSpace="pre-wrap">
+              <Text as="p" size="textSmallBold" color="gray9" whiteSpace="pre-wrap">
                 {t("프로필에 표시되는 소개글로 언제든 변경 가능해요")}
               </Text>
             </FlexColumn>
 
             <FlexColumn gap={14}>
-              <Input onChange={app.validateNickName} maxLength={16} placeholder={t("닉네임")} />
+              <Input
+                {...app.register("name")}
+                onChange={app.validateNickName}
+                maxLength={16}
+                placeholder={t("닉네임")}
+              />
 
               <Flex style={{ marginLeft: "18px" }}>
                 {!app.successMessage && !app.errorMessage && (
-                  <Text color="gray4" size="paragraph3">
+                  <Text color="gray4" size="textMediumBold">
                     {t("최대 N글자", { count: 16 })}
                   </Text>
                 )}
                 {app.successMessage && (
-                  <Text color="primary" size="paragraph3">
+                  <Text color="primary" size="textMediumBold">
                     {app.successMessage}
                   </Text>
                 )}
                 {app.errorMessage && (
-                  <Text color="error" size="paragraph3">
+                  <Text color="error" size="textMediumBold">
                     {app.errorMessage}
                   </Text>
                 )}
               </Flex>
             </FlexColumn>
           </Styled.Section>
+        )}
 
+        {app.step === 1 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
+              <Text as="h3" size="titleLarge">
                 {t("멋진 소개글을 적어볼까요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("프로필에 표시되는 소개글로 언제든 변경 가능해요")}
               </Text>
             </FlexColumn>
@@ -91,19 +96,21 @@ const Welcome = (props: { user: User }) => {
                 placeholder={t("내 소개")}
               />
 
-              <Text color="gray4" size="paragraph3" style={{ marginLeft: "18px" }}>
+              <Text color="gray4" size="textMediumBold" style={{ marginLeft: "18px" }}>
                 {t("최대 N자", { count: 500 })}
               </Text>
             </FlexColumn>
           </Styled.Section>
+        )}
 
+        {app.step === 2 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("사용하는 주요 언어를 선택해 볼까요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
@@ -120,14 +127,16 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 3 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("사용하는 기술 스택을 선택해 볼까요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
@@ -144,14 +153,16 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 4 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3">
+              <Text as="h3" size="titleLarge">
                 {t("나의 포지션을 선택해볼까요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
@@ -168,14 +179,16 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 5 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("도전해 보고 싶은 프로젝트 타입을 선택해볼까요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
@@ -192,14 +205,16 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 6 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("나를 잘 나타내는 키워드를 선택해볼까요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("최대 두 개까지 선택할 수 있어요")}
               </Text>
             </FlexColumn>
@@ -219,19 +234,21 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 7 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("주로 활동하는 지역은 어디인가요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("여러 개 선택 할 수 있어요")}
               </Text>
             </FlexColumn>
 
-            <Grid gap={12} column={5}>
+            <Grid gap={10} column={5}>
               {app.constants.areas.map((area) => (
                 <SelectChip
                   key={area.id}
@@ -243,9 +260,11 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Grid>
           </Styled.Section>
+        )}
 
+        {app.step === 8 && (
           <Styled.Section>
-            <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+            <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
               {t("운영 블로그가 있다면 알려주세요")}
             </Text>
 
@@ -256,9 +275,11 @@ const Welcome = (props: { user: User }) => {
               placeholder={t("블로그 주소")}
             />
           </Styled.Section>
+        )}
 
+        {app.step === 9 && (
           <Styled.Section>
-            <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+            <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
               {t("거의 다 왔어요 어떤 일을 하고 계시나요")}
             </Text>
 
@@ -266,6 +287,7 @@ const Welcome = (props: { user: User }) => {
               {app.constants.jobs.map((job) => (
                 <SelectChip
                   key={job.id}
+                  type="radio"
                   value={job.id}
                   {...app.register("job", { required: true })}
                 >
@@ -274,9 +296,11 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Flex>
           </Styled.Section>
+        )}
 
+        {app.step === 10 && (
           <Styled.Section>
-            <Text as="h3" size="heading3">
+            <Text as="h3" size="titleLarge">
               {t("마지막으로 나를 나타낼 수 있는 프로필 사진을 올려볼까요")}
             </Text>
 
@@ -303,9 +327,9 @@ const Welcome = (props: { user: User }) => {
                     <Styled.Gradient />
 
                     <Styled.ProfileDesc gap={16}>
-                      <Text size="heading3">{app.watch("name")}</Text>
+                      <Text size="titleSmall">{app.watch("name")}</Text>
 
-                      <Text size="paragraph3" color="content2">
+                      <Text size="textSmall" color="content2">
                         {app.watch("introduce")}
                       </Text>
                     </Styled.ProfileDesc>
@@ -314,14 +338,16 @@ const Welcome = (props: { user: User }) => {
               )}
             />
           </Styled.Section>
+        )}
 
+        {app.step === 11 && (
           <Styled.Section>
             <FlexColumn gap={16}>
-              <Text as="h3" size="heading3" whiteSpace="pre-wrap">
+              <Text as="h3" size="titleLarge" whiteSpace="pre-wrap">
                 {t("환영합니다 회원님은 프로젝트의 모집자인가요 참가자인가요")}
               </Text>
 
-              <Text as="p" size="paragraph3" color="gray2">
+              <Text as="p" size="textSmallBold" color="gray9">
                 {t("프로필에서 언제든 변경 가능해요")}
               </Text>
             </FlexColumn>
@@ -340,16 +366,16 @@ const Welcome = (props: { user: User }) => {
               ))}
             </Grid>
           </Styled.Section>
-        </Styled.SectionContainer>
-      </Styled.SectionDisplay>
+        )}
 
-      {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
+        {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
 
-      {app.step !== app.lastStep && (
-        <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
-          {t("다음")}
-        </Button>
-      )}
+        {app.step !== app.lastStep && (
+          <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
+            {t("다음")}
+          </Button>
+        )}
+      </Styled.SectionContainer>
     </Styled.Container>
   );
 };

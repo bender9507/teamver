@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
 import { useCardSelect, useImmutableState } from "~/hooks";
 
-import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectConstantsQuery } from "~/states/server/constant";
 import { useInsertFollowMutate, useSelectRecommendedProfilesQuery } from "~/states/server/profile";
 import type { Owner } from "./Owner";
 import type { FilterForm } from "./Owner.types";
@@ -22,7 +22,7 @@ export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
 
   const { mount, unmount } = useModal();
 
-  const { data: constants } = useGetConstantQuery(["positions", "skills", "languages", "areas"]);
+  const { data: constants } = useSelectConstantsQuery();
   const { mutate: insertFollowMutate } = useInsertFollowMutate();
   const { data: randomProfiles, fetchNextPage } = useSelectRecommendedProfilesQuery({
     seedValue: SEED,

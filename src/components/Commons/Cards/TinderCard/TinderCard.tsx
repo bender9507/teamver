@@ -4,7 +4,8 @@ import { useTinderCard } from "./TinderCard.hooks";
 import * as Styled from "./TinderCard.styles";
 import type { TinderCardProps } from "./TinderCard.types";
 
-export const TinderCard = memo(({ children, ...props }: PropsWithChildren<TinderCardProps>) => {
+export const TinderCard = memo((props: PropsWithChildren<TinderCardProps>) => {
+  const { children, onRestore, withSelectBox = true } = props;
   const app = useTinderCard(props);
 
   return (
@@ -19,23 +20,29 @@ export const TinderCard = memo(({ children, ...props }: PropsWithChildren<Tinder
     >
       <Styled.Card>{children}</Styled.Card>
 
-      <Styled.SelectBox>
-        <IconButton
-          name="close"
-          color={app.selectedDirection === "left" ? "primary" : "gray2"}
-          width={36}
-          height={36}
-          onClick={app.handleCancel}
-        />
+      {withSelectBox && (
+        <Styled.SelectBox>
+          <IconButton
+            name="close"
+            color="gray7"
+            width={32}
+            height={32}
+            onClick={app.handleCancel}
+          />
 
-        <IconButton
-          name="bookmark"
-          color={app.selectedDirection === "right" ? "primary" : "gray2"}
-          width={36}
-          height={36}
-          onClick={app.handleConfirm}
-        />
-      </Styled.SelectBox>
+          {onRestore && (
+            <IconButton name="rollback" color="gray7" width={32} height={32} onClick={onRestore} />
+          )}
+
+          <IconButton
+            name="bookmark"
+            color="gray7"
+            width={32}
+            height={32}
+            onClick={app.handleConfirm}
+          />
+        </Styled.SelectBox>
+      )}
     </Styled.Container>
   );
 });

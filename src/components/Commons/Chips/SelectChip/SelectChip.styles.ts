@@ -21,7 +21,7 @@ const chipStyle = ({
 
   border-radius: 30px;
 
-  ${text("paragraph3")};
+  ${text("textSmallBold")};
   color: ${colors.white};
 
   cursor: pointer;

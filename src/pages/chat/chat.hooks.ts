@@ -6,7 +6,6 @@ import { useSelectProjectInvitesQuery } from "~/states/server/project";
 export const useSelectChatRooms = (userId: string) => {
   const { data } = useSelectChatRoomsQuery(userId);
   const { data: invites } = useSelectProjectInvitesQuery(userId);
-  console.log(invites);
 
   const rooms = data?.map((room) => ({
     roomId: room.id,

@@ -18,7 +18,7 @@ import {
   SelectChip,
   Textarea
 } from "~/components/Commons";
-import { Flex, FlexColumn, Grid, SizeBox, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useCreate } from "./create.hooks";
 import * as Styled from "./create.styles";
@@ -38,10 +38,11 @@ const Create = (props: { user: User }) => {
 
       <Styled.Header>
         <PreviousButton />
+
         <Text>{t("프로젝트 생성하기")}</Text>
       </Styled.Header>
 
-      <Styled.Container as="form" gap={32} onSubmit={app.handleCreateProject}>
+      <Styled.Container as="form" gap={36} onSubmit={app.handleCreateProject}>
         <Label title={t("프로젝트 이미지")}>
           <Controller
             name="imageUrl"
@@ -258,8 +259,6 @@ const Create = (props: { user: User }) => {
             ))}
           </Grid>
         </Label>
-
-        <SizeBox height={32} />
 
         <Button type="submit" disabled={!app.formState.isValid}>
           {t("저장")}

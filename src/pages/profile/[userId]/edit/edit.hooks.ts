@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import { useGetConstantQuery } from "~/states/server/constant";
+import { useSelectConstantsQuery } from "~/states/server/constant";
 import { useSelectProfileQuery, useUpdateProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
 import type { ProfileEditForm } from "./edit.types";
@@ -14,15 +14,7 @@ export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => 
   const { toast } = useDialog();
 
   const { data: profile } = useSelectProfileQuery(user.id);
-  const { data: constant } = useGetConstantQuery([
-    "areas",
-    "jobs",
-    "languages",
-    "personalities",
-    "positions",
-    "projectTypes",
-    "skills"
-  ]);
+  const { data: constant } = useSelectConstantsQuery();
   const { mutate: updateProfileMutate } = useUpdateProfileMutate({
     onSuccess: () => {
       router.push(routes.profile(profile.id));

@@ -9,7 +9,6 @@ import {
   SelectChip,
   TinderCard
 } from "~/components/Commons";
-import { LogoHeaderWithNavbarLayout } from "~/components/Layouts";
 import { CommonContainer, Flex, FlexColumn, Grid, Position, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import {
@@ -31,137 +30,132 @@ export const Member = (props: { user: User }) => {
   const currentLanguage = i18n.language as OneOfLanguage;
 
   return (
-    <LogoHeaderWithNavbarLayout>
-      <Container>
-        <Select>
-          <Button onClick={app.handleRestore}>복원</Button>
+    <Container>
+      <Select>
+        <OptionButton
+          isSelected={!!app.filter.projectType}
+          onClick={() =>
+            app.mount(
+              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
+                <FlexColumn gap={12}>
+                  <Text size="titleMedium">{t("어떤 프로젝트를 찾으시나요")}</Text>
+                  <Text size="paragraph3">{t("도전해보고 싶은 프로젝트 타입을 선택해주세요")}</Text>
+                </FlexColumn>
 
-          <OptionButton
-            isSelected={!!app.filter.projectType}
-            onClick={() =>
-              app.mount(
-                <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                  <FlexColumn gap={12}>
-                    <Text size="heading4">{t("어떤 프로젝트를 찾으시나요")}</Text>
-                    <Text size="paragraph3">
-                      {t("도전해보고 싶은 프로젝트 타입을 선택해주세요")}
-                    </Text>
-                  </FlexColumn>
+                <SizeBox height={50} />
 
-                  <SizeBox height={50} />
+                <Flex gap={12} wrap="wrap">
+                  {app.constants.projectTypes.map((projectType) => (
+                    <SelectChip
+                      key={projectType.id}
+                      type="radio"
+                      value={projectType.id}
+                      color="backgroundPrimary"
+                      {...app.register("projectType")}
+                    >
+                      {projectType[currentLanguage]}
+                    </SelectChip>
+                  ))}
+                </Flex>
 
-                  <Flex gap={12} wrap="wrap">
-                    {app.constants.projectTypes.map((projectType) => (
-                      <SelectChip
-                        key={projectType.id}
-                        type="radio"
-                        value={projectType.id}
-                        color="backgroundPrimary"
-                        {...app.register("projectType")}
-                      >
-                        {projectType[currentLanguage]}
-                      </SelectChip>
-                    ))}
+                <SizeBox height={60} />
+
+                <Button>{t("확인")}</Button>
+              </CommonContainer>,
+              { id: "selectProjectType", type: "bottom" }
+            )
+          }
+        >
+          {t("프로젝트 타입")}
+          <Icon name="arrowDown" width={20} height={20} />
+        </OptionButton>
+
+        <OptionButton
+          isSelected={app.filter.areas.length > 0}
+          onClick={() =>
+            app.mount(
+              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
+                <FlexColumn gap={12}>
+                  <Text size="titleMedium">{t("프로젝트 활동 지역이 어디인가요")}</Text>
+
+                  <Text size="paragraph3">
+                    {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
+                  </Text>
+                </FlexColumn>
+
+                <SizeBox height={52} />
+
+                <Grid gap={12} column={5}>
+                  {app.constants.areas.map((area) => (
+                    <SelectChip
+                      key={area.id}
+                      value={area.id}
+                      color="backgroundPrimary"
+                      {...app.register("areas")}
+                    >
+                      {area[currentLanguage]}
+                    </SelectChip>
+                  ))}
+                </Grid>
+
+                <SizeBox height={60} />
+
+                <Button>확인</Button>
+              </CommonContainer>,
+              { id: "selectLanguages", type: "bottom" }
+            )
+          }
+        >
+          {t("활동 지역")}
+          <Icon name="arrowDown" width={20} height={20} />
+        </OptionButton>
+      </Select>
+
+      <Position position="relative">
+        {app.filteredRandomProjects.map((project) => {
+          return (
+            <CardContainer key={project.id}>
+              <TinderCard
+                onConfirm={() => app.handleAccept(project.id)}
+                onCancel={() => app.handleReject(project.id)}
+                onRestore={app.handleRestore}
+              >
+                <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
+
+                <Gradient />
+
+                <Content>
+                  <Flex>
+                    <BlurChip>{project.projectType[currentLanguage]}</BlurChip>
                   </Flex>
 
-                  <SizeBox height={60} />
+                  <Text size="titleMedium">{project.name}</Text>
 
-                  <Button>{t("확인")}</Button>
-                </CommonContainer>,
-                { id: "selectProjectType", type: "bottom" }
-              )
-            }
-          >
-            {t("프로젝트 타입")}
-            <Icon name="arrowDown" width={20} height={20} />
-          </OptionButton>
-
-          <OptionButton
-            isSelected={app.filter.areas.length > 0}
-            onClick={() =>
-              app.mount(
-                <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                  <FlexColumn gap={12}>
-                    <Text size="heading4">{t("프로젝트 활동 지역이 어디인가요")}</Text>
-
-                    <Text size="paragraph3">
-                      {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
+                  <Flex align="end" justify="between" gap={18}>
+                    <Text size="textSmallBold" color="gray9" lineClamp={2}>
+                      {project.description}
                     </Text>
-                  </FlexColumn>
 
-                  <SizeBox height={52} />
-
-                  <Grid gap={12} column={5}>
-                    {app.constants.areas.map((area) => (
-                      <SelectChip
-                        key={area.id}
-                        value={area.id}
-                        color="backgroundPrimary"
-                        {...app.register("areas")}
-                      >
-                        {area[currentLanguage]}
-                      </SelectChip>
-                    ))}
-                  </Grid>
-
-                  <SizeBox height={60} />
-
-                  <Button>확인</Button>
-                </CommonContainer>,
-                { id: "selectLanguages", type: "bottom" }
-              )
-            }
-          >
-            {t("활동 지역")}
-            <Icon name="arrowDown" width={20} height={20} />
-          </OptionButton>
-        </Select>
-
-        <Position position="relative">
-          {app.filteredRandomProjects.map((project) => {
-            return (
-              <CardContainer key={project.id}>
-                <TinderCard
-                  onConfirm={() => app.handleAccept(project.id)}
-                  onCancel={() => app.handleReject(project.id)}
-                >
-                  <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
-
-                  <Gradient />
-
-                  <Content>
-                    <Flex>
-                      <BlurChip>{project.projectType[currentLanguage]}</BlurChip>
-                    </Flex>
-
-                    <Text size="heading4">{project.name}</Text>
-
-                    <Flex align="end" justify="between" gap={18}>
-                      <Text size="paragraph3" color="gray1" lineClamp={2}>
-                        {project.description}
-                      </Text>
-
-                      <IconButton
-                        name="upButton"
-                        width={26}
-                        height={26}
-                        color="white"
-                        onClick={() =>
-                          app.mount(<ProjectDetail project={project} profile={app.profile} />, {
-                            id: PROJECT_DETAIL_MODAL,
-                            type: "bottom"
-                          })
-                        }
-                        style={{ flexShrink: 0 }}
-                      />
-                    </Flex>
-                  </Content>
-                </TinderCard>
-              </CardContainer>
-            );
-          })}
-        </Position>
-      </Container>
-    </LogoHeaderWithNavbarLayout>
+                    <IconButton
+                      name="upButton"
+                      width={26}
+                      height={26}
+                      color="white"
+                      onClick={() =>
+                        app.mount(<ProjectDetail project={project} profile={app.profile} />, {
+                          id: PROJECT_DETAIL_MODAL,
+                          type: "bottom"
+                        })
+                      }
+                      style={{ flexShrink: 0 }}
+                    />
+                  </Flex>
+                </Content>
+              </TinderCard>
+            </CardContainer>
+          );
+        })}
+      </Position>
+    </Container>
   );
 };
