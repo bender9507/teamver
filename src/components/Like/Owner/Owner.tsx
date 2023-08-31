@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next";
 import { IconButton } from "~/components/Commons";
-import { NavbarLayout } from "~/components/Layouts";
 import { FlexColumn, Text } from "~/styles/mixins";
 import * as Styled from "../Like.styles";
 
@@ -12,26 +11,24 @@ export const Owner = ({ userId }: { userId: string }) => {
   const { t } = useTranslation("like");
 
   return (
-    <NavbarLayout>
-      <FlexColumn style={{ padding: "20px" }}>
-        <Styled.Header>
-          <IconButton type="button" name="arrowBack" color="content1" onClick={app.handleBack} />
+    <Styled.Container>
+      <Styled.Header>
+        <IconButton type="button" name="arrowBack" color="content1" onClick={app.handleBack} />
 
-          <Text style={{ margin: "0 auto" }} as="h3" size="heading3">
-            {t("찜 목록")}
-          </Text>
-        </Styled.Header>
-
-        <Text as="h4" size="heading4" style={{ margin: "40px 0 20px 0" }}>
-          {t("내가 찜한 팀원")}
+        <Text style={{ margin: "0 auto" }} as="h3" size="heading3">
+          {t("찜 목록")}
         </Text>
+      </Styled.Header>
 
-        <FlexColumn gap={15}>
-          {app.follows.map((follow) => (
-            <LikeCardOwner data={follow} userId={userId} key={follow.id} />
-          ))}
-        </FlexColumn>
+      <Text as="h4" size="heading4" style={{ margin: "40px 0 20px 0" }}>
+        {t("내가 찜한 팀원")}
+      </Text>
+
+      <FlexColumn gap={15}>
+        {app.follows.map((follow) => (
+          <LikeCardOwner data={follow} userId={userId} key={follow.id} />
+        ))}
       </FlexColumn>
-    </NavbarLayout>
+    </Styled.Container>
   );
 };

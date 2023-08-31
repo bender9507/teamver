@@ -1,9 +1,10 @@
+import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Member, Owner } from "~/components/Like";
-import { routes } from "~/constants/routes";
+import { Navbar } from "~/components/Shared";
 import {
   profileKeys,
   selectFollows,
@@ -13,13 +14,15 @@ import {
 import { projectsKey, selectFollowProjects } from "~/states/server/project";
 import type { Database } from "~/types/database";
 
-const Like = ({ userId }: { userId: string }) => {
-  const { data: profile } = useSelectProfileQuery(userId);
+const Like = ({ user }: { user: User }) => {
+  const { data: profile } = useSelectProfileQuery(user.id);
 
-  if (profile.role.id === 1) {
-    return <Owner userId={userId} />;
-  }
-  return <Member userId={userId} />;
+  return (
+    <>
+      {profile.role.id === 1 ? <Owner userId={user.id} /> : <Member userId={user.id} />}
+      <Navbar user={user} />
+    </>
+  );
 };
 
 export default Like;
@@ -28,35 +31,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabaseClient = createPagesServerClient<Database>(ctx);
   const queryClient = new QueryClient();
 
-  const {
-    data: { session }
-  } = await supabaseClient.auth.getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: routes.home,
-        permanent: false
-      }
-    };
-  }
+  const { data } = await supabaseClient.auth.getUser();
+  const user = data.user as User;
 
   await queryClient.prefetchQuery({
-    queryKey: profileKeys.selectProfile(session.user.id),
-    queryFn: () => selectProfile(session.user.id)
+    queryKey: profileKeys.selectProfile(user.id),
+    queryFn: () => selectProfile(user.id)
   });
   await queryClient.prefetchQuery({
-    queryKey: projectsKey.selectFollowProjects(session.user.id),
-    queryFn: () => selectFollowProjects(session.user.id)
+    queryKey: projectsKey.selectFollowProjects(user.id),
+    queryFn: () => selectFollowProjects(user.id)
   });
   await queryClient.prefetchQuery({
-    queryKey: profileKeys.selectFollows(session.user.id),
-    queryFn: () => selectFollows(session.user.id)
+    queryKey: profileKeys.selectFollows(user.id),
+    queryFn: () => selectFollows(user.id)
   });
 
   return {
     props: {
-      userId: session.user.id,
+      user,
       dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale, ["like"]))
     }

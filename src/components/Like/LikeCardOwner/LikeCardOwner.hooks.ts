@@ -25,6 +25,10 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
   const { mutate: insertChatRequestOwnerMutate } = useInsertChatRequestsOwnerMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
+      toast({ type: "success", message: t("채팅을 성공적으로 요청했습니다!") });
+    },
+    onError: () => {
+      toast({ type: "error", message: t("채팅 요청을 실패했습니다.") });
     }
   });
 
@@ -46,10 +50,11 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
     deleteFollowMutate(data.id);
   };
 
-  const handleRequest = () => {
+  const handleRequest = async () => {
     if (data.chatRequest[data.chatRequest.length - 1]?.state === "PENDING") {
       deleteChatRequestOwnerMutate(data.chatRequest[data.chatRequest.length - 1]?.id);
     } else {
+      if (!(await confirm({ title: t("채팅을 요청할까요?") }))) return;
       insertChatRequestOwnerMutate({
         requesterId: userId,
         receiverId: data.follow.id,
