@@ -42,7 +42,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
-      router.push(routes.profile(user.id));
+      router.push(routes.profile);
     }
   });
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
@@ -133,9 +133,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
       title: t("프로젝트를 수정하지 않고 그냥 나가시겠어요")
     });
 
-    if (confirmed) {
-      router.back();
-    }
+    return confirmed;
   };
 
   return {

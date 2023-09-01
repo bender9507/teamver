@@ -28,7 +28,6 @@ export const ChatRoomBox = styled.li`
   ${flex({ gap: 8 })}
 
   ${({ theme: { colors } }) => css`
-    cursor: pointer;
     &:hover {
       background-color: ${colors.gray5};
     }

@@ -1,6 +1,6 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
-import { Avatar, Button, PreviousButton, ProfileDetail, useModal } from "~/components/Commons";
+import { Avatar, Button, ProfileDetail, useModal } from "~/components/Commons";
 import { PROFILE_DETAIL_MODAL } from "~/components/Commons/ProfileDetail";
 import type {
   ConstantAreaRow,
@@ -40,11 +40,6 @@ export const ChatRequestMember = ({ user }: { user: User }) => {
 
   return (
     <FlexColumn>
-      <Styled.ChatRequestTitle>
-        <PreviousButton />
-        <Text>{t("채팅 요청")}</Text>
-      </Styled.ChatRequestTitle>
-
       <FlexColumn gap={18}>
         {app.requests.length === 0 ? (
           <Styled.NoRequestBox>

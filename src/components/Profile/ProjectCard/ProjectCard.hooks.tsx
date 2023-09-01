@@ -62,7 +62,7 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
   };
 
   const handleEditProject = async () => {
-    router.push(routes.projectEdit(project.id));
+    router.push({ pathname: routes.projectEdit, query: { projectId: project.id } });
 
     unmount("projectStateChangeModal");
   };

@@ -12,7 +12,7 @@ export const Outer = styled.div`
   ${size({ fullScreen: true })};
 
   ${({ theme: { colors, zIndex } }) => css`
-    z-index: ${zIndex.modal};
+    z-index: ${zIndex.dialog};
 
     background-color: ${hexToRgba(colors.black, 0.54)};
   `}

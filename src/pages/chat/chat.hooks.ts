@@ -23,17 +23,11 @@ export const useSelectChatRooms = (userId: string, roomId: number) => {
     };
   });
 
-  const handleRoomClick = (roomId: number) => {
-    router.push({
-      pathname: routes.chatRoom(roomId)
-    });
-  };
-
   const handleRequestClick = () => {
     router.push({
       pathname: routes.chatRequest
     });
   };
 
-  return { rooms, invites, unreadMessageCounts, handleRoomClick, handleRequestClick };
+  return { rooms, invites, unreadMessageCounts, handleRequestClick };
 };

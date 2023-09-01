@@ -31,7 +31,7 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
-      router.push(routes.profile(user.id));
+      router.push({ pathname: routes.profile, query: { userId: user.id } });
     }
   });
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
@@ -75,14 +75,12 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
   }, [watch, setValue, toast, t]);
 
   const handleBack = async () => {
-    const confirmed = await confirm({
+    const result = await confirm({
       title: t("작성중인 프로젝트 글을 취소하고 그냥 나가시겠어요"),
       message: t("취소된 글은 저장되지 않아요")
     });
 
-    if (confirmed) {
-      router.back();
-    }
+    return result;
   };
 
   return {

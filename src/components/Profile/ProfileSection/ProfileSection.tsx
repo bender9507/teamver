@@ -22,7 +22,8 @@ export const ProfileSection = ({
       <Text size="titleSmall">{profile.name}</Text>
 
       {isMine && (
-        <Link href={routes.profileEdit(profile.id)}>
+        // <Link href={routes.profileEdit(profile.id)}>
+        <Link href={{ pathname: routes.profileEdit, query: { profileId: profile.id } }}>
           <Button size="medium" color="content1" bgColor="backgroundSecondary">
             {t("프로필 수정")}
           </Button>

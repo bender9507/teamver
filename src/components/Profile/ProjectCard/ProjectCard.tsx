@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { Avatar, Button, IconButton } from "~/components/Commons";
+import { routes } from "~/constants/routes";
 import { type ProjectAllDataRow } from "~/states/server/project";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import { useProjectCard } from "./ProjectCard.hooks";
@@ -28,7 +29,7 @@ export const ProjectCard = ({
         </Text>
 
         <Flex>
-          <Link href={`/project/members/${project.id}`}>
+          <Link href={{ pathname: routes.projectMember, query: { projectId: project.id } }}>
             <Button size="small" color="white" bgColor="backgroundSecondary">
               {t("팀원보기")}
             </Button>

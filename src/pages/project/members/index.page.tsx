@@ -23,7 +23,7 @@ export default ProjectMembers;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabaseServer = createPagesServerClient<Database>(context);
 
-  const { projectId } = context.params;
+  const { projectId } = context.query;
 
   const {
     data: { user }

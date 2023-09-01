@@ -17,7 +17,7 @@ export const useChatRoom = (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  const { t } = useTranslation("chatRoom");
+  const { t } = useTranslation("chat");
 
   const [messages, setMessages] = useState<ChatMessageRow[]>([]);
 
@@ -42,7 +42,7 @@ export const useChatRoom = (
   const memberImageUrl = currentRoomMember?.imageUrl || "";
 
   // const formattedMessages = messages.map((message) => {
-  //   const formattedCreatedAt = format(new Date(message.createdAt), t("timeFormat"));
+  //   const formattedCreatedAt = format(new Date(message.createdAt), timeFormat);
   //   return { ...message, formattedCreatedAt };
   // });
 

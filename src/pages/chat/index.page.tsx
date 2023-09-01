@@ -4,10 +4,12 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
+import Link from "next/link";
 import { useChatRequestMember, useChatRequestOwner } from "~/components/Chat";
 import { Card } from "~/components/Chat/Card";
 import { Avatar } from "~/components/Commons";
 import { Navbar } from "~/components/Shared";
+import { routes } from "~/constants/routes";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
@@ -61,11 +63,12 @@ const Chat = ({ user, roomId }: { user: User; roomId: number }) => {
                   style={{ margin: "10px 0 22px 0" }}
                   onClick={app.handleRequestClick}
                 >
-                  {`${t("요청")} ${
-                    profile.role.id === 1
-                      ? chatRequestsOwnerApp.requests.length
-                      : chatRequestsMemberApp.requests.length
-                  }${t("개")}`}
+                  {t("요청 N개", {
+                    count:
+                      profile.role.id === 1
+                        ? chatRequestsOwnerApp.requests.length
+                        : chatRequestsMemberApp.requests.length
+                  })}
                 </Text>
               </Flex>
               <FlexColumn>
@@ -80,21 +83,23 @@ const Chat = ({ user, roomId }: { user: User; roomId: number }) => {
             <Styled.ChatRoomsWrapper>
               {app.rooms && app.rooms.length > 0 ? (
                 app.rooms.map((room) => (
-                  <Styled.ChatRoomBox
+                  <Link
                     key={room.roomId}
-                    onClick={() => app.handleRoomClick(room.roomId)}
+                    href={{ pathname: routes.chatRoom, query: { roomId: room.roomId } }}
                   >
-                    <Avatar src={room.memberImageUrl} />
+                    <Styled.ChatRoomBox>
+                      <Avatar src={room.memberImageUrl} />
 
-                    <FlexColumn justify="around">
-                      <Text size="textMediumBold">{room.memberName || t("알 수 없음")}</Text>
-                      <Text size="textMedium" color="gray9">
-                        {room.lastMessage || t("채팅이 시작되었습니다")}
-                      </Text>
-                    </FlexColumn>
+                      <FlexColumn justify="around">
+                        <Text size="textMediumBold">{room.memberName || t("알 수 없음")}</Text>
+                        <Text size="textMedium" color="gray9">
+                          {room.lastMessage || t("채팅이 시작되었습니다")}
+                        </Text>
+                      </FlexColumn>
 
-                    <span>읽지 않은 메세지: {app.unreadMessageCounts || ""}</span>
-                  </Styled.ChatRoomBox>
+                      <span>읽지 않은 메세지: {app.unreadMessageCounts || ""}</span>
+                    </Styled.ChatRoomBox>
+                  </Link>
                 ))
               ) : (
                 <Text>{t("채팅 목록이 없습니다")}</Text>

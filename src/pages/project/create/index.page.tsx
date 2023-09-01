@@ -11,13 +11,13 @@ import { Controller } from "react-hook-form";
 import {
   Button,
   Icon,
-  IconButton,
   ImageUploader,
   Input,
   Label,
   SelectChip,
   Textarea
 } from "~/components/Commons";
+import { TitleHeader } from "~/components/Shared";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { useCreate } from "./create.hooks";
@@ -36,11 +36,7 @@ const Create = (props: { user: User }) => {
         <title>{t("프로젝트 생성")}</title>
       </Head>
 
-      <Styled.Header>
-        <IconButton type="button" name="arrowBack" color="content2" onClick={app.handleBack} />
-
-        <Text>{t("프로젝트 생성하기")}</Text>
-      </Styled.Header>
+      <TitleHeader title={t("프로젝트 생성하기")} onPrevious={() => app.handleBack()} />
 
       <Styled.Container as="form" gap={36} onSubmit={app.handleCreateProject}>
         <Label title={t("프로젝트 이미지")}>

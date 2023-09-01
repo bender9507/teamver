@@ -14,7 +14,7 @@ import type { Owner } from ".";
 export const useProjectMembers = ({ projectId }: ComponentProps<typeof Owner>) => {
   const queryClient = useQueryClient();
 
-  const { t } = useTranslation("projectMembers");
+  const { t } = useTranslation("project");
 
   const router = useRouter();
   const { mount } = useModal();

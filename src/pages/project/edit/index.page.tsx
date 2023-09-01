@@ -8,15 +8,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
-import {
-  Button,
-  IconButton,
-  ImageUploader,
-  Input,
-  Label,
-  SelectChip,
-  Textarea
-} from "~/components/Commons";
+import { Button, ImageUploader, Input, Label, SelectChip, Textarea } from "~/components/Commons";
+import { TitleHeader } from "~/components/Shared";
 import { projectsKey } from "~/states/server/project";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
@@ -34,11 +27,7 @@ const Edit = (props: { user: User }) => {
         <title>{t("프로젝트 수정")}</title>
       </Head>
 
-      <Styled.Header>
-        <IconButton type="button" name="arrowBack" color="content2" onClick={app.handleBack} />
-
-        <Text>{t("프로젝트 수정하기")}</Text>
-      </Styled.Header>
+      <TitleHeader title={t("프로젝트 수정하기")} onPrevious={app.handleBack} />
 
       <Styled.Container as="form" gap={36} onSubmit={app.handleEditProject}>
         <Label title={t("프로젝트 이미지")}>
@@ -280,7 +269,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const supabaseServer = createPagesServerClient(context);
 
-  const { projectId } = context.params;
+  const { projectId } = context.query;
 
   const {
     data: { user }
