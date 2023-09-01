@@ -42,7 +42,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
-      router.push(routes.profile);
+      router.push({ pathname: routes.profile, query: { userId: user.id } });
     }
   });
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();

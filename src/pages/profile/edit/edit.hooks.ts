@@ -20,7 +20,7 @@ export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => 
   const { data: constant } = useSelectConstantsQuery();
   const { mutate: updateProfileMutate } = useUpdateProfileMutate({
     onSuccess: () => {
-      router.push(routes.profile(profile.id));
+      router.push({ pathname: routes.profile, query: { userId: user.id } });
     }
   });
   const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
