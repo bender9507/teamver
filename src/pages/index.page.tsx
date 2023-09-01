@@ -10,12 +10,12 @@ import { Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 
 export default function Home() {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("home");
 
   return (
     <>
       <Head>
-        <title>{t("코더")}</title>
+        <title>{t("팀버")}</title>
       </Head>
 
       <Text>corder</Text>

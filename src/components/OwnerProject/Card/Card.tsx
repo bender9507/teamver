@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { Button, IconButton, useModal } from "~/components/Commons";
 import type { ProjectAllDataRow } from "~/states/server/project";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
@@ -9,6 +10,8 @@ export const Card = (project: ProjectAllDataRow) => {
   const app = useCard(project);
   const { mount } = useModal();
 
+  const { t } = useTranslation("profile");
+
   return (
     <Flex justify="between">
       <Flex gap={18}>
@@ -19,7 +22,7 @@ export const Card = (project: ProjectAllDataRow) => {
           <Text>{app.project.name}</Text>
           <Flex>
             <Button size="small" color="content1" bgColor="backgroundSecondary">
-              팀원보기
+              {t("팀원보기")}
             </Button>
           </Flex>
         </FlexColumn>
@@ -34,17 +37,17 @@ export const Card = (project: ProjectAllDataRow) => {
             if (app.project.state === "IN_RECRUIT") {
               mount(
                 <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
-                  <Text onClick={app.handleToEditForm}>프로젝트 수정</Text>
+                  <Text onClick={app.handleToEditForm}>{t("프로젝트 수정")}</Text>
 
                   <Text onClick={() => app.handleUpdateProject("DONE_RECRUIT")}>
-                    팀원 모집 마감
+                    {t("팀원 모집 마감")}
                   </Text>
 
                   <Text onClick={() => app.handleUpdateProject("DONE_PROJECT")}>
-                    진행상태 완료로 변경
+                    {t("진행상태 완료로 변경")}
                   </Text>
 
-                  <Text onClick={app.handleDeleteProject}>프로젝트 삭제</Text>
+                  <Text onClick={app.handleDeleteProject}>{t("프로젝트 삭제")}</Text>
                 </FlexColumn>,
                 {
                   id: CARD_MODAL,
@@ -54,21 +57,23 @@ export const Card = (project: ProjectAllDataRow) => {
             } else if (app.project.state === "DONE_RECRUIT") {
               mount(
                 <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
-                  <Text onClick={app.handleToEditForm}>프로젝트 수정</Text>
+                  <Text onClick={app.handleToEditForm}>{t("프로젝트 수정")}</Text>
 
-                  <Text onClick={() => app.handleUpdateProject("IN_RECRUIT")}>팀원 모집 받기</Text>
+                  <Text onClick={() => app.handleUpdateProject("IN_RECRUIT")}>
+                    {t("팀원 모집 받기")}
+                  </Text>
 
                   <Text onClick={() => app.handleUpdateProject("DONE_PROJECT")}>
-                    진행상태 완료로 변경
+                    {t("진행상태 완료로 변경")}
                   </Text>
-                  <Text onClick={app.handleDeleteProject}>프로젝트 삭제</Text>
+                  <Text onClick={app.handleDeleteProject}>{t("프로젝트 삭제")}</Text>
                 </FlexColumn>,
                 { id: "CARD_MODAL", type: "bottom" }
               );
             } else if (app.project.state === "DONE_PROJECT") {
               mount(
                 <FlexColumn gap={26} align="center" style={{ padding: "30px 0" }}>
-                  <Text onClick={app.handleDeleteProject}>프로젝트 삭제</Text>{" "}
+                  <Text onClick={app.handleDeleteProject}>{t("프로젝트 삭제")}</Text>{" "}
                 </FlexColumn>,
                 {
                   id: "CARD_MODAL",

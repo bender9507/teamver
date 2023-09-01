@@ -1,50 +1,40 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { QueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import { Controller } from "react-hook-form";
-import {
-  Button,
-  Icon,
-  ImageUploader,
-  Input,
-  Label,
-  SelectChip,
-  Textarea
-} from "~/components/Commons";
+import { Button, ImageUploader, Input, Label, SelectChip, Textarea } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { projectsKey } from "~/states/server/project";
 import { Flex, FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import { useCreate } from "./create.hooks";
-import * as Styled from "./create.styles";
+import { useEdit } from "./edit.hooks";
+import * as Styled from "./edit.styles";
 
-const Create = (props: { user: User }) => {
-  const app = useCreate(props);
-
+const Edit = (props: { user: User }) => {
+  const app = useEdit(props);
   const { t, i18n } = useTranslation("project");
 
   const currentLanguage = i18n.language as OneOfLanguage;
-
   return (
     <>
       <Head>
-        <title>{t("프로젝트 생성")}</title>
+        <title>{t("프로젝트 수정")}</title>
       </Head>
 
       <LayoutHeader>
-        <TitleHeader title={t("프로젝트 생성하기")} onPrevious={() => app.handleBack()} />
+        <TitleHeader title={t("프로젝트 수정하기")} onPrevious={app.handleBack} />
 
-        <LayoutContent as="form" gap={36} padding="22px" onSubmit={app.handleCreateProject}>
+        <LayoutContent as="form" gap={36} padding="22px" onSubmit={app.handleEditProject}>
           <Label title={t("프로젝트 이미지")}>
             <Controller
               name="imageUrl"
               control={app.control}
-              rules={{ required: true }}
               render={({ field: { onChange } }) => (
                 <Styled.ImageContainer>
                   <ImageUploader onChange={onChange}>
@@ -56,11 +46,12 @@ const Create = (props: { user: User }) => {
                         alt="project img"
                       />
                     ) : (
-                      <Styled.ImageUploadBox>
-                        <Styled.ImageUploadButton>
-                          <Icon name="add" color="white" width={32} height={32} />
-                        </Styled.ImageUploadButton>
-                      </Styled.ImageUploadBox>
+                      <Styled.ImagePreview
+                        fill
+                        sizes="100%"
+                        src={app.project.imageUrl}
+                        alt="project img"
+                      />
                     )}
                   </ImageUploader>
                 </Styled.ImageContainer>
@@ -68,12 +59,18 @@ const Create = (props: { user: User }) => {
             />
           </Label>
 
-          <Label title={t("프로젝트 이름")} itemDesc={t("최대 16자")}>
-            <Input
-              placeholder={t("프로젝트 이름")}
-              maxLength={16}
-              {...app.register("name", { required: true, maxLength: 16 })}
-            />
+          <Label title={t("프로젝트 이름")}>
+            <FlexColumn gap={8}>
+              <Input
+                placeholder={t("프로젝트 이름")}
+                maxLength={16}
+                {...app.register("name", { required: true, maxLength: 16 })}
+              />
+
+              <Styled.Desc size="paragraph3" color="gray4">
+                {t("최대 16자")}
+              </Styled.Desc>
+            </FlexColumn>
           </Label>
 
           <Label title={t("프로젝트 타입")}>
@@ -137,7 +134,7 @@ const Create = (props: { user: User }) => {
                       value={
                         app.watch("startDate")
                           ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
-                          : ""
+                          : dayjs(app.project.startDate).format("DD. MM. YYYY")
                       }
                       onClick={app.setStartDateIsOpen.toggle}
                     />
@@ -154,7 +151,7 @@ const Create = (props: { user: User }) => {
                       value={
                         app.watch("endDate")
                           ? dayjs(app.watch("endDate")).format("DD. MM. YYYY")
-                          : ""
+                          : dayjs(app.project.endDate).format("DD. MM. YYYY")
                       }
                       onClick={app.setEndDateIsOpen.toggle}
                     />
@@ -163,29 +160,26 @@ const Create = (props: { user: User }) => {
               </Flex>
 
               {app.startDateIsOpen && (
-                <>
-                  <hr style={{ border: "1px solid #383A39", marginTop: "18px" }} />
-                  <Controller
-                    name="startDate"
-                    control={app.control}
-                    render={({ field: { onChange } }) => (
-                      <Styled.CalendarWrapper>
-                        <Calendar
-                          locale="en-EN"
-                          nextLabel=">"
-                          prevLabel="<"
-                          next2Label={null}
-                          prev2Label={null}
-                          formatDay={(_, date) => dayjs(date).format("D")}
-                          onChange={(date) => {
-                            app.setStartDateIsOpen.off();
-                            onChange(date);
-                          }}
-                        />
-                      </Styled.CalendarWrapper>
-                    )}
-                  />
-                </>
+                <Controller
+                  name="startDate"
+                  control={app.control}
+                  render={({ field: { onChange } }) => (
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        formatDay={(locale, date) => dayjs(date).format("D")}
+                        onChange={(date) => {
+                          app.setStartDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
+                  )}
+                />
               )}
               {app.endDateIsOpen && (
                 <Controller
@@ -193,7 +187,6 @@ const Create = (props: { user: User }) => {
                   control={app.control}
                   render={({ field: { onChange } }) => (
                     <Styled.CalendarWrapper>
-                      <hr />
                       <Calendar
                         locale="en-EN"
                         nextLabel=">"
@@ -274,14 +267,19 @@ const Create = (props: { user: User }) => {
   );
 };
 
-export default Create;
+export default Edit;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
   const supabaseServer = createPagesServerClient(context);
+
+  const { projectId } = context.query;
 
   const {
     data: { user }
   } = await supabaseServer.auth.getUser();
+
+  await queryClient.prefetchQuery({ queryKey: projectsKey.selectProject(projectId) });
 
   return {
     props: {

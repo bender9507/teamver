@@ -2,6 +2,7 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { User } from "@supabase/supabase-js";
 import { QueryClient } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ChatRequestMember, ChatRequestOwner } from "~/components/Chat";
 import { TitleHeader } from "~/components/Shared";
@@ -11,6 +12,7 @@ import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 
 const ChatRequest = (props: { user: User }) => {
+  const { t } = useTranslation("chat");
   const { data: profile } = useSelectProfileQuery(props.user.id);
 
   return (

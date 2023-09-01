@@ -29,7 +29,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const projectId = router.query.projectId as string;
 
   const { mount, unmount } = useModal();
-  const { toast } = useDialog();
+  const { toast, confirm } = useDialog();
 
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
@@ -42,7 +42,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
-      router.push(routes.profile(user.id));
+      router.push({ pathname: routes.profile, query: { userId: user.id } });
     }
   });
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
@@ -121,12 +121,20 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
         const diff = dayjs(startDate).diff(endDate, "ms");
 
         if (diff > 0) {
-          toast({ type: "warning", message: "종료일은 시작일보다 빠를 수 없습니다." });
+          toast({ type: "warning", message: t("종료일은 시작일보다 빠를 수 없습니다") });
           setValue("endDate", null);
         }
       }
     });
-  }, [watch, setValue, toast]);
+  }, [watch, setValue, toast, t]);
+
+  const handleBack = async () => {
+    const confirmed = await confirm({
+      title: t("프로젝트를 수정하지 않고 그냥 나가시겠어요")
+    });
+
+    return confirmed;
+  };
 
   return {
     control,
@@ -145,6 +153,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     startDateIsOpen,
     setStartDateIsOpen,
     endDateIsOpen,
-    setEndDateIsOpen
+    setEndDateIsOpen,
+    handleBack
   };
 };

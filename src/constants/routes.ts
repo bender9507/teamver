@@ -4,15 +4,17 @@ export const routes = {
   welcome: "/welcome",
   member: "/member",
   chat: "/chat",
-  profile: (userId: string) => `/profile/${userId}`,
-  profileEdit: (userId: string) => `/profile/${userId}/edit`,
+  profile: "/profile",
+  profileEdit: "/profile/edit",
   setting: "/setting",
+  role: "/setting/role",
   like: "/like",
   owner: "/owner",
   project: "/project",
-  projectCreate: `/project/create`,
-  projectEdit: (projectId: number) => `/project/${projectId}/edit`,
+  projectCreate: "/project/create",
+  projectEdit: "/project/edit",
+  projectMember: "/project/members",
   create: "/project/create",
   chatRequest: "/chat/request",
-  chatRoom: (roomId: number) => `/chat/${roomId}`
+  chatRoom: "/chat/room"
 } as const;

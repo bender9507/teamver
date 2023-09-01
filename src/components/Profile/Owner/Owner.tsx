@@ -10,6 +10,7 @@ import { useOwner } from "./Owner.hooks";
 
 export const Owner = ({ user }: { user: User }): ReactNode => {
   const app = useOwner({ user });
+
   const { t } = useTranslation("profile");
 
   return (
@@ -28,29 +29,39 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
 
         {app.selectedTab === "IN_PROJECT" && (
           <SectionContainer gap={46}>
-            <FlexColumn gap={18}>
-              <Text size="titleSmall">모집 중</Text>
+            {app.projects.length > 0 ? (
+              <>
+                <FlexColumn gap={18}>
+                  <Text size="titleSmall">{t("모집 중")}</Text>
 
-              <FlexColumn gap={12}>
-                {app.projects
-                  .filter((project) => project.state === "IN_RECRUIT")
-                  .map((project) => (
-                    <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-                  ))}
+                  <FlexColumn gap={12}>
+                    {app.projects
+                      .filter((project) => project.state === "IN_RECRUIT")
+                      .map((project) => (
+                        <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+                      ))}
+                  </FlexColumn>
+                </FlexColumn>
+
+                <FlexColumn gap={18}>
+                  <Text size="titleSmall">{t("모집 완료")}</Text>
+
+                  <FlexColumn gap={12}>
+                    {app.projects
+                      .filter((project) => project.state === "DONE_RECRUIT")
+                      .map((project) => (
+                        <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+                      ))}
+                  </FlexColumn>
+                </FlexColumn>
+              </>
+            ) : (
+              <FlexColumn align="center" style={{ marginTop: "98px" }}>
+                <Text size="textMediumBold" color="gray6">
+                  {t("진행 중인 프로젝트가 없어요")}
+                </Text>
               </FlexColumn>
-            </FlexColumn>
-
-            <FlexColumn gap={18}>
-              <Text size="titleSmall">모집 완료</Text>
-
-              <FlexColumn gap={12}>
-                {app.projects
-                  .filter((project) => project.state === "DONE_RECRUIT")
-                  .map((project) => (
-                    <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-                  ))}
-              </FlexColumn>
-            </FlexColumn>
+            )}
           </SectionContainer>
         )}
 

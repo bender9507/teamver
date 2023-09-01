@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useDialog, useModal } from "~/components/Commons";
@@ -12,6 +13,8 @@ import type { Owner } from ".";
 
 export const useProjectMembers = ({ projectId }: ComponentProps<typeof Owner>) => {
   const queryClient = useQueryClient();
+
+  const { t } = useTranslation("project");
 
   const router = useRouter();
   const { mount } = useModal();
@@ -36,8 +39,7 @@ export const useProjectMembers = ({ projectId }: ComponentProps<typeof Owner>) =
 
   const handleDeleteMember = async ({ memberId, projectId }: ProjectMembersUpdate) => {
     const confirmed = await confirm({
-      title: "팀원 삭제",
-      message: "팀원을 정말 삭제하시겠어요?"
+      title: t("팀원을 정말 삭제하시겠어요")
     });
 
     if (confirmed) {

@@ -1,6 +1,6 @@
 export const zIndex = {
-  top: 9999,
-  modal: 9998,
-  menu: 9001,
-  header: 9000
+  top: 99999999,
+  modal: 9999999,
+  menu: 999999,
+  header: 99999
 } as const;

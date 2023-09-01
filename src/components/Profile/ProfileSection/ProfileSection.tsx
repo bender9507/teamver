@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { Avatar, Button } from "~/components/Commons";
 import { routes } from "~/constants/routes";
@@ -12,6 +13,8 @@ export const ProfileSection = ({
   profile: ProfileAllDataRow;
   isMine: boolean;
 }) => {
+  const { t } = useTranslation("profile");
+
   return (
     <Styled.ProfileContainer>
       <Avatar src={profile.imageUrl} size="large" />
@@ -19,9 +22,10 @@ export const ProfileSection = ({
       <Text size="titleSmall">{profile.name}</Text>
 
       {isMine && (
-        <Link href={routes.profileEdit(profile.id)}>
+        // <Link href={routes.profileEdit(profile.id)}>
+        <Link href={{ pathname: routes.profileEdit, query: { profileId: profile.id } }}>
           <Button size="medium" color="content1" bgColor="backgroundSecondary">
-            프로필 수정
+            {t("프로필 수정")}
           </Button>
         </Link>
       )}

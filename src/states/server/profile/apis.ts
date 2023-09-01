@@ -160,3 +160,9 @@ export const selectRecommendedProfiles = async ({
 
   return { data, nextPage: data.length === limit ? pageParam + 1 : undefined };
 };
+
+export const updateRole = async ({ id, role }: { id: string; role: number }) => {
+  const { error } = await supabase.from("profiles").update({ role }).eq("id", id);
+
+  if (error) throw error;
+};

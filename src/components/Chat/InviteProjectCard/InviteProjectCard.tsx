@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { Avatar, Button } from "~/components/Commons";
 import type { ProjectInviteAllRow } from "~/states/server/project";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
@@ -7,6 +8,8 @@ export const InviteProjectCard = (props: ProjectInviteAllRow) => {
   const { project } = props;
 
   const app = useInviteProjectCard(props);
+
+  const { t } = useTranslation("chat");
 
   return (
     <Flex justify="between">
@@ -28,7 +31,7 @@ export const InviteProjectCard = (props: ProjectInviteAllRow) => {
           bgColor="backgroundSecondary"
           onClick={() => app.handleStateChange("GRANT")}
         >
-          수락
+          {t("수락")}
         </Button>
         <Button
           size="small"
@@ -36,7 +39,7 @@ export const InviteProjectCard = (props: ProjectInviteAllRow) => {
           bgColor="backgroundSecondary"
           onClick={() => app.handleStateChange("DENIED")}
         >
-          삭제
+          {t("삭제")}
         </Button>
       </Flex>
     </Flex>

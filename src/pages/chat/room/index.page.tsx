@@ -1,6 +1,7 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useRef, useState } from "react";
 import { ChatRoomOut } from "~/components/Chat";
@@ -14,7 +15,10 @@ import { useChatRoom } from "./room.hooks";
 import * as Styled from "./room.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
+  const { t } = useTranslation("chat");
+
   const [message, setMessage] = useState("");
+
   const [selectedProjectId, setSelectedProjectId] = useState<number>(0);
 
   const { mount } = useModal();
@@ -33,8 +37,8 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
 
   const handleOpenProjectInviteConfirm = () => {
     confirm({
-      title: "어떤 프로젝트에 초대할까요",
-      confirmLabel: "초대하기",
+      title: t("어떤 프로젝트에 초대할까요"),
+      confirmLabel: t("초대하기"),
       message: <ProjectInvite ownerId={user.id} onProjectSelect={setSelectedProjectId} />
     }).then((confirmed) => {
       if (confirmed && selectedProjectId !== 0) {
@@ -45,7 +49,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
             requesterId: user.id
           })
           .then(() => {
-            toast({ type: "success", message: app.t("성공적으로 초대했습니다") });
+            toast({ type: "success", message: t("성공적으로 초대했습니다") });
           });
       }
     });
@@ -64,14 +68,14 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         <FlexCenter gap={15}>
           <PreviousButton />
           <Avatar size="small" src={app.memberImageUrl} />
-          <Text>{app.memberName || app.t("알 수 없음")}</Text>
+          <Text>{app.memberName || t("알 수 없음")}</Text>
         </FlexCenter>
 
         <FlexCenter gap={20}>
           {app.profile.role.id === 1 && (
-            <Button onClick={handleOpenProjectInviteConfirm}>{app.t("팀원으로초대하기")}</Button>
+            <Button onClick={handleOpenProjectInviteConfirm}>팀원으로초대하기</Button>
           )}
-          <Button onClick={handleOpenChatRoomOutModal}>{app.t("•••")}</Button>
+          <Button onClick={handleOpenChatRoomOutModal}>•••</Button>
         </FlexCenter>
       </Styled.ChatRoomTopBar>
 
@@ -94,8 +98,7 @@ const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
         ) : (
           <Styled.NoMessageBox>
             <FlexCenter direction="column">
-              <Text>{`${app.memberName}님과`}</Text>
-              <Text>매칭이 되었어요</Text>
+              <Text>{t("NAME님과 매칭이 되었어요", { name: app.memberName })}</Text>
             </FlexCenter>
             <Avatar size="xLarge" src={app.memberImageUrl} />
           </Styled.NoMessageBox>
@@ -126,13 +129,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     data: { user }
   } = await supabase.auth.getUser();
 
-  const roomId = Number(ctx.params?.roomId);
+  const roomId = Number(ctx.query.roomId);
 
   return {
     props: {
       user: user as User,
       roomId,
-      ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
+      ...(await serverSideTranslations(ctx.locale, ["chat"]))
     }
   };
 };

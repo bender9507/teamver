@@ -22,8 +22,8 @@ export const Navbar = ({ user }: { user: User }) => {
         <Icon name={pathname.startsWith(routes.like) ? "likeFill" : "like"} />
       </Link>
 
-      <Link href={routes.profile(user.id)}>
-        <Icon name={pathname.startsWith("/profile") ? "profileFill" : "profile"} />
+      <Link href={{ pathname: routes.profile, query: { userId: user.id } }}>
+        <Icon name={pathname.startsWith(routes.profile) ? "profileFill" : "profile"} />
       </Link>
     </Styled.Navbar>
   );
