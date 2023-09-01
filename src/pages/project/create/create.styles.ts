@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import { Input } from "~/components/Commons";
 import { FlexColumn, Text, flex, grid, size } from "~/styles/mixins";
+import { colors } from "~/styles/theme/colors";
 
 export const Header = styled.header`
   ${grid({ column: 3, justify: "center", align: "center" })}
@@ -59,6 +61,26 @@ export const ImageUploadButton = styled.div`
 
   border-radius: 50%;
 `;
+
+export const Checkbox = styled(Input)`
+  ${size({ width: 18, height: 18 })};
+
+  ${(props) =>
+    props.checked
+      ? css`
+          background-color: ${colors.primary};
+        `
+      : css`
+          background-color: ${colors.gray2};
+        `}
+
+  padding: 0%;
+  margin-left: 8px;
+
+  border: none;
+  border-radius: 5px;
+`;
+
 export const CalendarWrapper = styled.div`
   ${flex.column({ align: "center" })};
 
@@ -74,9 +96,7 @@ export const CalendarWrapper = styled.div`
     `}
     border: none;
   }
-  .react-calendar__navigation {
-    /* padding-bottom: 20px; */
-  }
+
   .react-calendar__navigation__label > span {
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
