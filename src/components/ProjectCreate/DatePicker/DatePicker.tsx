@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { useTranslation } from "next-i18next";
 import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
 import { Button, Input } from "~/components/Commons";
@@ -9,16 +10,18 @@ import type { DatePickerProps } from "./DatePicker.types";
 export const DatePicker = (props: DatePickerProps) => {
   const app = useDatePicker(props);
 
+  const { t } = useTranslation("project");
+
   return (
     <FlexColumn as="form" gap={22} onSubmit={app.handleSubmit(app.handleChangeDate)}>
-      <Text size="heading3">프로젝트 기간을 선택해주세요!</Text>
+      <Text size="heading3">{t("프로젝트 기간을 선택해주세요")}</Text>
 
       <FlexColumn gap={8}>
-        <Text>Start Date</Text>
+        <Text>{t("Start Date")}</Text>
 
         <Input
           readOnly
-          placeholder="기간 선택하기"
+          placeholder={t("시작일")}
           color="backgroundPrimary"
           value={app.watch("startDate") ? dayjs(app.watch("startDate")).format("DD. MM. YYYY") : ""}
           onClick={app.setStartIsOpen.toggle}
@@ -41,13 +44,13 @@ export const DatePicker = (props: DatePickerProps) => {
       </FlexColumn>
 
       <FlexColumn gap={8}>
-        <Text>Due Date</Text>
+        <Text>{t("Due Date")}</Text>
 
         <Input
           color="backgroundPrimary"
           value={app.watch("endDate") ? dayjs(app.watch("endDate")).format("DD. MM. YYYY") : ""}
           readOnly
-          placeholder="기간 선택하기"
+          placeholder={t("종료일")}
           onClick={app.setEndIsOpen.toggle}
         />
 
@@ -67,7 +70,7 @@ export const DatePicker = (props: DatePickerProps) => {
         )}
       </FlexColumn>
 
-      <Button>확인</Button>
+      <Button>{t("확인")}</Button>
     </FlexColumn>
   );
 };

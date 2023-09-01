@@ -82,7 +82,7 @@ const Edit = (props: { user: User }) => {
           </FlexColumn>
         </Label>
 
-        <Label title={t("프로젝트 타입")} desc={t("여러개 선택 가능해요")}>
+        <Label title={t("프로젝트 타입")}>
           <Flex gap={12} wrap="wrap">
             {app.constants.projectTypes.map((projectType) => (
               <SelectChip
@@ -97,7 +97,7 @@ const Edit = (props: { user: User }) => {
           </Flex>
         </Label>
 
-        <Label title={t("프로젝트 소개")} itemDesc={t("최대 N자", { count: 300 })}>
+        <Label title={t("프로젝트 소개")} itemDesc={t("최대 N자", { count: 500 })}>
           <Textarea
             placeholder={t("프로젝트 소개")}
             maxLength={500}
@@ -105,7 +105,7 @@ const Edit = (props: { user: User }) => {
           />
         </Label>
 
-        <Label title={t("모집 포지션")}>
+        <Label title={t("모집 포지션")} desc={t("여러개 선택 가능해요")}>
           <Flex gap={12} wrap="wrap">
             {app.constants.positions.map((position) => (
               <SelectChip
@@ -126,7 +126,7 @@ const Edit = (props: { user: User }) => {
               maxLength={5}
               {...app.register("recruitCount", { required: true, maxLength: 5 })}
             />
-            <Text>명</Text>
+            <Text>{t("명")}</Text>
           </Flex>
         </Label>
 
@@ -214,7 +214,10 @@ const Edit = (props: { user: User }) => {
           </FlexColumn>
         </Label>
 
-        <Label title={t("주요 언어")} desc={t("프로젝트에 필요한 주요 언어를 선택해주세요")}>
+        <Label
+          title={t("주요 언어")}
+          desc={t("프로젝트에 필요한 주요 언어를 선택해주세요 여러개 선택 가능해요")}
+        >
           <Flex gap={12} wrap="wrap">
             {app.constants.languages.map((language) => (
               <SelectChip
@@ -230,7 +233,7 @@ const Edit = (props: { user: User }) => {
 
         <Label
           title={t("기술 스택")}
-          desc={t("프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요")}
+          desc={t("프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요 여러개 선택 가능해요")}
         >
           <Flex gap={12} wrap="wrap">
             {app.constants.skills.map((skill) => (

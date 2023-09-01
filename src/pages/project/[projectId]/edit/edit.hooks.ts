@@ -121,12 +121,12 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
         const diff = dayjs(startDate).diff(endDate, "ms");
 
         if (diff > 0) {
-          toast({ type: "warning", message: "종료일은 시작일보다 빠를 수 없습니다." });
+          toast({ type: "warning", message: t("종료일은 시작일보다 빠를 수 없습니다.") });
           setValue("endDate", null);
         }
       }
     });
-  }, [watch, setValue, toast]);
+  }, [watch, setValue, toast, t]);
 
   return {
     control,

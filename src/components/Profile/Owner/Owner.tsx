@@ -10,6 +10,7 @@ import { useOwner } from "./Owner.hooks";
 
 export const Owner = ({ user }: { user: User }): ReactNode => {
   const app = useOwner({ user });
+
   const { t } = useTranslation("profile");
 
   return (
@@ -29,7 +30,7 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
         {app.selectedTab === "IN_PROJECT" && (
           <SectionContainer gap={46}>
             <FlexColumn gap={18}>
-              <Text size="titleSmall">모집 중</Text>
+              <Text size="titleSmall">{t("모집 중")}</Text>
 
               <FlexColumn gap={12}>
                 {app.projects
@@ -41,7 +42,7 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
             </FlexColumn>
 
             <FlexColumn gap={18}>
-              <Text size="titleSmall">모집 완료</Text>
+              <Text size="titleSmall">{t("모집 완료")}</Text>
 
               <FlexColumn gap={12}>
                 {app.projects
