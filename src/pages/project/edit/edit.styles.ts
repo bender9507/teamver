@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { FlexColumn, Text, flex, size } from "~/styles/mixins";
+import { Text, flex, size } from "~/styles/mixins";
 
 export const Header = styled.header`
   ${flex.center()};
@@ -9,10 +9,6 @@ export const Header = styled.header`
   ${({ theme: { sizes } }) => css`
     height: ${sizes.height.header}px;
   `}
-`;
-
-export const Container = styled(FlexColumn)`
-  padding: 22px;
 `;
 
 export const Desc = styled(Text)`

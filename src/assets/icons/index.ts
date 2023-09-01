@@ -22,6 +22,8 @@ export { default as more } from "./more.svg";
 export { default as profile } from "./profile.svg";
 export { default as profileFill } from "./profileFill.svg";
 export { default as rollback } from "./rollback.svg";
+export { default as setOff } from "./setOff.svg";
+export { default as setOn } from "./setOn.svg";
 export { default as setting } from "./setting.svg";
 export { default as success } from "./success.svg";
 export { default as upButton } from "./upButton.svg";

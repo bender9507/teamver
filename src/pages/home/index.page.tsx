@@ -7,18 +7,21 @@ import { Member, Owner } from "~/components/Home";
 import { LogoHeader, Navbar } from "~/components/Shared";
 import { constantKeys, selectConstants } from "~/states/server/constant";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
+import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 
 const Home = ({ user }: { user: User }) => {
   const { data: profile } = useSelectProfileQuery(user.id);
 
   return (
-    <>
+    <LayoutHeaderWithNav>
       <LogoHeader />
 
-      {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
+      <LayoutContent>
+        {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
+      </LayoutContent>
 
       <Navbar user={user} />
-    </>
+    </LayoutHeaderWithNav>
   );
 };
 

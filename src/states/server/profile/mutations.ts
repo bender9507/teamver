@@ -5,7 +5,8 @@ import {
   deleteFollow,
   insertFollow,
   insertProfile,
-  updateProfile
+  updateProfile,
+  updateRole
 } from "./apis";
 
 export const useInsertProfileMutate = (
@@ -49,6 +50,15 @@ export const useCheckValidationMutate = (
 ) => {
   return useMutation({
     mutationFn: checkNameValidation,
+    ...options
+  });
+};
+
+export const useUpdateRoleMutate = (
+  options?: PickMutationOptions<typeof updateRole, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateRole,
     ...options
   });
 };
