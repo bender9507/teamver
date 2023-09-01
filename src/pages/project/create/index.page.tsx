@@ -135,11 +135,16 @@ const Create = (props: { user: User }) => {
                       placeholder={t("시작일")}
                       readOnly
                       value={
-                        app.watch("startDate")
-                          ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
-                          : ""
+                        app.isStartIndefinite
+                          ? t("미정")
+                          : (app.watch("startDate") &&
+                              dayjs(app.watch("startDate")).format("DD. MM. YYYY")) ||
+                            ""
                       }
-                      onClick={app.setStartDateIsOpen.toggle}
+                      onClick={() => {
+                        app.setEndDateIsOpen.off();
+                        app.setStartDateIsOpen.toggle();
+                      }}
                     />
                   </FlexColumn>
                 </FlexColumn>
@@ -152,23 +157,28 @@ const Create = (props: { user: User }) => {
                       placeholder={t("종료일")}
                       readOnly
                       value={
-                        app.watch("endDate")
-                          ? dayjs(app.watch("endDate")).format("DD. MM. YYYY")
-                          : ""
+                        app.isEndIndefinite
+                          ? t("미정")
+                          : (app.watch("endDate") &&
+                              dayjs(app.watch("endDate")).format("DD. MM. YYYY")) ||
+                            ""
                       }
-                      onClick={app.setEndDateIsOpen.toggle}
+                      onClick={() => {
+                        app.setStartDateIsOpen.off();
+                        app.setEndDateIsOpen.toggle();
+                      }}
                     />
                   </FlexColumn>
                 </FlexColumn>
               </Flex>
 
-              {app.startDateIsOpen && (
+              {app.startDateIsOpen || app.endDateIsOpen ? (
                 <>
                   <hr style={{ border: "1px solid #383A39", marginTop: "18px" }} />
                   <Controller
-                    name="startDate"
+                    name={app.startDateIsOpen ? "startDate" : "endDate"}
                     control={app.control}
-                    render={({ field: { onChange } }) => (
+                    render={({ field }) => (
                       <Styled.CalendarWrapper>
                         <Calendar
                           locale="en-EN"
@@ -178,37 +188,35 @@ const Create = (props: { user: User }) => {
                           prev2Label={null}
                           formatDay={(_, date) => dayjs(date).format("D")}
                           onChange={(date) => {
-                            app.setStartDateIsOpen.off();
-                            onChange(date);
+                            (app.startDateIsOpen
+                              ? app.setStartDateIsOpen
+                              : app.setEndDateIsOpen
+                            ).off();
+                            field.onChange(date);
                           }}
                         />
                       </Styled.CalendarWrapper>
                     )}
                   />
+                  <hr style={{ border: "1px solid #383A39", marginBottom: "18px" }} />{" "}
+                  <Flex justify="end">
+                    <Text size="textMedium" color="gray4">
+                      {t("기간 미정")}
+                    </Text>
+                    <Styled.Checkbox
+                      type="checkbox"
+                      checked={app.startDateIsOpen ? app.isStartIndefinite : app.isEndIndefinite}
+                      onChange={(e) => {
+                        if (app.startDateIsOpen) {
+                          app.setStartIsIndefinite(e.target.checked);
+                        } else if (app.endDateIsOpen) {
+                          app.setEndIsIndefinite(e.target.checked);
+                        }
+                      }}
+                    />
+                  </Flex>
                 </>
-              )}
-              {app.endDateIsOpen && (
-                <Controller
-                  name="endDate"
-                  control={app.control}
-                  render={({ field: { onChange } }) => (
-                    <Styled.CalendarWrapper>
-                      <hr />
-                      <Calendar
-                        locale="en-EN"
-                        nextLabel=">"
-                        prevLabel="<"
-                        next2Label={null}
-                        prev2Label={null}
-                        onChange={(date) => {
-                          app.setEndDateIsOpen.off();
-                          onChange(date);
-                        }}
-                      />
-                    </Styled.CalendarWrapper>
-                  )}
-                />
-              )}
+              ) : null}
             </FlexColumn>
           </Label>
 
