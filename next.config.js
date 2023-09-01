@@ -2,6 +2,8 @@
 /** @type {import('next').NextConfig} */
 
 const { i18n } = require("./next-i18next.config");
+const withPlugins = require("next-compose-plugins");
+const withPWA = require("next-pwa");
 
 const nextConfig = {
   i18n,
@@ -17,18 +19,30 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: "https",
         hostname: "knjzcsrhngnomfeoymis.supabase.co"
       },
       {
-        protocol: 'http',
-        hostname: 'via.placeholder.com'
-      },
-    ],
+        protocol: "http",
+        hostname: "via.placeholder.com"
+      }
+    ]
   },
   compiler: {
     emotion: true
   }
 };
 
-module.exports = nextConfig;
+module.exports = withPlugins(
+  [
+    [
+      withPWA,
+      {
+        pwa: {
+          dest: "public"
+        }
+      }
+    ]
+  ],
+  nextConfig
+);

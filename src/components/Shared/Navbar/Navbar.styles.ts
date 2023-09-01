@@ -7,6 +7,8 @@ export const Navbar = styled.nav`
 
   ${flex({ align: "center", justify: "around" })};
 
+  padding-bottom: 20px;
+
   ${({ theme: { sizes, colors } }) => css`
     ${size({ height: sizes.height.navbar })}
 

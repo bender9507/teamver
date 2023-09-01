@@ -1,0 +1,10 @@
+{
+  "theme_color": "#111111",
+  "background_color": "#111111",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "teamver",
+  "description": "teamver",
+  "short_name": "teamver"
+}

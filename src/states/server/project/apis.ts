@@ -233,6 +233,7 @@ export const selectRecommendedProjects = async ({
 
   const { data, error } = await query
     .range(pageParam * limit, (pageParam + 1) * limit - 1)
+    .neq("ownerId", userId)
     .select(`*, ${PROJECT_ALL_DATA_QUERY}`)
     .returns<ProjectAllDataRow[]>();
 

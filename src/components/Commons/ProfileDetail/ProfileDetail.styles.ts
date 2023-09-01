@@ -5,7 +5,7 @@ import { colors } from "~/styles/theme/colors";
 import { hexToRgba } from "~/styles/utils";
 
 export const Container = styled.div`
-  padding: 46px 28px;
+  padding: 22px 36px;
 `;
 
 export const BlurChip = styled.span`

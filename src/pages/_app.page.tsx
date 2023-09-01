@@ -74,7 +74,7 @@ const App = ({
                 ${font}
               `}
             />
-            <Styled.Container>
+            <Styled.Container id="container">
               <Component {...pageProps} />
               <Overlay />
             </Styled.Container>
