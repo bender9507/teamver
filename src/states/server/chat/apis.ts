@@ -265,13 +265,5 @@ export const updateLastReadMessage = async ({
     { onConflict: "userId, roomId" }
   );
 
-  // if (error) throw new Error("마지막으로 읽은 메세지를 업데이트하는데 실패했습니다.");
-  if (error) {
-    console.error("error :", error);
-    console.error("message :", error.message);
-    console.error("details :", error.details);
-    console.error("hint :", error.hint);
-    console.error("code :", error.code);
-    throw new Error("읽은 메세지를 업데이트 하는데 실패했습니다.");
-  }
+  if (error) throw new Error("마지막으로 읽은 메세지를 업데이트하는데 실패했습니다.");
 };

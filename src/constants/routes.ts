@@ -7,6 +7,7 @@ export const routes = {
   profile: "/profile",
   profileEdit: "/profile/edit",
   setting: "/setting",
+  role: "/setting/role",
   like: "/like",
   owner: "/owner",
   project: "/project",

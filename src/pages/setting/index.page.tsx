@@ -1,12 +1,14 @@
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { Radio, RadioGroup, useModal } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { routes } from "~/constants/routes";
 import { FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import * as Styed from "./setting.styles";
+import * as Styled from "./setting.styles";
 
 const ProfileSetting = () => {
   const router = useRouter();
@@ -20,10 +22,10 @@ const ProfileSetting = () => {
       <TitleHeader title={t("설정")} />
 
       <FlexColumn>
-        <Styed.Option
+        <Styled.Option
           onClick={() =>
             mount(
-              <Styed.LanguageContainer>
+              <Styled.LanguageContainer>
                 <Text size="buttonLarge">{t("언어 설정")}</Text>
 
                 <RadioGroup
@@ -42,15 +44,17 @@ const ProfileSetting = () => {
                   <Radio value="en">{t("영어")}</Radio>
                   <Radio value="jp">{t("일본어")}</Radio>
                 </RadioGroup>
-              </Styed.LanguageContainer>,
+              </Styled.LanguageContainer>,
               { id: "changeLanguage" }
             )
           }
         >
           {t("언어 설정")}
-        </Styed.Option>
+        </Styled.Option>
 
-        <Styed.Option>{t("참여 모드 설정")}</Styed.Option>
+        <Link href={routes.role}>
+          <Styled.Option>{t("참여 모드 설정")}</Styled.Option>
+        </Link>
       </FlexColumn>
     </>
   );
