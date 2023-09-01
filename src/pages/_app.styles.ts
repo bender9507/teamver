@@ -5,7 +5,7 @@ export const Container = styled.div`
   position: relative;
   overflow: hidden;
 
-  ${size({ width: "100%", maxWidth: "500px", minHeight: "100svh" })};
+  ${size({ width: "100%", maxWidth: "500px", minHeight: "100svh", maxHeight: "100svh" })};
 
   margin: 0 auto;
 `;

@@ -10,6 +10,7 @@ export interface FlexProps {
   justify?: FlexMapKey;
   gap?: CSSProperties["gap"];
   wrap?: CSSProperties["flexWrap"];
+  padding?: CSSProperties["padding"];
 }
 
 export type FlexColumnProps = Omit<FlexProps, "direction">;

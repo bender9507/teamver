@@ -16,7 +16,7 @@ export const buttonStyle = ({
   color = "gray2",
   bgColor = "secondary"
 }: WithTheme<ButtonProps>) => css`
-  ${size({ height: sizeMap[_size] })}
+  ${size({ minHeight: sizeMap[_size] })}
 
   background-color: ${colors[bgColor]};
   ${selector("backgroundColor", { disabled: colors.gray5 })};

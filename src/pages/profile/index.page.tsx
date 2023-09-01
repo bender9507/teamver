@@ -10,6 +10,7 @@ import { Member, Owner } from "~/components/Profile";
 import { Navbar } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
+import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import * as Styled from "./profile.styles";
 
 const Profile = ({ user }: { user: User }) => {
@@ -17,17 +18,19 @@ const Profile = ({ user }: { user: User }) => {
   const { data: profile } = useSelectProfileQuery(router.query.userId as string);
 
   return (
-    <>
+    <LayoutHeaderWithNav>
       <Styled.SettingHeader>
         <Link href={routes.setting}>
           <IconButton name="setting" />
         </Link>
       </Styled.SettingHeader>
 
-      {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
+      <LayoutContent>
+        {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
+      </LayoutContent>
 
       <Navbar user={user} />
-    </>
+    </LayoutHeaderWithNav>
   );
 };
 

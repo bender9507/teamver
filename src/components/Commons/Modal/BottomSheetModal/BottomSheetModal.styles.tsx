@@ -12,7 +12,9 @@ export const StyleSheet = styled(Sheet)`
 
       margin: 0 auto;
 
-      border-radius: 27px 27px 0 0;
+      border-radius: 27px 27px 0 0 !important;
+
+      background-color: ${colors.backgroundSecondary} !important;
     }
 
     .react-modal-sheet-content {
@@ -27,7 +29,6 @@ export const StyleSheet = styled(Sheet)`
 
 export const SheetHeader = styled.div`
   ${position.absolute({ left: 0, top: 0 })};
-  z-index: 1;
 
   ${flex.center()};
 
