@@ -10,12 +10,18 @@ export const Header = styled.header`
   `}
 `;
 
+export const ChatListWrapper = styled.div`
+  height: calc(100vh - 60px);
+`;
+
 export const Container = styled(FlexColumn)`
   padding: 0 22px;
 `;
 
 export const ChatRoomsWrapper = styled.ul`
   ${flex.column({ gap: 12 })}
+
+  overflow: scroll;
 `;
 
 export const ChatRoomBox = styled.li`

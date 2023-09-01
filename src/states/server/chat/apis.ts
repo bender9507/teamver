@@ -230,10 +230,48 @@ export const insertChatRoomWithMember = async ({
   if (error) throw new Error("채팅방 및 멤버 생성에 실패했습니다.");
 };
 
-export const selectChatReadStatusUnreadMessageCount = async (userId: string) => {
-  const { data, error } = await supabase.rpc("unread_message_count", { userid: userId });
+export const selectUnreadMessageCount = async ({
+  userId,
+  roomId
+}: {
+  userId: string;
+  roomId: number;
+}) => {
+  const { data, error } = await supabase.rpc("unread_message_count", {
+    userid: userId,
+    roomid: roomId
+  });
 
-  if (error) throw new Error("메세지 읽음 상태를 가져오는데 실패했습니다.");
+  if (error) throw new Error("읽지 않은 메세지를 가져오는데 실패했습니다.");
 
   return data;
+};
+
+export const updateLastReadMessage = async ({
+  userId,
+  roomId,
+  lastReadMessageId
+}: {
+  userId: string;
+  roomId: number;
+  lastReadMessageId: number;
+}) => {
+  const { error } = await supabase.from("chatReadStatus").upsert(
+    {
+      userId,
+      roomId,
+      lastReadMessageId
+    },
+    { onConflict: "userId, roomId" }
+  );
+
+  // if (error) throw new Error("마지막으로 읽은 메세지를 업데이트하는데 실패했습니다.");
+  if (error) {
+    console.error("error :", error);
+    console.error("message :", error.message);
+    console.error("details :", error.details);
+    console.error("hint :", error.hint);
+    console.error("code :", error.code);
+    throw new Error("읽은 메세지를 업데이트 하는데 실패했습니다.");
+  }
 };

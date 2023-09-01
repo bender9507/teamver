@@ -15,6 +15,7 @@ import * as Styled from "./room.styles";
 
 const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
   const [message, setMessage] = useState("");
+
   const [selectedProjectId, setSelectedProjectId] = useState<number>(0);
 
   const { mount } = useModal();
@@ -132,7 +133,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       user: user as User,
       roomId,
-      ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
+      ...(await serverSideTranslations(ctx.locale, ["chat"]))
     }
   };
 };

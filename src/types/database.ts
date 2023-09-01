@@ -261,18 +261,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -282,18 +285,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -301,14 +307,17 @@ export interface Database {
         Row: {
           id: number
           name: string
+          order: number
         }
         Insert: {
           id?: number
           name: string
+          order?: number
         }
         Update: {
           id?: number
           name?: string
+          order?: number
         }
         Relationships: []
       }
@@ -318,18 +327,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -339,18 +351,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -360,18 +375,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -381,18 +399,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -402,18 +423,21 @@ export interface Database {
           id: number
           jp: string
           ko: string
+          order: number
         }
         Insert: {
           en: string
           id?: number
           jp: string
           ko: string
+          order?: number
         }
         Update: {
           en?: string
           id?: number
           jp?: string
           ko?: string
+          order?: number
         }
         Relationships: []
       }
@@ -421,14 +445,17 @@ export interface Database {
         Row: {
           id: number
           name: string
+          order: number
         }
         Insert: {
           id?: number
           name: string
+          order?: number
         }
         Update: {
           id?: number
           name?: string
+          order?: number
         }
         Relationships: []
       }
@@ -1159,12 +1186,20 @@ export interface Database {
           state: Database["public"]["Enums"]["project_state"]
         }[]
       }
-      unread_message_count: {
-        Args: {
-          userid: string
-        }
-        Returns: number
-      }
+      unread_message_count:
+        | {
+            Args: {
+              userid: string
+            }
+            Returns: number
+          }
+        | {
+            Args: {
+              userid: string
+              roomid: number
+            }
+            Returns: number
+          }
     }
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT"
