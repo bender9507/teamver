@@ -135,9 +135,11 @@ const Create = (props: { user: User }) => {
                       placeholder={t("시작일")}
                       readOnly
                       value={
-                        app.watch("startDate")
-                          ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
-                          : ""
+                        app.isStartIndefinite
+                          ? t("미정")
+                          : (app.watch("startDate") &&
+                              dayjs(app.watch("startDate")).format("DD. MM. YYYY")) ||
+                            ""
                       }
                       onClick={() => {
                         app.setEndDateIsOpen.off();
@@ -155,9 +157,11 @@ const Create = (props: { user: User }) => {
                       placeholder={t("종료일")}
                       readOnly
                       value={
-                        app.watch("endDate")
-                          ? dayjs(app.watch("endDate")).format("DD. MM. YYYY")
-                          : ""
+                        app.isEndIndefinite
+                          ? t("미정")
+                          : (app.watch("endDate") &&
+                              dayjs(app.watch("endDate")).format("DD. MM. YYYY")) ||
+                            ""
                       }
                       onClick={() => {
                         app.setStartDateIsOpen.off();
@@ -194,7 +198,23 @@ const Create = (props: { user: User }) => {
                       </Styled.CalendarWrapper>
                     )}
                   />
-                  <hr style={{ border: "1px solid #383A39", marginBottom: "18px" }} />
+                  <hr style={{ border: "1px solid #383A39", marginBottom: "18px" }} />{" "}
+                  <Flex justify="end">
+                    <Text size="textMedium" color="gray4">
+                      {t("기간 미정")}
+                    </Text>
+                    <Styled.Checkbox
+                      type="checkbox"
+                      checked={app.startDateIsOpen ? app.isStartIndefinite : app.isEndIndefinite}
+                      onChange={(e) => {
+                        if (app.startDateIsOpen) {
+                          app.setStartIsIndefinite(e.target.checked);
+                        } else if (app.endDateIsOpen) {
+                          app.setEndIsIndefinite(e.target.checked);
+                        }
+                      }}
+                    />
+                  </Flex>
                 </>
               ) : null}
             </FlexColumn>

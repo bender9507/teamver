@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { useModal } from "~/components/Commons/Modal";
@@ -26,6 +26,9 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
 
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
+
+  const [isStartIndefinite, setStartIsIndefinite] = useState(false);
+  const [isEndIndefinite, setEndIsIndefinite] = useState(false);
 
   const { mutate: insertProjectMutate } = useInsertProjectMutate({
     onSuccess: () => {
@@ -98,6 +101,10 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
     setStartDateIsOpen,
     endDateIsOpen,
     setEndDateIsOpen,
-    handleBack
+    handleBack,
+    isStartIndefinite,
+    setStartIsIndefinite,
+    isEndIndefinite,
+    setEndIsIndefinite
   };
 };
