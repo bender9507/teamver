@@ -2,7 +2,8 @@ import type {
   selectChatRequestMember,
   selectChatRequestOwner,
   selectChatRequestsMember,
-  selectChatRequestsOwner
+  selectChatRequestsOwner,
+  selectChatRoom
 } from "./apis";
 
 const CHAT_KEY = "CHAT";
@@ -25,5 +26,8 @@ export const chatKeys = {
 
   selectChatMessages: (roomId: number) => [CHAT_KEY, "selectChatMessages", roomId] as const,
 
-  selectChatRooms: (userId: string) => [CHAT_KEY, "selectChatRooms", userId] as const
+  selectChatRooms: (userId: string) => [CHAT_KEY, "selectChatRooms", userId] as const,
+
+  selectChatRoom: (params: Parameters<typeof selectChatRoom>[0]) =>
+    [CHAT_KEY, "selectChatRoom", params.roomId, params.userId] as const
 } as const;

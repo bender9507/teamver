@@ -3,120 +3,74 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useEffect, useRef, useState } from "react";
-import { ChatRoomOut } from "~/components/Chat";
-import { Avatar, Button, Input, PreviousButton, useDialog } from "~/components/Commons";
-import { useModal } from "~/components/Commons/Modal";
-import { ProjectInvite } from "~/components/ProjectInvite";
-import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
+import { Avatar, IconButton, Input, PreviousButton } from "~/components/Commons";
+import {
+  Flex,
+  FlexColumn,
+  LayoutContent,
+  LayoutHeaderWithNav,
+  PosCenter,
+  SizeBox,
+  Text
+} from "~/styles/mixins";
 import type { Database } from "~/types/database";
-import { CHAT_ROOM_OUT_MODAL } from "./room.constants";
+import { isEmpty } from "~/utils";
 import { useChatRoom } from "./room.hooks";
 import * as Styled from "./room.styles";
 
-const ChatRoom = ({ user, roomId }: { user: User; roomId: number }) => {
+const ChatRoom = ({ user }: { user: User }) => {
+  const app = useChatRoom({ user });
   const { t } = useTranslation("chat");
 
-  const [message, setMessage] = useState("");
+  if (!app.chatRoom) return;
 
-  const [selectedProjectId, setSelectedProjectId] = useState<number>(0);
-
-  const { mount } = useModal();
-
-  const { confirm, toast } = useDialog();
-
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  const app = useChatRoom(user.id, roomId, message, setMessage);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [app.formattedMessages]);
-
-  const handleOpenProjectInviteConfirm = () => {
-    confirm({
-      title: t("어떤 프로젝트에 초대할까요"),
-      confirmLabel: t("초대하기"),
-      message: <ProjectInvite ownerId={user.id} onProjectSelect={setSelectedProjectId} />
-    }).then((confirmed) => {
-      if (confirmed && selectedProjectId !== 0) {
-        app
-          .InsertProjectInviteMutateAsync({
-            projectId: selectedProjectId,
-            receiverId: app.memberId,
-            requesterId: user.id
-          })
-          .then(() => {
-            toast({ type: "success", message: t("성공적으로 초대했습니다") });
-          });
-      }
-    });
-  };
-
-  const handleOpenChatRoomOutModal = () => {
-    mount(<ChatRoomOut roomId={roomId} userId={user.id} />, {
-      id: CHAT_ROOM_OUT_MODAL,
-      type: "bottom"
-    });
-  };
+  const { members, messages } = app.chatRoom;
 
   return (
-    <FlexColumn>
-      <Styled.ChatRoomTopBar>
-        <FlexCenter gap={15}>
-          <PreviousButton />
-          <Avatar size="small" src={app.memberImageUrl} />
-          <Text>{app.memberName || t("알 수 없음")}</Text>
-        </FlexCenter>
+    <LayoutHeaderWithNav>
+      <Styled.ChatHeader>
+        <PreviousButton />
 
-        <FlexCenter gap={20}>
-          {app.profile.role.id === 1 && (
-            <Button onClick={handleOpenProjectInviteConfirm}>팀원으로초대하기</Button>
-          )}
-          <Button onClick={handleOpenChatRoomOutModal}>•••</Button>
-        </FlexCenter>
-      </Styled.ChatRoomTopBar>
+        <Flex align="center" flex={1} gap={8}>
+          <Avatar size="small" src={members[0].imageUrl} />
 
-      <Styled.ChatMessageWrapper>
-        {app.formattedMessages.length > 0 ? (
-          app.formattedMessages.map((message) =>
-            message.senderId === user.id ? (
-              <Styled.ChatMessageRight key={message.id}>
-                <Text>{message.createdAt}</Text>
-                <Text>{message.message}</Text>
-              </Styled.ChatMessageRight>
-            ) : (
-              <Flex key={message.id} align="center" gap={16}>
-                <Avatar size="small" src={app.memberImageUrl} />
-                <Styled.ChatMessageLeft>{message.message}</Styled.ChatMessageLeft>
-                <Text>{message.createdAt}</Text>
-              </Flex>
-            )
-          )
-        ) : (
-          <Styled.NoMessageBox>
-            <FlexCenter direction="column">
-              <Text>{t("NAME님과 매칭이 되었어요", { name: app.memberName })}</Text>
-            </FlexCenter>
-            <Avatar size="xLarge" src={app.memberImageUrl} />
-          </Styled.NoMessageBox>
+          <Text>{members[0].name}</Text>
+        </Flex>
+
+        <Flex gap={21}>
+          <IconButton name="invite" />
+          <IconButton name="moreVertical" />
+        </Flex>
+      </Styled.ChatHeader>
+
+      <LayoutContent>
+        {isEmpty(messages) && (
+          <PosCenter>
+            <Text as="p" textAlign="center" size="textMediumBold" color="gray6">
+              {t("개발하는 NAME님과 팀원 매칭 되었어요", { name: members[0].name })}
+            </Text>
+
+            <SizeBox height={24} />
+
+            <Avatar size="xLarge" src={members[0].imageUrl} />
+          </PosCenter>
         )}
-        <div ref={messagesEndRef} />
-      </Styled.ChatMessageWrapper>
 
-      <Styled.ChatFromWrapper onSubmit={app.handleSubmitMessage}>
-        <Input
-          type="text"
-          name="message"
-          style={{ width: 290 }}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <Button>Send</Button>
-      </Styled.ChatFromWrapper>
-    </FlexColumn>
+        {messages.map(() => (
+          <div>dd</div>
+        ))}
+      </LayoutContent>
+
+      <Styled.ChatInputBox onSubmit={app.handleSendMessage}>
+        <IconButton type="button" name="add" />
+
+        <FlexColumn flex={1}>
+          <Input color="gray5" rightElement={<IconButton type="button" name="smile" />} />
+        </FlexColumn>
+
+        <IconButton name="send" />
+      </Styled.ChatInputBox>
+    </LayoutHeaderWithNav>
   );
 };
 
@@ -129,12 +83,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     data: { user }
   } = await supabase.auth.getUser();
 
-  const roomId = Number(ctx.query.roomId);
-
   return {
     props: {
       user: user as User,
-      roomId,
       ...(await serverSideTranslations(ctx.locale, ["chat"]))
     }
   };

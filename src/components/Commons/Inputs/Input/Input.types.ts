@@ -1,7 +1,12 @@
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes, ReactElement } from "react";
 import type { ColorsKey } from "~/styles/theme";
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "color"> {
+export interface InputStyleProps {
   color?: ColorsKey;
-  blurFocus?: boolean;
+}
+
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "color">,
+    InputStyleProps {
+  rightElement?: ReactElement;
 }

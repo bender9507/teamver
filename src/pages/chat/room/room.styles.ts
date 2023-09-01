@@ -2,54 +2,70 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { flex } from "~/styles/mixins";
 
-export const ChatRoomWrapper = styled.div`
-  position: relative;
+export const ChatHeader = styled.header`
+  ${flex({ align: "center", justify: "between", gap: 15 })};
 
-  ${flex.column()}
+  ${({ theme: { sizes } }) => css`
+    height: ${sizes.height.header}px;
+  `};
+
+  padding: 0 22px;
 `;
 
-export const ChatRoomTopBar = styled.section`
-  ${flex({ align: "center", justify: "between" })}
+export const ChatInputBox = styled.form`
+  ${flex({ justify: "between", align: "center", gap: 10 })};
 
-  height: 55px;
+  padding: 7px 16px 50px 16px;
 `;
 
-export const ChatMessageWrapper = styled.div`
-  ${flex.column({ gap: 10 })}
+// export const ChatRoomWrapper = styled.div`
+//   position: relative;
 
-  height: calc(100vh - 110px);
+//   ${flex.column()}
+// `;
 
-  overflow-y: scroll;
-`;
+// export const ChatRoomTopBar = styled.section`
+//   ${flex({ align: "center", justify: "between" })}
 
-export const ChatFromWrapper = styled.form`
-  position: absolute;
+//   height: 55px;
+// `;
 
-  bottom: 0;
+// export const ChatMessageWrapper = styled.div`
+//   ${flex.column({ gap: 10 })}
 
-  ${flex.center()}
+//   height: calc(100vh - 110px);
 
-  width: 100%;
-`;
+//   overflow-y: scroll;
+// `;
 
-export const ChatMessageRight = styled.div`
-  ${flex({ align: "center", justify: "end", gap: 16 })}
+// export const ChatFromWrapper = styled.form`
+//   position: absolute;
 
-  ${({ theme: { colors } }) => css`
-    color: ${colors.white};
-  `}
-`;
+//   bottom: 0;
 
-export const ChatMessageLeft = styled.div`
-  ${({ theme: { colors } }) => css`
-    text-align: left;
+//   ${flex.center()}
 
-    color: ${colors.white};
-  `}
-`;
+//   width: 100%;
+// `;
 
-export const NoMessageBox = styled.div`
-  ${flex.center({ direction: "column", gap: 24 })}
+// export const ChatMessageRight = styled.div`
+//   ${flex({ align: "center", justify: "end", gap: 16 })}
 
-  height: 80%
-`;
+//   ${({ theme: { colors } }) => css`
+//     color: ${colors.white};
+//   `}
+// `;
+
+// export const ChatMessageLeft = styled.div`
+//   ${({ theme: { colors } }) => css`
+//     text-align: left;
+
+//     color: ${colors.white};
+//   `}
+// `;
+
+// export const NoMessageBox = styled.div`
+//   ${flex.center({ direction: "column", gap: 24 })}
+
+//   height: 80%
+// `;

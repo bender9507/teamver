@@ -32,7 +32,5 @@ export const LayoutNav = styled.div`
 `;
 
 export const LayoutContent = styled(FlexColumn)`
-  position: relative;
-
   overflow: scroll;
 `;

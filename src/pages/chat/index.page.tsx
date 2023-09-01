@@ -4,7 +4,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ChatMember, ChatOwner } from "~/components/Chat";
-import { TitleHeader } from "~/components/Shared";
+import { Navbar, TitleHeader } from "~/components/Shared";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import type { Database } from "~/types/database";
@@ -21,6 +21,8 @@ const Chat = ({ user }: { user: User }) => {
       <LayoutContent padding="0px 22px 22px 22px">
         {profile.role.id === 1 ? <ChatOwner user={user} /> : <ChatMember user={user} />}
       </LayoutContent>
+
+      <Navbar user={user} />
     </LayoutHeaderWithNav>
   );
 };

@@ -20,7 +20,8 @@ export const flex = ({
   gap,
   wrap,
   padding,
-  marginTop
+  marginTop,
+  flex
 }: FlexProps) => css`
   display: ${display};
   ${direction && styleHelper("flexDirection", direction)};
@@ -30,6 +31,7 @@ export const flex = ({
   ${wrap && styleHelper("flexWrap", wrap)};
   ${padding && styleHelper("padding", padding)};
   ${marginTop && styleHelper("marginTop", marginTop)};
+  ${flex && styleHelper("flex", flex)};
 `;
 
 const center = (props: FlexCenterProps = {}) => {
