@@ -19,15 +19,17 @@ export const flex = ({
   justify,
   gap,
   wrap,
-  padding
+  padding,
+  marginTop
 }: FlexProps) => css`
   display: ${display};
-  ${direction && styleHelper("flexDirection", direction)}
-  ${align && styleHelper("alignItems", FLEX_MAP[align])}
-  ${justify && styleHelper("justifyContent", FLEX_MAP[justify])}
-  ${gap && styleHelper("gap", gap)}
-  ${wrap && styleHelper("flexWrap", wrap)}
-  ${padding && styleHelper("padding", padding)}
+  ${direction && styleHelper("flexDirection", direction)};
+  ${align && styleHelper("alignItems", FLEX_MAP[align])};
+  ${justify && styleHelper("justifyContent", FLEX_MAP[justify])};
+  ${gap && styleHelper("gap", gap)};
+  ${wrap && styleHelper("flexWrap", wrap)};
+  ${padding && styleHelper("padding", padding)};
+  ${marginTop && styleHelper("marginTop", marginTop)};
 `;
 
 const center = (props: FlexCenterProps = {}) => {
@@ -42,13 +44,13 @@ flex.center = center;
 flex.column = column;
 
 export const Flex = styled.div<FlexProps>`
-  ${(props) => flex(props)}
+  ${(props) => flex(props)};
 `;
 
 export const FlexCenter = styled.div<FlexCenterProps>`
-  ${(props) => flex.center(props)}
+  ${(props) => flex.center(props)};
 `;
 
 export const FlexColumn = styled.div<FlexColumnProps>`
-  ${(props) => flex.column(props)}
+  ${(props) => flex.column(props)};
 `;

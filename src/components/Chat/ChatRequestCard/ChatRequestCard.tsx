@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import { Avatar, Button } from "~/components/Commons";
-import type { ChatRequestMemberAllData } from "~/states/server/chat";
+import type { ChatRequestMemberAllData, ChatRequestOwnerAllData } from "~/states/server/chat";
 import { Flex, Text } from "~/styles/mixins";
 import { useChatRequestCard } from "./ChatRequestCard.hooks";
 
@@ -8,7 +8,7 @@ export const ChatRequestCard = ({
   request,
   user
 }: {
-  request: ChatRequestMemberAllData;
+  request: ChatRequestMemberAllData | ChatRequestOwnerAllData;
   user: User;
 }) => {
   const app = useChatRequestCard({ request, user });

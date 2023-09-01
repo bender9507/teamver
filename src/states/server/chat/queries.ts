@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useSuspendedQuery } from "~/hooks";
 import {
   selectChatMessages,
@@ -31,18 +32,20 @@ export const useSelectChatRequestsMemberQuery = (
 export const useSelectChatRequestOwnerQuery = (
   requests: Parameters<typeof selectChatRequestOwner>[0]
 ) => {
-  return useSuspendedQuery({
+  return useQuery({
     queryKey: chatKeys.selectChatRequestOwner(requests),
-    queryFn: () => selectChatRequestOwner(requests)
+    queryFn: () => selectChatRequestOwner(requests),
+    initialData: []
   });
 };
 
 export const useSelectChatRequestMemberQuery = (
   requests: Parameters<typeof selectChatRequestMember>[0]
 ) => {
-  return useSuspendedQuery({
+  return useQuery({
     queryKey: chatKeys.selectChatRequestMember(requests),
-    queryFn: () => selectChatRequestMember(requests)
+    queryFn: () => selectChatRequestMember(requests),
+    initialData: []
   });
 };
 

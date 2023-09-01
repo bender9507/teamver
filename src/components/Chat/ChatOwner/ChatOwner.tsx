@@ -4,6 +4,7 @@ import type { ComponentProps } from "react";
 import { routes } from "~/constants/routes";
 import type Chat from "~/pages/chat/index.page";
 import { Flex, FlexColumn, PosCenter, Text } from "~/styles/mixins";
+import { isEmpty } from "~/utils";
 import { ChatRoomCard } from "../ChatRoomCard";
 import { useChatOwner } from "./ChatOwner.hooks";
 
@@ -21,7 +22,7 @@ export const ChatOwner = (props: ComponentProps<typeof Chat>) => {
         </Link>
       </Flex>
 
-      {app.rooms.length === 0 && (
+      {isEmpty(app.rooms) && (
         <PosCenter>
           <Text size="textMediumBold" color="gray6">
             진행중인 채팅이 없어요
