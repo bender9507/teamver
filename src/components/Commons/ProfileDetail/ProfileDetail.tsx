@@ -8,7 +8,7 @@ import type {
   ConstantSkillRow
 } from "~/states/server/constant";
 import type { ProfileAllDataRow } from "~/states/server/profile";
-import { Flex, FlexColumn, Position, Text } from "~/styles/mixins";
+import { CommonContainer, Flex, FlexColumn, Position, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { Chip, RatioBox } from "..";
 import * as Styled from "./ProfileDetail.styles";
@@ -49,18 +49,18 @@ export const ProfileDetail = ({
         </Position>
       </RatioBox>
 
-      <Styled.Container>
-        <FlexColumn gap={46}>
+      <CommonContainer>
+        <FlexColumn gap={36}>
           <FlexColumn gap={16}>
-            <Text size="heading4">{profile.name}</Text>
+            <Text size="titleMedium">{profile.name}</Text>
 
-            <Text size="paragraph2" color="content2">
+            <Text size="textMediumBold" color="gray9">
               {profile.introduce}
             </Text>
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("포지션")}</Text>
+            <Text size="titleMedium">{t("포지션")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {profile.positions.map((position) => (
@@ -78,7 +78,7 @@ export const ProfileDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("주요 언어")}</Text>
+            <Text size="titleMedium">{t("주요 언어")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {profile.languages.map((language) => (
@@ -96,7 +96,7 @@ export const ProfileDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("기술 스택")}</Text>
+            <Text size="titleMedium">{t("기술 스택")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {profile.skills.map((skill) => (
@@ -112,7 +112,7 @@ export const ProfileDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("활동 지역")}</Text>
+            <Text size="titleMedium">{t("활동 지역")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {profile.areas.map((area) => (
@@ -128,7 +128,7 @@ export const ProfileDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("원하는 프로젝트 타입")}</Text>
+            <Text size="titleMedium">{t("원하는 프로젝트 타입")}</Text>
 
             <Flex gap={12} wrap="wrap">
               {profile.projectTypes.map((projectType) => (
@@ -140,7 +140,7 @@ export const ProfileDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("현재 직업 상태")}</Text>
+            <Text size="titleMedium">{t("현재 직업 상태")}</Text>
 
             <Flex gap={12} wrap="wrap">
               <Chip color="backgroundPrimary">{profile.job[currentLanguage]}</Chip>
@@ -148,10 +148,10 @@ export const ProfileDetail = ({
           </FlexColumn>
 
           <FlexColumn gap={16}>
-            <Text size="heading4">{t("Github 주소")}</Text>
+            <Text size="titleMedium">{t("Github 주소")}</Text>
 
             <Link href={`https://github.com/${profile.github}`} target="_blank">
-              <Text size="paragraph2" color="content2">
+              <Text size="textMediumBold" color="gray9">
                 https://github.com/{profile.github}
               </Text>
             </Link>
@@ -159,17 +159,17 @@ export const ProfileDetail = ({
 
           {profile.blog && (
             <FlexColumn gap={16}>
-              <Text size="heading4">{profile.name}</Text>
+              <Text size="titleMedium">{profile.name}</Text>
 
               <Link href={profile.blog} target="_blank">
-                <Text size="paragraph2" color="content2">
+                <Text size="textMediumBold" color="gray9">
                   {profile.blog}
                 </Text>
               </Link>
             </FlexColumn>
           )}
         </FlexColumn>
-      </Styled.Container>
+      </CommonContainer>
     </FlexColumn>
   );
 };

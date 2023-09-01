@@ -7,6 +7,7 @@ import { Controller } from "react-hook-form";
 import {
   Avatar,
   Button,
+  IconButton,
   ImageUploader,
   Input,
   Label,
@@ -14,7 +15,7 @@ import {
   Textarea
 } from "~/components/Commons";
 import { HTTP_REGEX } from "~/constants/regex";
-import { Flex, SizeBox } from "~/styles/mixins";
+import { Flex, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import type { Database } from "~/types/database";
 import { useProfileEdit } from "./edit.hooks";
@@ -28,11 +29,18 @@ const ProfileEdit = (props: { user: User }) => {
 
   return (
     <Styled.Container onSubmit={app.onSubmit}>
+      <Styled.Header>
+        <IconButton type="button" name="arrowBack" color="content1" />
+        <Text as="h3" size="heading3" style={{ margin: "0 auto" }}>
+          {t("프로필 수정")}
+        </Text>
+      </Styled.Header>
+
       <Controller
         name="imageUrl"
         control={app.control}
         render={({ field: { onChange } }) => (
-          <ImageUploader style={{ display: "flex", justifyContent: "center" }} onChange={onChange}>
+          <ImageUploader style={{ width: "fit-content", margin: "0 auto" }} onChange={onChange}>
             {app.watch("imageUrl") ? (
               <Avatar src={URL.createObjectURL(app.watch("imageUrl"))} size="xLarge" />
             ) : (
