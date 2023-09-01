@@ -139,7 +139,10 @@ const Create = (props: { user: User }) => {
                           ? dayjs(app.watch("startDate")).format("DD. MM. YYYY")
                           : ""
                       }
-                      onClick={app.setStartDateIsOpen.toggle}
+                      onClick={() => {
+                        app.setEndDateIsOpen.off();
+                        app.setStartDateIsOpen.toggle();
+                      }}
                     />
                   </FlexColumn>
                 </FlexColumn>
@@ -156,7 +159,10 @@ const Create = (props: { user: User }) => {
                           ? dayjs(app.watch("endDate")).format("DD. MM. YYYY")
                           : ""
                       }
-                      onClick={app.setEndDateIsOpen.toggle}
+                      onClick={() => {
+                        app.setStartDateIsOpen.off();
+                        app.setEndDateIsOpen.toggle();
+                      }}
                     />
                   </FlexColumn>
                 </FlexColumn>
@@ -188,26 +194,28 @@ const Create = (props: { user: User }) => {
                 </>
               )}
               {app.endDateIsOpen && (
-                <Controller
-                  name="endDate"
-                  control={app.control}
-                  render={({ field: { onChange } }) => (
-                    <Styled.CalendarWrapper>
-                      <hr />
-                      <Calendar
-                        locale="en-EN"
-                        nextLabel=">"
-                        prevLabel="<"
-                        next2Label={null}
-                        prev2Label={null}
-                        onChange={(date) => {
-                          app.setEndDateIsOpen.off();
-                          onChange(date);
-                        }}
-                      />
-                    </Styled.CalendarWrapper>
-                  )}
-                />
+                <>
+                  <hr style={{ border: "1px solid #383A39", marginTop: "18px" }} />
+                  <Controller
+                    name="endDate"
+                    control={app.control}
+                    render={({ field: { onChange } }) => (
+                      <Styled.CalendarWrapper>
+                        <Calendar
+                          locale="en-EN"
+                          nextLabel=">"
+                          prevLabel="<"
+                          next2Label={null}
+                          prev2Label={null}
+                          onChange={(date) => {
+                            app.setEndDateIsOpen.off();
+                            onChange(date);
+                          }}
+                        />
+                      </Styled.CalendarWrapper>
+                    )}
+                  />
+                </>
               )}
             </FlexColumn>
           </Label>
