@@ -29,6 +29,7 @@ export const StyleSheet = styled(Sheet)`
 
 export const SheetHeader = styled.div`
   ${position.absolute({ left: 0, top: 0 })};
+  z-index: 1;
 
   ${flex.center()};
 
@@ -45,4 +46,6 @@ export const SheetHeader = styled.div`
 
     border-radius: 16px;
   }
+
+  cursor: grab;
 `;
