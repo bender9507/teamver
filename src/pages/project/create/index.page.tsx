@@ -164,26 +164,29 @@ const Create = (props: { user: User }) => {
             </Flex>
 
             {app.startDateIsOpen && (
-              <Controller
-                name="startDate"
-                control={app.control}
-                render={({ field: { onChange } }) => (
-                  <Styled.CalendarWrapper>
-                    <Calendar
-                      locale="en-EN"
-                      nextLabel=">"
-                      prevLabel="<"
-                      next2Label={null}
-                      prev2Label={null}
-                      formatDay={(_, date) => dayjs(date).format("D")}
-                      onChange={(date) => {
-                        app.setStartDateIsOpen.off();
-                        onChange(date);
-                      }}
-                    />
-                  </Styled.CalendarWrapper>
-                )}
-              />
+              <>
+                <hr style={{ border: "1px solid #383A39", marginTop: "18px" }} />
+                <Controller
+                  name="startDate"
+                  control={app.control}
+                  render={({ field: { onChange } }) => (
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        formatDay={(_, date) => dayjs(date).format("D")}
+                        onChange={(date) => {
+                          app.setStartDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
+                  )}
+                />
+              </>
             )}
             {app.endDateIsOpen && (
               <Controller
@@ -191,6 +194,7 @@ const Create = (props: { user: User }) => {
                 control={app.control}
                 render={({ field: { onChange } }) => (
                   <Styled.CalendarWrapper>
+                    <hr />
                     <Calendar
                       locale="en-EN"
                       nextLabel=">"
