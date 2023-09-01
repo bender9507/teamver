@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { Avatar, Button } from "~/components/Commons";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import { useCard } from "./Card.hooks";
@@ -5,6 +6,8 @@ import type { CardProps } from "./Card.types";
 
 export const Card = ({ invite }: CardProps) => {
   const app = useCard({ invite });
+
+  const { t } = useTranslation("chat");
 
   return (
     <Flex justify="between">
@@ -25,7 +28,7 @@ export const Card = ({ invite }: CardProps) => {
           bgColor="backgroundSecondary"
           onClick={() => app.handleStateChange("GRANT")}
         >
-          수락
+          {t("수락")}
         </Button>
         <Button
           size="small"
@@ -33,7 +36,7 @@ export const Card = ({ invite }: CardProps) => {
           bgColor="backgroundSecondary"
           onClick={() => app.handleStateChange("DENIED")}
         >
-          삭제
+          {t("삭제")}
         </Button>
       </Flex>
     </Flex>

@@ -100,7 +100,7 @@ export const Member = (props: { user: User }) => {
 
                 <SizeBox height={60} />
 
-                <Button>확인</Button>
+                <Button>{t("확인")}</Button>
               </CommonContainer>,
               { id: "selectLanguages", type: "bottom" }
             )

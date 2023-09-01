@@ -10,10 +10,10 @@ import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
 import {
   Button,
+  IconButton,
   ImageUploader,
   Input,
   Label,
-  PreviousButton,
   SelectChip,
   Textarea
 } from "~/components/Commons";
@@ -35,8 +35,9 @@ const Edit = (props: { user: User }) => {
       </Head>
 
       <Styled.Header>
-        <PreviousButton />
-        <Text>{t("프로젝트 생성하기")}</Text>
+        <IconButton type="button" name="arrowBack" color="content2" onClick={app.handleBack} />
+
+        <Text>{t("프로젝트 수정하기")}</Text>
       </Styled.Header>
 
       <Styled.Container as="form" gap={36} onSubmit={app.handleEditProject}>
