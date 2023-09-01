@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import {
   useInsertChatMessageMutate,
   useSelectChatMessagesQuery,
-  useSelectChatRoomsQuery
+  useSelectChatRoomsQuery,
+  useUpdateLastReadMessageMutate
 } from "~/states/server/chat";
 import type { ChatMessageRow } from "~/states/server/chat/types";
 import { supabase } from "~/states/server/config";
@@ -24,11 +25,13 @@ export const useChatRoom = (
 
   const { data: messageData } = useSelectChatMessagesQuery(roomId);
 
+  const { data: memberData } = useSelectChatRoomsQuery(userId);
+
   const { mutateAsync: InsertChatMessageMutateAsync } = useInsertChatMessageMutate();
 
   const { mutateAsync: InsertProjectInviteMutateAsync } = useInsertProjectInviteMutate();
 
-  const { data: memberData } = useSelectChatRoomsQuery(userId);
+  const { mutateAsync: updateLastReadMessageMutateAsync } = useUpdateLastReadMessageMutate();
 
   const currentRoomMember = memberData?.find((room) => room.id === roomId)?.members[0];
 
@@ -79,6 +82,18 @@ export const useChatRoom = (
     setMessage("");
   };
 
+  const updateLastReadMessage = async (messages: typeof formattedMessages) => {
+    let lastReadMessageId;
+
+    if (messages.length > 0) {
+      lastReadMessageId = messages[messages.length - 1].id;
+    }
+
+    if (lastReadMessageId) {
+      await updateLastReadMessageMutateAsync({ userId, roomId, lastReadMessageId });
+    }
+  };
+
   useEffect(() => {
     if (messageData) setMessages(messageData);
 
@@ -93,7 +108,9 @@ export const useChatRoom = (
         },
         (payload) => {
           const newMessage = payload.new as ChatMessageRow;
-          setMessages((oldMessages) => [...oldMessages, newMessage]);
+
+          if (newMessage.roomId === roomId)
+            setMessages((oldMessages) => [...oldMessages, newMessage]);
         }
       )
       .subscribe();
@@ -103,6 +120,11 @@ export const useChatRoom = (
     };
   }, [roomId, messageData]);
 
+  useEffect(() => {
+    updateLastReadMessage(formattedMessages);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formattedMessages.length]);
+
   return {
     t,
     profile,
@@ -111,6 +133,7 @@ export const useChatRoom = (
     memberImageUrl,
     formattedMessages,
     handleSubmitMessage,
-    InsertProjectInviteMutateAsync
+    InsertProjectInviteMutateAsync,
+    updateLastReadMessageMutateAsync
   };
 };

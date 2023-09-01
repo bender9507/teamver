@@ -14,10 +14,10 @@ import type { Database } from "~/types/database";
 import { useSelectChatRooms } from "./chat.hooks";
 import * as Styled from "./chat.styles";
 
-const Chat = ({ user }: { user: User }) => {
+const Chat = ({ user, roomId }: { user: User; roomId: number }) => {
   const { t } = useTranslation("chat");
 
-  const app = useSelectChatRooms(user.id);
+  const app = useSelectChatRooms(user.id, roomId);
 
   const { data: profile } = useSelectProfileQuery(user.id);
 
@@ -92,6 +92,8 @@ const Chat = ({ user }: { user: User }) => {
                         {room.lastMessage || t("채팅이 시작되었습니다")}
                       </Text>
                     </FlexColumn>
+
+                    <span>읽지 않은 메세지: {app.unreadMessageCounts || ""}</span>
                   </Styled.ChatRoomBox>
                 ))
               ) : (
@@ -115,9 +117,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     data: { user }
   } = await supabase.auth.getUser();
 
+  const roomId = Number(ctx.params?.roomId);
+
   return {
     props: {
       user: user as User,
+      roomId,
       ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
     }
   };

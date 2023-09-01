@@ -5,7 +5,8 @@ import {
   selectChatRequestOwner,
   selectChatRequestsMember,
   selectChatRequestsOwner,
-  selectChatRooms
+  selectChatRooms,
+  selectUnreadMessageCount
 } from "./apis";
 import { chatKeys } from "./keys";
 
@@ -56,5 +57,12 @@ export const useSelectChatRoomsQuery = (userId: string) => {
   return useSuspendedQuery({
     queryKey: chatKeys.selectChatRooms(userId),
     queryFn: () => selectChatRooms(userId)
+  });
+};
+
+export const useSelectUnreadMessageCountQuery = (requests: { userId: string; roomId: number }) => {
+  return useSuspendedQuery({
+    queryKey: chatKeys.selectUnreadMessageCount(requests),
+    queryFn: () => selectUnreadMessageCount(requests)
   });
 };
