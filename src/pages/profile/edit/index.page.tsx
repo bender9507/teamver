@@ -46,7 +46,6 @@ const ProfileEdit = (props: { user: User }) => {
             control={app.control}
             render={({ field: { onChange } }) => (
               <Flex style={{ position: "relative" }}>
-                {/* <Avatar src={app.profile.imageUrl} size="large" /> */}
                 {app.watch("imageUrl") ? (
                   <Avatar src={URL.createObjectURL(app.watch("imageUrl"))} size="large" />
                 ) : (
@@ -69,26 +68,7 @@ const ProfileEdit = (props: { user: User }) => {
             )}
           />
         </FlexCenter>
-        {/* // <Styled.Container onSubmit={app.onSubmit}>
-          //   <TitleHeader title={t("프로필 수정")} onPrevious={handleBack} />
-            <FlexCenter>
-              <Controller
-                name="imageUrl"
-                control={app.control}
-                render={({ field: { onChange } }) => (
-                  <Avatar src={app.profile.imageUrl} size="large" />
-                  <ImageUploader style={{ width: "fit-content", margin: "0 auto" }} onChange={onChange}>
-                    {app.watch("imageUrl") ? (
-                      <Avatar src={URL.createObjectURL(app.watch("imageUrl"))} size="xLarge" />
-                    ) : (
-                      <Avatar src={app.profile.imageUrl} size="xLarge" />
-                    )}
-                  </ImageUploader>
-                )}
-              />
-            </FlexCenter>
 
-          */}
         <FlexColumn>
           <Text size="titleSmall" style={{ marginBottom: "16px" }}>
             {t("닉네임")}
@@ -109,7 +89,7 @@ const ProfileEdit = (props: { user: User }) => {
               style={{ marginTop: " 7px", paddingLeft: "18px" }}
               color="primary"
             >
-              {t("사용 가능한 닉네임입니다")}
+              {app.successMessage}
             </Text>
           )}
           {app.errorMessage && (
