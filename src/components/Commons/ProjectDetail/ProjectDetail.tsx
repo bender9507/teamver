@@ -21,14 +21,15 @@ export const ProjectDetail = ({
   return (
     <FlexColumn>
       <RatioBox ratio="376/275">
-        <Image
-          src={project.imageUrl}
-          fill
-          sizes="100%"
-          alt="project img"
-          style={{ objectFit: "cover" }}
-        />
-
+        <Flex style={{ userSelect: "none", pointerEvents: "none" }}>
+          <Image
+            src={project.imageUrl}
+            fill
+            sizes="100%"
+            alt="project img"
+            style={{ objectFit: "cover" }}
+          />
+        </Flex>
         <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
       </RatioBox>
 
