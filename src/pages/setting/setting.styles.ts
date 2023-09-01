@@ -1,14 +1,16 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { flex, text } from "~/styles/mixins";
+import type { OptionProps } from "./setting.types";
 
-export const Option = styled.button`
+export const Option = styled.button<OptionProps>`
   padding: 16px 22px;
 
-  ${({ theme: { colors } }) => css`
-    & + & {
-      border-top: 2px solid ${colors.gray2};
-    }
+  ${({ theme: { colors }, hasBorder }) => css`
+    ${hasBorder &&
+    `
+      border-bottom: 2px solid ${colors.gray2};
+    `}
 
     ${text("textLarge")};
     color: ${colors.content1};

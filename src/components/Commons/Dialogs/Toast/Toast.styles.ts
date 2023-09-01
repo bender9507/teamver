@@ -11,7 +11,7 @@ export const Container = styled.div<ToastStyleProps>`
   padding: 18px 16px;
 
   ${({ theme: { colors }, type = "info" }) => css`
-    background-color: ${colors.backgroundPrimary};
+    background-color: ${colors.backgroundSecondary};
     color: ${colors[type]};
   `}
 
