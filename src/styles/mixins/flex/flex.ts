@@ -12,13 +12,22 @@ export const FLEX_MAP = {
   stretch: "stretch"
 } as const;
 
-export const flex = ({ display = "flex", direction, align, justify, gap, wrap }: FlexProps) => css`
+export const flex = ({
+  display = "flex",
+  direction,
+  align,
+  justify,
+  gap,
+  wrap,
+  padding
+}: FlexProps) => css`
   display: ${display};
   ${direction && styleHelper("flexDirection", direction)}
   ${align && styleHelper("alignItems", FLEX_MAP[align])}
   ${justify && styleHelper("justifyContent", FLEX_MAP[justify])}
   ${gap && styleHelper("gap", gap)}
   ${wrap && styleHelper("flexWrap", wrap)}
+  ${padding && styleHelper("padding", padding)}
 `;
 
 const center = (props: FlexCenterProps = {}) => {

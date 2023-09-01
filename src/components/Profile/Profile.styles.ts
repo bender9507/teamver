@@ -14,9 +14,7 @@ export const SectionContainer = styled(FlexColumn)`
 `;
 
 export const FloatingBox = styled.div`
-  ${({ theme: { sizes } }) => css`
-    ${position.sticky({ bottom: sizes.height.navbar })};
-  `};
+  ${position.sticky({ bottom: 0 })};
 `;
 
 export const FloatingIcon = styled(IconButton)`
