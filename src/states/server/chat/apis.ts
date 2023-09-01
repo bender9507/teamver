@@ -2,11 +2,13 @@ import { supabase } from "../config";
 import type { ProfileAllDataRow } from "../profile";
 import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
 import type {
-  ChatMessageRow,
+  ChatRequestMemberAllData,
   ChatRequestMemberInsert,
   ChatRequestMemberRow,
+  ChatRequestOwnerAllData,
   ChatRequestOwnerInsert,
-  ChatRequestOwnerRow
+  ChatRequestOwnerRow,
+  ChatRoomAllData
 } from "./types";
 
 export const insertChatRequestOwner = async (chatRequest: ChatRequestOwnerInsert) => {
@@ -99,9 +101,7 @@ export const selectChatRequestOwner = async ({
     query = query.eq("state", state);
   }
 
-  const { data, error } = await query.returns<
-    (Pick<ChatRequestOwnerRow, "id" | "state"> & { requesterProfile: ProfileAllDataRow })[]
-  >();
+  const { data, error } = await query.returns<ChatRequestOwnerAllData[]>();
 
   if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
 
@@ -124,9 +124,7 @@ export const selectChatRequestMember = async ({
     query = query.eq("state", state);
   }
 
-  const { data, error } = await query.returns<
-    (Pick<ChatRequestMemberRow, "id" | "state"> & { requesterProfile: ProfileAllDataRow })[]
-  >();
+  const { data, error } = await query.returns<ChatRequestMemberAllData[]>();
 
   if (error) throw Error("채팅 요청 목록을 불러오는데 실패하였습니다.");
 
@@ -166,15 +164,7 @@ export const selectChatRooms = async (userId: string) => {
     .neq("roomId.members.userId", userId)
     .eq("userId", userId)
     .order("createdAt", { foreignTable: "roomId.messages", ascending: false })
-    .returns<
-      {
-        id: number;
-        members: ProfileAllDataRow[];
-        messages: (Pick<ChatMessageRow, "id" | "message" | "createdAt"> & {
-          sender: ProfileAllDataRow;
-        })[];
-      }[]
-    >();
+    .returns<ChatRoomAllData[]>();
 
   if (error) throw Error("채팅방 목록을 불러오는데 실패하였습니다.");
 

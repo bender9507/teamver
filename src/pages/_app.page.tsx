@@ -17,15 +17,7 @@ import { theme } from "~/styles/theme";
 import type { OneOfLanguage } from "~/types";
 import * as Styled from "./_app.styles";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false
-    }
-  }
-});
+const queryClient = new QueryClient();
 
 const App = ({
   Component,
