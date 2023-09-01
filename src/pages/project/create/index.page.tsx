@@ -79,7 +79,7 @@ const Create = (props: { user: User }) => {
           />
         </Label>
 
-        <Label title={t("프로젝트 타입")} desc={t("여러개 선택 가능해요")}>
+        <Label title={t("프로젝트 타입")}>
           <Flex gap={12} wrap="wrap">
             {app.constants.projectTypes.map((projectType) => (
               <SelectChip
@@ -123,7 +123,7 @@ const Create = (props: { user: User }) => {
               maxLength={5}
               {...app.register("recruitCount", { required: true, maxLength: 5 })}
             />
-            <Text>명</Text>
+            <Text>{t("명")}</Text>
           </Flex>
         </Label>
 
@@ -164,26 +164,29 @@ const Create = (props: { user: User }) => {
             </Flex>
 
             {app.startDateIsOpen && (
-              <Controller
-                name="startDate"
-                control={app.control}
-                render={({ field: { onChange } }) => (
-                  <Styled.CalendarWrapper>
-                    <Calendar
-                      locale="en-EN"
-                      nextLabel=">"
-                      prevLabel="<"
-                      next2Label={null}
-                      prev2Label={null}
-                      formatDay={(_, date) => dayjs(date).format("D")}
-                      onChange={(date) => {
-                        app.setStartDateIsOpen.off();
-                        onChange(date);
-                      }}
-                    />
-                  </Styled.CalendarWrapper>
-                )}
-              />
+              <>
+                <hr style={{ border: "1px solid #383A39", marginTop: "18px" }} />
+                <Controller
+                  name="startDate"
+                  control={app.control}
+                  render={({ field: { onChange } }) => (
+                    <Styled.CalendarWrapper>
+                      <Calendar
+                        locale="en-EN"
+                        nextLabel=">"
+                        prevLabel="<"
+                        next2Label={null}
+                        prev2Label={null}
+                        formatDay={(_, date) => dayjs(date).format("D")}
+                        onChange={(date) => {
+                          app.setStartDateIsOpen.off();
+                          onChange(date);
+                        }}
+                      />
+                    </Styled.CalendarWrapper>
+                  )}
+                />
+              </>
             )}
             {app.endDateIsOpen && (
               <Controller
@@ -191,6 +194,7 @@ const Create = (props: { user: User }) => {
                 control={app.control}
                 render={({ field: { onChange } }) => (
                   <Styled.CalendarWrapper>
+                    <hr />
                     <Calendar
                       locale="en-EN"
                       nextLabel=">"

@@ -109,7 +109,7 @@ const ProfileEdit = (props: { user: User }) => {
         </Flex>
       </Label>
 
-      <Label title={t("원하는 프로젝트 타입")}>
+      <Label title={t("원하는 프로젝트 타입")} desc={t("여러개 선택 가능해요")}>
         <Flex gap={12} wrap="wrap">
           {app.constant.projectTypes.map((projectType) => (
             <SelectChip

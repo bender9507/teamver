@@ -67,17 +67,17 @@ export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
         const diff = dayjs(startDate).diff(endDate, "ms");
 
         if (diff > 0) {
-          toast({ type: "warning", message: "종료일은 시작일보다 빠를 수 없습니다." });
+          toast({ type: "warning", message: t("종료일은 시작일보다 빠를 수 없습니다") });
           setValue("endDate", null);
         }
       }
     });
-  }, [watch, setValue, toast]);
+  }, [watch, setValue, toast, t]);
 
   const handleBack = async () => {
     const confirmed = await confirm({
-      title: t("작성중인 프로젝트 글을 취소하고 그냥 나가시겠어요?"),
-      message: t("취소된 글은 저장되지 않아요!😢")
+      title: t("작성중인 프로젝트 글을 취소하고 그냥 나가시겠어요"),
+      message: t("취소된 글은 저장되지 않아요")
     });
 
     if (confirmed) {

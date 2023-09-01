@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
@@ -12,6 +13,8 @@ import type ProfileEdit from "./index.page";
 export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => {
   const router = useRouter();
   const { toast } = useDialog();
+
+  const { t } = useTranslation("profile");
 
   const { data: profile } = useSelectProfileQuery(user.id);
   const { data: constant } = useSelectConstantsQuery();
@@ -91,7 +94,7 @@ export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => 
       });
     },
     () => {
-      toast({ type: "warning", message: "모든 항목을 입력해주세요" });
+      toast({ type: "warning", message: t("모든 항목을 입력해주세요") });
     }
   );
 

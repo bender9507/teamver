@@ -62,7 +62,7 @@ export const ImageUploadButton = styled.div`
 export const CalendarWrapper = styled.div`
   ${flex.column({ align: "center" })};
 
-  padding: 10px 0;
+  padding: 15px 0;
 
   .react-calendar {
     ${flex.column({ align: "center" })};
@@ -75,12 +75,14 @@ export const CalendarWrapper = styled.div`
     border: none;
   }
   .react-calendar__navigation {
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
   }
   .react-calendar__navigation__label > span {
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
     `}
+
+    padding: 0 15px;
 
     font-size: 1rem;
   }
@@ -89,7 +91,7 @@ export const CalendarWrapper = styled.div`
 
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
-    `}
+    `};
   }
   .react-calendar__navigation button:enabled:hover,
   .react-calendar__navigation button:enabled:focus {
@@ -102,7 +104,7 @@ export const CalendarWrapper = styled.div`
 
     width: 100%;
 
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 
     font-size: 0.8rem;
 
