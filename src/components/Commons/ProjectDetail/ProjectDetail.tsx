@@ -30,15 +30,20 @@ export const ProjectDetail = ({
             style={{ objectFit: "cover" }}
           />
         </Flex>
-        <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
+
+        <Styled.Container>
+          <Styled.UserBox>
+            <Avatar src={project.ownerProfile.imageUrl} size="small" />
+            <Text color="content1" size="textMediumBold">
+              {project.ownerProfile.name}
+            </Text>
+          </Styled.UserBox>
+
+          <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
+        </Styled.Container>
       </RatioBox>
 
       <CommonContainer>
-        <Flex align="center" gap={12}>
-          <Avatar src={project.ownerProfile.imageUrl} size="small" />
-          <Text>{project.ownerProfile.name}</Text>
-        </Flex>
-
         <SizeBox height={12} />
 
         <FlexColumn gap={46}>
@@ -53,9 +58,11 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="titleMedium">{t("프로젝트 기간")}</Text>
 
-            <Text size="textMediumBold" color="gray9">
-              {project.startDate ?? t("기간 미정")} ~ {project.endDate ?? t("기간 미정")}
-            </Text>
+            <Flex wrap="wrap">
+              <Chip color="backgroundPrimary">
+                {project.startDate ?? t("기간 미정")} ~ {project.endDate ?? t("기간 미정")}
+              </Chip>
+            </Flex>
           </FlexColumn>
 
           <FlexColumn gap={16}>
@@ -77,10 +84,12 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="titleMedium">{t("모집 인원")}</Text>
 
-            <Text size="textMediumBold" color="gray9">
-              {project.recruitCount}
-              {t("명")}
-            </Text>
+            <Flex wrap="wrap">
+              <Chip color="backgroundPrimary">
+                {project.recruitCount}
+                {t("명")}
+              </Chip>
+            </Flex>
           </FlexColumn>
 
           <FlexColumn gap={16}>
