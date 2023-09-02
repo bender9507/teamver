@@ -1,5 +1,4 @@
 export * from "./ChatHome";
-export { ChatMember } from "./ChatHome/ChatMember";
 export * from "./ChatRequest";
-export { ChatRoomMember } from "./ChatRoomMember";
+export * from "./ChatRoom";
 export { ChatRoomOut } from "./ChatRoomOut";
