@@ -1,8 +1,8 @@
-import { Icon, useDialog } from "~/components/Commons";
+import { useDialog } from "~/components/Commons";
 import type { PROVIDER_LIST } from "~/constants";
 import { useSignInWithOAuthMutate } from "~/states/server";
 import type { OneOf } from "~/types";
-import * as Styled from "./SocialLoginButton.styles";
+import { Button } from "../Button/Button.styles";
 
 export interface SocialLoginProps {
   provider: OneOf<typeof PROVIDER_LIST>;
@@ -17,9 +17,5 @@ export const SocialLoginButton = ({ provider }: SocialLoginProps) => {
 
   const handleOAuthLogin = () => signInWithOAuthMutate(provider);
 
-  return (
-    <Styled.SocialButton onClick={handleOAuthLogin} provider={provider}>
-      <Icon name={provider} width={24} height={24} />
-    </Styled.SocialButton>
-  );
+  return <Button onClick={handleOAuthLogin}>Github 계정으로 로그인</Button>;
 };
