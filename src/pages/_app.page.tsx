@@ -15,7 +15,6 @@ import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
-import type { OneOfLanguage } from "~/types";
 import * as Styled from "./_app.styles";
 
 const queryClient = new QueryClient();
@@ -33,22 +32,6 @@ const App = ({
       if (state === "SIGNED_IN") {
         router.push(routes.home);
       }
-    });
-
-    router.beforePopState(({ options, url }) => {
-      const currentLocale = options.locale as OneOfLanguage;
-
-      const locale = localStorage.getItem("locale") ?? "ko";
-
-      if (locale !== currentLocale) {
-        const _url = url.replace("/en", "").replace("/jp", "");
-
-        router.replace(_url, _url, { locale });
-
-        return false;
-      }
-
-      return true;
     });
   });
 

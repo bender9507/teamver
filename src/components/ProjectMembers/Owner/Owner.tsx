@@ -1,8 +1,9 @@
 import { useTranslation } from "next-i18next";
 import type { ComponentProps } from "react";
-import { Avatar, Button, IconButton, ProfileDetail } from "~/components/Commons";
+import { Avatar, Button, ProfileDetail } from "~/components/Commons";
+import { TitleHeader } from "~/components/Shared";
 import type ProjectMembers from "~/pages/project/members/index.page";
-import { FlexCenter, Text } from "~/styles/mixins";
+import { FlexCenter, LayoutHeader, Text } from "~/styles/mixins";
 import * as Styled from "../ProjectMembers.styles";
 import { PROFILE_DETAIL_OWNER } from "./Owner.constants";
 import { useProjectMembers } from "./Owner.hooks";
@@ -14,14 +15,8 @@ export const Owner = (props: ComponentProps<typeof ProjectMembers>) => {
   const { t } = useTranslation("project");
 
   return (
-    <>
-      <Styled.Header>
-        <IconButton type="button" name="arrowBack" color="content1" onClick={app.handleBack} />
-
-        <Text as="h3" size="heading3">
-          {t("프로젝트 팀원")}
-        </Text>
-      </Styled.Header>
+    <LayoutHeader>
+      <TitleHeader title={t("프로젝트 팀원")} />
 
       <Styled.MembersContainer>
         {app.projectMembersData.map((member) => (
@@ -37,7 +32,7 @@ export const Owner = (props: ComponentProps<typeof ProjectMembers>) => {
               }
             >
               <Avatar src={member.imageUrl} size="medium" />
-              <Text>{member.name}</Text>
+              <Text size="textMediumBold">{member.name}</Text>
             </FlexCenter>
 
             {user.id !== member.id && (
@@ -55,6 +50,6 @@ export const Owner = (props: ComponentProps<typeof ProjectMembers>) => {
           </Styled.MemberCard>
         ))}
       </Styled.MembersContainer>
-    </>
+    </LayoutHeader>
   );
 };

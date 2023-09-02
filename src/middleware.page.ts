@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 import { routes } from "./constants/routes";
 import type { Database } from "./types/database";
 
-export const config = {
-  matcher: ["/home(/.*)?", "/profile(/.*)?", "/project(/.*)?", "/like(/.*)?", "/chat(/.*)?"]
-};
+const PUBLIC_FILE = /\.(.*)$/;
+
+const sessions = ["home", "profile", "project", "like", "chat"];
 
 export const middleware = async (req: NextRequest) => {
   const { url } = req;
@@ -19,12 +19,30 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(new URL(_url, url));
   };
 
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
+  if (
+    req.nextUrl.pathname.startsWith("/_next") ||
+    req.nextUrl.pathname.includes("/api/") ||
+    PUBLIC_FILE.test(req.nextUrl.pathname)
+  ) {
+    return;
+  }
 
-  if (!session) {
-    return redirect(routes.home);
+  const selectedLocale = req.cookies.get("locale")?.value ?? "ko";
+
+  if (req.nextUrl.locale !== selectedLocale) {
+    return NextResponse.redirect(
+      new URL(`/${selectedLocale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
+    );
+  }
+
+  if (sessions.includes(req.nextUrl.pathname.split("/")[1])) {
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      return redirect(routes.home);
+    }
   }
 
   return res;

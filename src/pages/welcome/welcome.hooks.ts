@@ -8,7 +8,7 @@ import { routes } from "~/constants/routes";
 import { useSelectConstantsQuery } from "~/states/server/constant";
 import { checkNameValidation, useInsertProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
-import { debounce } from "~/utils";
+import { debounce, uuid } from "~/utils";
 import type Welcome from "./index.page";
 import { requiredSteps, steps } from "./welcome.constants";
 import type { WelcomeForm } from "./welcome.types";
@@ -62,7 +62,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
   const handleCreateProfile = handleSubmit(async ({ imageUrl, ...rest }) => {
     const { publicUrl } = await uploadProfileImageMutateAsync({
       file: imageUrl,
-      name: `${rest.name}_${new Date().getTime()}`
+      name: uuid()
     });
 
     insertProfileMutate({

@@ -26,7 +26,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
           </FlexCenter>
         )}
 
-        <FlexColumn>
+        <FlexColumn gap={12}>
           {app.invites.map((invite) => (
             <InviteProjectCard key={invite.id} {...invite} />
           ))}
@@ -54,7 +54,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
 
         <FlexColumn gap={12}>
           {app.rooms.map((room) => (
-            <ChatRoomCard key={room.id} {...room} />
+            <ChatRoomCard key={room.id} user={props.user} room={room} />
           ))}
         </FlexColumn>
       </FlexColumn>

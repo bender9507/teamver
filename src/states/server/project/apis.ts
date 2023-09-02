@@ -152,6 +152,16 @@ export const updateProject = async ({
 };
 
 export const insertProjectInvite = async (projectInviteData: ProjectInviteInsert) => {
+  const { data: invites, error: invitesError } = await supabase
+    .from("projectInvite")
+    .select("*")
+    .eq("projectId", projectInviteData.projectId)
+    .eq("receiverId", projectInviteData.receiverId);
+
+  if (invitesError) throw Error("에러");
+
+  if (invites.length) throw Error("이미 초대한 유저입니다.");
+
   const { error } = await supabase.from("projectInvite").insert(projectInviteData);
 
   if (error) throw error;

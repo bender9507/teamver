@@ -29,7 +29,8 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
 
         {app.selectedTab === "IN_PROJECT" && (
           <SectionContainer gap={46}>
-            {app.projects.length > 0 ? (
+            {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_PROJECT")
+              .length > 0 ? (
               <>
                 <FlexColumn gap={18}>
                   <Text size="titleSmall">{t("모집 중")}</Text>
@@ -67,11 +68,19 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
 
         {app.selectedTab === "DONE_PROJECT" && (
           <SectionContainer gap={26}>
-            {app.projects
-              .filter((project) => project.state === "DONE_PROJECT")
-              .map((project) => (
-                <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-              ))}
+            {app.projects.filter((project) => project.state === "DONE_PROJECT").length > 0 ? (
+              app.projects
+                .filter((project) => project.state === "DONE_PROJECT")
+                .map((project) => (
+                  <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+                ))
+            ) : (
+              <FlexColumn align="center" style={{ marginTop: "98px" }}>
+                <Text size="textMediumBold" color="gray6">
+                  {t("완료된 프로젝트가 없어요")}
+                </Text>
+              </FlexColumn>
+            )}
           </SectionContainer>
         )}
       </Container>
