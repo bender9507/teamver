@@ -294,7 +294,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user: user as User,
-      ...(await serverSideTranslations(context.locale, ["project"]))
+      ...(await serverSideTranslations(context.locale, ["common", "project"]))
     }
   };
 };

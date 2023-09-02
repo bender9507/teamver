@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       projectId,
       user: user as User,
-      ...(await serverSideTranslations(context.locale, ["project"]))
+      ...(await serverSideTranslations(context.locale, ["common", "project"]))
     }
   };
 };

@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       user: user as User,
       dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(context.locale, ["home", "project", "profile"]))
+      ...(await serverSideTranslations(context.locale, ["common", "home", "project", "profile"]))
     }
   };
 };
