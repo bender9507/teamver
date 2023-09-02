@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -36,7 +37,7 @@ const ProfileSetting = () => {
                     onChange={(event) => {
                       const language = event.target.value as OneOfLanguage;
 
-                      localStorage.setItem("locale", language);
+                      Cookies.set("locale", language);
 
                       router.replace(router.pathname, router.pathname, { locale: language });
                     }}

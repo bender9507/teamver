@@ -4,7 +4,7 @@ import type { Session } from "@supabase/auth-helpers-react";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { appWithTranslation, useTranslation } from "next-i18next";
+import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -15,7 +15,6 @@ import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
-import type { OneOfLanguage } from "~/types";
 import * as Styled from "./_app.styles";
 
 const queryClient = new QueryClient();
@@ -25,37 +24,14 @@ const App = ({
   pageProps
 }: AppProps<{ dehydratedState: DehydratedState; initialSession: Session }>) => {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
-  const { i18n } = useTranslation();
 
   const router = useRouter();
 
   useMount(() => {
-    const locale = localStorage.getItem("locale") ?? "ko";
-
-    if (locale !== i18n.language) {
-      router.replace(router.asPath, router.asPath, { locale });
-    }
-
     supabase.auth.onAuthStateChange((state) => {
       if (state === "SIGNED_IN") {
         router.push(routes.home);
       }
-    });
-
-    router.beforePopState(({ options, url }) => {
-      const currentLocale = options.locale as OneOfLanguage;
-
-      const locale = localStorage.getItem("locale") ?? "ko";
-
-      if (locale !== currentLocale) {
-        const _url = url.replace("/en", "").replace("/jp", "");
-
-        router.replace(_url, _url, { locale });
-
-        return false;
-      }
-
-      return true;
     });
   });
 
