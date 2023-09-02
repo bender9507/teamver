@@ -201,7 +201,7 @@ export interface Database {
           id: number
           receiverId: string
           requesterId: string
-          state: Database["public"]["Enums"]["invite_state"] | null
+          state: Database["public"]["Enums"]["invite_state"]
         }
         Insert: {
           createdAt?: string
@@ -209,7 +209,7 @@ export interface Database {
           id?: number
           receiverId: string
           requesterId: string
-          state?: Database["public"]["Enums"]["invite_state"] | null
+          state?: Database["public"]["Enums"]["invite_state"]
         }
         Update: {
           createdAt?: string
@@ -217,7 +217,7 @@ export interface Database {
           id?: number
           receiverId?: string
           requesterId?: string
-          state?: Database["public"]["Enums"]["invite_state"] | null
+          state?: Database["public"]["Enums"]["invite_state"]
         }
         Relationships: [
           {

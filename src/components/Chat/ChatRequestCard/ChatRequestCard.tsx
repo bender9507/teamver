@@ -1,18 +1,16 @@
-import type { User } from "@supabase/supabase-js";
 import { Avatar, Button } from "~/components/Commons";
 import type { ChatRequestMemberAllData, ChatRequestOwnerAllData } from "~/states/server/chat";
 import { Flex, Text } from "~/styles/mixins";
-import { useChatRequestCard } from "./ChatRequestCard.hooks";
 
 export const ChatRequestCard = ({
   request,
-  user
+  onGrant,
+  onDenied
 }: {
   request: ChatRequestMemberAllData | ChatRequestOwnerAllData;
-  user: User;
+  onGrant: (request: ChatRequestMemberAllData | ChatRequestOwnerAllData) => void;
+  onDenied: (request: ChatRequestMemberAllData | ChatRequestOwnerAllData) => void;
 }) => {
-  const app = useChatRequestCard({ request, user });
-
   return (
     <Flex align="center" justify="between" gap={8}>
       <Flex align="center" gap={8}>
@@ -26,7 +24,7 @@ export const ChatRequestCard = ({
           size="small"
           color="content1"
           bgColor="backgroundSecondary"
-          onClick={app.handleRequestGrant}
+          onClick={() => onGrant(request)}
         >
           수락
         </Button>
@@ -35,7 +33,7 @@ export const ChatRequestCard = ({
           size="small"
           color="content1"
           bgColor="backgroundSecondary"
-          onClick={app.handleRequestDenied}
+          onClick={() => onDenied(request)}
         >
           삭제
         </Button>

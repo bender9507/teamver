@@ -65,7 +65,7 @@ const ChatRoom = ({ user }: { user: User }) => {
             return (
               <Styled.MessageContainer key={messageData.id} isMine={isMine}>
                 {!isMine && (
-                  <SizeBox height={32} width={32}>
+                  <SizeBox height={32} minWidth={32}>
                     {!isChaining && <Avatar size="small" src={messageData.sender.imageUrl} />}
                   </SizeBox>
                 )}

@@ -36,7 +36,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
       <Flex marginTop={32} justify="end">
         <Link href={routes.chatRequest}>
           <Text size="textMedium" color="primary">
-            {t("요청 N개", { count: app.invites.length })}
+            {t("요청 N개", { count: app.requests.length })}
           </Text>
         </Link>
       </Flex>

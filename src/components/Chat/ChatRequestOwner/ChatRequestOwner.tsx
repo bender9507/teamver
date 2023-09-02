@@ -4,8 +4,10 @@ import { useSelectChatRequestMemberQuery } from "~/states/server/chat";
 import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { ChatRequestCard } from "../ChatRequestCard";
+import { useChatRequestOwner } from "./ChatRequestOwner.hooks";
 
 export const ChatRequestOwner = ({ user }: { user: User }) => {
+  const app = useChatRequestOwner({ user });
   const { t } = useTranslation("chat");
 
   const { data: requests } = useSelectChatRequestMemberQuery({
@@ -24,7 +26,12 @@ export const ChatRequestOwner = ({ user }: { user: User }) => {
       )}
 
       {requests.map((request) => (
-        <ChatRequestCard key={request.id} user={user} request={request} />
+        <ChatRequestCard
+          key={request.id}
+          request={request}
+          onGrant={app.handleRequestGrant}
+          onDenied={app.handleRequestDenied}
+        />
       ))}
     </FlexColumn>
   );
