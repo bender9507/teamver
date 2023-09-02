@@ -1,13 +1,17 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex, position, text } from "~/styles/mixins";
+import { flex, text } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
 import { hexToRgba } from "~/styles/utils";
 
 export const Container = styled.div`
   position: relative;
 
+  ${flex({ align: "center", justify: "between" })}
+
   height: 99px;
+
+  padding: 0 22px;
 
   ${({ theme: { colors } }) => css`
     background-image: linear-gradient(
@@ -21,8 +25,6 @@ export const Container = styled.div`
 `;
 
 export const BlurChip = styled.span`
-  ${position.absolute({ bottom: 24, right: 34 })};
-
   padding: 10px 16px;
 
   ${({ theme: { colors } }) => css`
@@ -33,12 +35,11 @@ export const BlurChip = styled.span`
   border-radius: 30px;
 
   ${text("textSmallRegular")};
+
   color: ${colors.content3};
 `;
 
 export const UserBox = styled.div`
-  ${position.absolute({ bottom: 24, left: 34 })};
-
   ${flex({ align: "center", gap: 8 })}
 `;
 

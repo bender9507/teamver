@@ -75,6 +75,7 @@ export interface Database {
           message: string
           roomId: number
           senderId: string
+          state: boolean
         }
         Insert: {
           createdAt?: string
@@ -82,6 +83,7 @@ export interface Database {
           message: string
           roomId: number
           senderId: string
+          state?: boolean
         }
         Update: {
           createdAt?: string
@@ -89,6 +91,7 @@ export interface Database {
           message?: string
           roomId?: number
           senderId?: string
+          state?: boolean
         }
         Relationships: [
           {
@@ -100,49 +103,6 @@ export interface Database {
           {
             foreignKeyName: "chatMessages_senderId_fkey"
             columns: ["senderId"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      chatReadStatus: {
-        Row: {
-          createdAt: string
-          id: number
-          lastReadMessageId: number | null
-          roomId: number
-          userId: string
-        }
-        Insert: {
-          createdAt?: string
-          id?: number
-          lastReadMessageId?: number | null
-          roomId: number
-          userId: string
-        }
-        Update: {
-          createdAt?: string
-          id?: number
-          lastReadMessageId?: number | null
-          roomId?: number
-          userId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "chatReadStatus_lastReadMessageId_fkey"
-            columns: ["lastReadMessageId"]
-            referencedRelation: "chatMessages"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "chatReadStatus_roomId_fkey"
-            columns: ["roomId"]
-            referencedRelation: "chatRooms"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "chatReadStatus_userId_fkey"
-            columns: ["userId"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }

@@ -130,7 +130,7 @@ export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => 
 
   const handleBack = async () => {
     const back = await confirm({
-      title: t("작성중인 프로젝트 글을 취소하고 나가시겠어요")
+      title: t("프로필 수정을 취소할까요")
     });
 
     return back;
