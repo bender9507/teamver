@@ -21,3 +21,13 @@ export const BlurChip = styled.span`
   ${text("paragraph3")};
   color: ${colors.content1};
 `;
+
+export const AdressBox = styled.div`
+  padding: 10px 16px;
+
+  border-radius: 30px;
+
+  ${({ theme: { colors } }) => css`
+    background-color: ${colors.backgroundPrimary};
+  `}
+`;
