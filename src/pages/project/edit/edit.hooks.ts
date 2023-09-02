@@ -34,6 +34,9 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
+  const [isStartIndefinite, setStartIsIndefinite] = useState(false);
+  const [isEndIndefinite, setEndIsIndefinite] = useState(false);
+
   const [currentDateType, setCurrentDateType] = useState("");
 
   const { data: project } = useSelectProjectQuery(Number(projectId));
@@ -128,6 +131,30 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     });
   }, [watch, setValue, toast, t]);
 
+  const startDateValue = (() => {
+    if (watch("startDate")) {
+      return dayjs(watch("startDate")).format("DD. MM. YYYY");
+    }
+
+    if (project.startDate === null) {
+      return t("미정");
+    }
+
+    return dayjs(project.startDate).format("DD. MM. YYYY");
+  })();
+
+  const endDateValue = (() => {
+    if (watch("endDate")) {
+      return dayjs(watch("endDate")).format("DD. MM. YYYY");
+    }
+
+    if (project.endDate === null) {
+      return t("미정");
+    }
+
+    return dayjs(project.endDate).format("DD. MM. YYYY");
+  })();
+
   const handleBack = async () => {
     const confirmed = await confirm({
       title: t("프로젝트를 수정하지 않고 그냥 나가시겠어요")
@@ -154,6 +181,12 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     setStartDateIsOpen,
     endDateIsOpen,
     setEndDateIsOpen,
-    handleBack
+    handleBack,
+    isStartIndefinite,
+    setStartIsIndefinite,
+    isEndIndefinite,
+    setEndIsIndefinite,
+    endDateValue,
+    startDateValue
   };
 };

@@ -18,7 +18,7 @@ export const FloatingBox = styled.div`
 `;
 
 export const FloatingIcon = styled(IconButton)`
-  position: fixed;
+  position: absolute;
   right: 20px;
-  bottom: 75px;
+  bottom: 28px;
 `;
