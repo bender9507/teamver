@@ -20,11 +20,11 @@ export const ChatRoomCard = ({ room, user }: { room: ChatRoomAllData; user: User
           <Text size="textMediumBold">{app.opponent.name}</Text>
 
           <Text size="textMedium" color="gray9">
-            {app.lastMessage.message ?? t("채팅이 시작되었습니다.")}
+            {app.lastMessage?.message ?? t("채팅이 시작되었습니다.")}
           </Text>
         </FlexColumn>
 
-        {app.lastMessage.sender.id === app.opponent.id && !app.lastMessage.state && (
+        {app.lastMessage?.sender.id === app.opponent.id && !app.lastMessage.state && (
           <Icon name="circle" />
         )}
       </Flex>
