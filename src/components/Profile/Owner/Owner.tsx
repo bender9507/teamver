@@ -10,7 +10,6 @@ import { useOwner } from "./Owner.hooks";
 
 export const Owner = ({ user }: { user: User }): ReactNode => {
   const app = useOwner({ user });
-  console.log(app.projects);
 
   const { t } = useTranslation("profile");
 

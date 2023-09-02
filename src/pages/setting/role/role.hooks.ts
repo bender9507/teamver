@@ -29,13 +29,13 @@ export const useRole = (userId: string) => {
   };
 
   const handleClickParticipantMode = async () => {
-    if (!(await confirm({ title: "참가자 모드로 변경하시겠습니까" }))) return;
+    if (!(await confirm({ title: t("참가자 모드로 변경하시겠습니까") }))) return;
 
     await changeRole(2);
   };
 
   const handleClickRecruiterMode = async () => {
-    if (!(await confirm({ title: "모집자 모드로 변경하시겠습니까" }))) return;
+    if (!(await confirm({ title: t("모집자 모드로 변경하시겠습니까") }))) return;
 
     await changeRole(1);
   };

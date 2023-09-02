@@ -26,13 +26,17 @@ const Role = ({ user }: { user: User }) => {
           <Flex align="center" justify="between" onClick={app.handleClickParticipantMode}>
             <Styled.Option>{t("프로젝트 참가자 모드")}</Styled.Option>
 
-            <IconButton name={app.profile.role.id === 2 ? "setOn" : "setOff"} />
+            <Flex padding="0px 22px">
+              <IconButton name={app.profile.role.id === 2 ? "setOn" : "setOff"} />
+            </Flex>
           </Flex>
 
           <Flex align="center" justify="between" onClick={app.handleClickRecruiterMode}>
             <Styled.Option>{t("프로젝트 모집자 모드")}</Styled.Option>
 
-            <IconButton name={app.profile.role.id === 1 ? "setOn" : "setOff"} />
+            <Flex padding="0px 22px">
+              <IconButton name={app.profile.role.id === 1 ? "setOn" : "setOff"} />
+            </Flex>
           </Flex>
         </FlexColumn>
       </LayoutContent>

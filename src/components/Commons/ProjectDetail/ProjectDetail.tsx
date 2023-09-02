@@ -4,7 +4,8 @@ import type { ProfileAllDataRow } from "~/states/server/profile";
 import type { ProjectAllDataRow } from "~/states/server/project";
 import { CommonContainer, Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import { Avatar, Chip, RatioBox } from "..";
+import { Avatar, Chip, IconButton, RatioBox } from "..";
+import { useProjectDetail } from "./ProjectDetail.hooks";
 import * as Styled from "./ProjectDetail.styles";
 
 export const ProjectDetail = ({
@@ -18,31 +19,46 @@ export const ProjectDetail = ({
 
   const currentLanguage = i18n.language as OneOfLanguage;
 
+  const app = useProjectDetail(project, profile);
+
   return (
     <FlexColumn>
       <RatioBox ratio="376/275">
-        <Image
-          src={project.imageUrl}
-          fill
-          sizes="100%"
-          alt="project img"
-          style={{ objectFit: "cover" }}
-        />
+        <Flex style={{ userSelect: "none", pointerEvents: "none" }}>
+          <Image
+            src={project.imageUrl}
+            fill
+            sizes="100%"
+            alt="project img"
+            style={{ objectFit: "cover" }}
+          />
+        </Flex>
 
-        <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
+        <Styled.Container>
+          <Styled.UserBox>
+            <Avatar src={project.ownerProfile.imageUrl} size="small" />
+            <Text color="content1" size="textMediumBold">
+              {project.ownerProfile.name}
+            </Text>
+          </Styled.UserBox>
+
+          <Styled.BlurChip>{project.projectType[currentLanguage]}</Styled.BlurChip>
+        </Styled.Container>
       </RatioBox>
 
       <CommonContainer>
-        <Flex align="center" gap={12}>
-          <Avatar src={project.ownerProfile.imageUrl} size="small" />
-          <Text>{project.ownerProfile.name}</Text>
-        </Flex>
-
         <SizeBox height={12} />
 
         <FlexColumn gap={46}>
           <FlexColumn gap={16}>
-            <Text size="titleMedium">{project.name}</Text>
+            <Flex align="center" justify="between">
+              <Text size="titleMedium">{project.name}</Text>
+
+              <IconButton
+                name={app.isBookmarked ? "bookmarkFill" : "bookmark"}
+                onClick={app.handleToggleBookmark}
+              />
+            </Flex>
 
             <Text size="textMediumBold" color="gray9">
               {project.description}
@@ -52,9 +68,11 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="titleMedium">{t("프로젝트 기간")}</Text>
 
-            <Text size="textMediumBold" color="gray9">
-              {project.startDate ?? t("기간 미정")} ~ {project.endDate ?? t("기간 미정")}
-            </Text>
+            <Flex wrap="wrap">
+              <Chip color="backgroundPrimary">
+                {project.startDate ?? t("기간 미정")} ~ {project.endDate ?? t("기간 미정")}
+              </Chip>
+            </Flex>
           </FlexColumn>
 
           <FlexColumn gap={16}>
@@ -76,10 +94,12 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Text size="titleMedium">{t("모집 인원")}</Text>
 
-            <Text size="textMediumBold" color="gray9">
-              {project.recruitCount}
-              {t("명")}
-            </Text>
+            <Flex wrap="wrap">
+              <Chip color="backgroundPrimary">
+                {project.recruitCount}
+                {t("명")}
+              </Chip>
+            </Flex>
           </FlexColumn>
 
           <FlexColumn gap={16}>
