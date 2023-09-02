@@ -29,3 +29,10 @@ export interface ChatRequestOwnerAllData extends Pick<ChatRequestOwnerRow, "id" 
 export interface ChatRequestMemberAllData extends Pick<ChatRequestMemberRow, "id" | "state"> {
   requesterProfile: ProfileAllDataRow;
 }
+
+export interface ChatMessageData {
+  id: number;
+  message: string;
+  createdAt: Date;
+  sender: ProfileAllDataRow;
+}

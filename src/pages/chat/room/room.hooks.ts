@@ -1,141 +1,116 @@
+import { useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import type { ComponentProps, FormEvent } from "react";
-import { useSelectChatRoomQuery } from "~/states/server/chat";
+import { useEffect, useRef, type ComponentProps } from "react";
+import { useForm } from "react-hook-form";
+import { useMount } from "react-use";
+import type { ChatMessageData, ChatMessageRow } from "~/states/server/chat";
+import {
+  chatKeys,
+  useInsertChatMessageMutate,
+  useSelectChatMessagesQuery,
+  useSelectChatRoomQuery
+} from "~/states/server/chat";
+import { supabase } from "~/states/server/config";
+import type { ProfileAllDataRow } from "~/states/server/profile";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import type ChatRoom from "./index.page";
 
 export const useChatRoom = ({ user }: ComponentProps<typeof ChatRoom>) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const roomId = router.query.roomId as string;
 
+  const { register, handleSubmit, reset } = useForm<{ message: string }>();
+  const { data: profile } = useSelectProfileQuery(user.id);
   const { data: chatRoom } = useSelectChatRoomQuery({ roomId, userId: user.id });
+  const { data: chatMessages } = useSelectChatMessagesQuery(Number(roomId));
+  const { mutate: insertChatMessageMutate } = useInsertChatMessageMutate();
 
-  const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-    console.log("submit");
+  const opponent = chatRoom.members[0];
+
+  const addMessage = (message: string, profile: ProfileAllDataRow) => {
+    queryClient.setQueryData<ChatMessageData[]>(
+      chatKeys.selectChatMessages(Number(roomId)),
+      (prevMessage) => {
+        if (!prevMessage) return prevMessage;
+        const lastMessageId = prevMessage[prevMessage.length - 1]?.id ?? 1;
+
+        return [
+          ...prevMessage,
+          { id: lastMessageId + 1, message, sender: profile, createdAt: new Date() }
+        ];
+      }
+    );
   };
 
-  return { chatRoom, handleSendMessage };
+  const getTime = (date: Date) => {
+    const time = dayjs(date);
 
-  // const { t } = useTranslation("chat");
+    const hour = time.hour();
 
-  // const [messages, setMessages] = useState<ChatMessageRow[]>([]);
+    if (hour < 12) {
+      return `오전 ${time.format("h:mm")}`;
+    }
 
-  // const { data: profile } = useSelectProfileQuery(userId);
+    return `오후 ${time.format("h:mm")}`;
+  };
 
-  // const { data: messageData } = useSelectChatMessagesQuery(roomId);
+  const handleSendMessage = handleSubmit(({ message }) => {
+    insertChatMessageMutate({ roomId: Number(roomId), senderId: user.id, message });
 
-  // const { data: memberData } = useSelectChatRoomsQuery(userId);
+    addMessage(message, profile);
 
-  // const { mutateAsync: InsertChatMessageMutateAsync } = useInsertChatMessageMutate();
+    reset();
+  });
 
-  // const { mutateAsync: InsertProjectInviteMutateAsync } = useInsertProjectInviteMutate();
+  const getIsChaining = (message: ChatMessageData) => {
+    const index = chatMessages.findIndex((_message) => _message.id === message.id);
 
-  // const { mutateAsync: updateLastReadMessageMutateAsync } = useUpdateLastReadMessageMutate();
+    return chatMessages[index - 1]?.sender.id === message.sender.id;
+  };
 
-  // const currentRoomMember = memberData?.find((room) => room.id === roomId)?.members[0];
+  useMount(() => {
+    const subscribeRoom = supabase
+      .channel("chatRoom")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "chatMessages",
+          filter: `senderId=neq.${user.id}`
+        },
+        (payload) => {
+          const newMessage = payload.new as ChatMessageRow;
 
-  // const memberName = currentRoomMember?.name || "";
+          addMessage(newMessage.message, opponent);
+        }
+      )
+      .subscribe();
 
-  // const memberId = currentRoomMember?.id || "";
+    return () => {
+      subscribeRoom.unsubscribe();
+    };
+  });
 
-  // const memberImageUrl = currentRoomMember?.imageUrl || "";
+  useEffect(() => {
+    if (!bottomRef.current) return;
 
-  // // const formattedMessages = messages.map((message) => {
-  // //   const formattedCreatedAt = format(new Date(message.createdAt), timeFormat);
-  // //   return { ...message, formattedCreatedAt };
-  // // });
+    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages]);
 
-  // const formatTime = (timeString: string) => {
-  //   const date = new Date(timeString);
-
-  //   let hours = date.getHours();
-
-  //   const minutes = date.getMinutes();
-
-  //   let period = t("오전");
-
-  //   if (hours >= 12) {
-  //     period = t("오후");
-  //     hours -= 12;
-  //   }
-
-  //   if (hours === 0) {
-  //     hours = 12;
-  //   }
-
-  //   return `${period} ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-  // };
-
-  // const formattedMessages = messages.map((message) => ({
-  //   ...message,
-  //   createdAt: formatTime(message.createdAt)
-  // }));
-
-  // const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   if (!message.trim()) return;
-
-  //   InsertChatMessageMutateAsync({ senderId: userId, roomId, message });
-
-  //   setMessage("");
-  // };
-
-  // const updateLastReadMessage = async (messages: typeof formattedMessages) => {
-  //   let lastReadMessageId;
-
-  //   if (messages.length > 0) {
-  //     lastReadMessageId = messages[messages.length - 1].id;
-  //   }
-
-  //   if (lastReadMessageId) {
-  //     await updateLastReadMessageMutateAsync({ userId, roomId, lastReadMessageId });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (messageData) setMessages(messageData);
-
-  //   const subscription = supabase
-  //     .channel(`chat:${roomId}`)
-  //     .on(
-  //       "postgres_changes",
-  //       {
-  //         event: "INSERT",
-  //         schema: "public",
-  //         table: "chatMessages"
-  //       },
-  //       (payload) => {
-  //         const newMessage = payload.new as ChatMessageRow;
-
-  //         if (newMessage.roomId === roomId)
-  //           setMessages((oldMessages) => [...oldMessages, newMessage]);
-  //       }
-  //     )
-  //     .subscribe();
-
-  //   return () => {
-  //     supabase.removeChannel(subscription);
-  //   };
-  // }, [roomId, messageData]);
-
-  // useEffect(() => {
-  //   updateLastReadMessage(formattedMessages);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [formattedMessages.length]);
-
-  // return {
-  //   t,
-  //   profile,
-  //   memberId,
-  //   memberName,
-  //   memberImageUrl,
-  //   formattedMessages,
-  //   handleSubmitMessage,
-  //   InsertProjectInviteMutateAsync,
-  //   updateLastReadMessageMutateAsync
-  // };
-  return {};
+  return {
+    opponent,
+    chatRoom,
+    chatMessages,
+    bottomRef,
+    handleSendMessage,
+    register,
+    getIsChaining,
+    getTime
+  };
 };

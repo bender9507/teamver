@@ -21,7 +21,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
         {isEmpty(app.invites) && (
           <FlexCenter marginTop={22}>
             <Text size="textMediumBold" color="gray6">
-              초대받은 프로젝트가 없어요
+              {t("초대받은 프로젝트가 없어요")}
             </Text>
           </FlexCenter>
         )}
@@ -36,7 +36,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
       <Flex marginTop={32} justify="end">
         <Link href={routes.chatRequest}>
           <Text size="textMedium" color="primary">
-            {t("요청 N개")}
+            {t("요청 N개", { count: app.invites.length })}
           </Text>
         </Link>
       </Flex>
@@ -47,7 +47,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
         {isEmpty(app.rooms) && (
           <FlexCenter marginTop={22}>
             <Text size="textMediumBold" color="gray6">
-              진행중인 채팅이 없어요
+              {t("진행중인 채팅이 없어요")}
             </Text>
           </FlexCenter>
         )}

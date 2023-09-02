@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex } from "~/styles/mixins";
+import { Flex, flex, text } from "~/styles/mixins";
+import { styleHelper } from "~/styles/utils";
 
 export const ChatHeader = styled.header`
   ${flex({ align: "center", justify: "between", gap: 15 })};
@@ -15,7 +16,47 @@ export const ChatHeader = styled.header`
 export const ChatInputBox = styled.form`
   ${flex({ justify: "between", align: "center", gap: 10 })};
 
-  padding: 7px 16px 50px 16px;
+  padding: 7px 16px 20px 16px;
+`;
+
+export const MessageContainer = styled.div<{ isMine: boolean }>`
+  ${flex({ gap: 6 })};
+
+  ${({ isMine }) =>
+    isMine &&
+    css`
+      ${styleHelper("alignSelf", "flex-end")};
+      ${styleHelper("flexDirection", "row-reverse")}
+    `}
+`;
+
+export const MessageBox = styled(Flex)<{ isMine: boolean }>`
+  ${flex({ align: "end", gap: 11 })}
+
+  ${({ isMine }) =>
+    isMine &&
+    css`
+      ${styleHelper("flexDirection", "row-reverse")}
+    `}
+`;
+
+export const Bubble = styled.div<{ isMine: boolean }>`
+  padding: 12px 16px;
+
+  ${({ theme: { colors }, isMine }) => css`
+    border: 1px solid ${colors.backgroundSecondary};
+    border-radius: 16px;
+
+    ${text("textMedium")};
+    color: ${colors.content1};
+
+    ${isMine &&
+    css`
+      background-color: ${colors.backgroundSecondary};
+
+      border: none;
+    `}
+  `}
 `;
 
 // export const ChatRoomWrapper = styled.div`

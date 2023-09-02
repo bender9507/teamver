@@ -22,7 +22,7 @@ export const useSelectChatRequestsOwnerQuery = (
 };
 
 export const useSelectChatRoomQuery = (params: Parameters<typeof selectChatRoom>[0]) => {
-  return useQuery({
+  return useSuspendedQuery({
     queryKey: chatKeys.selectChatRoom(params),
     queryFn: () => selectChatRoom(params)
   });
@@ -58,16 +58,18 @@ export const useSelectChatRequestMemberQuery = (
 };
 
 export const useSelectChatMessagesQuery = (roomId: number) => {
-  return useSuspendedQuery({
+  return useQuery({
     queryKey: chatKeys.selectChatMessages(roomId),
-    queryFn: () => selectChatMessages(roomId)
+    queryFn: () => selectChatMessages(roomId),
+    initialData: []
   });
 };
 
 export const useSelectChatRoomsQuery = (userId: string) => {
-  return useSuspendedQuery({
+  return useQuery({
     queryKey: chatKeys.selectChatRooms(userId),
-    queryFn: () => selectChatRooms(userId)
+    queryFn: () => selectChatRooms(userId),
+    initialData: []
   });
 };
 
