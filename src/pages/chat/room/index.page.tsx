@@ -64,10 +64,10 @@ const ChatRoom = ({ user }: { user: User }) => {
 
             return (
               <Styled.MessageContainer key={messageData.id} isMine={isMine}>
-                {isChaining ? (
-                  <SizeBox height={32} width={32} />
-                ) : (
-                  <Avatar size="small" src={messageData.sender.imageUrl} />
+                {!isMine && (
+                  <SizeBox height={32} width={32}>
+                    {!isChaining && <Avatar size="small" src={messageData.sender.imageUrl} />}
+                  </SizeBox>
                 )}
 
                 <Styled.MessageBox isMine={isMine}>
