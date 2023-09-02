@@ -28,6 +28,7 @@ import {
 import type { OneOfLanguage } from "~/types";
 import type { Database } from "~/types/database";
 import { useProfileEdit } from "./edit.hooks";
+import * as Styled from "./edit.styles";
 
 const ProfileEdit = (props: { user: User }) => {
   const app = useProfileEdit(props);
@@ -51,19 +52,11 @@ const ProfileEdit = (props: { user: User }) => {
                 ) : (
                   <Avatar src={app.profile.imageUrl} size="large" />
                 )}
-                <FlexCenter
-                  style={{
-                    borderRadius: "50%",
-                    backgroundColor: "#ECECEC",
-                    position: "absolute",
-                    bottom: "0",
-                    right: "0"
-                  }}
-                >
+                <Styled.UploaderContainer>
                   <ImageUploader onChange={onChange}>
                     <FrameIcon />
                   </ImageUploader>
-                </FlexCenter>
+                </Styled.UploaderContainer>
               </Flex>
             )}
           />
@@ -79,23 +72,19 @@ const ProfileEdit = (props: { user: User }) => {
             onChange={app.validateNickName}
           />
           {!app.successMessage && !app.errorMessage && (
-            <Text size="textSmall" style={{ marginTop: " 7px", paddingLeft: "18px" }} color="gray4">
-              {t("최대 N자", { count: 16 })}
-            </Text>
+            <Styled.ValidateText
+              state={app.formState.errors.name?.type === "required" ? "error" : "normal"}
+            >
+              {app.formState.errors.name?.type === "required"
+                ? t("닉네임은 필수 항목이에요 멋진 닉네임을 지어주세요")
+                : t("최대 N자", { count: 16 })}
+            </Styled.ValidateText>
           )}
           {app.successMessage && (
-            <Text
-              size="textSmall"
-              style={{ marginTop: " 7px", paddingLeft: "18px" }}
-              color="primary"
-            >
-              {app.successMessage}
-            </Text>
+            <Styled.ValidateText state="success">{app.successMessage}</Styled.ValidateText>
           )}
           {app.errorMessage && (
-            <Text size="textSmall" style={{ marginTop: " 7px", paddingLeft: "18px" }} color="error">
-              {app.errorMessage}
-            </Text>
+            <Styled.ValidateText state="error">{app.errorMessage}</Styled.ValidateText>
           )}
         </FlexColumn>
 
