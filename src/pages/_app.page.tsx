@@ -4,7 +4,7 @@ import type { Session } from "@supabase/auth-helpers-react";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { appWithTranslation } from "next-i18next";
+import { appWithTranslation, useTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -25,10 +25,17 @@ const App = ({
   pageProps
 }: AppProps<{ dehydratedState: DehydratedState; initialSession: Session }>) => {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
+  const { i18n } = useTranslation();
 
   const router = useRouter();
 
   useMount(() => {
+    const locale = localStorage.getItem("locale") ?? "ko";
+
+    if (locale !== i18n.language) {
+      router.replace(router.asPath, router.asPath, { locale });
+    }
+
     supabase.auth.onAuthStateChange((state) => {
       if (state === "SIGNED_IN") {
         router.push(routes.home);
