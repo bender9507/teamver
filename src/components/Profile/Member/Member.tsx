@@ -1,6 +1,7 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
 import { FlexColumn, Text } from "~/styles/mixins";
+import { isEmpty } from "~/utils";
 import { Container, SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
 import { ProjectCard } from "../ProjectCard";
@@ -26,27 +27,25 @@ export const Member = ({ user }: { user: User }) => {
 
       {app.selectedTab === "IN_PROJECT" && (
         <SectionContainer gap={26}>
-          {app.projects.length > 0 ? (
-            app.projects
-              .filter((project) => project.state !== "DONE_PROJECT")
-              .map((project) => <ProjectCard key={project.id} project={project} />)
-          ) : (
+          {isEmpty(app.inProjects) && (
             <FlexColumn align="center" style={{ marginTop: "98px" }}>
               <Text size="textMediumBold" color="gray6">
                 {t("진행 중인 프로젝트가 없어요")}
               </Text>
             </FlexColumn>
           )}
+
+          {app.inProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </SectionContainer>
       )}
 
       {app.selectedTab === "DONE_PROJECT" && (
         <SectionContainer gap={26}>
-          {app.projects
-            .filter((project) => project.state === "DONE_PROJECT")
-            .map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+          {app.doneProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </SectionContainer>
       )}
     </Container>

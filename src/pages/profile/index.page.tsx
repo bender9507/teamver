@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user,
-      ...(await serverSideTranslations(context.locale, ["profile"]))
+      ...(await serverSideTranslations(context.locale, ["common", "profile", "project"]))
     }
   };
 };

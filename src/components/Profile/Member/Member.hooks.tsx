@@ -16,10 +16,15 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
 
   const isMine = userId === user.id;
 
+  const inProjects = projects.filter((project) => project.state !== "DONE_PROJECT");
+  const doneProjects = projects.filter((project) => project.state === "DONE_PROJECT");
+
   return {
     profile,
     projects,
     isMine,
+    inProjects,
+    doneProjects,
     selectedTab,
     setSelectedTab
   };
