@@ -25,7 +25,7 @@ export const ChatOwner = (props: ComponentProps<typeof Chat>) => {
       {isEmpty(app.rooms) && (
         <PosCenter>
           <Text size="textMediumBold" color="gray6">
-            진행중인 채팅이 없어요
+            {t("진행중인 채팅이 없어요")}
           </Text>
         </PosCenter>
       )}
