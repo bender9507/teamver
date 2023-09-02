@@ -3,11 +3,12 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import { Button, SocialLoginButton } from "~/components/Commons";
+import Image from "next/image";
+import { SocialLoginButton } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import { supabase } from "~/states/server/config";
-import { Text } from "~/styles/mixins";
+import { FlexCenter, PosCenter, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
+import * as Styled from "./Home.styles";
 
 export default function Home() {
   const { t } = useTranslation("home");
@@ -18,20 +19,17 @@ export default function Home() {
         <title>{t("팀버")}</title>
       </Head>
 
-      <Text>corder</Text>
+      <Styled.Container>
+        <PosCenter>
+          <FlexCenter direction="column" gap={9}>
+            <Text size="titleMedium">개발자 팀원을 찾을 땐,</Text>
 
-      <Button
-        onClick={async () => {
-          await supabase.auth.signInWithPassword({
-            email: "mutoh3897@gmail.com",
-            password: "gorkd1"
-          });
-        }}
-      >
-        로그인
-      </Button>
+            <Image src="/images/teamver.svg" width={208} height={45} alt="teamver logo" />
+          </FlexCenter>
+        </PosCenter>
 
-      <SocialLoginButton provider="github" />
+        <SocialLoginButton provider="github" />
+      </Styled.Container>
     </>
   );
 }

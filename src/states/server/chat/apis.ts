@@ -275,3 +275,20 @@ export const updateLastReadMessage = async ({
 
   if (error) throw new Error("마지막으로 읽은 메세지를 업데이트하는데 실패했습니다.");
 };
+
+export const updateMessageReadState = async ({
+  roomId,
+  userId
+}: {
+  roomId: string;
+  userId: string;
+}) => {
+  const { error } = await supabase
+    .from("chatMessages")
+    .update({ state: true })
+    .eq("state", false)
+    .eq("roomId", roomId)
+    .neq("senderId", userId);
+
+  if (error) throw Error("메세지를 읽음 처리하는데 실패하였습니다.");
+};

@@ -10,7 +10,8 @@ import {
   insertChatRoomWithMember,
   updateChatRequestMemberState,
   updateChatRequestOwnerState,
-  updateLastReadMessage
+  updateLastReadMessage,
+  updateMessageReadState
 } from "./apis";
 
 export const useInsertChatRequestsOwnerMutate = (
@@ -99,6 +100,15 @@ export const useUpdateLastReadMessageMutate = (
 ) => {
   return useMutation({
     mutationFn: updateLastReadMessage,
+    ...options
+  });
+};
+
+export const useUpdateMessageReadState = (
+  options?: PickMutationOptions<typeof updateMessageReadState, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateMessageReadState,
     ...options
   });
 };

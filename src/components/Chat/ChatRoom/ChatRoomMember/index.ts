@@ -1,0 +1,1 @@
+export { ChatRoomMember } from "./ChatRoomMember";

@@ -7,28 +7,24 @@ export const CommonContainer = styled.div`
   padding: 32px 22px 78px 22px;
 `;
 
-export const LayoutHeaderWithNav = styled.div`
+export const Layout = styled.div`
+  min-height: 100svh;
+  max-height: 100svh;
+`;
+
+export const LayoutHeaderWithNav = styled(Layout)`
   display: grid;
   grid-template-rows: auto 1fr auto;
-
-  min-height: 100svh;
-  max-height: 100svh;
 `;
 
-export const LayoutHeader = styled.div`
+export const LayoutHeader = styled(Layout)`
   display: grid;
   grid-template-rows: auto 1fr;
-
-  min-height: 100svh;
-  max-height: 100svh;
 `;
 
-export const LayoutNav = styled.div`
+export const LayoutNav = styled(Layout)`
   display: grid;
   grid-template-rows: 1fr auto;
-
-  min-height: 100svh;
-  max-height: 100svh;
 `;
 
 export const LayoutContent = styled(FlexColumn)`
