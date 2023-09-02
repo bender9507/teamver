@@ -40,8 +40,8 @@ export const Confirm = ({
         </Styled.Content>
 
         <Styled.ButtonBox>
-          <Styled.Button onClick={onCancel}>{cancelLabel ?? t("확인")}</Styled.Button>
-          <Styled.Button onClick={onConfirm}>{confirmLabel ?? t("취소")}</Styled.Button>
+          <Styled.Button onClick={onCancel}>{cancelLabel ?? t("취소")}</Styled.Button>
+          <Styled.Button onClick={onConfirm}>{confirmLabel ?? t("확인")}</Styled.Button>
         </Styled.ButtonBox>
       </Styled.Inner>
     </Styled.Outer>
