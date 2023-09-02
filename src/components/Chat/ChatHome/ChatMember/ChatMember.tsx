@@ -5,8 +5,8 @@ import { routes } from "~/constants/routes";
 import type Chat from "~/pages/chat/index.page";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
-import { InviteProjectCard } from "../../InviteProjectCard";
 import { ChatRoomCard } from "../ChatRoomCard";
+import { InviteProjectCard } from "../InviteProjectCard";
 import { useChatMember } from "./ChatMember.hooks";
 
 export const ChatMember = (props: ComponentProps<typeof Chat>) => {
