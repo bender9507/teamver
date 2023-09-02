@@ -18,7 +18,7 @@ export const avatarContainerStyle = ({
 
     ${flex.center()};
 
-    ${size({ width: avatarSize, height: avatarSize })}
+    ${size({ minWidth: avatarSize, height: avatarSize })}
     overflow: hidden;
 
     ${shape === "circle"}

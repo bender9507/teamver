@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ChatRequestMember, ChatRequestOwner } from "~/components/Chat";
 import { TitleHeader } from "~/components/Shared";
 import { useSelectProfileQuery } from "~/states/server/profile";
+import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 
 const ChatRequest = (props: { user: User }) => {
@@ -13,11 +14,13 @@ const ChatRequest = (props: { user: User }) => {
   const { data: profile } = useSelectProfileQuery(props.user.id);
 
   return (
-    <>
+    <LayoutHeader>
       <TitleHeader title={t("채팅요청")} />
 
-      {profile.role.id === 1 ? <ChatRequestOwner {...props} /> : <ChatRequestMember {...props} />}
-    </>
+      <LayoutContent padding="49px 22px 22px 22px">
+        {profile.role.id === 1 ? <ChatRequestOwner {...props} /> : <ChatRequestMember {...props} />}
+      </LayoutContent>
+    </LayoutHeader>
   );
 };
 
@@ -28,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const {
     data: { user }
-  } = await supabase.auth.getUser();
+  } = (await supabase.auth.getUser()) as { data: { user: User } };
 
   return {
     props: {

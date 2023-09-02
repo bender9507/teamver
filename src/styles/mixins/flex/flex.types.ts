@@ -11,6 +11,8 @@ export interface FlexProps {
   gap?: CSSProperties["gap"];
   wrap?: CSSProperties["flexWrap"];
   padding?: CSSProperties["padding"];
+  marginTop?: CSSProperties["marginTop"];
+  flex?: CSSProperties["flex"];
 }
 
 export type FlexColumnProps = Omit<FlexProps, "direction">;

@@ -1,139 +1,116 @@
-import { useTranslation } from "next-i18next";
-import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import { useEffect, useRef, type ComponentProps } from "react";
+import { useForm } from "react-hook-form";
+import { useMount } from "react-use";
+import type { ChatMessageData, ChatMessageRow } from "~/states/server/chat";
 import {
+  chatKeys,
   useInsertChatMessageMutate,
   useSelectChatMessagesQuery,
-  useSelectChatRoomsQuery,
-  useUpdateLastReadMessageMutate
+  useSelectChatRoomQuery
 } from "~/states/server/chat";
-import type { ChatMessageRow } from "~/states/server/chat/types";
 import { supabase } from "~/states/server/config";
+import type { ProfileAllDataRow } from "~/states/server/profile";
 import { useSelectProfileQuery } from "~/states/server/profile";
-import { useInsertProjectInviteMutate } from "~/states/server/project";
+import type ChatRoom from "./index.page";
 
-export const useChatRoom = (
-  userId: string,
-  roomId: number,
-  message: string,
-  setMessage: React.Dispatch<React.SetStateAction<string>>
-) => {
-  const { t } = useTranslation("chat");
+export const useChatRoom = ({ user }: ComponentProps<typeof ChatRoom>) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const [messages, setMessages] = useState<ChatMessageRow[]>([]);
+  const roomId = router.query.roomId as string;
 
-  const { data: profile } = useSelectProfileQuery(userId);
+  const { register, handleSubmit, reset } = useForm<{ message: string }>();
+  const { data: profile } = useSelectProfileQuery(user.id);
+  const { data: chatRoom } = useSelectChatRoomQuery({ roomId, userId: user.id });
+  const { data: chatMessages } = useSelectChatMessagesQuery(Number(roomId));
+  const { mutate: insertChatMessageMutate } = useInsertChatMessageMutate();
 
-  const { data: messageData } = useSelectChatMessagesQuery(roomId);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { data: memberData } = useSelectChatRoomsQuery(userId);
+  const opponent = chatRoom.members[0];
 
-  const { mutateAsync: InsertChatMessageMutateAsync } = useInsertChatMessageMutate();
+  const addMessage = (message: string, profile: ProfileAllDataRow) => {
+    queryClient.setQueryData<ChatMessageData[]>(
+      chatKeys.selectChatMessages(Number(roomId)),
+      (prevMessage) => {
+        if (!prevMessage) return prevMessage;
+        const lastMessageId = prevMessage[prevMessage.length - 1]?.id ?? 1;
 
-  const { mutateAsync: InsertProjectInviteMutateAsync } = useInsertProjectInviteMutate();
-
-  const { mutateAsync: updateLastReadMessageMutateAsync } = useUpdateLastReadMessageMutate();
-
-  const currentRoomMember = memberData?.find((room) => room.id === roomId)?.members[0];
-
-  const memberName = currentRoomMember?.name || "";
-
-  const memberId = currentRoomMember?.id || "";
-
-  const memberImageUrl = currentRoomMember?.imageUrl || "";
-
-  // const formattedMessages = messages.map((message) => {
-  //   const formattedCreatedAt = format(new Date(message.createdAt), timeFormat);
-  //   return { ...message, formattedCreatedAt };
-  // });
-
-  const formatTime = (timeString: string) => {
-    const date = new Date(timeString);
-
-    let hours = date.getHours();
-
-    const minutes = date.getMinutes();
-
-    let period = t("오전");
-
-    if (hours >= 12) {
-      period = t("오후");
-      hours -= 12;
-    }
-
-    if (hours === 0) {
-      hours = 12;
-    }
-
-    return `${period} ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+        return [
+          ...prevMessage,
+          { id: lastMessageId + 1, message, sender: profile, createdAt: new Date() }
+        ];
+      }
+    );
   };
 
-  const formattedMessages = messages.map((message) => ({
-    ...message,
-    createdAt: formatTime(message.createdAt)
-  }));
+  const getTime = (date: Date) => {
+    const time = dayjs(date);
 
-  const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    const hour = time.hour();
 
-    if (!message.trim()) return;
-
-    InsertChatMessageMutateAsync({ senderId: userId, roomId, message });
-
-    setMessage("");
-  };
-
-  const updateLastReadMessage = async (messages: typeof formattedMessages) => {
-    let lastReadMessageId;
-
-    if (messages.length > 0) {
-      lastReadMessageId = messages[messages.length - 1].id;
+    if (hour < 12) {
+      return `오전 ${time.format("h:mm")}`;
     }
 
-    if (lastReadMessageId) {
-      await updateLastReadMessageMutateAsync({ userId, roomId, lastReadMessageId });
-    }
+    return `오후 ${time.format("h:mm")}`;
   };
 
-  useEffect(() => {
-    if (messageData) setMessages(messageData);
+  const handleSendMessage = handleSubmit(({ message }) => {
+    insertChatMessageMutate({ roomId: Number(roomId), senderId: user.id, message });
 
-    const subscription = supabase
-      .channel(`chat:${roomId}`)
+    addMessage(message, profile);
+
+    reset();
+  });
+
+  const getIsChaining = (message: ChatMessageData) => {
+    const index = chatMessages.findIndex((_message) => _message.id === message.id);
+
+    return chatMessages[index - 1]?.sender.id === message.sender.id;
+  };
+
+  useMount(() => {
+    const subscribeRoom = supabase
+      .channel("chatRoom")
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
-          table: "chatMessages"
+          table: "chatMessages",
+          filter: `senderId=neq.${user.id}`
         },
         (payload) => {
           const newMessage = payload.new as ChatMessageRow;
 
-          if (newMessage.roomId === roomId)
-            setMessages((oldMessages) => [...oldMessages, newMessage]);
+          addMessage(newMessage.message, opponent);
         }
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(subscription);
+      subscribeRoom.unsubscribe();
     };
-  }, [roomId, messageData]);
+  });
 
   useEffect(() => {
-    updateLastReadMessage(formattedMessages);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedMessages.length]);
+    if (!bottomRef.current) return;
+
+    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages]);
 
   return {
-    t,
-    profile,
-    memberId,
-    memberName,
-    memberImageUrl,
-    formattedMessages,
-    handleSubmitMessage,
-    InsertProjectInviteMutateAsync,
-    updateLastReadMessageMutateAsync
+    opponent,
+    chatRoom,
+    chatMessages,
+    bottomRef,
+    handleSendMessage,
+    register,
+    getIsChaining,
+    getTime
   };
 };

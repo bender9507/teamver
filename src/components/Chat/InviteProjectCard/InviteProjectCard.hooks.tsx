@@ -8,9 +8,9 @@ import {
   useInsertMemberToProjectMutate,
   useUpdateProjectInviteStateMutate
 } from "~/states/server/project";
-import type { Card } from "./Card";
+import type { InviteProjectCard } from "./InviteProjectCard";
 
-export const useCard = ({ invite }: ComponentProps<typeof Card>) => {
+export const useInviteProjectCard = (invite: ComponentProps<typeof InviteProjectCard>) => {
   const queryClient = useQueryClient();
 
   const { confirm, toast } = useDialog();

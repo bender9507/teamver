@@ -1,22 +1,25 @@
 import { useTranslation } from "next-i18next";
 import { Avatar, Button } from "~/components/Commons";
+import type { ProjectInviteAllRow } from "~/states/server/project";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
-import { useCard } from "./Card.hooks";
-import type { CardProps } from "./Card.types";
+import { useInviteProjectCard } from "./InviteProjectCard.hooks";
 
-export const Card = ({ invite }: CardProps) => {
-  const app = useCard({ invite });
+export const InviteProjectCard = (props: ProjectInviteAllRow) => {
+  const { project } = props;
+
+  const app = useInviteProjectCard(props);
 
   const { t } = useTranslation("chat");
 
   return (
     <Flex justify="between">
       <Flex gap={8} onClick={() => app.handleOpenProjectDetail()}>
-        <Avatar src={invite.project.imageUrl} />
+        <Avatar src={project.imageUrl} />
+
         <FlexColumn justify="around">
-          <Text size="textMediumBold">{invite.project.ownerProfile.name}</Text>
+          <Text size="textMediumBold">{project.ownerProfile.name}</Text>
           <Text size="textMedium" color="gray9">
-            {invite.project.name}
+            {project.name}
           </Text>
         </FlexColumn>
       </Flex>
