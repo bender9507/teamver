@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { Input } from "~/components/Commons";
 import { Text, flex, grid, size } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
 
@@ -58,7 +57,7 @@ export const ImageUploadButton = styled.div`
   border-radius: 50%;
 `;
 
-export const Checkbox = styled(Input)`
+export const Checkbox = styled.input`
   ${size({ width: 18, height: 18 })};
 
   ${(props) =>
@@ -70,7 +69,7 @@ export const Checkbox = styled(Input)`
           background-color: ${colors.gray2};
         `}
 
-  padding: 0%;
+  padding: 0px;
   margin-left: 8px;
 
   border: none;

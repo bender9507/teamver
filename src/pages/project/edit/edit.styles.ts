@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { Text, flex, size } from "~/styles/mixins";
+import { colors } from "~/styles/theme/colors";
 
 export const Header = styled.header`
   ${flex.center()};
@@ -55,10 +56,30 @@ export const ImageUploadButton = styled.div`
 
   border-radius: 50%;
 `;
+
+export const Checkbox = styled.input`
+  ${size({ width: 18, height: 18 })};
+
+  ${(props) =>
+    props.checked
+      ? css`
+          background-color: ${colors.primary};
+        `
+      : css`
+          background-color: ${colors.gray2};
+        `}
+
+  padding: 0px;
+  margin-left: 8px;
+
+  border: none;
+  border-radius: 5px;
+`;
+
 export const CalendarWrapper = styled.div`
   ${flex.column({ align: "center" })};
 
-  padding: 10px 0;
+  padding: 15px 0;
 
   .react-calendar {
     ${flex.column({ align: "center" })};
@@ -70,13 +91,13 @@ export const CalendarWrapper = styled.div`
     `}
     border: none;
   }
-  .react-calendar__navigation {
-    padding-bottom: 20px;
-  }
+
   .react-calendar__navigation__label > span {
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
     `}
+
+    padding: 0 15px;
 
     font-size: 1rem;
   }
@@ -85,7 +106,7 @@ export const CalendarWrapper = styled.div`
 
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
-    `}
+    `};
   }
   .react-calendar__navigation button:enabled:hover,
   .react-calendar__navigation button:enabled:focus {
@@ -98,7 +119,7 @@ export const CalendarWrapper = styled.div`
 
     width: 100%;
 
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 
     font-size: 0.8rem;
 
