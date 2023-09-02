@@ -7,6 +7,7 @@ export { default as chat } from "./chat.svg";
 export { default as chatFill } from "./chatFill.svg";
 export { default as check } from "./check.svg";
 export { default as checkbox } from "./checkbox.svg";
+export { default as circle } from "./circle.svg";
 export { default as close } from "./close.svg";
 export { default as error } from "./error.svg";
 export { default as floatingButton } from "./floatingButton.svg";

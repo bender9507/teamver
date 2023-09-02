@@ -9,7 +9,8 @@ import {
   chatKeys,
   useInsertChatMessageMutate,
   useSelectChatMessagesQuery,
-  useSelectChatRoomQuery
+  useSelectChatRoomQuery,
+  useUpdateMessageReadState
 } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
 import type { ProfileAllDataRow } from "~/states/server/profile";
@@ -26,7 +27,9 @@ export const useChatRoom = ({ user }: ComponentProps<typeof ChatRoom>) => {
   const { data: profile } = useSelectProfileQuery(user.id);
   const { data: chatRoom } = useSelectChatRoomQuery({ roomId, userId: user.id });
   const { data: chatMessages } = useSelectChatMessagesQuery(Number(roomId));
+
   const { mutate: insertChatMessageMutate } = useInsertChatMessageMutate();
+  const { mutate: updateMessageStateMutate } = useUpdateMessageReadState();
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -102,6 +105,10 @@ export const useChatRoom = ({ user }: ComponentProps<typeof ChatRoom>) => {
 
     bottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
+
+  useEffect(() => {
+    updateMessageStateMutate({ roomId, userId: user.id });
+  }, [roomId, updateMessageStateMutate, user.id]);
 
   return {
     opponent,

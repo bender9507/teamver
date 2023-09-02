@@ -75,6 +75,7 @@ export interface Database {
           message: string
           roomId: number
           senderId: string
+          state: boolean
         }
         Insert: {
           createdAt?: string
@@ -82,6 +83,7 @@ export interface Database {
           message: string
           roomId: number
           senderId: string
+          state?: boolean
         }
         Update: {
           createdAt?: string
@@ -89,6 +91,7 @@ export interface Database {
           message?: string
           roomId?: number
           senderId?: string
+          state?: boolean
         }
         Relationships: [
           {
