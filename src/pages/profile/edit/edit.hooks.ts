@@ -111,7 +111,9 @@ export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => 
 
     if (!target.value) {
       setSuccessMessage("");
-      setError("name", { type: "required" });
+      setError("name", {
+        type: "required"
+      });
       return;
     }
 
