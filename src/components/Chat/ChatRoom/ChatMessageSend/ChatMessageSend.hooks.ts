@@ -2,12 +2,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
-import type { ChatMessageData } from "~/states/server/chat";
+import { useMount } from "react-use";
+import type { ChatMessageData, ChatMessageRow } from "~/states/server/chat";
 import { chatKeys, useInsertChatMessageMutate } from "~/states/server/chat";
+import { supabase } from "~/states/server/config";
 import { useSelectProfileQuery, type ProfileAllDataRow } from "~/states/server/profile";
 import type { ChatMessageSend } from "./ChatMessageSend";
 
-export const useChatMessageSend = ({ user }: ComponentProps<typeof ChatMessageSend>) => {
+export const useChatMessageSend = ({ user, opponent }: ComponentProps<typeof ChatMessageSend>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -40,6 +42,30 @@ export const useChatMessageSend = ({ user }: ComponentProps<typeof ChatMessageSe
     addMessage(message, profile);
 
     reset();
+  });
+
+  useMount(() => {
+    const subscribeRoom = supabase
+      .channel("chatRoom")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "chatMessages",
+          filter: `roomId=eq.${roomId}`
+        },
+        (payload) => {
+          const newMessage = payload.new as ChatMessageRow;
+
+          if (newMessage.senderId !== user.id) addMessage(newMessage.message, opponent);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscribeRoom.unsubscribe();
+    };
   });
 
   return { handleSendMessage, register };

@@ -24,7 +24,7 @@ export const ChatRoomMember = () => {
 
       <ChatMessageBox user={app.user} opponent={app.opponent} />
 
-      <ChatMessageSend user={app.user} />
+      <ChatMessageSend user={app.user} opponent={app.opponent} />
     </LayoutHeaderWithNav>
   );
 };
