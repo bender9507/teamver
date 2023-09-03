@@ -28,7 +28,7 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
         />
 
         {app.selectedTab === "IN_PROJECT" && (
-          <SectionContainer gap={46}>
+          <SectionContainer gap={32}>
             {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_PROJECT")
               .length > 0 ? (
               <>
@@ -67,7 +67,7 @@ export const Owner = ({ user }: { user: User }): ReactNode => {
         )}
 
         {app.selectedTab === "DONE_PROJECT" && (
-          <SectionContainer gap={26}>
+          <SectionContainer gap={12}>
             {app.projects.filter((project) => project.state === "DONE_PROJECT").length > 0 ? (
               app.projects
                 .filter((project) => project.state === "DONE_PROJECT")
