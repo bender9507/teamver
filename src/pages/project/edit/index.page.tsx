@@ -18,8 +18,6 @@ import * as Styled from "./edit.styles";
 const Edit = () => {
   const app = useEdit();
   const { t, i18n } = useTranslation("project");
-  console.log(app.project.startDate, app.project.endDate);
-  console.log(app.project, app.isStartIndefinite, app.isEndIndefinite);
 
   const currentLanguage = i18n.language as OneOfLanguage;
   return (
