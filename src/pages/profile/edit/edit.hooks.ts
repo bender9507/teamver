@@ -122,11 +122,11 @@ export const useProfileEdit = () => {
     const isValid = await checkNameValidation(target.value);
 
     if (isValid) {
-      setSuccessMessage(t("사용 가능한 닉네임입니다"));
+      setSuccessMessage(t("최고의 닉네임이에요"));
       clearErrors("name");
     } else {
       setSuccessMessage("");
-      setError("name", { type: "validate", message: t("누군가 사용중인 닉네임입니다") });
+      setError("name", { type: "validate", message: t("앗 누군가 사용 중인 닉네임이에요") });
     }
   }, 300);
 

@@ -13,7 +13,7 @@ export const useChatRoomOwner = () => {
 
   const user = useUser() as User;
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t } = useTranslation("chat");
 
   const roomId = router.query.roomId as string;
 

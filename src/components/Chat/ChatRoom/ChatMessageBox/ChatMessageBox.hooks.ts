@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { useEffect, useRef } from "react";
@@ -8,6 +9,7 @@ import type { ChatMessageBox } from "./ChatMessageBox";
 
 export const useChatMessageBox = ({ user }: ComponentProps<typeof ChatMessageBox>) => {
   const router = useRouter();
+  const { t } = useTranslation("chat");
 
   const roomId = router.query.roomId as string;
 
@@ -29,10 +31,10 @@ export const useChatMessageBox = ({ user }: ComponentProps<typeof ChatMessageBox
     const hour = time.hour();
 
     if (hour < 12) {
-      return `오전 ${time.format("h:mm")}`;
+      return `${t("오전")} ${time.format("h:mm")}`;
     }
 
-    return `오후 ${time.format("h:mm")}`;
+    return `${t("오후")} ${time.format("h:mm")}`;
   };
 
   useEffect(() => {
