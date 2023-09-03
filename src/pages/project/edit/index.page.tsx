@@ -281,12 +281,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     data: { user }
   } = await supabaseServer.auth.getUser();
 
-  await queryClient.prefetchQuery({ queryKey: projectsKey.selectProject(projectId) });
+  await queryClient.prefetchQuery({ queryKey: projectsKey.selectProject(Number(projectId)) });
 
   return {
     props: {
       user: user as User,
-      ...(await serverSideTranslations(context.locale, ["common", "project"]))
+      ...(await serverSideTranslations(context.locale as string, ["common", "project"]))
     }
   };
 };

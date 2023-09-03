@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 const App = ({
   Component,
   pageProps
-}: AppProps<{ dehydratedState: DehydratedState; initialSession: Session }>) => {
+}: AppProps<{ dehydratedState: DehydratedState; session: Session }>) => {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
 
   const router = useRouter();
@@ -36,10 +36,7 @@ const App = ({
   });
 
   return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
+    <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.session}>
       <Head>
         <meta
           name="viewport"

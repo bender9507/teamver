@@ -22,7 +22,7 @@ const Chat = ({ user }: { user: User }) => {
         {profile.role.id === 1 ? <ChatOwner user={user} /> : <ChatMember user={user} />}
       </LayoutContent>
 
-      <Navbar user={user} />
+      <Navbar />
     </LayoutHeaderWithNav>
   );
 };
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       user,
-      ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
+      ...(await serverSideTranslations(ctx.locale as string, ["common", "chat"]))
     }
   };
 };
