@@ -208,8 +208,10 @@ const Create = () => {
                       onChange={(e) => {
                         if (app.startDateIsOpen) {
                           app.setStartIsIndefinite(e.target.checked);
+                          app.setStartDateIsOpen.off();
                         } else if (app.endDateIsOpen) {
                           app.setEndIsIndefinite(e.target.checked);
+                          app.setEndDateIsOpen.off();
                         }
                       }}
                     />

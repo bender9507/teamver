@@ -35,10 +35,8 @@ export const useEdit = () => {
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
-  const [isStartIndefinite, setStartIsIndefinite] = useState(false);
-  const [isEndIndefinite, setEndIsIndefinite] = useState(false);
-
-  const [currentDateType, setCurrentDateType] = useState("");
+  const [isStartIndefinite, setStartIsIndefinite] = useState<boolean>();
+  const [isEndIndefinite, setEndIsIndefinite] = useState<boolean>();
 
   const { data: project } = useSelectProjectQuery(Number(projectId));
 
@@ -132,29 +130,35 @@ export const useEdit = () => {
     });
   }, [watch, setValue, toast, t]);
 
-  const startDateValue = (() => {
-    if (watch("startDate")) {
-      return dayjs(watch("startDate")).format("DD. MM. YYYY");
-    }
+  useEffect(() => {
+    console.log(1);
+    setStartIsIndefinite(!project.startDate);
+    setEndIsIndefinite(!project.endDate);
+  }, [project]);
 
-    if (project.startDate === null) {
-      return t("미정");
-    }
+  // const startDateValue = (() => {
+  //   if (watch("startDate")) {
+  //     return dayjs(watch("startDate")).format("DD. MM. YYYY");
+  //   }
 
-    return dayjs(project.startDate).format("DD. MM. YYYY");
-  })();
+  //   if (project.startDate === null) {
+  //     return t("미정");
+  //   }
 
-  const endDateValue = (() => {
-    if (watch("endDate")) {
-      return dayjs(watch("endDate")).format("DD. MM. YYYY");
-    }
+  //   return dayjs(project.startDate).format("DD. MM. YYYY");
+  // })();
 
-    if (project.endDate === null) {
-      return t("미정");
-    }
+  // const endDateValue = (() => {
+  //   if (watch("endDate")) {
+  //     return dayjs(watch("endDate")).format("DD. MM. YYYY");
+  //   }
 
-    return dayjs(project.endDate).format("DD. MM. YYYY");
-  })();
+  //   if (project.endDate === null) {
+  //     return t("미정");
+  //   }
+
+  //   return dayjs(project.endDate).format("DD. MM. YYYY");
+  // })();
 
   const handleBack = async () => {
     const confirmed = await confirm({
@@ -169,8 +173,7 @@ export const useEdit = () => {
     constants,
     formState,
     project,
-    currentDateType,
-    setCurrentDateType,
+
     register,
     handleSubmit,
     handleEditProject,
@@ -186,8 +189,9 @@ export const useEdit = () => {
     isStartIndefinite,
     setStartIsIndefinite,
     isEndIndefinite,
-    setEndIsIndefinite,
-    endDateValue,
-    startDateValue
+    setEndIsIndefinite
+
+    // endDateValue,
+    // startDateValue
   };
 };

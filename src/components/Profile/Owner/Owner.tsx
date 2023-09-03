@@ -27,8 +27,8 @@ export const Owner = (): ReactNode => {
         />
 
         {app.selectedTab === "IN_PROJECT" && (
-          <SectionContainer gap={32}>
-            {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_PROJECT")
+          <SectionContainer gap={46}>
+            {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_RECRUIT")
               .length > 0 ? (
               <>
                 <FlexColumn gap={18}>
