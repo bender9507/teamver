@@ -1,39 +1,33 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { useUser } from "@supabase/auth-helpers-react";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Member, Owner } from "~/components/ProjectMembers";
 
 import { useSelectProfileQuery } from "~/states/server/profile";
-import type { Database } from "~/types/database";
+import { requireAuthentication } from "~/utils";
 
-const ProjectMembers = (props: { user: User; projectId: string }) => {
-  const { data: profile } = useSelectProfileQuery(props.user.id);
+const ProjectMembers = () => {
+  const user = useUser() as User;
+  const { data: profile } = useSelectProfileQuery(user.id);
 
   if (profile.role.id === 1) {
-    return <Owner {...props} />;
+    return <Owner />;
   }
 
-  return <Member {...props} />;
+  return <Member />;
 };
 
 export default ProjectMembers;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const supabaseServer = createPagesServerClient<Database>(context);
-
-  const { projectId } = context.query;
-
-  const {
-    data: { user }
-  } = await supabaseServer.auth.getUser();
-
-  return {
-    props: {
-      projectId,
-      user: user as User,
-      ...(await serverSideTranslations(context.locale as string, ["common", "project"]))
-    }
-  };
-};
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    return {
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, ["common", "project"]))
+      }
+    };
+  }
+);

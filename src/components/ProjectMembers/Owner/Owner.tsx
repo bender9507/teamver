@@ -1,17 +1,13 @@
 import { useTranslation } from "next-i18next";
-import type { ComponentProps } from "react";
 import { Avatar, Button, ProfileDetail } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
-import type ProjectMembers from "~/pages/project/members/index.page";
 import { FlexCenter, LayoutHeader, Text } from "~/styles/mixins";
 import * as Styled from "../ProjectMembers.styles";
 import { PROFILE_DETAIL_OWNER } from "./Owner.constants";
 import { useProjectMembers } from "./Owner.hooks";
 
-export const Owner = (props: ComponentProps<typeof ProjectMembers>) => {
-  const { projectId, user } = props;
-
-  const app = useProjectMembers(props);
+export const Owner = () => {
+  const app = useProjectMembers();
   const { t } = useTranslation("project");
 
   return (
@@ -35,13 +31,13 @@ export const Owner = (props: ComponentProps<typeof ProjectMembers>) => {
               <Text size="textMediumBold">{member.name}</Text>
             </FlexCenter>
 
-            {user.id !== member.id && (
+            {app.user.id !== member.id && (
               <Button
                 size="small"
                 color="white"
                 bgColor="backgroundSecondary"
                 onClick={() => {
-                  app.handleDeleteMember({ memberId: member.id, projectId: Number(projectId) });
+                  app.handleDeleteMember({ memberId: member.id, projectId: Number(app.projectId) });
                 }}
               >
                 {t("삭제")}

@@ -1,7 +1,8 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { useDialog, useModal } from "~/components/Commons";
 import type { ProjectMembersUpdate } from "~/states/server/project";
 import {
@@ -9,16 +10,18 @@ import {
   useDeleteMemberInProjectMutate,
   useSelectProjectQuery
 } from "~/states/server/project";
-import type { Owner } from ".";
 
-export const useProjectMembers = ({ projectId }: ComponentProps<typeof Owner>) => {
+export const useProjectMembers = () => {
   const queryClient = useQueryClient();
 
   const { t } = useTranslation("project");
 
+  const user = useUser() as User;
   const router = useRouter();
   const { mount } = useModal();
   const { confirm } = useDialog();
+
+  const projectId = router.query.projectId as string;
 
   const { data: projectData } = useSelectProjectQuery(Number(projectId));
 
@@ -51,5 +54,13 @@ export const useProjectMembers = ({ projectId }: ComponentProps<typeof Owner>) =
     router.back();
   };
 
-  return { projectMembersData, filteredData, mount, handleBack, handleDeleteMember };
+  return {
+    user,
+    projectId,
+    projectMembersData,
+    filteredData,
+    mount,
+    handleBack,
+    handleDeleteMember
+  };
 };

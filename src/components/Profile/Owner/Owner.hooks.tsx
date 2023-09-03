@@ -1,13 +1,15 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useState, type ComponentProps } from "react";
+import { useState } from "react";
 import { routes } from "~/constants/routes";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { useSelectOwnerProjectsQuery } from "~/states/server/project";
-import type { Owner } from "./Owner";
 
-export const useOwner = ({ user }: ComponentProps<typeof Owner>) => {
+export const useOwner = () => {
   const [selectedTab, setSelectedTab] = useState("IN_PROJECT");
 
+  const user = useUser() as User;
   const router = useRouter();
 
   const userId = router.query.userId as string;

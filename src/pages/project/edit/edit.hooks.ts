@@ -1,8 +1,9 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
@@ -18,9 +19,9 @@ import { useUploadProjectImageMutate } from "~/states/server/storage";
 
 import { routes } from "~/constants/routes";
 import type { ProjectEditForm } from "./edit.types";
-import type Create from "./index.page";
 
-export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
+export const useEdit = () => {
+  const user = useUser() as User;
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -34,10 +35,8 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
-  const [isStartIndefinite, setStartIsIndefinite] = useState(false);
-  const [isEndIndefinite, setEndIsIndefinite] = useState(false);
-
-  const [currentDateType, setCurrentDateType] = useState("");
+  const [isStartIndefinite, setStartIsIndefinite] = useState<boolean>();
+  const [isEndIndefinite, setEndIsIndefinite] = useState<boolean>();
 
   const { data: project } = useSelectProjectQuery(Number(projectId));
 
@@ -131,29 +130,35 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     });
   }, [watch, setValue, toast, t]);
 
-  const startDateValue = (() => {
-    if (watch("startDate")) {
-      return dayjs(watch("startDate")).format("DD. MM. YYYY");
-    }
+  useEffect(() => {
+    console.log(1);
+    setStartIsIndefinite(!project.startDate);
+    setEndIsIndefinite(!project.endDate);
+  }, [project]);
 
-    if (project.startDate === null) {
-      return t("미정");
-    }
+  // const startDateValue = (() => {
+  //   if (watch("startDate")) {
+  //     return dayjs(watch("startDate")).format("DD. MM. YYYY");
+  //   }
 
-    return dayjs(project.startDate).format("DD. MM. YYYY");
-  })();
+  //   if (project.startDate === null) {
+  //     return t("미정");
+  //   }
 
-  const endDateValue = (() => {
-    if (watch("endDate")) {
-      return dayjs(watch("endDate")).format("DD. MM. YYYY");
-    }
+  //   return dayjs(project.startDate).format("DD. MM. YYYY");
+  // })();
 
-    if (project.endDate === null) {
-      return t("미정");
-    }
+  // const endDateValue = (() => {
+  //   if (watch("endDate")) {
+  //     return dayjs(watch("endDate")).format("DD. MM. YYYY");
+  //   }
 
-    return dayjs(project.endDate).format("DD. MM. YYYY");
-  })();
+  //   if (project.endDate === null) {
+  //     return t("미정");
+  //   }
+
+  //   return dayjs(project.endDate).format("DD. MM. YYYY");
+  // })();
 
   const handleBack = async () => {
     const confirmed = await confirm({
@@ -168,8 +173,7 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     constants,
     formState,
     project,
-    currentDateType,
-    setCurrentDateType,
+
     register,
     handleSubmit,
     handleEditProject,
@@ -185,8 +189,9 @@ export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
     isStartIndefinite,
     setStartIsIndefinite,
     isEndIndefinite,
-    setEndIsIndefinite,
-    endDateValue,
-    startDateValue
+    setEndIsIndefinite
+
+    // endDateValue,
+    // startDateValue
   };
 };

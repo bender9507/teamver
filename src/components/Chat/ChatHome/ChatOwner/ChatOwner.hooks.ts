@@ -1,8 +1,9 @@
-import type { ComponentProps } from "react";
+import { useUser } from "@supabase/auth-helpers-react";
+import type { User } from "@supabase/supabase-js";
 import { useSelectChatRequestMemberQuery, useSelectChatRoomsQuery } from "~/states/server/chat";
-import type { ChatOwner } from "./ChatOwner";
 
-export const useChatOwner = ({ user }: ComponentProps<typeof ChatOwner>) => {
+export const useChatOwner = () => {
+  const user = useUser() as User;
   const { data: rooms } = useSelectChatRoomsQuery(user.id);
   const { data: requests } = useSelectChatRequestMemberQuery({
     receiverId: user.id,
@@ -10,6 +11,7 @@ export const useChatOwner = ({ user }: ComponentProps<typeof ChatOwner>) => {
   });
 
   return {
+    user,
     rooms,
     requests
   };

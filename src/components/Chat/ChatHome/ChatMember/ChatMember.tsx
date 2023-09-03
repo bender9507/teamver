@@ -1,16 +1,14 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import type { ComponentProps } from "react";
 import { routes } from "~/constants/routes";
-import type Chat from "~/pages/chat/index.page";
 import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { ChatRoomCard } from "../ChatRoomCard";
 import { InviteProjectCard } from "../InviteProjectCard";
 import { useChatMember } from "./ChatMember.hooks";
 
-export const ChatMember = (props: ComponentProps<typeof Chat>) => {
-  const app = useChatMember(props);
+export const ChatMember = () => {
+  const app = useChatMember();
   const { t } = useTranslation("chat");
 
   return (
@@ -54,7 +52,7 @@ export const ChatMember = (props: ComponentProps<typeof Chat>) => {
 
         <FlexColumn gap={12}>
           {app.rooms.map((room) => (
-            <ChatRoomCard key={room.id} user={props.user} room={room} />
+            <ChatRoomCard key={room.id} user={app.user} room={room} />
           ))}
         </FlexColumn>
       </FlexColumn>

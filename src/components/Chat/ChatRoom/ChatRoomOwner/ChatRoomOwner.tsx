@@ -1,7 +1,5 @@
 import { useTranslation } from "next-i18next";
-import type { ComponentProps } from "react";
 import { Avatar, IconButton, PreviousButton } from "~/components/Commons";
-import type ChatRoom from "~/pages/chat/room/index.page";
 import { Flex, LayoutHeaderWithNav, Text } from "~/styles/mixins";
 import { ChatMessageBox } from "../ChatMessageBox";
 import { ChatMessageSend } from "../ChatMessageSend";
@@ -9,8 +7,8 @@ import { ChatHeader } from "../ChatRoom.styles";
 import { useChatRoomOwner } from "./ChatRoomOwner.hooks";
 import { Invite } from "./Invite";
 
-export const ChatRoomOwner = (props: ComponentProps<typeof ChatRoom>) => {
-  const app = useChatRoomOwner(props);
+export const ChatRoomOwner = () => {
+  const app = useChatRoomOwner();
   const { t } = useTranslation();
 
   return (
@@ -30,7 +28,7 @@ export const ChatRoomOwner = (props: ComponentProps<typeof ChatRoom>) => {
             if (
               await app.confirm({
                 title: t("어떤 프로젝트에 초대할까요"),
-                message: <Invite user={props.user} onChange={app.handleChangeProject} />
+                message: <Invite user={app.user} onChange={app.handleChangeProject} />
               })
             ) {
               app.handleInvite();
@@ -40,9 +38,9 @@ export const ChatRoomOwner = (props: ComponentProps<typeof ChatRoom>) => {
         <IconButton name="moreVertical" />
       </ChatHeader>
 
-      <ChatMessageBox user={props.user} opponent={app.opponent} />
+      <ChatMessageBox user={app.user} opponent={app.opponent} />
 
-      <ChatMessageSend user={props.user} />
+      <ChatMessageSend user={app.user} />
     </LayoutHeaderWithNav>
   );
 };

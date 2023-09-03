@@ -1,4 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
 import type { ReactNode } from "react";
 import { FlexColumn, Text } from "~/styles/mixins";
@@ -8,8 +7,8 @@ import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
 import { useOwner } from "./Owner.hooks";
 
-export const Owner = ({ user }: { user: User }): ReactNode => {
-  const app = useOwner({ user });
+export const Owner = (): ReactNode => {
+  const app = useOwner();
 
   const { t } = useTranslation("profile");
 

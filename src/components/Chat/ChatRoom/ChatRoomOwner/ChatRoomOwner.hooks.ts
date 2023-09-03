@@ -1,15 +1,17 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ChangeEvent, ComponentProps } from "react";
+import type { ChangeEvent } from "react";
 import { useRef } from "react";
 import { useDialog } from "~/components/Commons";
 import { useSelectChatRoomQuery } from "~/states/server/chat";
 import { useInsertProjectInviteMutate } from "~/states/server/project";
-import type { ChatRoomOwner } from "./ChatRoomOwner";
 
-export const useChatRoomOwner = ({ user }: ComponentProps<typeof ChatRoomOwner>) => {
+export const useChatRoomOwner = () => {
   const selectedProject = useRef("");
 
+  const user = useUser() as User;
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -43,6 +45,7 @@ export const useChatRoomOwner = ({ user }: ComponentProps<typeof ChatRoomOwner>)
   };
 
   return {
+    user,
     chatRoom,
     opponent: chatRoom.members[0],
     confirm,
