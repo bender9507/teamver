@@ -151,20 +151,24 @@ export const ProfileDetail = ({
             <Text size="titleMedium">{t("Github 주소")}</Text>
 
             <Link href={`https://github.com/${profile.github}`} target="_blank">
-              <Text size="textMediumBold" color="gray9">
-                https://github.com/{profile.github}
-              </Text>
+              <Styled.AdressBox>
+                <Text size="textMediumBold" color="gray9">
+                  https://github.com/{profile.github}
+                </Text>
+              </Styled.AdressBox>
             </Link>
           </FlexColumn>
 
           {profile.blog && (
             <FlexColumn gap={16}>
-              <Text size="titleMedium">{profile.name}</Text>
+              <Text size="titleMedium">{t("운영 블로그")}</Text>
 
               <Link href={profile.blog} target="_blank">
-                <Text size="textMediumBold" color="gray9">
-                  {profile.blog}
-                </Text>
+                <Styled.AdressBox>
+                  <Text size="textMediumBold" color="gray9">
+                    {profile.blog}
+                  </Text>
+                </Styled.AdressBox>
               </Link>
             </FlexColumn>
           )}
