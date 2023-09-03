@@ -1,6 +1,7 @@
 import { useTheme } from "@emotion/react";
 import type { TextareaHTMLAttributes } from "react";
 import { forwardRef, useEffect, useRef } from "react";
+import { useMount } from "react-use";
 import * as Styled from "./Textarea.styles";
 
 export const Textarea = forwardRef<
@@ -10,6 +11,13 @@ export const Textarea = forwardRef<
   const { sizes } = useTheme();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const resize = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = `${sizes.height.medium}px`;
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
+    }
+  };
 
   useEffect(() => {
     if (ref) {
@@ -22,6 +30,10 @@ export const Textarea = forwardRef<
     }
   }, [ref]);
 
+  useMount(() => {
+    resize();
+  });
+
   return (
     <Styled.Textarea
       ref={textareaRef}
@@ -30,13 +42,7 @@ export const Textarea = forwardRef<
         event.preventDefault();
         if (onInvalid) onInvalid(event);
       }}
-      onInput={() => {
-        if (textareaRef.current) {
-          textareaRef.current.style.height = `${sizes.height.medium}px`;
-          textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
-        }
-      }}
-      onBlur={(event) => event.target.scrollIntoView()}
+      onInput={resize}
     />
   );
 });

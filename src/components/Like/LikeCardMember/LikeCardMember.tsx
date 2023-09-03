@@ -22,7 +22,9 @@ export const LikeCardMember = ({ data, userId }: LikeCardMemberProps) => {
       >
         <Avatar src={data.project.imageUrl} size="medium" />
 
-        <Text>{data.project.name}</Text>
+        <Text width={113} ellipsis>
+          {data.project.name}
+        </Text>
       </FlexCenter>
 
       <FlexCenter gap={10}>

@@ -56,7 +56,7 @@ export const ProfileDetail = ({
           <FlexColumn gap={16}>
             <Text size="titleMedium">{profile.name}</Text>
 
-            <Text size="textMediumBold" color="gray9">
+            <Text size="textMediumBold" color="gray9" whiteSpace="pre-wrap">
               {profile.introduce}
             </Text>
           </FlexColumn>
