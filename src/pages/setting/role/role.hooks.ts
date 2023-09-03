@@ -1,20 +1,23 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { useDialog } from "~/components/Commons";
 import { profileKeys, useSelectProfileQuery, useUpdateRoleMutate } from "~/states/server/profile";
 
-export const useRole = (userId: string) => {
+export const useRole = () => {
   const { t } = useTranslation("setting");
+  const user = useUser() as User;
 
   const queryClient = useQueryClient();
 
   const { toast, confirm } = useDialog();
 
-  const { data: profile } = useSelectProfileQuery(userId);
+  const { data: profile } = useSelectProfileQuery(user.id);
 
   const { mutateAsync: updateRole } = useUpdateRoleMutate({
     onSuccess: () => {
-      queryClient.invalidateQueries(profileKeys.selectProfile(userId));
+      queryClient.invalidateQueries(profileKeys.selectProfile(user.id));
 
       toast({ type: "success", message: t("성공적으로 변경했습니다") });
     },
@@ -25,7 +28,7 @@ export const useRole = (userId: string) => {
   });
 
   const changeRole = async (newRole: number) => {
-    await updateRole({ id: userId, role: newRole });
+    await updateRole({ id: user.id, role: newRole });
   };
 
   const handleClickParticipantMode = async () => {

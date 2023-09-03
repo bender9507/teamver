@@ -1,4 +1,3 @@
-import type { User } from "@supabase/supabase-js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -11,10 +10,10 @@ import { requireAuthentication } from "~/utils";
 import * as Styled from "../setting.styles";
 import { useRole } from "./role.hooks";
 
-const Role = ({ user }: { user: User }) => {
+const Role = () => {
   const { t } = useTranslation("setting");
 
-  const app = useRole(user.id);
+  const app = useRole();
 
   return (
     <LayoutHeader>
