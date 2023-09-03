@@ -27,6 +27,7 @@ export const buttonStyle = ({
 
   ${text(sizes.button[_size])};
   color: ${colors[color]};
+  white-space: nowrap;
 `;
 
 export const Button = styled.button<ButtonProps>`

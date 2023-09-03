@@ -30,8 +30,10 @@ export const Text = styled.span<{
   color?: ColorsKey;
   ellipsis?: boolean;
   lineClamp?: number;
+  lineHeight?: CSSProperties["lineHeight"];
   textAlign?: CSSProperties["textAlign"];
   whiteSpace?: CSSProperties["whiteSpace"];
+  width?: CSSProperties["width"];
 }>`
   ${({ size = "paragraph2" }) => text(size)}
 
@@ -40,14 +42,18 @@ export const Text = styled.span<{
     color = "content2",
     ellipsis: _ellipsis,
     lineClamp: _lineClamp,
+    lineHeight,
     whiteSpace,
-    textAlign
+    textAlign,
+    width
   }) => css`
     color: ${theme.colors[color]};
 
-    ${_ellipsis && ellipsis()}
-    ${_lineClamp && lineClamp(_lineClamp)}
-    ${whiteSpace && styleHelper("whiteSpace", whiteSpace)}
-    ${textAlign && styleHelper("textAlign", textAlign)}
+    ${_ellipsis && ellipsis()};
+    ${_lineClamp && lineClamp(_lineClamp)};
+    ${lineHeight && styleHelper("lineHeight", lineHeight)};
+    ${whiteSpace && styleHelper("whiteSpace", whiteSpace)};
+    ${textAlign && styleHelper("textAlign", textAlign)};
+    ${width && styleHelper("width", width)};
   `};
 `;

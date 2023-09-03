@@ -25,7 +25,7 @@ const Like = () => {
     <LayoutHeaderWithNav>
       <TitleHeader title={t("찜 목록")} />
 
-      <LayoutContent padding="22px" marginTop={49}>
+      <LayoutContent padding="22px" marginTop={27}>
         {profile.role.id === 1 ? <Owner /> : <Member />}
       </LayoutContent>
 
