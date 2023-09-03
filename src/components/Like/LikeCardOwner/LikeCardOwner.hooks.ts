@@ -76,5 +76,5 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
     }
   };
 
-  return { mount, filteredData, handleDeleteFollow, handleRequest, requestState };
+  return { filteredData, mount, handleDeleteFollow, handleRequest, requestState };
 };

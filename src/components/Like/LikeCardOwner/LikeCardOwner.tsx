@@ -20,6 +20,7 @@ export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
         }
       >
         <Avatar src={data.follow.imageUrl} size="medium" />
+
         <Text>{data.follow.name}</Text>
       </FlexCenter>
 
@@ -33,6 +34,7 @@ export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
         >
           {app.requestState()}
         </Button>
+
         <IconButton type="button" name="bookmarkFill" onClick={app.handleDeleteFollow} />
       </FlexCenter>
     </Styled.Card>
