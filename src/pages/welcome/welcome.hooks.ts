@@ -67,7 +67,7 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
 
     insertProfileMutate({
       id: user.id,
-      github: user.user_metadata.preferred_username,
+      github: user.user_metadata.preferred_username ?? "jeonhaekang",
       imageUrl: publicUrl,
       ...rest
     });
