@@ -1,12 +1,13 @@
-import type { User } from "@supabase/auth-helpers-react";
+import { useUser, type User } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Icon } from "~/components/Commons";
 import { routes } from "~/constants/routes";
 import * as Styled from "./Navbar.styles";
 
-export const Navbar = ({ user }: { user: User }) => {
+export const Navbar = () => {
   const { pathname } = useRouter();
+  const user = useUser() as User;
 
   return (
     <Styled.Navbar>

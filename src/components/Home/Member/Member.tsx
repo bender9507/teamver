@@ -1,4 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
 import {
   Button,
@@ -23,8 +22,8 @@ import {
 } from "../Home.styles";
 import { useMember } from "./Member.hooks";
 
-export const Member = (props: { user: User }) => {
-  const app = useMember(props);
+export const Member = () => {
+  const app = useMember();
   const { t, i18n } = useTranslation("home");
 
   const currentLanguage = i18n.language as OneOfLanguage;
