@@ -1,14 +1,15 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { useSelectChatRoomQuery } from "~/states/server/chat";
-import type { ChatRoomMember } from "./ChatRoomMember";
 
-export const useChatRoomMember = ({ user }: ComponentProps<typeof ChatRoomMember>) => {
+export const useChatRoomMember = () => {
+  const user = useUser() as User;
   const router = useRouter();
 
   const roomId = router.query.roomId as string;
 
   const { data: chatRoom } = useSelectChatRoomQuery({ roomId, userId: user.id });
 
-  return { chatRoom, opponent: chatRoom.members[0] };
+  return { user, chatRoom, opponent: chatRoom.members[0] };
 };

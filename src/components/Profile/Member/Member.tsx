@@ -1,4 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
 import { FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
@@ -8,8 +7,8 @@ import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
 import { useMember } from "./Member.hooks";
 
-export const Member = ({ user }: { user: User }) => {
-  const app = useMember({ user });
+export const Member = () => {
+  const app = useMember();
   const { t } = useTranslation("profile");
 
   return (

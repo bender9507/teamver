@@ -1,5 +1,4 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { QueryClient } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -16,6 +15,7 @@ import {
 } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
 import { HTTP_REGEX } from "~/constants/regex";
+import { profileKeys, selectProfile } from "~/states/server/profile";
 import {
   Flex,
   FlexCenter,
@@ -26,12 +26,12 @@ import {
   Text
 } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import type { Database } from "~/types/database";
+import { requireAuthentication } from "~/utils";
 import { useProfileEdit } from "./edit.hooks";
 import * as Styled from "./edit.styles";
 
-const ProfileEdit = (props: { user: User }) => {
-  const app = useProfileEdit(props);
+const ProfileEdit = () => {
+  const app = useProfileEdit();
   const { t, i18n } = useTranslation("profile");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -217,26 +217,23 @@ const ProfileEdit = (props: { user: User }) => {
 
 export default ProfileEdit;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const supabaseClient = createPagesServerClient<Database>(ctx);
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    const queryClient = new QueryClient();
 
-  const {
-    data: { session }
-  } = await supabaseClient.auth.getSession();
+    await queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
+      selectProfile(session.user.id)
+    );
 
-  if (!session) {
     return {
-      redirect: {
-        destination: "/",
-        permanent: false
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, [
+          "common",
+          "profile",
+          "project"
+        ]))
       }
     };
   }
-
-  return {
-    props: {
-      user: session.user,
-      ...(await serverSideTranslations(ctx.locale as string, "profile"))
-    }
-  };
-};
+);

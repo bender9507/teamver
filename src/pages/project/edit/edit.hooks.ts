@@ -1,8 +1,9 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
@@ -18,9 +19,9 @@ import { useUploadProjectImageMutate } from "~/states/server/storage";
 
 import { routes } from "~/constants/routes";
 import type { ProjectEditForm } from "./edit.types";
-import type Create from "./index.page";
 
-export const useEdit = ({ user }: ComponentProps<typeof Create>) => {
+export const useEdit = () => {
+  const user = useUser() as User;
   const router = useRouter();
   const queryClient = useQueryClient();
 

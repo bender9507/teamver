@@ -1,4 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
 import { useTranslation } from "next-i18next";
 import { useSelectChatRequestMemberQuery } from "~/states/server/chat";
 import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
@@ -6,12 +5,12 @@ import { isEmpty } from "~/utils";
 import { ChatRequestCard } from "../ChatRequestCard";
 import { useChatRequestOwner } from "./ChatRequestOwner.hooks";
 
-export const ChatRequestOwner = ({ user }: { user: User }) => {
-  const app = useChatRequestOwner({ user });
+export const ChatRequestOwner = () => {
+  const app = useChatRequestOwner();
   const { t } = useTranslation("chat");
 
   const { data: requests } = useSelectChatRequestMemberQuery({
-    receiverId: user.id,
+    receiverId: app.user.id,
     state: "PENDING"
   });
 

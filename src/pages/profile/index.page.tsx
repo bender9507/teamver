@@ -1,5 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { QueryClient } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -11,9 +9,10 @@ import { Navbar } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
+import { requireAuthentication } from "~/utils";
 import * as Styled from "./profile.styles";
 
-const Profile = ({ user }: { user: User }) => {
+const Profile = () => {
   const router = useRouter();
   const { data: profile } = useSelectProfileQuery(router.query.userId as string);
 
@@ -25,9 +24,7 @@ const Profile = ({ user }: { user: User }) => {
         </Link>
       </Styled.SettingHeader>
 
-      <LayoutContent>
-        {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
-      </LayoutContent>
+      <LayoutContent>{profile.role.id === 1 ? <Owner /> : <Member />}</LayoutContent>
 
       <Navbar />
     </LayoutHeaderWithNav>
@@ -36,23 +33,23 @@ const Profile = ({ user }: { user: User }) => {
 
 export default Profile;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const queryClient = new QueryClient();
-  const supabaseServer = createPagesServerClient(context);
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    const queryClient = new QueryClient();
 
-  const {
-    data: { user }
-  } = (await supabaseServer.auth.getUser()) as { data: { user: User } };
+    await queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
+      selectProfile(session.user.id)
+    );
 
-  await queryClient.prefetchQuery({
-    queryKey: profileKeys.selectProfile(user.id),
-    queryFn: () => selectProfile(user.id)
-  });
-
-  return {
-    props: {
-      user,
-      ...(await serverSideTranslations(context.locale as string, ["common", "profile", "project"]))
-    }
-  };
-};
+    return {
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, [
+          "common",
+          "profile",
+          "project"
+        ]))
+      }
+    };
+  }
+);
