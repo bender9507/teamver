@@ -1,24 +1,27 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { FlexColumn, position } from "~/styles/mixins";
+import { FlexColumn, position, size } from "~/styles/mixins";
 import { IconButton } from "../Commons";
 
 export const Container = styled.div`
-  ${({ theme: { sizes } }) => css`
-    min-height: calc(100svh - ${sizes.height.header + sizes.height.navbar}px);
-  `};
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+
+  ${({ theme: { sizes } }) => {
+    const _height = `calc(100svh - ${sizes.height.header + sizes.height.navbar}px)`;
+
+    return css`
+      ${size({ height: _height, maxHeight: _height })};
+    `;
+  }};
 `;
 
 export const SectionContainer = styled(FlexColumn)`
   padding: 32px 20px;
-`;
 
-export const FloatingBox = styled.div`
-  ${position.sticky({ bottom: 0 })};
+  overflow: scroll;
 `;
 
 export const FloatingIcon = styled(IconButton)`
-  position: absolute;
-  right: 20px;
-  bottom: 28px;
+  ${position.absolute({ bottom: 28, right: 20 })};
 `;

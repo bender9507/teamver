@@ -32,13 +32,15 @@ export const ProfileDetail = ({
   return (
     <FlexColumn>
       <RatioBox ratio="376/275">
-        <Image
-          src={profile.imageUrl}
-          fill
-          sizes="100%"
-          alt="profile img"
-          style={{ objectFit: "cover" }}
-        />
+        <Flex style={{ userSelect: "none", pointerEvents: "none" }}>
+          <Image
+            src={profile.imageUrl}
+            fill
+            sizes="100%"
+            alt="profile img"
+            style={{ objectFit: "cover" }}
+          />
+        </Flex>
 
         <Position position="absolute" bottom={24} right={32}>
           <Flex gap={12}>

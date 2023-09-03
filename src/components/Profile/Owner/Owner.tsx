@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import type { ReactNode } from "react";
 import { FlexColumn, Text } from "~/styles/mixins";
-import { Container, FloatingBox, FloatingIcon, SectionContainer } from "../Profile.styles";
+import { Container, FloatingIcon, SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
 import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
@@ -27,8 +27,8 @@ export const Owner = (): ReactNode => {
         />
 
         {app.selectedTab === "IN_PROJECT" && (
-          <SectionContainer gap={46}>
-            {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_RECRUIT")
+          <SectionContainer gap={32}>
+            {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_PROJECT")
               .length > 0 ? (
               <>
                 <FlexColumn gap={18}>
@@ -85,14 +85,12 @@ export const Owner = (): ReactNode => {
       </Container>
 
       {app.isMine && (
-        <FloatingBox>
-          <FloatingIcon
-            name="floatingButton"
-            width={50}
-            height={50}
-            onClick={app.handleProjectCreate}
-          />
-        </FloatingBox>
+        <FloatingIcon
+          name="floatingButton"
+          width={50}
+          height={50}
+          onClick={app.handleProjectCreate}
+        />
       )}
     </>
   );
