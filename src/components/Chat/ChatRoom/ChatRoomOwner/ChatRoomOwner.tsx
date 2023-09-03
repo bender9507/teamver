@@ -9,7 +9,7 @@ import { Invite } from "./Invite";
 
 export const ChatRoomOwner = () => {
   const app = useChatRoomOwner();
-  const { t } = useTranslation();
+  const { t } = useTranslation("chat");
 
   return (
     <LayoutHeaderWithNav>

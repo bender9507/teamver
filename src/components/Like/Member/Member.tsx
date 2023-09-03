@@ -2,7 +2,8 @@ import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useTranslation } from "next-i18next";
 import { useSelectFollowProjectsQuery } from "~/states/server/project";
-import { FlexColumn, Text } from "~/styles/mixins";
+import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
+import { isEmpty } from "~/utils";
 import { LikeCardMember } from "../LikeCardMember";
 
 export const Member = () => {
@@ -15,6 +16,14 @@ export const Member = () => {
       <Text as="h4" size="textLarge">
         {t("내가 찜한 프로젝트")}
       </Text>
+
+      <PosCenter>
+        {isEmpty(followProjects) && (
+          <Text size="textMedium" color="gray6">
+            {t("찜한 프로젝트가 없어요")}
+          </Text>
+        )}
+      </PosCenter>
 
       <FlexColumn gap={15} marginTop={16}>
         {followProjects.map((followProject) => (

@@ -23,7 +23,9 @@ export const Invite = ({
         <Radio key={project.id} value={project.id}>
           <Avatar size="small" src={project.imageUrl} />
 
-          <Text>{project.name}</Text>
+          <Text width={130} ellipsis>
+            {project.name}
+          </Text>
         </Radio>
       ))}
     </RadioGroup>

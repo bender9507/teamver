@@ -13,7 +13,7 @@ import {
 export const useChatRequestOwner = () => {
   const queryClient = useQueryClient();
   const user = useUser() as User;
-  const { t } = useTranslation();
+  const { t } = useTranslation("chat");
   const { toast } = useDialog();
 
   const { data: requests } = useSelectChatRequestMemberQuery({
@@ -33,7 +33,7 @@ export const useChatRequestOwner = () => {
           state === "GRANT" ? t("채팅 요청을 수락하였습니다.") : t("채팅 요청을 거절하였습니다.")
       });
     },
-    onError: () => toast({ type: "success", message: "채팅 수락에 실패하였습니다." })
+    onError: () => toast({ type: "success", message: t("채팅 요청을 거절하였습니다.") })
   });
 
   const handleRequestGrant = (request: ChatRequestMemberAllData) => {
