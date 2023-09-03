@@ -41,9 +41,9 @@ export const Member = () => {
                   <Text size="paragraph3">{t("도전해보고 싶은 프로젝트 타입을 선택해주세요")}</Text>
                 </FlexColumn>
 
-                <SizeBox height={50} />
+                <SizeBox height={34} />
 
-                <Flex gap={12} wrap="wrap">
+                <Flex gap={8} wrap="wrap">
                   {app.constants.projectTypes.map((projectType) => (
                     <SelectChip
                       key={projectType.id}
@@ -82,9 +82,9 @@ export const Member = () => {
                   </Text>
                 </FlexColumn>
 
-                <SizeBox height={52} />
+                <SizeBox height={34} />
 
-                <Flex gap={12} wrap="wrap">
+                <Flex gap={8} wrap="wrap">
                   {app.constants.areas.map((area) => (
                     <SelectChip
                       key={area.id}
