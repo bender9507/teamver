@@ -13,74 +13,76 @@ export const Owner = (): ReactNode => {
   const { t } = useTranslation("profile");
 
   return (
-    <Container>
-      <ProfileSection profile={app.profile} isMine={app.isMine} />
+    <>
+      <Container>
+        <ProfileSection profile={app.profile} isMine={app.isMine} />
 
-      <SectionTab
-        items={[
-          { id: "IN_PROJECT", label: t("진행 중인 프로젝트") },
-          { id: "DONE_PROJECT", label: t("완료된 프로젝트") }
-        ]}
-        selectedId={app.selectedTab}
-        onClick={app.setSelectedTab}
-      />
+        <SectionTab
+          items={[
+            { id: "IN_PROJECT", label: t("진행 중인 프로젝트") },
+            { id: "DONE_PROJECT", label: t("완료된 프로젝트") }
+          ]}
+          selectedId={app.selectedTab}
+          onClick={app.setSelectedTab}
+        />
 
-      {app.selectedTab === "IN_PROJECT" && (
-        <SectionContainer gap={32}>
-          {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_PROJECT")
-            .length > 0 ? (
-            <>
-              <FlexColumn gap={18}>
-                <Text size="titleSmall">{t("모집 중")}</Text>
+        {app.selectedTab === "IN_PROJECT" && (
+          <SectionContainer gap={32}>
+            {app.projects.filter((project) => project.state === "IN_RECRUIT" && "DONE_PROJECT")
+              .length > 0 ? (
+              <>
+                <FlexColumn gap={18}>
+                  <Text size="titleSmall">{t("모집 중")}</Text>
 
-                <FlexColumn gap={12}>
-                  {app.projects
-                    .filter((project) => project.state === "IN_RECRUIT")
-                    .map((project) => (
-                      <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-                    ))}
+                  <FlexColumn gap={12}>
+                    {app.projects
+                      .filter((project) => project.state === "IN_RECRUIT")
+                      .map((project) => (
+                        <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+                      ))}
+                  </FlexColumn>
                 </FlexColumn>
-              </FlexColumn>
 
-              <FlexColumn gap={18}>
-                <Text size="titleSmall">{t("모집 완료")}</Text>
+                <FlexColumn gap={18}>
+                  <Text size="titleSmall">{t("모집 완료")}</Text>
 
-                <FlexColumn gap={12}>
-                  {app.projects
-                    .filter((project) => project.state === "DONE_RECRUIT")
-                    .map((project) => (
-                      <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-                    ))}
+                  <FlexColumn gap={12}>
+                    {app.projects
+                      .filter((project) => project.state === "DONE_RECRUIT")
+                      .map((project) => (
+                        <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+                      ))}
+                  </FlexColumn>
                 </FlexColumn>
+              </>
+            ) : (
+              <FlexColumn align="center" style={{ marginTop: "98px" }}>
+                <Text size="textMediumBold" color="gray6">
+                  {t("진행 중인 프로젝트가 없어요")}
+                </Text>
               </FlexColumn>
-            </>
-          ) : (
-            <FlexColumn align="center" style={{ marginTop: "98px" }}>
-              <Text size="textMediumBold" color="gray6">
-                {t("진행 중인 프로젝트가 없어요")}
-              </Text>
-            </FlexColumn>
-          )}
-        </SectionContainer>
-      )}
+            )}
+          </SectionContainer>
+        )}
 
-      {app.selectedTab === "DONE_PROJECT" && (
-        <SectionContainer gap={12}>
-          {app.projects.filter((project) => project.state === "DONE_PROJECT").length > 0 ? (
-            app.projects
-              .filter((project) => project.state === "DONE_PROJECT")
-              .map((project) => (
-                <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-              ))
-          ) : (
-            <FlexColumn align="center" style={{ marginTop: "98px" }}>
-              <Text size="textMediumBold" color="gray6">
-                {t("완료된 프로젝트가 없어요")}
-              </Text>
-            </FlexColumn>
-          )}
-        </SectionContainer>
-      )}
+        {app.selectedTab === "DONE_PROJECT" && (
+          <SectionContainer gap={12}>
+            {app.projects.filter((project) => project.state === "DONE_PROJECT").length > 0 ? (
+              app.projects
+                .filter((project) => project.state === "DONE_PROJECT")
+                .map((project) => (
+                  <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+                ))
+            ) : (
+              <FlexColumn align="center" style={{ marginTop: "98px" }}>
+                <Text size="textMediumBold" color="gray6">
+                  {t("완료된 프로젝트가 없어요")}
+                </Text>
+              </FlexColumn>
+            )}
+          </SectionContainer>
+        )}
+      </Container>
 
       {app.isMine && (
         <FloatingIcon
@@ -90,6 +92,6 @@ export const Owner = (): ReactNode => {
           onClick={app.handleProjectCreate}
         />
       )}
-    </Container>
+    </>
   );
 };
