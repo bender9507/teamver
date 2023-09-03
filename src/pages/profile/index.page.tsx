@@ -29,7 +29,7 @@ const Profile = ({ user }: { user: User }) => {
         {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
       </LayoutContent>
 
-      <Navbar user={user} />
+      <Navbar />
     </LayoutHeaderWithNav>
   );
 };
@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user,
-      ...(await serverSideTranslations(context.locale, ["common", "profile", "project"]))
+      ...(await serverSideTranslations(context.locale as string, ["common", "profile", "project"]))
     }
   };
 };

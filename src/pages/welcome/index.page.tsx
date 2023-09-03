@@ -403,7 +403,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user,
-      ...(await serverSideTranslations(context.locale, ["common", "welcome"]))
+      ...(await serverSideTranslations(context.locale as string, ["common", "welcome"]))
     }
   };
 };

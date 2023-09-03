@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       user,
       dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(ctx.locale, ["common", "setting"]))
+      ...(await serverSideTranslations(ctx.locale as string, ["common", "setting"]))
     }
   };
 };
