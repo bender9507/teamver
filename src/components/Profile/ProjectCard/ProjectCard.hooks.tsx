@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
 import { PROJECT_DETAIL_MODAL, ProjectDetail, useDialog, useModal } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import { useSelectProfileQuery } from "~/states/server/profile";
 import type { ProjectDataRow } from "~/states/server/project";
 import {
   projectsKey,
@@ -20,8 +19,6 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
 
   const { confirm } = useDialog();
   const { mount, unmount } = useModal();
-
-  const { data: profile } = useSelectProfileQuery(project.ownerId);
 
   const { mutate: updateProjectStateMutate } = useUpdateProjectStateMutate({
     onSuccess: () => {
@@ -68,7 +65,7 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
   };
 
   const handleOpenProjectDetail = () => {
-    mount(<ProjectDetail project={project} profile={profile} />, {
+    mount(<ProjectDetail project={project} profile={project.ownerProfile} />, {
       id: PROJECT_DETAIL_MODAL,
       type: "bottom"
     });
