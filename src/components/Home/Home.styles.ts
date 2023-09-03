@@ -9,7 +9,7 @@ import { colors } from "~/styles/theme/colors";
 export const Container = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 42px;
+  gap: 36px;
 
   ${({
     theme: {

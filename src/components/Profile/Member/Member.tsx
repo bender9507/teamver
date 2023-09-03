@@ -25,7 +25,7 @@ export const Member = () => {
       />
 
       {app.selectedTab === "IN_PROJECT" && (
-        <SectionContainer gap={26}>
+        <SectionContainer gap={12}>
           {isEmpty(app.inProjects) && (
             <FlexColumn align="center" style={{ marginTop: "98px" }}>
               <Text size="textMediumBold" color="gray6">
@@ -40,13 +40,20 @@ export const Member = () => {
         </SectionContainer>
       )}
 
-      {app.selectedTab === "DONE_PROJECT" && (
-        <SectionContainer gap={26}>
-          {app.doneProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </SectionContainer>
-      )}
+      {app.selectedTab === "DONE_PROJECT" &&
+        (app.doneProjects.length > 0 ? (
+          <SectionContainer gap={12}>
+            {app.doneProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </SectionContainer>
+        ) : (
+          <FlexColumn align="center" style={{ marginTop: "130px" }}>
+            <Text size="textMediumBold" color="gray6">
+              {t("완료된 프로젝트가 없어요")}
+            </Text>
+          </FlexColumn>
+        ))}
     </Container>
   );
 };
