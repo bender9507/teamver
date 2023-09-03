@@ -60,7 +60,7 @@ export const ProjectDetail = ({
               />
             </Flex>
 
-            <Text size="textMediumBold" color="gray9">
+            <Text size="textMediumBold" color="gray9" whiteSpace="pre-wrap">
               {project.description}
             </Text>
           </FlexColumn>
