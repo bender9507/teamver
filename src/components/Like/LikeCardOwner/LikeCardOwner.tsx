@@ -25,18 +25,15 @@ export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
 
       <FlexCenter gap={10}>
         <Button
+          color="content1"
+          bgColor="backgroundSecondary"
           size="small"
           disabled={data.chatRequest[data.chatRequest.length - 1]?.state === "GRANT"}
           onClick={app.handleRequest}
         >
           {app.requestState()}
         </Button>
-        <IconButton
-          type="button"
-          name="bookmark"
-          color="primary"
-          onClick={app.handleDeleteFollow}
-        />
+        <IconButton type="button" name="bookmarkFill" onClick={app.handleDeleteFollow} />
       </FlexCenter>
     </Styled.Card>
   );
