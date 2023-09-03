@@ -44,9 +44,9 @@ export const Owner = () => {
                   </Text>
                 </FlexColumn>
 
-                <SizeBox height={48} />
+                <SizeBox height={34} />
 
-                <Flex gap={12} wrap="wrap">
+                <Flex gap={8} wrap="wrap">
                   {app.constants.languages.map((language) => (
                     <SelectChip
                       key={language.id}
@@ -84,9 +84,9 @@ export const Owner = () => {
                   </Text>
                 </FlexColumn>
 
-                <SizeBox height={48} />
+                <SizeBox height={34} />
 
-                <Flex gap={12} wrap="wrap">
+                <Flex gap={8} wrap="wrap">
                   {app.constants.skills.map((skill) => (
                     <SelectChip
                       key={skill.id}
@@ -124,9 +124,9 @@ export const Owner = () => {
                   </Text>
                 </FlexColumn>
 
-                <SizeBox height={48} />
+                <SizeBox height={34} />
 
-                <Flex gap={12} wrap="wrap">
+                <Flex gap={8} wrap="wrap">
                   {app.constants.positions.map((position) => (
                     <SelectChip
                       key={position.id}
@@ -164,9 +164,9 @@ export const Owner = () => {
                   </Text>
                 </FlexColumn>
 
-                <SizeBox height={48} />
+                <SizeBox height={34} />
 
-                <Flex gap={12} wrap="wrap">
+                <Flex gap={8} wrap="wrap">
                   {app.constants.areas.map((area) => (
                     <SelectChip
                       key={area.id}

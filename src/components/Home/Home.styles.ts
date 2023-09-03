@@ -23,7 +23,7 @@ export const Container = styled.div`
     `;
   }}
 
-  padding: 0 22px 15px 22px;
+  padding: 16px 22px 15px 22px;
 `;
 
 export const Profile = styled(Image)`
