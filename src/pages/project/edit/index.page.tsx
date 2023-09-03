@@ -19,6 +19,8 @@ import * as Styled from "./edit.styles";
 const Edit = (props: { user: User }) => {
   const app = useEdit(props);
   const { t, i18n } = useTranslation("project");
+  console.log(app.project.startDate, app.project.endDate);
+  console.log(app.project, app.isStartIndefinite, app.isEndIndefinite);
 
   const currentLanguage = i18n.language as OneOfLanguage;
   return (
@@ -131,7 +133,13 @@ const Edit = (props: { user: User }) => {
                     <Input
                       placeholder={t("시작일")}
                       readOnly
-                      value={app.startDateValue}
+                      value={
+                        app.isStartIndefinite
+                          ? t("미정")
+                          : (app.watch("startDate") &&
+                              dayjs(app.watch("startDate")).format("DD. MM. YYYY")) ||
+                            ""
+                      }
                       onClick={() => {
                         app.setEndDateIsOpen.off();
                         app.setStartDateIsOpen.toggle();
@@ -147,7 +155,13 @@ const Edit = (props: { user: User }) => {
                     <Input
                       placeholder={t("종료일")}
                       readOnly
-                      value={app.endDateValue}
+                      value={
+                        app.isEndIndefinite
+                          ? t("미정")
+                          : (app.watch("endDate") &&
+                              dayjs(app.watch("endDate")).format("DD. MM. YYYY")) ||
+                            ""
+                      }
                       onClick={() => {
                         app.setStartDateIsOpen.off();
                         app.setEndDateIsOpen.toggle();
@@ -178,6 +192,12 @@ const Edit = (props: { user: User }) => {
                               : app.setEndDateIsOpen
                             ).off();
                             field.onChange(date);
+                            // (app.startDateIsOpen ? app.setStartIsIndefinite(false) : app.setEndIsIndefinite(false))
+                            if (app.startDateIsOpen) {
+                              app.setStartIsIndefinite(false);
+                            } else {
+                              app.setEndIsIndefinite(false);
+                            }
                           }}
                         />
                       </Styled.CalendarWrapper>
@@ -194,10 +214,12 @@ const Edit = (props: { user: User }) => {
                       onChange={(e) => {
                         if (app.startDateIsOpen) {
                           app.setStartIsIndefinite(e.target.checked);
-                          app.setValue("startDate", e.target.checked ? null : dayjs().toDate());
+                          app.setValue("startDate", null);
+                          app.setStartDateIsOpen.off();
                         } else if (app.endDateIsOpen) {
                           app.setEndIsIndefinite(e.target.checked);
-                          app.setValue("endDate", e.target.checked ? null : dayjs().toDate());
+                          app.setValue("endDate", null);
+                          app.setEndDateIsOpen.off();
                         }
                       }}
                     />
