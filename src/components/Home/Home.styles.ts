@@ -55,7 +55,7 @@ export const Content = styled.div`
 
   width: 100%;
 
-  padding: 54px 24px;
+  padding: 54px 22px;
 `;
 
 export const BlurChip = styled.span`
