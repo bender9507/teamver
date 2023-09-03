@@ -23,9 +23,16 @@ export const useOwner = () => {
     router.push(routes.projectCreate);
   };
 
+  const inRecruit = projects.filter((project) => project.state === "IN_RECRUIT");
+  const doneRecruit = projects.filter((project) => project.state === "DONE_RECRUIT");
+  const doneProjects = projects.filter((project) => project.state === "DONE_PROJECT");
+
   return {
     profile,
     projects,
+    inRecruit,
+    doneRecruit,
+    doneProjects,
     isMine,
     selectedTab,
     setSelectedTab,

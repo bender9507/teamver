@@ -21,7 +21,9 @@ export const LikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
       >
         <Avatar src={data.follow.imageUrl} size="medium" />
 
-        <Text>{data.follow.name}</Text>
+        <Text size="textMediumBold" width={113} textAlign="left" ellipsis>
+          {data.follow.name}
+        </Text>
       </FlexCenter>
 
       <FlexCenter gap={10}>
