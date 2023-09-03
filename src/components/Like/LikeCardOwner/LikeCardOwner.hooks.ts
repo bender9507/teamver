@@ -25,10 +25,10 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
   const { mutate: insertChatRequestOwnerMutate } = useInsertChatRequestsOwnerMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
-      toast({ type: "success", message: t("채팅을 성공적으로 요청했습니다!") });
+      toast({ type: "success", message: t("채팅을 성공적으로 요청했습니다") });
     },
     onError: () => {
-      toast({ type: "error", message: t("채팅 요청을 실패했습니다.") });
+      toast({ type: "error", message: t("채팅 요청을 실패했습니다") });
     }
   });
 
@@ -41,12 +41,12 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
   const { mutate: deleteFollowMutate } = useDeleteFollowMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
-      toast({ type: "success", message: t("찜 해제 완료!") });
+      toast({ type: "success", message: t("찜 해제 완료") });
     }
   });
 
   const handleDeleteFollow = async () => {
-    if (!(await confirm({ title: "정말 찜 해제하시겠어요?" }))) return;
+    if (!(await confirm({ title: "정말 찜 해제하시겠어요" }))) return;
     deleteFollowMutate(data.id);
   };
 
@@ -54,7 +54,7 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
     if (data.chatRequest[data.chatRequest.length - 1]?.state === "PENDING") {
       deleteChatRequestOwnerMutate(data.chatRequest[data.chatRequest.length - 1]?.id);
     } else {
-      if (!(await confirm({ title: t("채팅을 요청할까요?") }))) return;
+      if (!(await confirm({ title: t("채팅을 요청할까요") }))) return;
       insertChatRequestOwnerMutate({
         requesterId: userId,
         receiverId: data.follow.id,
@@ -76,5 +76,5 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
     }
   };
 
-  return { mount, filteredData, handleDeleteFollow, handleRequest, requestState };
+  return { filteredData, mount, handleDeleteFollow, handleRequest, requestState };
 };

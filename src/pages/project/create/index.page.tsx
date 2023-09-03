@@ -1,5 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import dayjs from "dayjs";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -20,11 +18,12 @@ import {
 import { TitleHeader } from "~/components/Shared";
 import { Flex, FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
+import { requireAuthentication } from "~/utils";
 import { useCreate } from "./create.hooks";
 import * as Styled from "./create.styles";
 
-const Create = (props: { user: User }) => {
-  const app = useCreate(props);
+const Create = () => {
+  const app = useCreate();
 
   const { t, i18n } = useTranslation("project");
 
@@ -286,17 +285,13 @@ const Create = (props: { user: User }) => {
 
 export default Create;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const supabaseServer = createPagesServerClient(context);
-
-  const {
-    data: { user }
-  } = await supabaseServer.auth.getUser();
-
-  return {
-    props: {
-      user: user as User,
-      ...(await serverSideTranslations(context.locale, ["common", "project"]))
-    }
-  };
-};
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    return {
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, ["common", "project"]))
+      }
+    };
+  }
+);

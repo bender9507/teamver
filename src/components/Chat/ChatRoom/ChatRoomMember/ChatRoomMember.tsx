@@ -1,14 +1,12 @@
-import type { ComponentProps } from "react";
 import { Avatar, IconButton, PreviousButton } from "~/components/Commons";
-import type ChatRoom from "~/pages/chat/room/index.page";
 import { Flex, LayoutHeaderWithNav, Text } from "~/styles/mixins";
 import { ChatMessageBox } from "../ChatMessageBox";
 import { ChatMessageSend } from "../ChatMessageSend";
 import { ChatHeader } from "../ChatRoom.styles";
 import { useChatRoomMember } from "./ChatRoomMember.hooks";
 
-export const ChatRoomMember = (props: ComponentProps<typeof ChatRoom>) => {
-  const app = useChatRoomMember(props);
+export const ChatRoomMember = () => {
+  const app = useChatRoomMember();
 
   return (
     <LayoutHeaderWithNav>
@@ -24,9 +22,9 @@ export const ChatRoomMember = (props: ComponentProps<typeof ChatRoom>) => {
         <IconButton name="moreVertical" />
       </ChatHeader>
 
-      <ChatMessageBox user={props.user} opponent={app.opponent} />
+      <ChatMessageBox user={app.user} opponent={app.opponent} />
 
-      <ChatMessageSend user={props.user} />
+      <ChatMessageSend user={app.user} />
     </LayoutHeaderWithNav>
   );
 };

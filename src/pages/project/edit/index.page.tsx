@@ -1,5 +1,3 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { QueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import type { GetServerSideProps } from "next";
@@ -10,14 +8,15 @@ import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
 import { Button, ImageUploader, Input, Label, SelectChip, Textarea } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
-import { projectsKey } from "~/states/server/project";
+import { projectsKey, selectProject } from "~/states/server/project";
 import { Flex, FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
+import { requireAuthentication } from "~/utils";
 import { useEdit } from "./edit.hooks";
 import * as Styled from "./edit.styles";
 
-const Edit = (props: { user: User }) => {
-  const app = useEdit(props);
+const Edit = () => {
+  const app = useEdit();
   const { t, i18n } = useTranslation("project");
   console.log(app.project.startDate, app.project.endDate);
   console.log(app.project, app.isStartIndefinite, app.isEndIndefinite);
@@ -293,22 +292,21 @@ const Edit = (props: { user: User }) => {
 
 export default Edit;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const queryClient = new QueryClient();
-  const supabaseServer = createPagesServerClient(context);
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    const queryClient = new QueryClient();
 
-  const { projectId } = context.query;
+    const { projectId } = context.query;
 
-  const {
-    data: { user }
-  } = await supabaseServer.auth.getUser();
+    await queryClient.prefetchQuery(projectsKey.selectProject(Number(projectId)), () =>
+      selectProject(Number(projectId))
+    );
 
-  await queryClient.prefetchQuery({ queryKey: projectsKey.selectProject(projectId) });
-
-  return {
-    props: {
-      user: user as User,
-      ...(await serverSideTranslations(context.locale, ["common", "project"]))
-    }
-  };
-};
+    return {
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, ["common", "project"]))
+      }
+    };
+  }
+);

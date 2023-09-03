@@ -1,4 +1,4 @@
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { useUser } from "@supabase/auth-helpers-react";
 import type { User } from "@supabase/supabase-js";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -7,18 +7,20 @@ import { ChatRequestMember, ChatRequestOwner } from "~/components/Chat";
 import { TitleHeader } from "~/components/Shared";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeader } from "~/styles/mixins";
-import type { Database } from "~/types/database";
+import { requireAuthentication } from "~/utils";
 
-const ChatRequest = (props: { user: User }) => {
+const ChatRequest = () => {
+  const user = useUser() as User;
+  const { data: profile } = useSelectProfileQuery(user.id);
+
   const { t } = useTranslation("chat");
-  const { data: profile } = useSelectProfileQuery(props.user.id);
 
   return (
     <LayoutHeader>
       <TitleHeader title={t("채팅요청")} />
 
       <LayoutContent padding="49px 22px 22px 22px">
-        {profile.role.id === 1 ? <ChatRequestOwner {...props} /> : <ChatRequestMember {...props} />}
+        {profile.role.id === 1 ? <ChatRequestOwner /> : <ChatRequestMember />}
       </LayoutContent>
     </LayoutHeader>
   );
@@ -26,17 +28,13 @@ const ChatRequest = (props: { user: User }) => {
 
 export default ChatRequest;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const supabase = createPagesServerClient<Database>(ctx);
-
-  const {
-    data: { user }
-  } = (await supabase.auth.getUser()) as { data: { user: User } };
-
-  return {
-    props: {
-      user: user as User,
-      ...(await serverSideTranslations(ctx.locale, ["common", "chat"]))
-    }
-  };
-};
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    return {
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, ["common", "chat"]))
+      }
+    };
+  }
+);

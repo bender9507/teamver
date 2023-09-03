@@ -1,6 +1,7 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
-import type { ComponentProps } from "react";
 import { useDialog } from "~/components/Commons";
 import type { ChatRequestOwnerAllData } from "~/states/server/chat";
 import {
@@ -8,9 +9,9 @@ import {
   useSelectChatRequestOwnerQuery,
   useUpdateChatRequestStateOwnerMutate
 } from "~/states/server/chat";
-import type { ChatRequestMember } from ".";
 
-export const useChatRequestMember = ({ user }: ComponentProps<typeof ChatRequestMember>) => {
+export const useChatRequestMember = () => {
+  const user = useUser() as User;
   const queryClient = useQueryClient();
   const { t } = useTranslation();
   const { toast } = useDialog();
@@ -44,6 +45,7 @@ export const useChatRequestMember = ({ user }: ComponentProps<typeof ChatRequest
   };
 
   return {
+    user,
     requests,
     handleRequestDenied,
     handleRequestGrant

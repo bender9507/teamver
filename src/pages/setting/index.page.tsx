@@ -9,6 +9,7 @@ import { TitleHeader } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
+import { requireAuthentication } from "~/utils";
 import * as Styled from "./setting.styles";
 
 const ProfileSetting = () => {
@@ -66,10 +67,13 @@ const ProfileSetting = () => {
 
 export default ProfileSetting;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(context.locale, ["common", "setting"]))
-    }
-  };
-};
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    return {
+      props: {
+        session,
+        ...(await serverSideTranslations(context.locale as string, ["common", "setting"]))
+      }
+    };
+  }
+);

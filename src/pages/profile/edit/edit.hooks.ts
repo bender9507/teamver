@@ -1,6 +1,8 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useState, type ChangeEvent, type ComponentProps } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { routes } from "~/constants/routes";
@@ -13,12 +15,12 @@ import {
 import { useUploadProfileImageMutate } from "~/states/server/storage";
 import { debounce } from "~/utils";
 import type { ProfileEditForm } from "./edit.types";
-import type ProfileEdit from "./index.page";
 
-export const useProfileEdit = ({ user }: ComponentProps<typeof ProfileEdit>) => {
+export const useProfileEdit = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const router = useRouter();
+  const user = useUser() as User;
   const { toast, confirm } = useDialog();
 
   const { t } = useTranslation("profile");

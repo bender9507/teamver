@@ -1,4 +1,5 @@
-import type { ComponentProps } from "react";
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
@@ -9,12 +10,11 @@ import {
   useInsertFollowProjectMutate,
   useSelectRecommendedProjectsQuery
 } from "~/states/server/project";
-import type { Member } from "./Member";
 import type { FilterForm } from "./Member.types";
 
 const SEED = Math.random();
 
-export const useMember = ({ user }: ComponentProps<typeof Member>) => {
+export const useMember = () => {
   const [filter, setFilter] = useImmutableState<FilterForm>({
     areas: []
   });
@@ -22,8 +22,8 @@ export const useMember = ({ user }: ComponentProps<typeof Member>) => {
   const { mount, unmount } = useModal();
   const { register, handleSubmit } = useForm<FilterForm>();
 
+  const user = useUser() as User;
   const { data: profile } = useSelectProfileQuery(user.id);
-
   const { data: constants } = useSelectConstantsQuery();
   const { data: randomProjects, fetchNextPage } = useSelectRecommendedProjectsQuery({
     seedValue: SEED,

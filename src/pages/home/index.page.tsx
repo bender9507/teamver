@@ -1,5 +1,5 @@
 import type { User } from "@supabase/auth-helpers-nextjs";
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { useUser } from "@supabase/auth-helpers-react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -8,50 +8,48 @@ import { LogoHeader, Navbar } from "~/components/Shared";
 import { constantKeys, selectConstants } from "~/states/server/constant";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
+import { requireAuthentication } from "~/utils";
 
-const Home = ({ user }: { user: User }) => {
+const Home = () => {
+  const user = useUser() as User;
   const { data: profile } = useSelectProfileQuery(user.id);
 
   return (
     <LayoutHeaderWithNav>
       <LogoHeader />
 
-      <LayoutContent>
-        {profile.role.id === 1 ? <Owner user={user} /> : <Member user={user} />}
-      </LayoutContent>
+      <LayoutContent>{profile.role.id === 1 ? <Owner /> : <Member />}</LayoutContent>
 
-      <Navbar user={user} />
+      <Navbar />
     </LayoutHeaderWithNav>
   );
 };
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const queryClient = new QueryClient();
-  const supabaseServer = createPagesServerClient(context);
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  async (context, session) => {
+    const queryClient = new QueryClient();
 
-  const {
-    data: { user }
-  } = (await supabaseServer.auth.getUser()) as { data: { user: User } };
+    const constant = queryClient.prefetchQuery(constantKeys.selectConstants(), selectConstants);
 
-  const constant = queryClient.prefetchQuery({
-    queryKey: constantKeys.selectConstants(),
-    queryFn: selectConstants
-  });
+    const profile = queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
+      selectProfile(session.user.id)
+    );
 
-  const profile = queryClient.prefetchQuery({
-    queryKey: profileKeys.selectProfile(user.id),
-    queryFn: () => selectProfile(user.id)
-  });
+    await Promise.all([constant, profile]);
 
-  await Promise.all([constant, profile]);
-
-  return {
-    props: {
-      user: user as User,
-      dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(context.locale, ["common", "home", "project", "profile"]))
-    }
-  };
-};
+    return {
+      props: {
+        session,
+        dehydratedState: dehydrate(queryClient),
+        ...(await serverSideTranslations(context.locale as string, [
+          "common",
+          "home",
+          "project",
+          "profile"
+        ]))
+      }
+    };
+  }
+);

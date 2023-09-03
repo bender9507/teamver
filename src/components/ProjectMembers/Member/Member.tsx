@@ -1,16 +1,14 @@
 import { useTranslation } from "next-i18next";
-import type { ComponentProps } from "react";
 import { Avatar, ProfileDetail } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
-import type ProjectMembers from "~/pages/project/members/index.page";
 import { FlexCenter, LayoutHeader, Text } from "~/styles/mixins";
 import * as Styled from "../ProjectMembers.styles";
 import { PROFILE_DETAIL_MEMBER } from "./Member.constant";
 import { useProjectMembers } from "./Member.hooks";
 
-export const Member = (props: ComponentProps<typeof ProjectMembers>) => {
+export const Member = () => {
   const { t } = useTranslation("project");
-  const app = useProjectMembers(props);
+  const app = useProjectMembers();
 
   return (
     <LayoutHeader>

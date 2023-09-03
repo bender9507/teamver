@@ -1,12 +1,14 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useState, type ComponentProps } from "react";
+import { useState } from "react";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { useSelectMemberProjectsQuery } from "~/states/server/project";
-import type { Member } from "./Member";
 
-export const useMember = ({ user }: ComponentProps<typeof Member>) => {
+export const useMember = () => {
   const [selectedTab, setSelectedTab] = useState("IN_PROJECT");
 
+  const user = useUser() as User;
   const router = useRouter();
 
   const userId = router.query.userId as string;

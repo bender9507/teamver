@@ -1,8 +1,9 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
@@ -13,11 +14,11 @@ import { useSelectConstantsQuery } from "~/states/server/constant";
 import { projectsKey, useInsertProjectMutate } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
 import type { ProjectCreatorForm } from "./create.types";
-import type Create from "./index.page";
 
-export const useCreate = ({ user }: ComponentProps<typeof Create>) => {
+export const useCreate = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const user = useUser() as User;
 
   const { t } = useTranslation("project");
 
