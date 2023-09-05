@@ -11,6 +11,8 @@ export const Member = () => {
   const app = useChatMember();
   const { t } = useTranslation("chat");
 
+  console.log(app.rooms);
+
   return (
     <FlexColumn>
       <FlexColumn gap={18} marginTop={44}>
@@ -52,7 +54,7 @@ export const Member = () => {
 
         <FlexColumn gap={12}>
           {app.rooms.map((room) => (
-            <ChatRoomCard key={room.id} user={app.user} room={room} />
+            <ChatRoomCard key={room.id} room={room} />
           ))}
         </FlexColumn>
       </FlexColumn>

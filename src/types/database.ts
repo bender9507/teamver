@@ -39,18 +39,21 @@ export interface Database {
           createdAt: string
           id: number
           roomId: number
+          state: boolean
           userId: string
         }
         Insert: {
           createdAt?: string
           id?: number
           roomId: number
+          state?: boolean
           userId: string
         }
         Update: {
           createdAt?: string
           id?: number
           roomId?: number
+          state?: boolean
           userId?: string
         }
         Relationships: [

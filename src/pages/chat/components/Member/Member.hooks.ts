@@ -13,7 +13,6 @@ export const useChatMember = () => {
   });
 
   return {
-    user,
     invites,
     rooms,
     requests

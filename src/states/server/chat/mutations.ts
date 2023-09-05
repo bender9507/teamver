@@ -8,6 +8,7 @@ import {
   insertChatRequestMember,
   insertChatRequestOwner,
   insertChatRoomWithMember,
+  updateChatMemberState,
   updateChatRequestMemberState,
   updateChatRequestOwnerState,
   updateLastReadMessage,
@@ -109,6 +110,15 @@ export const useUpdateMessageReadState = (
 ) => {
   return useMutation({
     mutationFn: updateMessageReadState,
+    ...options
+  });
+};
+
+export const useUpdateChatMemberStateMutate = (
+  options?: PickMutationOptions<typeof updateChatMemberState, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateChatMemberState,
     ...options
   });
 };

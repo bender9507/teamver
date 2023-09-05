@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
-import { useDialog } from "~/components/Commons";
+import { useDialog, useModal } from "~/components/Commons";
 import { useSelectChatRoomQuery } from "~/states/server/chat";
 import { useInsertProjectInviteMutate } from "~/states/server/project";
 
@@ -18,6 +18,7 @@ export const useChatRoomOwner = () => {
   const roomId = router.query.roomId as string;
 
   const { confirm, toast } = useDialog();
+  const { mount } = useModal();
 
   const { data: chatRoom } = useSelectChatRoomQuery({ roomId, userId: user.id });
 
@@ -50,6 +51,7 @@ export const useChatRoomOwner = () => {
     opponent: chatRoom.members[0],
     confirm,
     toast,
+    mount,
     handleInvite,
     handleChangeProject
   };

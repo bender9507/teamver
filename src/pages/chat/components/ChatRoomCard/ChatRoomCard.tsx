@@ -1,4 +1,3 @@
-import type { User } from "@supabase/supabase-js";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { Avatar, Icon } from "~/components/Commons";
@@ -7,8 +6,8 @@ import type { ChatRoomAllData } from "~/states/server/chat";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import { useChatRoomCard } from "./ChatRoomCard.hooks";
 
-export const ChatRoomCard = ({ room, user }: { room: ChatRoomAllData; user: User }) => {
-  const app = useChatRoomCard({ room, user });
+export const ChatRoomCard = ({ room }: { room: ChatRoomAllData }) => {
+  const app = useChatRoomCard({ room });
   const { t } = useTranslation("chat");
 
   return (

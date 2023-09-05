@@ -181,6 +181,7 @@ export const selectChatRooms = async (userId: string) => {
     .limit(3, { foreignTable: "roomId.chatMessages" })
     .neq("roomId.members.userId", userId)
     .eq("userId", userId)
+    .eq("state", true)
     .order("createdAt", { foreignTable: "roomId.messages", ascending: false })
     .returns<ChatRoomAllData[]>();
 
@@ -197,6 +198,24 @@ export const deleteChatMember = async ({ roomId, userId }: { roomId: number; use
     .eq("userId", userId);
 
   if (error) throw new Error("채팅방 유저를 삭제하는데 실패하였습니다.");
+};
+
+export const updateChatMemberState = async ({
+  roomId,
+  userId,
+  state
+}: {
+  roomId: number;
+  userId: string;
+  state: boolean;
+}) => {
+  const { error } = await supabase
+    .from("chatMembers")
+    .update({ state })
+    .eq("roomId", roomId)
+    .eq("userId", userId);
+
+  if (error) throw new Error("채팅방 유저 상태를 변경하는데 실패하였습니다.");
 };
 
 export const updateChatRequestOwnerState = async ({
