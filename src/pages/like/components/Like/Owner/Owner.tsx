@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { useSelectFollows } from "~/states/server/profile";
 import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
-import { LikeCardOwner } from "../LikeCardOwner";
+import { LikeOwnerCard } from "./LikeOwnerCard";
 
 export const Owner = () => {
   const user = useUser() as User;
@@ -27,7 +27,7 @@ export const Owner = () => {
 
       <FlexColumn gap={15} marginTop={16}>
         {follows.map((follow) => (
-          <LikeCardOwner data={follow} userId={user.id} key={follow.id} />
+          <LikeOwnerCard data={follow} userId={user.id} key={follow.id} />
         ))}
       </FlexColumn>
     </>

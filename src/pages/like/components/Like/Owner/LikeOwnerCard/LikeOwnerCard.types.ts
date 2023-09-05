@@ -1,7 +1,7 @@
 import type { ChatRequestOwnerRow } from "~/states/server/chat/types";
 import type { ProfileAllDataRow } from "~/states/server/profile";
 
-export interface LikeCardOwnerProps {
+export interface LikeOwnerCardProps {
   data: {
     id: number;
     follow: ProfileAllDataRow;

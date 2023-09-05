@@ -1,12 +1,12 @@
 import { Avatar, Button, IconButton, ProjectDetail } from "~/components/Commons";
 
 import { FlexCenter, Text } from "~/styles/mixins";
-import * as Styled from "../Like.styles";
-import { useLikeCardMember } from "./LikeCardMember.hooks";
-import type { LikeCardMemberProps } from "./LikeCardMember.types";
+import * as Styled from "../../Like.styles";
+import { useLikeMemberCard } from "./LikeMemberCard.hooks";
+import type { LikeMemberCardProps } from "./LikeMemberCard.types";
 
-export const LikeCardMember = ({ data, userId }: LikeCardMemberProps) => {
-  const app = useLikeCardMember({ data, userId });
+export const LikeMemberCard = ({ data, userId }: LikeMemberCardProps) => {
+  const app = useLikeMemberCard({ data, userId });
 
   return (
     <Styled.Card>
