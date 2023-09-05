@@ -1,11 +1,9 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
 import { useCardSelect, useImmutableState } from "~/hooks";
 
-import { useSelectConstantsQuery } from "~/states/server/constant";
 import { useInsertFollowMutate, useSelectRecommendedProfilesQuery } from "~/states/server/profile";
 import type { FilterForm } from "./Owner.types";
 
@@ -19,12 +17,9 @@ export const useOwner = () => {
     areas: []
   });
 
-  const { register, handleSubmit, watch } = useForm<FilterForm>();
-
   const user = useUser() as User;
-  const { mount, unmount } = useModal();
-  const { data: constants } = useSelectConstantsQuery();
-  const { mutate: insertFollowMutate } = useInsertFollowMutate();
+  const { mount } = useModal();
+
   const { data: randomProfiles, fetchNextPage } = useSelectRecommendedProfilesQuery({
     seedValue: SEED,
     userId: user.id,
@@ -40,18 +35,11 @@ export const useOwner = () => {
     insertFollowMutate({ myId: user.id, opponentId: profileId as string })
   );
 
-  const handleChangeFilter = handleSubmit(({ languages, skills, positions, areas }) => {
-    setFilter({
-      languages: languages || [],
-      skills: skills || [],
-      positions: positions || [],
-      areas: areas || []
-    });
+  const { mutate: insertFollowMutate } = useInsertFollowMutate();
 
-    unmount("selectPositions");
-    unmount("selectLanguages");
-    unmount("selectSkills");
-  });
+  const handleChangeFilter = (key: string, values?: number[]) => {
+    setFilter({ [key]: values });
+  };
 
   useEffect(() => {
     if (filteredRandomProfiles.length <= 1) {
@@ -62,9 +50,6 @@ export const useOwner = () => {
   return {
     mount,
     filter,
-    watch,
-    register,
-    constants,
     filteredRandomProfiles,
     handleAccept,
     handleReject,

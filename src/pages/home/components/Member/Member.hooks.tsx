@@ -1,10 +1,8 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useModal } from "~/components/Commons";
 import { useCardSelect, useImmutableState } from "~/hooks";
-import { useSelectConstantsQuery } from "~/states/server/constant";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import {
   useInsertFollowProjectMutate,
@@ -19,12 +17,11 @@ export const useMember = () => {
     areas: []
   });
 
-  const { mount, unmount } = useModal();
-  const { register, handleSubmit } = useForm<FilterForm>();
-
+  const { mount } = useModal();
   const user = useUser() as User;
+
   const { data: profile } = useSelectProfileQuery(user.id);
-  const { data: constants } = useSelectConstantsQuery();
+
   const { data: randomProjects, fetchNextPage } = useSelectRecommendedProjectsQuery({
     seedValue: SEED,
     userId: user.id,
@@ -42,12 +39,9 @@ export const useMember = () => {
 
   const { mutate: insertFollowProject } = useInsertFollowProjectMutate();
 
-  const handleChangeFilter = handleSubmit(({ projectType, areas }) => {
-    setFilter({ areas: areas || [], projectType });
-
-    unmount("selectProjectType");
-    unmount("selectLanguages");
-  });
+  const handleChangeFilter = (key: string, values?: number | number[]) => {
+    setFilter({ [key]: values });
+  };
 
   useEffect(() => {
     if (filteredRandomProjects.length <= 1) {
@@ -59,8 +53,6 @@ export const useMember = () => {
     mount,
     profile,
     filter,
-    constants,
-    register,
     handleChangeFilter,
     handleAccept,
     handleReject,

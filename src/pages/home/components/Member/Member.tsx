@@ -1,15 +1,14 @@
 import { useTranslation } from "next-i18next";
 import {
-  Button,
   Icon,
   IconButton,
   PROJECT_DETAIL_MODAL,
   ProjectDetail,
-  SelectChip,
   TinderCard
 } from "~/components/Commons";
-import { CommonContainer, Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
+import { Flex, Position, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
+import { FILTER_AREA_MODAL, FILTER_TYPE_MODAL, FilterArea, FilterType } from "../Filters";
 import {
   BlurChip,
   CardContainer,
@@ -35,33 +34,11 @@ export const Member = () => {
           isSelected={!!app.filter.projectType}
           onClick={() =>
             app.mount(
-              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                <FlexColumn gap={12}>
-                  <Text size="titleMedium">{t("어떤 프로젝트를 찾으시나요")}</Text>
-                  <Text size="paragraph3">{t("도전해보고 싶은 프로젝트 타입을 선택해주세요")}</Text>
-                </FlexColumn>
-
-                <SizeBox height={34} />
-
-                <Flex gap={8} wrap="wrap">
-                  {app.constants.projectTypes.map((projectType) => (
-                    <SelectChip
-                      key={projectType.id}
-                      type="radio"
-                      value={projectType.id}
-                      color="backgroundPrimary"
-                      {...app.register("projectType")}
-                    >
-                      {projectType[currentLanguage]}
-                    </SelectChip>
-                  ))}
-                </Flex>
-
-                <SizeBox height={60} />
-
-                <Button>{t("확인")}</Button>
-              </CommonContainer>,
-              { id: "selectProjectType", type: "bottom" }
+              <FilterType
+                selectedType={app.filter.projectType}
+                onSubmit={(type) => app.handleChangeFilter("projectType", type)}
+              />,
+              { id: FILTER_TYPE_MODAL, type: "bottom" }
             )
           }
         >
@@ -73,35 +50,11 @@ export const Member = () => {
           isSelected={app.filter.areas.length > 0}
           onClick={() =>
             app.mount(
-              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                <FlexColumn gap={12}>
-                  <Text size="titleMedium">{t("프로젝트 활동 지역이 어디인가요")}</Text>
-
-                  <Text size="paragraph3">
-                    {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
-                  </Text>
-                </FlexColumn>
-
-                <SizeBox height={34} />
-
-                <Flex gap={8} wrap="wrap">
-                  {app.constants.areas.map((area) => (
-                    <SelectChip
-                      key={area.id}
-                      value={area.id}
-                      color="backgroundPrimary"
-                      {...app.register("areas")}
-                    >
-                      {area[currentLanguage]}
-                    </SelectChip>
-                  ))}
-                </Flex>
-
-                <SizeBox height={60} />
-
-                <Button>{t("확인")}</Button>
-              </CommonContainer>,
-              { id: "selectLanguages", type: "bottom" }
+              <FilterArea
+                selectedAreas={app.filter.areas}
+                onSubmit={(areas) => app.handleChangeFilter("areas", areas)}
+              />,
+              { id: FILTER_AREA_MODAL, type: "bottom" }
             )
           }
         >

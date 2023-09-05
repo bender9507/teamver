@@ -1,15 +1,18 @@
 import { useTranslation } from "next-i18next";
-import {
-  Button,
-  Icon,
-  IconButton,
-  ProfileDetail,
-  SelectChip,
-  TinderCard
-} from "~/components/Commons";
+import { Icon, IconButton, ProfileDetail, TinderCard } from "~/components/Commons";
 import { PROFILE_DETAIL_MODAL } from "~/components/Commons/ProfileDetail";
-import { CommonContainer, Flex, FlexColumn, Position, SizeBox, Text } from "~/styles/mixins";
+import { Flex, Position, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
+import {
+  FILTER_AREA_MODAL,
+  FILTER_LANGUAGE_MODAL,
+  FILTER_POSITION_MODAL,
+  FILTER_SKILL_MODAL,
+  FilterArea,
+  FilterLanguage,
+  FilterPosition,
+  FilterSkill
+} from "../Filters";
 import {
   BlurChip,
   CardContainer,
@@ -35,35 +38,11 @@ export const Owner = () => {
           isSelected={app.filter.languages.length > 0}
           onClick={() =>
             app.mount(
-              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                <FlexColumn gap={12}>
-                  <Text size="titleMedium">{t("어떤 주요 언어가 필요한가요")}</Text>
-
-                  <Text size="textSmallBold" color="gray9">
-                    {t("프로젝트에 필요한 주요 언어를 선택해주세요")}
-                  </Text>
-                </FlexColumn>
-
-                <SizeBox height={34} />
-
-                <Flex gap={8} wrap="wrap">
-                  {app.constants.languages.map((language) => (
-                    <SelectChip
-                      key={language.id}
-                      value={language.id}
-                      color="backgroundPrimary"
-                      {...app.register("languages")}
-                    >
-                      {language.name}
-                    </SelectChip>
-                  ))}
-                </Flex>
-
-                <SizeBox height={60} />
-
-                <Button>{t("확인")}</Button>
-              </CommonContainer>,
-              { id: "selectLanguages", type: "bottom" }
+              <FilterLanguage
+                selectedLanguages={app.filter.languages}
+                onSubmit={(languages) => app.handleChangeFilter("languages", languages)}
+              />,
+              { id: FILTER_LANGUAGE_MODAL, type: "bottom" }
             )
           }
         >
@@ -75,35 +54,11 @@ export const Owner = () => {
           isSelected={app.filter.skills.length > 0}
           onClick={() =>
             app.mount(
-              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                <FlexColumn gap={12}>
-                  <Text size="titleMedium">{t("어떤 기술 스택이 필요한가요")}</Text>
-
-                  <Text size="textSmallBold" color="gray9">
-                    {t("프로젝트를 수행함에 있어 필요한 기술 스택을 선택해주세요")}
-                  </Text>
-                </FlexColumn>
-
-                <SizeBox height={34} />
-
-                <Flex gap={8} wrap="wrap">
-                  {app.constants.skills.map((skill) => (
-                    <SelectChip
-                      key={skill.id}
-                      value={skill.id}
-                      color="backgroundPrimary"
-                      {...app.register("skills")}
-                    >
-                      {skill.name}
-                    </SelectChip>
-                  ))}
-                </Flex>
-
-                <SizeBox height={60} />
-
-                <Button>{t("확인")}</Button>
-              </CommonContainer>,
-              { id: "selectSkills", type: "bottom" }
+              <FilterSkill
+                selectedSkills={app.filter.skills}
+                onSubmit={(skills) => app.handleChangeFilter("skills", skills)}
+              />,
+              { id: FILTER_SKILL_MODAL, type: "bottom" }
             )
           }
         >
@@ -115,35 +70,11 @@ export const Owner = () => {
           isSelected={app.filter.positions.length > 0}
           onClick={() =>
             app.mount(
-              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                <FlexColumn gap={12}>
-                  <Text size="titleMedium">{t("어떤 포지션의 팀원을 원하시나요")}</Text>
-
-                  <Text size="textSmallBold" color="gray9">
-                    {t("필요한 포지션을 선택해주세요 여러개 선택 가능해요")}
-                  </Text>
-                </FlexColumn>
-
-                <SizeBox height={34} />
-
-                <Flex gap={8} wrap="wrap">
-                  {app.constants.positions.map((position) => (
-                    <SelectChip
-                      key={position.id}
-                      value={position.id}
-                      color="backgroundPrimary"
-                      {...app.register("positions")}
-                    >
-                      {position[currentLanguage]}
-                    </SelectChip>
-                  ))}
-                </Flex>
-
-                <SizeBox height={60} />
-
-                <Button>{t("확인")}</Button>
-              </CommonContainer>,
-              { id: "selectPositions", type: "bottom" }
+              <FilterPosition
+                selectedPositions={app.filter.positions}
+                onSubmit={(positions) => app.handleChangeFilter("positions", positions)}
+              />,
+              { id: FILTER_POSITION_MODAL, type: "bottom" }
             )
           }
         >
@@ -155,35 +86,11 @@ export const Owner = () => {
           isSelected={app.filter.areas.length > 0}
           onClick={() =>
             app.mount(
-              <CommonContainer as="form" onSubmit={app.handleChangeFilter}>
-                <FlexColumn gap={12}>
-                  <Text size="titleMedium">{t("프로젝트 활동 지역이 어디인가요")}</Text>
-
-                  <Text size="textSmallBold" color="gray9">
-                    {t("주로 활동하는 지역을 선택해주세요 여러개 선택 가능해요")}
-                  </Text>
-                </FlexColumn>
-
-                <SizeBox height={34} />
-
-                <Flex gap={8} wrap="wrap">
-                  {app.constants.areas.map((area) => (
-                    <SelectChip
-                      key={area.id}
-                      value={area.id}
-                      color="backgroundPrimary"
-                      {...app.register("areas")}
-                    >
-                      {area[currentLanguage]}
-                    </SelectChip>
-                  ))}
-                </Flex>
-
-                <SizeBox height={60} />
-
-                <Button>{t("확인")}</Button>
-              </CommonContainer>,
-              { id: "selectLanguages", type: "bottom" }
+              <FilterArea
+                selectedAreas={app.filter.areas}
+                onSubmit={(areas) => app.handleChangeFilter("areas", areas)}
+              />,
+              { id: FILTER_AREA_MODAL, type: "bottom" }
             )
           }
         >
