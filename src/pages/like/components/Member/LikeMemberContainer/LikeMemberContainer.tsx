@@ -4,9 +4,9 @@ import { useTranslation } from "next-i18next";
 import { useSelectFollowProjectsQuery } from "~/states/server/project";
 import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
-import { LikeMemberCard } from "./LikeMemberCard";
+import { LikeMemberCard } from "../LikeMemberCard";
 
-export const Member = () => {
+export const LikeMemberContainer = () => {
   const user = useUser() as User;
   const { data: followProjects } = useSelectFollowProjectsQuery(user.id);
   const { t } = useTranslation("like");
