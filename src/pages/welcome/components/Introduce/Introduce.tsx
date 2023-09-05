@@ -40,7 +40,7 @@ export const Introduce = () => {
         </Text>
       </FlexColumn>
 
-      <FlexColumn gap={14} flex={1} ref={containerRef}>
+      <FlexColumn gap={14} flex={1} ref={containerRef} style={{ overflow: "hidden" }}>
         <Textarea
           {...register("introduce", { required: true, maxLength: 500 })}
           maxLength={500}

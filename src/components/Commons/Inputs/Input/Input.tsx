@@ -24,6 +24,9 @@ export const Input = forwardRef<
         onInvalid={handleOnInvalid}
         onFocus={setFocus.on}
         onBlur={setFocus.off}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") event.preventDefault();
+        }}
       />
 
       {rightElement && rightElement}

@@ -11,7 +11,7 @@ import type { ConstantAllData } from "~/states/server/constant";
 import { selectProfile } from "~/states/server/profile";
 import type { OneOfLanguage } from "~/types";
 
-import { FlexColumn, LayoutHeaderWithNav } from "~/styles/mixins";
+import { FlexColumn, LayoutHeader } from "~/styles/mixins";
 import { getObjectValues } from "~/utils";
 import { stepComponents } from "./welcome.constants";
 import { useWelcome } from "./welcome.hooks";
@@ -32,27 +32,29 @@ const Welcome = () => {
 
   return (
     <WelcomeContext.Provider value={app.values}>
-      <LayoutHeaderWithNav>
+      <LayoutHeader>
         <Styled.Header>
           <IconButton type="button" name="arrowBack" color="content1" onClick={app.prevStep} />
 
           <Styled.Progress current={app.step} max={app.lastStep} />
         </Styled.Header>
 
-        <FlexColumn as="form" padding="0 22px" gap={22} onSubmit={app.handleCreateProfile}>
+        <FlexColumn as="form" padding="0 22px" onSubmit={app.handleCreateProfile}>
           <CurrentStepComponent />
-        </FlexColumn>
 
-        <FlexColumn padding="22px">
-          {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
+          <FlexColumn padding="22px 0">
+            {app.step === app.lastStep && (
+              <Button disabled={app.isDisabled}>{t("시작하기")}</Button>
+            )}
 
-          {app.step !== app.lastStep && (
-            <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
-              {t("다음")}
-            </Button>
-          )}
+            {app.step !== app.lastStep && (
+              <Button type="button" disabled={app.isDisabled} onClick={app.nextStep}>
+                {t("다음")}
+              </Button>
+            )}
+          </FlexColumn>
         </FlexColumn>
-      </LayoutHeaderWithNav>
+      </LayoutHeader>
     </WelcomeContext.Provider>
   );
 };
