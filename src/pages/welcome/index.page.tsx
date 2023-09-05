@@ -10,20 +10,9 @@ import { routes } from "~/constants/routes";
 import type { ConstantAllData } from "~/states/server/constant";
 import { selectProfile } from "~/states/server/profile";
 import type { OneOfLanguage } from "~/types";
-import {
-  Area,
-  Blog,
-  Introduce,
-  Job,
-  Language,
-  Name,
-  Personality,
-  Position,
-  ProfileImage,
-  ProjectType,
-  Role,
-  Skill
-} from "./components";
+
+import { getObjectValues } from "~/utils";
+import { stepComponents } from "./welcome.constants";
 import { useWelcome } from "./welcome.hooks";
 import * as Styled from "./welcome.styles";
 import type { WelcomeForm } from "./welcome.types";
@@ -38,6 +27,8 @@ const Welcome = () => {
   const app = useWelcome();
   const { t } = useTranslation("welcome");
 
+  const CurrentStepComponent = getObjectValues(stepComponents)[app.step].component;
+
   return (
     <WelcomeContext.Provider value={app.values}>
       <Styled.Container>
@@ -48,29 +39,7 @@ const Welcome = () => {
         <Styled.SectionContainer onSubmit={app.handleCreateProfile}>
           <Styled.Progress current={app.step} max={app.lastStep} />
 
-          {app.step === 0 && <Name />}
-
-          {app.step === 1 && <Introduce />}
-
-          {app.step === 2 && <Language />}
-
-          {app.step === 3 && <Skill />}
-
-          {app.step === 4 && <Position />}
-
-          {app.step === 5 && <ProjectType />}
-
-          {app.step === 6 && <Personality />}
-
-          {app.step === 7 && <Area />}
-
-          {app.step === 8 && <Blog />}
-
-          {app.step === 9 && <Job />}
-
-          {app.step === 10 && <ProfileImage />}
-
-          {app.step === 11 && <Role />}
+          <CurrentStepComponent />
 
           {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
 

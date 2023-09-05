@@ -10,15 +10,14 @@ import { useSelectConstantsQuery } from "~/states/server/constant";
 import { useInsertProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
 import type { OneOfLanguage } from "~/types";
-import { uuid } from "~/utils";
-import { requiredSteps, steps } from "./welcome.constants";
+import { getObjectEntries, getObjectKeys, uuid } from "~/utils";
+import { stepComponents } from "./welcome.constants";
 import type { WelcomeForm } from "./welcome.types";
 
 export const useWelcome = () => {
   const [step, setStep] = useState(0);
 
   const user = useUser() as User;
-
   const route = useRouter();
   const { toast } = useDialog();
   const { t, i18n } = useTranslation("welcome");
@@ -55,7 +54,7 @@ export const useWelcome = () => {
   const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
 
   const nextStep = () => {
-    setStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
+    setStep((prevStep) => Math.min(prevStep + 1, getObjectKeys(stepComponents).length - 1));
   };
 
   const prevStep = () => {
@@ -77,13 +76,12 @@ export const useWelcome = () => {
   });
 
   const isDisabled = useMemo(() => {
-    const requiredStep = requiredSteps.includes(steps[step]);
+    const [stepName, { required: isRequiredStep }] = getObjectEntries(stepComponents)[step];
 
-    if (requiredStep) {
-      return !formState.dirtyFields[steps[step]] || !!formState.errors[steps[step]];
-    }
+    const hasErrors = !!formState.errors[stepName];
+    const isDirty = !!formState.dirtyFields[stepName];
 
-    return !!formState.errors[steps[step]];
+    return isRequiredStep ? !isDirty || hasErrors : hasErrors;
   }, [formState, step]);
 
   return {
@@ -94,6 +92,6 @@ export const useWelcome = () => {
     register,
     handleCreateProfile,
     isDisabled,
-    lastStep: steps.length - 1
+    lastStep: getObjectKeys(stepComponents).length - 1
   };
 };
