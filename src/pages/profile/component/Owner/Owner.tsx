@@ -4,9 +4,9 @@ import { FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { Container, FloatingIcon, SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
-import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
 import { useOwner } from "./Owner.hooks";
+import { ProjectCard } from "./ProjectCard";
 
 export const Owner = (): ReactNode => {
   const app = useOwner();
