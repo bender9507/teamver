@@ -1,8 +1,6 @@
 import { useTranslation } from "next-i18next";
-import { Icon, IconButton, ProfileDetail, TinderCard } from "~/components/Commons";
-import { PROFILE_DETAIL_MODAL } from "~/components/Commons/ProfileDetail";
-import { Flex, Position, Text } from "~/styles/mixins";
-import type { OneOfLanguage } from "~/types";
+import { Icon } from "~/components/Commons";
+import { Position } from "~/styles/mixins";
 import {
   FILTER_AREA_MODAL,
   FILTER_LANGUAGE_MODAL,
@@ -13,23 +11,13 @@ import {
   FilterPosition,
   FilterSkill
 } from "../Filters";
-import {
-  BlurChip,
-  CardContainer,
-  Container,
-  Content,
-  Gradient,
-  OptionButton,
-  Profile,
-  Select
-} from "../Home.styles";
+import { Container, OptionButton, Select } from "../Home.styles";
+import { MemberCard } from "./MemberCard";
 import { useOwner } from "./Owner.hook";
 
 export const Owner = () => {
   const app = useOwner();
-  const { t, i18n } = useTranslation("home");
-
-  const currentLanguage = i18n.language as OneOfLanguage;
+  const { t } = useTranslation("home");
 
   return (
     <Container>
@@ -101,49 +89,14 @@ export const Owner = () => {
 
       <Position position="relative">
         {app.filteredRandomProfiles.map((profile) => (
-          <CardContainer key={profile.id}>
-            <TinderCard
-              onConfirm={() => app.handleAccept(profile.id)}
-              onCancel={() => app.handleReject(profile.id)}
-              onRestore={app.handleRestore}
-            >
-              <Profile src={profile.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
-
-              <Gradient />
-
-              <Content>
-                <Flex gap={12}>
-                  {profile.personalities.map((personality) => (
-                    <BlurChip key={personality.id}>{personality[currentLanguage]}</BlurChip>
-                  ))}
-                </Flex>
-
-                <Text size="titleMedium" ellipsis>
-                  {profile.name}
-                </Text>
-
-                <Flex align="end" justify="between" gap={18}>
-                  <Text size="textSmallBold" color="gray9" lineClamp={2}>
-                    {profile.introduce}
-                  </Text>
-
-                  <IconButton
-                    name="upButton"
-                    width={26}
-                    height={26}
-                    color="white"
-                    style={{ flexShrink: 0 }}
-                    onClick={() =>
-                      app.mount(<ProfileDetail profile={profile} filter={app.filter} />, {
-                        id: PROFILE_DETAIL_MODAL,
-                        type: "bottom"
-                      })
-                    }
-                  />
-                </Flex>
-              </Content>
-            </TinderCard>
-          </CardContainer>
+          <MemberCard
+            key={profile.id}
+            onAccept={() => app.handleAccept(profile.id)}
+            onReject={() => app.handleReject(profile.id)}
+            onRestore={app.handleRestore}
+            profile={profile}
+            filter={app.filter}
+          />
         ))}
       </Position>
     </Container>

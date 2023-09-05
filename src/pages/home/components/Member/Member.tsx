@@ -1,31 +1,14 @@
 import { useTranslation } from "next-i18next";
-import {
-  Icon,
-  IconButton,
-  PROJECT_DETAIL_MODAL,
-  ProjectDetail,
-  TinderCard
-} from "~/components/Commons";
-import { Flex, Position, Text } from "~/styles/mixins";
-import type { OneOfLanguage } from "~/types";
+import { Icon } from "~/components/Commons";
+import { Position } from "~/styles/mixins";
 import { FILTER_AREA_MODAL, FILTER_TYPE_MODAL, FilterArea, FilterType } from "../Filters";
-import {
-  BlurChip,
-  CardContainer,
-  Container,
-  Content,
-  Gradient,
-  OptionButton,
-  Profile,
-  Select
-} from "../Home.styles";
+import { Container, OptionButton, Select } from "../Home.styles";
 import { useMember } from "./Member.hooks";
+import { ProjectCard } from "./ProjectCard";
 
 export const Member = () => {
   const app = useMember();
-  const { t, i18n } = useTranslation("home");
-
-  const currentLanguage = i18n.language as OneOfLanguage;
+  const { t } = useTranslation("home");
 
   return (
     <Container>
@@ -64,49 +47,15 @@ export const Member = () => {
       </Select>
 
       <Position position="relative">
-        {app.filteredRandomProjects.map((project) => {
-          return (
-            <CardContainer key={project.id}>
-              <TinderCard
-                onConfirm={() => app.handleAccept(project.id)}
-                onCancel={() => app.handleReject(project.id)}
-                onRestore={app.handleRestore}
-              >
-                <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
-
-                <Gradient />
-
-                <Content>
-                  <Flex>
-                    <BlurChip>{project.projectType[currentLanguage]}</BlurChip>
-                  </Flex>
-
-                  <Text size="titleMedium">{project.name}</Text>
-
-                  <Flex align="end" justify="between" gap={18}>
-                    <Text size="textSmallBold" color="gray9" lineClamp={2}>
-                      {project.description}
-                    </Text>
-
-                    <IconButton
-                      name="upButton"
-                      width={26}
-                      height={26}
-                      color="white"
-                      onClick={() =>
-                        app.mount(<ProjectDetail project={project} profile={app.profile} />, {
-                          id: PROJECT_DETAIL_MODAL,
-                          type: "bottom"
-                        })
-                      }
-                      style={{ flexShrink: 0 }}
-                    />
-                  </Flex>
-                </Content>
-              </TinderCard>
-            </CardContainer>
-          );
-        })}
+        {app.filteredRandomProjects.map((project) => (
+          <ProjectCard
+            key={project.id}
+            onAccept={() => app.handleAccept(project.id)}
+            onReject={() => app.handleReject(project.id)}
+            onRestore={app.handleRestore}
+            project={project}
+          />
+        ))}
       </Position>
     </Container>
   );

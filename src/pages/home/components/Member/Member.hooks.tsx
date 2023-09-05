@@ -28,6 +28,8 @@ export const useMember = () => {
     ...filter
   });
 
+  const { mutate: insertFollowProject } = useInsertFollowProjectMutate();
+
   const {
     filteredCards: filteredRandomProjects,
     handleAccept,
@@ -36,8 +38,6 @@ export const useMember = () => {
   } = useCardSelect(randomProjects?.pages.map((page) => page.data).flat() ?? [], (projectId) =>
     insertFollowProject({ followerId: user.id, projectId: projectId as number })
   );
-
-  const { mutate: insertFollowProject } = useInsertFollowProjectMutate();
 
   const handleChangeFilter = (key: string, values?: number | number[]) => {
     setFilter({ [key]: values });
