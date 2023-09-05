@@ -10,7 +10,7 @@ import type { ChatMessageData } from "~/states/server/chat";
 import { useSelectChatMessagesQuery, useUpdateMessageReadState } from "~/states/server/chat";
 
 export const useChatMessageBox = () => {
-  const [isScrollEnd, setIsScrollEnd] = useState(false);
+  const [isScrollEnd, setIsScrollEnd] = useState(true);
 
   const router = useRouter();
   const user = useUser() as User;
@@ -45,7 +45,7 @@ export const useChatMessageBox = () => {
   const handleScroll = (event: UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, offsetHeight } = event.currentTarget;
 
-    setIsScrollEnd(scrollTop + offsetHeight === scrollHeight);
+    setIsScrollEnd(scrollHeight - (scrollTop + offsetHeight) < 100);
   };
 
   const handleScrollToEnd = (behavior?: ScrollBehavior) => {
