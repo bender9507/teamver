@@ -146,7 +146,7 @@ export const insertChatMessage = async (message: {
 export const selectChatMessages = async (roomId: number) => {
   const { data, error } = await supabase
     .from("chatMessages")
-    .select("id, message, createdAt, sender:senderId(*)")
+    .select("id, message, createdAt, sender:senderId(*), type")
     .eq("roomId", roomId)
     .returns<ChatMessageData[]>();
 

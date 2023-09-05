@@ -79,6 +79,7 @@ export interface Database {
           roomId: number
           senderId: string
           state: boolean
+          type: Database["public"]["Enums"]["message_type"] | null
         }
         Insert: {
           createdAt?: string
@@ -87,6 +88,7 @@ export interface Database {
           roomId: number
           senderId: string
           state?: boolean
+          type?: Database["public"]["Enums"]["message_type"] | null
         }
         Update: {
           createdAt?: string
@@ -95,6 +97,7 @@ export interface Database {
           roomId?: number
           senderId?: string
           state?: boolean
+          type?: Database["public"]["Enums"]["message_type"] | null
         }
         Relationships: [
           {
@@ -1166,6 +1169,7 @@ export interface Database {
     }
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT"
+      message_type: "MESSAGE" | "NOTICE" | "EMOJI" | "REPOSITORY"
       profile_role: "INVITER" | "INVITEE"
       project_state: "IN_RECRUIT" | "DONE_RECRUIT" | "DONE_PROJECT"
     }

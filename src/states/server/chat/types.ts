@@ -32,6 +32,7 @@ export interface ChatRequestMemberAllData extends Pick<ChatRequestMemberRow, "id
 
 export interface ChatMessageData {
   id: number;
+  type: "MESSAGE" | "EMOJI" | "REPOSITORY" | "NOTICE";
   message: string;
   createdAt: Date;
   sender: ProfileAllDataRow;
