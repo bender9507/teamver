@@ -1,12 +1,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { LayoutContent, flex, position, size } from "~/styles/mixins";
+import { flex, position, size } from "~/styles/mixins";
 import type { WithTheme } from "~/types";
 import type { ProgressStyleProps } from "./welcome.types";
-
-export const Container = styled(LayoutContent)`
-  padding: 0 22px 22px 22px;
-`;
 
 export const Header = styled.header`
   ${flex.column({ gap: 23 })};

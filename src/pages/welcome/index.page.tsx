@@ -39,9 +39,9 @@ const Welcome = () => {
           <Styled.Progress current={app.step} max={app.lastStep} />
         </Styled.Header>
 
-        <Styled.Container as="form" gap={22} onSubmit={app.handleCreateProfile}>
+        <FlexColumn as="form" padding="0 22px" gap={22} onSubmit={app.handleCreateProfile}>
           <CurrentStepComponent />
-        </Styled.Container>
+        </FlexColumn>
 
         <FlexColumn padding="22px">
           {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
