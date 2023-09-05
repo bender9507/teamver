@@ -7,9 +7,9 @@ import {
 } from "~/states/server/chat";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { projectsKey, useDeleteFollowProjectStateMutate } from "~/states/server/project";
-import type { LikeCardMemberProps } from "./LikeCardMember.types";
+import type { LikeMemberCardProps } from "./LikeMemberCard.types";
 
-export const useLikeCardMember = ({ data, userId }: LikeCardMemberProps) => {
+export const useLikeMemberCard = ({ data, userId }: LikeMemberCardProps) => {
   const queryClient = useQueryClient();
   const { t } = useTranslation("like");
 

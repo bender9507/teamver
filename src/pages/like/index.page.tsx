@@ -4,8 +4,8 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Member, Owner } from "~/components/Like";
 import { Navbar, TitleHeader } from "~/components/Shared";
+import { Member, Owner } from "~/pages/like/components/Like";
 import {
   profileKeys,
   selectFollows,

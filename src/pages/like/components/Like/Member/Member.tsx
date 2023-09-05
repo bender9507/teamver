@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { useSelectFollowProjectsQuery } from "~/states/server/project";
 import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
-import { LikeCardMember } from "../LikeCardMember";
+import { LikeMemberCard } from "./LikeMemberCard";
 
 export const Member = () => {
   const user = useUser() as User;
@@ -27,7 +27,7 @@ export const Member = () => {
 
       <FlexColumn gap={15} marginTop={16}>
         {followProjects.map((followProject) => (
-          <LikeCardMember key={followProject.id} data={followProject} userId={user.id} />
+          <LikeMemberCard key={followProject.id} data={followProject} userId={user.id} />
         ))}
       </FlexColumn>
     </>

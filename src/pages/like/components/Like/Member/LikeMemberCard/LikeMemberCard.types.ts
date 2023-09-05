@@ -1,7 +1,7 @@
 import type { ChatRequestMemberRow } from "~/states/server/chat/types";
 import type { ProjectAllDataRow } from "~/states/server/project";
 
-export interface LikeCardMemberProps {
+export interface LikeMemberCardProps {
   data: {
     id: number;
     project: ProjectAllDataRow;

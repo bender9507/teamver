@@ -6,9 +6,9 @@ import {
   useInsertChatRequestsOwnerMutate
 } from "~/states/server/chat";
 import { profileKeys, useDeleteFollowMutate } from "~/states/server/profile";
-import type { LikeCardOwnerProps } from "./LikeCardOwner.types";
+import type { LikeOwnerCardProps } from "./LikeOwnerCard.types";
 
-export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
+export const useLikeOwnerCard = ({ data, userId }: LikeOwnerCardProps) => {
   const queryClient = useQueryClient();
   const { t } = useTranslation("like");
 
