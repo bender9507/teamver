@@ -1,10 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
+import { useMount } from "react-use";
 import { useDialog, useModal } from "~/components/Commons";
 import {
   useDeleteChatRequestsOwnerMutate,
   useInsertChatRequestsOwnerMutate
 } from "~/states/server/chat";
+import { supabase } from "~/states/server/config";
 import { profileKeys, useDeleteFollowMutate } from "~/states/server/profile";
 import type { LikeOwnerCard } from ".";
 
@@ -51,6 +53,23 @@ export const useLikeOwnerCard = ({ data, userId }: Parameters<typeof LikeOwnerCa
     onError: () => {
       toast({ type: "error", message: t("찜 해제에 실패했습니다") });
     }
+  });
+
+  useMount(() => {
+    const requestSubscription = supabase
+      .channel("chatRequestOwner")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "chatRequestOwner" },
+        () => {
+          queryClient.invalidateQueries(profileKeys.selectFollows(userId));
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(requestSubscription);
+    };
   });
 
   const handleDeleteFollow = async () => {
