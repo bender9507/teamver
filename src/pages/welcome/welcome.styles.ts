@@ -27,11 +27,6 @@ export const SectionContainer = styled.form`
   padding: 0 32px 32px 32px;
 `;
 
-export const Section = styled.div`
-  ${flex.column({ gap: 70 })};
-  flex: 1;
-`;
-
 export const progressStyle = ({
   theme: { colors },
   current,

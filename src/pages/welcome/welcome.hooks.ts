@@ -1,33 +1,46 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ChangeEvent, ComponentProps } from "react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
 import { routes } from "~/constants/routes";
 import { useSelectConstantsQuery } from "~/states/server/constant";
-import { checkNameValidation, useInsertProfileMutate } from "~/states/server/profile";
+import { useInsertProfileMutate } from "~/states/server/profile";
 import { useUploadProfileImageMutate } from "~/states/server/storage";
-import { debounce, uuid } from "~/utils";
-import type Welcome from "./index.page";
+import type { OneOfLanguage } from "~/types";
+import { uuid } from "~/utils";
 import { requiredSteps, steps } from "./welcome.constants";
 import type { WelcomeForm } from "./welcome.types";
 
-export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
+export const useWelcome = () => {
   const [step, setStep] = useState(0);
-  const [successMessage, setSuccessMessage] = useState("");
+
+  const user = useUser() as User;
 
   const route = useRouter();
   const { toast } = useDialog();
-  const { t } = useTranslation("welcome");
-
+  const { t, i18n } = useTranslation("welcome");
   const { data: constants } = useSelectConstantsQuery();
 
-  const { register, formState, handleSubmit, setError, clearErrors, setValue, control, watch } =
-    useForm<WelcomeForm>({
-      mode: "onChange",
-      shouldFocusError: false
-    });
+  const welcomeForm = useForm<WelcomeForm>({
+    mode: "onChange",
+    shouldFocusError: false
+  });
+
+  const { handleSubmit, formState, register } = welcomeForm;
+
+  const currentLanguage = i18n.language as OneOfLanguage;
+
+  const values = useMemo(
+    () => ({
+      constants,
+      welcomeForm,
+      currentLanguage
+    }),
+    [constants, currentLanguage, welcomeForm]
+  );
 
   const { mutate: insertProfileMutate } = useInsertProfileMutate({
     onSuccess: () => {
@@ -40,16 +53,6 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
     }
   });
   const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
-
-  const isDisabled = useMemo(() => {
-    const requiredStep = requiredSteps.includes(steps[step]);
-
-    if (requiredStep) {
-      return !formState.dirtyFields[steps[step]] || !!formState.errors[steps[step]];
-    }
-
-    return !!formState.errors[steps[step]];
-  }, [formState, step]);
 
   const nextStep = () => {
     setStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
@@ -67,49 +70,30 @@ export const useWelcome = ({ user }: ComponentProps<typeof Welcome>) => {
 
     insertProfileMutate({
       id: user.id,
-      github: user.user_metadata.preferred_username ?? "jeonhaekang",
+      github: user.user_metadata.preferred_username,
       imageUrl: publicUrl,
       ...rest
     });
   });
 
-  const validateNickName = debounce<({ target }: ChangeEvent<HTMLInputElement>) => void>(
-    async ({ target: { value: nickname } }) => {
-      if (!nickname) {
-        setSuccessMessage("");
-        setError("name", { type: "required" });
-        return;
-      }
+  const isDisabled = useMemo(() => {
+    const requiredStep = requiredSteps.includes(steps[step]);
 
-      setValue("name", nickname, { shouldDirty: true });
+    if (requiredStep) {
+      return !formState.dirtyFields[steps[step]] || !!formState.errors[steps[step]];
+    }
 
-      const isValid = await checkNameValidation(nickname);
-
-      if (isValid) {
-        setSuccessMessage(t("최고의 닉네임이에요"));
-        clearErrors("name");
-      } else {
-        setSuccessMessage("");
-        setError("name", { type: "validate", message: t("앗 누군가 사용 중인 닉네임이에요") });
-      }
-    },
-    300
-  );
+    return !!formState.errors[steps[step]];
+  }, [formState, step]);
 
   return {
     step,
+    values,
     nextStep,
     prevStep,
     register,
     handleCreateProfile,
-    handleSubmit,
-    validateNickName,
     isDisabled,
-    constants,
-    control,
-    watch,
-    successMessage,
-    lastStep: steps.length - 1,
-    errorMessage: formState.errors.name?.message
+    lastStep: steps.length - 1
   };
 };
