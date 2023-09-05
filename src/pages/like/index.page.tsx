@@ -5,7 +5,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Navbar, TitleHeader } from "~/components/Shared";
-import { Member, Owner } from "~/pages/like/components/Like";
+
 import {
   profileKeys,
   selectFollows,
@@ -15,6 +15,8 @@ import {
 import { projectsKey, selectFollowProjects } from "~/states/server/project";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
+import { LikeMemberContainer } from "./components/Member";
+import { LikeOwnerContainer } from "./components/Owner";
 
 const Like = () => {
   const user = useUser() as User;
@@ -26,7 +28,7 @@ const Like = () => {
       <TitleHeader title={t("찜 목록")} />
 
       <LayoutContent padding="22px" marginTop={27}>
-        {profile.role.id === 1 ? <Owner /> : <Member />}
+        {profile.role.id === 1 ? <LikeOwnerContainer /> : <LikeMemberContainer />}
       </LayoutContent>
 
       <Navbar />
