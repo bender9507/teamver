@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FlexColumn, position, size } from "~/styles/mixins";
-import { IconButton } from "../Commons";
+import { IconButton } from "../../../components/Commons";
 
 export const Container = styled.div`
   display: grid;

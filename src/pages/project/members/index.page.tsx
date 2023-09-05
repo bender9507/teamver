@@ -3,10 +3,9 @@ import { useUser } from "@supabase/auth-helpers-react";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { Member, Owner } from "~/components/ProjectMembers";
-
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { requireAuthentication } from "~/utils";
+import { Member, Owner } from ".";
 
 const ProjectMembers = () => {
   const user = useUser() as User;

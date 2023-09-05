@@ -1,9 +1,9 @@
 import { useTranslation } from "next-i18next";
 import { FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
+import { ProjectCard } from "../Owner/ProjectCard";
 import { Container, SectionContainer } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
-import { ProjectCard } from "../ProjectCard";
 import { SectionTab } from "../SectionTab";
 import { useMember } from "./Member.hooks";
 
