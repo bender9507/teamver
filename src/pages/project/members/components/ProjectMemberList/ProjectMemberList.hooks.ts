@@ -13,29 +13,25 @@ import {
 } from "~/states/server/project";
 
 export const useProjectMemberList = () => {
-  const user = useUser() as User;
-
   const { t } = useTranslation("project");
 
+  const router = useRouter();
+  const user = useUser() as User;
   const queryClient = useQueryClient();
 
-  const router = useRouter();
-
   const { mount } = useModal();
-
   const { confirm, toast } = useDialog();
 
-  const projectId = router.query.projectId as string;
-
-  const { data: projectData } = useSelectProjectQuery(Number(projectId));
+  const projectId = Number(router.query.projectId);
 
   const { data: profile } = useSelectProfileQuery(user.id);
+  const { data: projectData } = useSelectProjectQuery(projectId);
 
   const projectMembersData = projectData.members;
 
   const { mutate: deleteMemberInProjectMutate } = useDeleteMemberInProjectMutate({
     onSuccess: () => {
-      queryClient.invalidateQueries(projectsKey.selectProject(Number(projectId)));
+      queryClient.invalidateQueries(projectsKey.selectProject(projectId));
     },
     onError: () => toast({ type: "error", message: t("팀원 삭제에 실패했습니다") })
   });

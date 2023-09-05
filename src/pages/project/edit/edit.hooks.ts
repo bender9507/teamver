@@ -22,7 +22,9 @@ import type { ProjectEditForm } from "./edit.types";
 
 export const useEdit = () => {
   const user = useUser() as User;
+
   const router = useRouter();
+
   const queryClient = useQueryClient();
 
   const { t } = useTranslation("project");
@@ -131,34 +133,9 @@ export const useEdit = () => {
   }, [watch, setValue, toast, t]);
 
   useEffect(() => {
-    console.log(1);
     setStartIsIndefinite(!project.startDate);
     setEndIsIndefinite(!project.endDate);
   }, [project]);
-
-  // const startDateValue = (() => {
-  //   if (watch("startDate")) {
-  //     return dayjs(watch("startDate")).format("DD. MM. YYYY");
-  //   }
-
-  //   if (project.startDate === null) {
-  //     return t("미정");
-  //   }
-
-  //   return dayjs(project.startDate).format("DD. MM. YYYY");
-  // })();
-
-  // const endDateValue = (() => {
-  //   if (watch("endDate")) {
-  //     return dayjs(watch("endDate")).format("DD. MM. YYYY");
-  //   }
-
-  //   if (project.endDate === null) {
-  //     return t("미정");
-  //   }
-
-  //   return dayjs(project.endDate).format("DD. MM. YYYY");
-  // })();
 
   const handleBack = async () => {
     const confirmed = await confirm({

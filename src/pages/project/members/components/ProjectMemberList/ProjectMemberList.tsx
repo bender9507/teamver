@@ -35,7 +35,7 @@ export const ProjectMemberList = () => {
               color="white"
               bgColor="backgroundSecondary"
               onClick={() => {
-                app.handleDeleteMember({ memberId: member.id, projectId: Number(app.projectId) });
+                app.handleDeleteMember({ memberId: member.id, projectId: app.projectId });
               }}
             >
               {t("삭제")}
