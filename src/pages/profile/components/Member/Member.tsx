@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next";
 import { FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
-import { ProjectCard } from "../Owner/ProjectCard";
+import { CategoryTab } from "../CategoryTab";
 import { Container, SectionContainer } from "../Profile.styles";
-import { ProfileSection } from "../ProfileSection";
-import { SectionTab } from "../SectionTab";
+import { ProfileBox } from "../ProfileBox";
+import { ProjectStatusUpdate } from "../ProjectCard/ProjectStatusUpdate";
 import { useMember } from "./Member.hooks";
 
 export const Member = () => {
@@ -13,9 +13,9 @@ export const Member = () => {
 
   return (
     <Container>
-      <ProfileSection profile={app.profile} isMine={app.isMine} />
+      <ProfileBox profile={app.profile} isMine={app.isMine} />
 
-      <SectionTab
+      <CategoryTab
         items={[
           { id: "IN_PROJECT", label: t("진행 중인 프로젝트") },
           { id: "DONE_PROJECT", label: t("완료된 프로젝트") }
@@ -35,25 +35,26 @@ export const Member = () => {
           )}
 
           {app.inProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectStatusUpdate key={project.id} project={project} />
           ))}
         </SectionContainer>
       )}
 
-      {app.selectedTab === "DONE_PROJECT" &&
-        (app.doneProjects.length > 0 ? (
-          <SectionContainer gap={12}>
-            {app.doneProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </SectionContainer>
-        ) : (
-          <FlexColumn align="center" style={{ marginTop: "130px" }}>
-            <Text size="textMediumBold" color="gray6">
-              {t("완료된 프로젝트가 없어요")}
-            </Text>
-          </FlexColumn>
-        ))}
+      {app.selectedTab === "DONE_PROJECT" && (
+        <SectionContainer gap={12}>
+          {isEmpty(app.doneProjects) && (
+            <FlexColumn align="center" style={{ marginTop: "98px" }}>
+              <Text size="textMediumBold" color="gray6">
+                {t("완료된 프로젝트가 없어요")}
+              </Text>
+            </FlexColumn>
+          )}
+
+          {app.doneProjects.map((project) => (
+            <ProjectStatusUpdate key={project.id} project={project} />
+          ))}
+        </SectionContainer>
+      )}
     </Container>
   );
 };

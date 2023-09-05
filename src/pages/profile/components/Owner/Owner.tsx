@@ -2,11 +2,12 @@ import { useTranslation } from "next-i18next";
 import type { ReactNode } from "react";
 import { FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
+import { CategoryTab } from "../CategoryTab";
 import { Container, FloatingIcon, SectionContainer } from "../Profile.styles";
-import { ProfileSection } from "../ProfileSection";
-import { SectionTab } from "../SectionTab";
+import { ProfileBox } from "../ProfileBox";
+import { ProjectCardBox } from "../ProjectCard/ProjectCardBox";
+import { ProjectStatusUpdate } from "../ProjectCard/ProjectStatusUpdate";
 import { useOwner } from "./Owner.hooks";
-import { ProjectCard } from "./ProjectCard";
 
 export const Owner = (): ReactNode => {
   const app = useOwner();
@@ -16,9 +17,9 @@ export const Owner = (): ReactNode => {
   return (
     <>
       <Container>
-        <ProfileSection profile={app.profile} isMine={app.isMine} />
+        <ProfileBox profile={app.profile} isMine={app.isMine} />
 
-        <SectionTab
+        <CategoryTab
           items={[
             { id: "IN_PROJECT", label: t("진행 중인 프로젝트") },
             { id: "DONE_PROJECT", label: t("완료된 프로젝트") }
@@ -29,36 +30,21 @@ export const Owner = (): ReactNode => {
 
         {app.selectedTab === "IN_PROJECT" && (
           <SectionContainer gap={32}>
-            {isEmpty([...app.inRecruit, ...app.doneRecruit]) && (
+            {isEmpty([...app.inRecruit, ...app.doneRecruit]) ? (
               <FlexColumn align="center" style={{ marginTop: "98px" }}>
                 <Text size="textMediumBold" color="gray6">
                   {t("진행 중인 프로젝트가 없어요")}
                 </Text>
               </FlexColumn>
-            )}
-
-            {app.inRecruit.length > 0 && (
-              <FlexColumn gap={18}>
-                <Text size="titleSmall">{t("모집 중")}</Text>
-
-                <FlexColumn gap={12}>
-                  {app.inRecruit.map((project) => (
-                    <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-                  ))}
-                </FlexColumn>
-              </FlexColumn>
-            )}
-
-            {app.doneRecruit.length > 0 && (
-              <FlexColumn gap={18}>
-                <Text size="titleSmall">{t("모집 완료")}</Text>
-
-                <FlexColumn gap={12}>
-                  {app.doneRecruit.map((project) => (
-                    <ProjectCard key={project.id} project={project} isMine={app.isMine} />
-                  ))}
-                </FlexColumn>
-              </FlexColumn>
+            ) : (
+              <>
+                {app.inRecruit.length > 0 && (
+                  <ProjectCardBox projects={app.inRecruit} titleKey="모집 중" />
+                )}
+                {app.doneRecruit.length > 0 && (
+                  <ProjectCardBox projects={app.doneRecruit} titleKey="모집 완료" />
+                )}
+              </>
             )}
           </SectionContainer>
         )}
@@ -74,7 +60,7 @@ export const Owner = (): ReactNode => {
             )}
 
             {app.doneProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} isMine={app.isMine} />
+              <ProjectStatusUpdate key={project.id} project={project} isMine={app.isMine} />
             ))}
           </SectionContainer>
         )}

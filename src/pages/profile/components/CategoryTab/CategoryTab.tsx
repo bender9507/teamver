@@ -1,7 +1,7 @@
-import * as Styled from "./SectionTab.styles";
-import type { TabProps } from "./SectionTab.types";
+import * as Styled from "./CategoryTab.styles";
+import type { TabProps } from "./CategoryTab.types";
 
-export const SectionTab = ({ items, selectedId, onClick }: TabProps) => {
+export const CategoryTab = ({ items, selectedId, onClick }: TabProps) => {
   const selectedIndex = items.findIndex((item) => item.id === selectedId);
 
   return (

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { IconButton } from "~/components/Commons";
 import { Navbar } from "~/components/Shared";
 import { routes } from "~/constants/routes";
-import { Member, Owner } from "~/pages/profile/component";
+import { Member, Owner } from "~/pages/profile/components";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
