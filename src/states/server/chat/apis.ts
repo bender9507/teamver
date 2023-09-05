@@ -311,3 +311,17 @@ export const updateMessageReadState = async ({
 
   if (error) throw Error("메세지를 읽음 처리하는데 실패하였습니다.");
 };
+
+export const selectOpponent = async ({ roomId, userId }: { roomId: string; userId: string }) => {
+  const { data, error } = await supabase
+    .from("chatMembers")
+    .select(`...userId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("roomId", roomId)
+    .neq("userId", userId)
+    .returns<ProfileAllDataRow[]>()
+    .maybeSingle();
+
+  if (error) throw Error("상대방을 불러오는데 실패하였습니다.");
+
+  return data;
+};

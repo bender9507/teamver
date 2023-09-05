@@ -13,7 +13,7 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
   return (
     <>
       <LayoutContent onScroll={app.handleScroll}>
-        {isEmpty(app.chatMessages) && (
+        {isEmpty(app.messages) && (
           <PosCenter>
             <Text as="p" textAlign="center" size="textMediumBold" color="gray6">
               {t("NAME님과 팀원 매칭 되었어요", { name: opponent.name })}
@@ -26,7 +26,7 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
         )}
 
         <FlexColumn gap={10} padding="26px 32px 7px 32px">
-          {app.chatMessages.map((messageData) => {
+          {app.messages.map((messageData) => {
             const isMine = messageData.sender.id === app.user.id;
             const isChaining = app.getIsChaining(messageData);
 

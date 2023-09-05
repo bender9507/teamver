@@ -3,7 +3,8 @@ import type {
   selectChatRequestOwner,
   selectChatRequestsMember,
   selectChatRequestsOwner,
-  selectChatRoom
+  selectChatRoom,
+  selectOpponent
 } from "./apis";
 
 const CHAT_KEY = "CHAT";
@@ -29,5 +30,8 @@ export const chatKeys = {
   selectChatRooms: (userId: string) => [CHAT_KEY, "selectChatRooms", userId] as const,
 
   selectChatRoom: (params: Parameters<typeof selectChatRoom>[0]) =>
-    [CHAT_KEY, "selectChatRoom", params.roomId, params.userId] as const
+    [CHAT_KEY, "selectChatRoom", params.roomId, params.userId] as const,
+
+  selectOpponent: (params: Parameters<typeof selectOpponent>[0]) =>
+    [CHAT_KEY, "selectOpponent", params.roomId, params.userId] as const
 } as const;

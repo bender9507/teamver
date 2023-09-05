@@ -1,33 +1,27 @@
-import type { User } from "@supabase/auth-helpers-react";
-import { useUser } from "@supabase/auth-helpers-react";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import type { UIEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useUpdateEffect } from "react-use";
-import type { ChatMessageData } from "~/states/server/chat";
-import { useSelectChatMessagesQuery, useUpdateMessageReadState } from "~/states/server/chat";
+import { useMount, useUpdateEffect } from "react-use";
+import type { ChatMessageData, ChatMessageRow } from "~/states/server/chat";
+import { useUpdateMessageReadState } from "~/states/server/chat";
+import { supabase } from "~/states/server/config";
+import { useRoomContext } from "../../index.page";
 
 export const useChatMessageBox = () => {
   const [isScrollEnd, setIsScrollEnd] = useState(true);
 
-  const router = useRouter();
-  const user = useUser() as User;
-  const { t } = useTranslation("chat");
-
-  const roomId = router.query.roomId as string;
-
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { data: chatMessages } = useSelectChatMessagesQuery(Number(roomId));
+  const { addMessage, profile, opponent, roomId, messages } = useRoomContext();
+  const { t } = useTranslation("chat");
 
   const { mutate: updateMessageStateMutate } = useUpdateMessageReadState();
 
   const getIsChaining = (message: ChatMessageData) => {
-    const index = chatMessages.findIndex((_message) => _message.id === message.id);
+    const index = messages.findIndex((_message) => _message.id === message.id);
 
-    return chatMessages[index - 1]?.sender.id === message.sender.id;
+    return messages[index - 1]?.sender.id === message.sender.id;
   };
 
   const getTime = (date: Date) => {
@@ -60,16 +54,42 @@ export const useChatMessageBox = () => {
 
   useUpdateEffect(() => {
     handleScrollToEnd("smooth");
-  }, [chatMessages]);
+  }, [messages]);
 
   useEffect(() => {
-    updateMessageStateMutate({ roomId, userId: user.id });
-  }, [chatMessages, roomId, updateMessageStateMutate, user.id]);
+    updateMessageStateMutate({ roomId, userId: profile.id });
+  }, [profile.id, roomId, updateMessageStateMutate]);
+
+  useMount(() => {
+    const subscribeRoom = supabase
+      .channel("chatRoom")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "chatMessages",
+          filter: `roomId=eq.${roomId}`
+        },
+        (payload) => {
+          const newMessage = payload.new as ChatMessageRow;
+
+          if (opponent && newMessage.senderId !== profile.id) {
+            addMessage(newMessage.message, opponent);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscribeRoom.unsubscribe();
+    };
+  });
 
   return {
     isScrollEnd,
-    user,
-    chatMessages,
+    user: profile,
+    messages,
     handleScroll,
     handleScrollToEnd,
     getIsChaining,

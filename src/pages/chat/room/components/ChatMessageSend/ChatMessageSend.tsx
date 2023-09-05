@@ -1,10 +1,9 @@
 import { IconButton, Input } from "~/components/Commons";
-import type { ProfileAllDataRow } from "~/states/server/profile";
 import { Flex, FlexColumn } from "~/styles/mixins";
 import { useChatMessageSend } from "./ChatMessageSend.hooks";
 
-export const ChatMessageSend = (props: { opponent: ProfileAllDataRow }) => {
-  const app = useChatMessageSend(props);
+export const ChatMessageSend = () => {
+  const app = useChatMessageSend();
 
   return (
     <Flex
