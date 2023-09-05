@@ -6,9 +6,9 @@ import {
   useInsertChatRequestsOwnerMutate
 } from "~/states/server/chat";
 import { profileKeys, useDeleteFollowMutate } from "~/states/server/profile";
-import type { LikeCardOwnerProps } from "./LikeCardOwner.types";
+import type { LikeOwnerCard } from ".";
 
-export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
+export const useLikeOwnerCard = ({ data, userId }: Parameters<typeof LikeOwnerCard>[0]) => {
   const queryClient = useQueryClient();
   const { t } = useTranslation("like");
 
@@ -21,6 +21,8 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
     skills: [],
     areas: []
   };
+
+  const requestData = data.chatRequest[data.chatRequest.length - 1];
 
   const { mutate: insertChatRequestOwnerMutate } = useInsertChatRequestsOwnerMutate({
     onSuccess: () => {
@@ -35,6 +37,9 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
   const { mutate: deleteChatRequestOwnerMutate } = useDeleteChatRequestsOwnerMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
+    },
+    onError: () => {
+      toast({ type: "error", message: "채팅요청 취소에 실패했습니다" });
     }
   });
 
@@ -42,6 +47,9 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
       toast({ type: "success", message: t("찜 해제 완료") });
+    },
+    onError: () => {
+      toast({ type: "error", message: t("찜 해제에 실패했습니다") });
     }
   });
 
@@ -51,8 +59,8 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
   };
 
   const handleRequest = async () => {
-    if (data.chatRequest[data.chatRequest.length - 1]?.state === "PENDING") {
-      deleteChatRequestOwnerMutate(data.chatRequest[data.chatRequest.length - 1]?.id);
+    if (requestData?.state === "PENDING") {
+      deleteChatRequestOwnerMutate(requestData?.id);
     } else {
       if (!(await confirm({ title: t("채팅을 요청할까요") }))) return;
       insertChatRequestOwnerMutate({
@@ -64,7 +72,7 @@ export const useLikeCardOwner = ({ data, userId }: LikeCardOwnerProps) => {
   };
 
   const requestState = () => {
-    switch (data.chatRequest[data.chatRequest.length - 1]?.state) {
+    switch (requestData?.state) {
       case "GRANT":
         return t("수락됨");
 
