@@ -6,6 +6,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { SocialLoginButton } from "~/components/Commons";
 import { routes } from "~/constants/routes";
+import { selectProfile } from "~/states/server/profile";
 import { FlexCenter, PosCenter, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import * as Styled from "./Home.styles";
@@ -42,17 +43,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   } = await supabase.auth.getSession();
 
   if (session) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select()
-      .eq("id", session.user.id)
-      .maybeSingle();
+    const profile = await selectProfile(session.user.id);
 
     if (profile) {
       return {
         redirect: {
           destination: routes.main,
-          permanent: false
+          statusCode: 302
         }
       };
     }
@@ -60,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       redirect: {
         destination: routes.welcome,
-        permanent: false
+        statusCode: 302
       }
     };
   }
