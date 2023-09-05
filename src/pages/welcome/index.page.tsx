@@ -11,6 +11,7 @@ import type { ConstantAllData } from "~/states/server/constant";
 import { selectProfile } from "~/states/server/profile";
 import type { OneOfLanguage } from "~/types";
 
+import { FlexColumn, LayoutHeaderWithNav } from "~/styles/mixins";
 import { getObjectValues } from "~/utils";
 import { stepComponents } from "./welcome.constants";
 import { useWelcome } from "./welcome.hooks";
@@ -31,16 +32,18 @@ const Welcome = () => {
 
   return (
     <WelcomeContext.Provider value={app.values}>
-      <Styled.Container>
+      <LayoutHeaderWithNav>
         <Styled.Header>
           <IconButton type="button" name="arrowBack" color="content1" onClick={app.prevStep} />
+
+          <Styled.Progress current={app.step} max={app.lastStep} />
         </Styled.Header>
 
-        <Styled.SectionContainer onSubmit={app.handleCreateProfile}>
-          <Styled.Progress current={app.step} max={app.lastStep} />
-
+        <Styled.Container as="form" gap={22} onSubmit={app.handleCreateProfile}>
           <CurrentStepComponent />
+        </Styled.Container>
 
+        <FlexColumn padding="22px">
           {app.step === app.lastStep && <Button disabled={app.isDisabled}>{t("시작하기")}</Button>}
 
           {app.step !== app.lastStep && (
@@ -48,8 +51,8 @@ const Welcome = () => {
               {t("다음")}
             </Button>
           )}
-        </Styled.SectionContainer>
-      </Styled.Container>
+        </FlexColumn>
+      </LayoutHeaderWithNav>
     </WelcomeContext.Provider>
   );
 };
