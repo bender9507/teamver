@@ -1,11 +1,11 @@
-import type { User } from "@supabase/supabase-js";
 import { IconButton, Input } from "~/components/Commons";
 import type { ProfileAllDataRow } from "~/states/server/profile";
 import { Flex, FlexColumn } from "~/styles/mixins";
 import { useChatMessageSend } from "./ChatMessageSend.hooks";
 
-export const ChatMessageSend = (props: { user: User; opponent: ProfileAllDataRow }) => {
+export const ChatMessageSend = (props: { opponent: ProfileAllDataRow }) => {
   const app = useChatMessageSend(props);
+
   return (
     <Flex
       as="form"

@@ -4,9 +4,8 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import Image from "next/image";
-import { Button } from "~/components/Commons";
+import { SocialLoginButton } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import { signInWithPassword } from "~/states/server";
 import { FlexCenter, PosCenter, Text } from "~/styles/mixins";
 import type { Database } from "~/types/database";
 import * as Styled from "./Home.styles";
@@ -29,12 +28,7 @@ export default function Home() {
           </FlexCenter>
         </PosCenter>
 
-        <Button
-          onClick={() => signInWithPassword({ email: "mutoh3897@gmail.com", password: "gorkd1" })}
-        >
-          Github 계정으로 로그인
-        </Button>
-        {/* <SocialLoginButton provider="github" /> */}
+        <SocialLoginButton provider="github" />
       </Styled.Container>
     </>
   );

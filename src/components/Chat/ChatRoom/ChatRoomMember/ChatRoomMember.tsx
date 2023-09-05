@@ -22,9 +22,9 @@ export const ChatRoomMember = () => {
         <IconButton name="moreVertical" />
       </ChatHeader>
 
-      <ChatMessageBox user={app.user} opponent={app.opponent} />
+      <ChatMessageBox opponent={app.opponent} />
 
-      <ChatMessageSend user={app.user} opponent={app.opponent} />
+      <ChatMessageSend opponent={app.opponent} />
     </LayoutHeaderWithNav>
   );
 };

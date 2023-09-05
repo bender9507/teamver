@@ -1,14 +1,15 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
 import { useEffect, useRef } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
 import { useSelectChatMessagesQuery, useUpdateMessageReadState } from "~/states/server/chat";
-import type { ChatMessageBox } from "./ChatMessageBox";
 
-export const useChatMessageBox = ({ user }: ComponentProps<typeof ChatMessageBox>) => {
+export const useChatMessageBox = () => {
   const router = useRouter();
+  const user = useUser() as User;
   const { t } = useTranslation("chat");
 
   const roomId = router.query.roomId as string;
@@ -48,6 +49,7 @@ export const useChatMessageBox = ({ user }: ComponentProps<typeof ChatMessageBox
   }, [chatMessages, roomId, updateMessageStateMutate, user.id]);
 
   return {
+    user,
     chatMessages,
     getIsChaining,
     getTime,

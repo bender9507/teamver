@@ -1,3 +1,5 @@
+import type { User } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
@@ -9,7 +11,8 @@ import { supabase } from "~/states/server/config";
 import { useSelectProfileQuery, type ProfileAllDataRow } from "~/states/server/profile";
 import type { ChatMessageSend } from "./ChatMessageSend";
 
-export const useChatMessageSend = ({ user, opponent }: ComponentProps<typeof ChatMessageSend>) => {
+export const useChatMessageSend = ({ opponent }: ComponentProps<typeof ChatMessageSend>) => {
+  const user = useUser() as User;
   const router = useRouter();
   const queryClient = useQueryClient();
 

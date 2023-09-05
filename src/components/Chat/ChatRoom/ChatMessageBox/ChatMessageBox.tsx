@@ -1,4 +1,3 @@
-import type { User } from "@supabase/supabase-js";
 import { useTranslation } from "next-i18next";
 import { Avatar } from "~/components/Commons";
 import type { ProfileAllDataRow } from "~/states/server/profile";
@@ -7,8 +6,8 @@ import { isEmpty } from "~/utils";
 import { useChatMessageBox } from "./ChatMessageBox.hooks";
 import * as Styled from "./ChatMessageBox.styles";
 
-export const ChatMessageBox = ({ user, opponent }: { user: User; opponent: ProfileAllDataRow }) => {
-  const app = useChatMessageBox({ user, opponent });
+export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) => {
+  const app = useChatMessageBox();
   const { t } = useTranslation("chat");
 
   return (
@@ -27,7 +26,7 @@ export const ChatMessageBox = ({ user, opponent }: { user: User; opponent: Profi
 
       <FlexColumn gap={10} padding="26px 32px 7px 32px">
         {app.chatMessages.map((messageData) => {
-          const isMine = messageData.sender.id === user.id;
+          const isMine = messageData.sender.id === app.user.id;
           const isChaining = app.getIsChaining(messageData);
 
           return (
