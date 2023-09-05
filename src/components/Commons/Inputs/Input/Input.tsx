@@ -7,7 +7,7 @@ import type { InputProps } from "./Input.types";
 export const Input = forwardRef<
   HTMLInputElement,
   InputProps & InputHTMLAttributes<HTMLInputElement>
->(({ onInvalid, rightElement, color, ...props }, ref) => {
+>(({ onInvalid, rightElement, disableSubmit = true, color, ...props }, ref) => {
   const [focus, setFocus] = useBoolean();
 
   const handleOnInvalid = (event: FormEvent<HTMLInputElement>) => {
@@ -25,7 +25,7 @@ export const Input = forwardRef<
         onFocus={setFocus.on}
         onBlur={setFocus.off}
         onKeyDown={(event) => {
-          if (event.key === "Enter") event.preventDefault();
+          if (event.key === "Enter" && disableSubmit) event.preventDefault();
         }}
       />
 

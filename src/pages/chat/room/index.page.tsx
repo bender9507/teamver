@@ -3,9 +3,8 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { chatKeys, selectChatRoom } from "~/states/server/chat";
+import { chatKeys, selectChatMessages, selectChatRoom } from "~/states/server/chat";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
-
 import { requireAuthentication } from "~/utils";
 import { Member, Owner } from "./components";
 
@@ -33,7 +32,11 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       () => selectChatRoom({ roomId, userId: session.user.id })
     );
 
-    await Promise.all([profile, room]);
+    const messages = queryClient.prefetchQuery(chatKeys.selectChatMessages(Number(roomId)), () =>
+      selectChatMessages(Number(roomId))
+    );
+
+    await Promise.all([profile, room, messages]);
 
     return {
       props: {

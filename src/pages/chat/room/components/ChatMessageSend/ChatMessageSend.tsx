@@ -21,6 +21,7 @@ export const ChatMessageSend = (props: { opponent: ProfileAllDataRow }) => {
         <Input
           color="gray5"
           rightElement={<IconButton type="button" name="smile" />}
+          disableSubmit={false}
           {...app.register("message", { required: true })}
         />
       </FlexColumn>

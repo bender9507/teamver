@@ -3,11 +3,15 @@ import { useUser } from "@supabase/auth-helpers-react";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import type { UIEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useUpdateEffect } from "react-use";
 import type { ChatMessageData } from "~/states/server/chat";
 import { useSelectChatMessagesQuery, useUpdateMessageReadState } from "~/states/server/chat";
 
 export const useChatMessageBox = () => {
+  const [isScrollEnd, setIsScrollEnd] = useState(false);
+
   const router = useRouter();
   const user = useUser() as User;
   const { t } = useTranslation("chat");
@@ -38,10 +42,24 @@ export const useChatMessageBox = () => {
     return `${t("오후")} ${time.format("h:mm")}`;
   };
 
-  useEffect(() => {
+  const handleScroll = (event: UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, offsetHeight } = event.currentTarget;
+
+    setIsScrollEnd(scrollTop + offsetHeight === scrollHeight);
+  };
+
+  const handleScrollToEnd = (behavior?: ScrollBehavior) => {
     if (!bottomRef.current) return;
 
-    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current.scrollIntoView({ behavior });
+  };
+
+  useLayoutEffect(() => {
+    handleScrollToEnd();
+  }, []);
+
+  useUpdateEffect(() => {
+    handleScrollToEnd("smooth");
   }, [chatMessages]);
 
   useEffect(() => {
@@ -49,8 +67,11 @@ export const useChatMessageBox = () => {
   }, [chatMessages, roomId, updateMessageStateMutate, user.id]);
 
   return {
+    isScrollEnd,
     user,
     chatMessages,
+    handleScroll,
+    handleScrollToEnd,
     getIsChaining,
     getTime,
     bottomRef
