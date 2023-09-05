@@ -1,8 +1,8 @@
 import { useTranslation } from "next-i18next";
-import { Icon } from "~/components/Commons";
-import { Position } from "~/styles/mixins";
+import { Icon, TinderCard } from "~/components/Commons";
+import { PosCenter, Position, Text } from "~/styles/mixins";
 import { FILTER_AREA_MODAL, FILTER_TYPE_MODAL, FilterArea, FilterType } from "../Filters";
-import { Container, OptionButton, Select } from "../Home.styles";
+import { CardContainer, Container, OptionButton, Select } from "../Home.styles";
 import { useMember } from "./Member.hooks";
 import { ProjectCard } from "./ProjectCard";
 
@@ -47,6 +47,16 @@ export const Member = () => {
       </Select>
 
       <Position position="relative">
+        <CardContainer>
+          <TinderCard mode="inactive">
+            <PosCenter>
+              <Text size="textMediumBold" color="gray6">
+                {t("등록된 프로젝트가 없어요")}
+              </Text>
+            </PosCenter>
+          </TinderCard>
+        </CardContainer>
+
         {app.filteredRandomProjects.map((project) => (
           <ProjectCard
             key={project.id}

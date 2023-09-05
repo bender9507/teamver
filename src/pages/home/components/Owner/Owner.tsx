@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
-import { Icon } from "~/components/Commons";
-import { Position } from "~/styles/mixins";
+import { Icon, TinderCard } from "~/components/Commons";
+import { PosCenter, Position, Text } from "~/styles/mixins";
 import {
   FILTER_AREA_MODAL,
   FILTER_LANGUAGE_MODAL,
@@ -11,7 +11,7 @@ import {
   FilterPosition,
   FilterSkill
 } from "../Filters";
-import { Container, OptionButton, Select } from "../Home.styles";
+import { CardContainer, Container, OptionButton, Select } from "../Home.styles";
 import { MemberCard } from "./MemberCard";
 import { useOwner } from "./Owner.hook";
 
@@ -88,6 +88,16 @@ export const Owner = () => {
       </Select>
 
       <Position position="relative">
+        <CardContainer>
+          <TinderCard mode="inactive">
+            <PosCenter>
+              <Text size="textMediumBold" color="gray6">
+                {t("등록된 참가자가 없어요")}
+              </Text>
+            </PosCenter>
+          </TinderCard>
+        </CardContainer>
+
         {app.filteredRandomProfiles.map((profile) => (
           <MemberCard
             key={profile.id}
