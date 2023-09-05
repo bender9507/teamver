@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useDialog, useModal } from "~/components/Commons";
+import { useSelectProfileQuery } from "~/states/server/profile";
 import type { ProjectMembersUpdate } from "~/states/server/project";
 import {
   projectsKey,
@@ -11,26 +12,32 @@ import {
   useSelectProjectQuery
 } from "~/states/server/project";
 
-export const useProjectMembers = () => {
-  const queryClient = useQueryClient();
+export const useProjectMemberList = () => {
+  const user = useUser() as User;
 
   const { t } = useTranslation("project");
 
-  const user = useUser() as User;
+  const queryClient = useQueryClient();
+
   const router = useRouter();
+
   const { mount } = useModal();
-  const { confirm } = useDialog();
+
+  const { confirm, toast } = useDialog();
 
   const projectId = router.query.projectId as string;
 
   const { data: projectData } = useSelectProjectQuery(Number(projectId));
+
+  const { data: profile } = useSelectProfileQuery(user.id);
 
   const projectMembersData = projectData.members;
 
   const { mutate: deleteMemberInProjectMutate } = useDeleteMemberInProjectMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectProject(Number(projectId)));
-    }
+    },
+    onError: () => toast({ type: "error", message: t("팀원 삭제에 실패했습니다") })
   });
 
   const filteredData = {
@@ -50,17 +57,13 @@ export const useProjectMembers = () => {
     }
   };
 
-  const handleBack = () => {
-    router.back();
-  };
-
   return {
     user,
+    profile,
     projectId,
     projectMembersData,
     filteredData,
     mount,
-    handleBack,
     handleDeleteMember
   };
 };
