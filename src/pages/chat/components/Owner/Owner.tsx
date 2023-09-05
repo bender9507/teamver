@@ -4,9 +4,9 @@ import { routes } from "~/constants/routes";
 import { Flex, FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { ChatRoomCard } from "../ChatRoomCard";
-import { useChatOwner } from "./ChatOwner.hooks";
+import { useChatOwner } from "./Owner.hooks";
 
-export const ChatOwner = () => {
+export const Owner = () => {
   const app = useChatOwner();
   const { t } = useTranslation("chat");
 

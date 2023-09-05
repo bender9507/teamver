@@ -3,11 +3,11 @@ import { Avatar, IconButton, PreviousButton } from "~/components/Commons";
 import { Flex, LayoutHeaderWithNav, Text } from "~/styles/mixins";
 import { ChatMessageBox } from "../ChatMessageBox";
 import { ChatMessageSend } from "../ChatMessageSend";
-import { ChatHeader } from "../ChatRoom.styles";
-import { useChatRoomOwner } from "./ChatRoomOwner.hooks";
+import { ChatHeader } from "../Room.styles";
 import { Invite } from "./Invite";
+import { useChatRoomOwner } from "./Owner.hooks";
 
-export const ChatRoomOwner = () => {
+export const Owner = () => {
   const app = useChatRoomOwner();
   const { t } = useTranslation("chat");
 

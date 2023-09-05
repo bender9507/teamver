@@ -2,10 +2,10 @@ import { Avatar, IconButton, PreviousButton } from "~/components/Commons";
 import { Flex, LayoutHeaderWithNav, Text } from "~/styles/mixins";
 import { ChatMessageBox } from "../ChatMessageBox";
 import { ChatMessageSend } from "../ChatMessageSend";
-import { ChatHeader } from "../ChatRoom.styles";
-import { useChatRoomMember } from "./ChatRoomMember.hooks";
+import { ChatHeader } from "../Room.styles";
+import { useChatRoomMember } from "./Member.hooks";
 
-export const ChatRoomMember = () => {
+export const Member = () => {
   const app = useChatRoomMember();
 
   return (

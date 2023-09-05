@@ -5,9 +5,9 @@ import { Flex, FlexCenter, FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { ChatRoomCard } from "../ChatRoomCard";
 import { InviteProjectCard } from "../InviteProjectCard";
-import { useChatMember } from "./ChatMember.hooks";
+import { useChatMember } from "./Member.hooks";
 
-export const ChatMember = () => {
+export const Member = () => {
   const app = useChatMember();
   const { t } = useTranslation("chat");
 

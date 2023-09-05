@@ -1,16 +1,22 @@
 import { useTranslation } from "next-i18next";
+import { useSelectChatRequestMemberQuery } from "~/states/server/chat";
 import { FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { ChatRequestCard } from "../ChatRequestCard";
-import { useChatRequestMember } from "./ChatRequestMember.hooks";
+import { useChatRequestOwner } from "./Owner.hooks";
 
-export const ChatRequestMember = () => {
-  const app = useChatRequestMember();
+export const Owner = () => {
+  const app = useChatRequestOwner();
   const { t } = useTranslation("chat");
+
+  const { data: requests } = useSelectChatRequestMemberQuery({
+    receiverId: app.user.id,
+    state: "PENDING"
+  });
 
   return (
     <FlexColumn gap={12}>
-      {isEmpty(app.requests) && (
+      {isEmpty(requests) && (
         <PosCenter>
           <Text size="textMediumBold" color="gray6">
             {t("받은 채팅 요청이 없어요")}
@@ -18,7 +24,7 @@ export const ChatRequestMember = () => {
         </PosCenter>
       )}
 
-      {app.requests.map((request) => (
+      {requests.map((request) => (
         <ChatRequestCard
           key={request.id}
           request={request}

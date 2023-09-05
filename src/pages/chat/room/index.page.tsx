@@ -6,14 +6,14 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { chatKeys, selectChatRoom } from "~/states/server/chat";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 
-import { ChatRoomMember, ChatRoomOwner } from "~/components/Chat";
 import { requireAuthentication } from "~/utils";
+import { Member, Owner } from "./components";
 
 const ChatRoom = () => {
   const user = useUser() as User;
   const { data: profile } = useSelectProfileQuery(user.id);
 
-  return profile.role.id === 1 ? <ChatRoomOwner /> : <ChatRoomMember />;
+  return profile.role.id === 1 ? <Owner /> : <Member />;
 };
 
 export default ChatRoom;
