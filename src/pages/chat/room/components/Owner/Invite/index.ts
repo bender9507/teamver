@@ -1,1 +1,1 @@
-export { Invite } from "./Invite";
+export { INVITE_MODAL, Invite } from "./Invite";
