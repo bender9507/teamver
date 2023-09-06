@@ -41,7 +41,7 @@ export const useLikeOwnerCard = ({ data, userId }: Parameters<typeof LikeOwnerCa
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
     },
     onError: () => {
-      toast({ type: "error", message: "채팅요청 취소에 실패했습니다" });
+      toast({ type: "error", message: t("채팅요청 취소에 실패했습니다") });
     }
   });
 
@@ -73,7 +73,7 @@ export const useLikeOwnerCard = ({ data, userId }: Parameters<typeof LikeOwnerCa
   });
 
   const handleDeleteFollow = async () => {
-    if (!(await confirm({ title: "정말 찜 해제하시겠어요" }))) return;
+    if (!(await confirm({ title: t("정말 찜 해제하시겠어요") }))) return;
     deleteFollowMutate(data.id);
   };
 

@@ -38,7 +38,7 @@ export const useLikeMemberCard = ({ data, userId }: Parameters<typeof LikeMember
       queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
     },
     onError: () => {
-      toast({ type: "error", message: "채팅요청 취소에 실패했습니다" });
+      toast({ type: "error", message: t("채팅요청 취소에 실패했습니다") });
     }
   });
 
