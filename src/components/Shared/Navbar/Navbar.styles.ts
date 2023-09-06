@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { scale } from "~/styles/animation";
 import { flex, position, size, text } from "~/styles/mixins";
 
 export const Navbar = styled.nav`
@@ -32,6 +31,4 @@ export const UnreadCount = styled.span`
   `}
 
   transform: translate(50%, -30%);
-
-  animation: ${scale(0)} 300ms;
 `;
