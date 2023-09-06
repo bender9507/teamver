@@ -2,9 +2,9 @@ import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { memo } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
-import { MyMessage, OpponentEmoji, OpponentMessage } from "..";
-import { MyEmoji } from "../MyEmoji";
+import { MyEmoji, MyMessage } from "../My";
 import { NoticeMessage } from "../NoticeMessage";
+import { OpponentEmoji, OpponentMessage } from "../Opponent";
 
 export const Message = memo(
   ({ message, isChaining }: { message: ChatMessageData; isChaining: boolean }) => {
