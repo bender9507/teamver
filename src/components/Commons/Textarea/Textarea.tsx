@@ -6,8 +6,8 @@ import * as Styled from "./Textarea.styles";
 
 export const Textarea = forwardRef<
   HTMLTextAreaElement,
-  TextareaHTMLAttributes<HTMLTextAreaElement>
->(({ onInvalid, ...props }, ref) => {
+  { maxHeight?: number } & TextareaHTMLAttributes<HTMLTextAreaElement>
+>(({ onInvalid, maxHeight, ...props }, ref) => {
   const { sizes } = useTheme();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -15,7 +15,14 @@ export const Textarea = forwardRef<
   const resize = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = `${sizes.height.medium}px`;
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
+
+      let height = textareaRef.current.scrollHeight + 2;
+
+      if (maxHeight && maxHeight < height) {
+        height = maxHeight;
+      }
+
+      textareaRef.current.style.height = `${height}px`;
     }
   };
 

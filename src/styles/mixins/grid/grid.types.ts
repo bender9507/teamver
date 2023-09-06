@@ -11,4 +11,5 @@ export interface GridProps {
   autoColumnSize?: boolean;
   align?: GridMapKey;
   justify?: GridMapKey;
+  padding?: CSSProperties["padding"];
 }

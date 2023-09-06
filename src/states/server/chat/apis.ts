@@ -1,9 +1,10 @@
 import { supabase } from "../config";
 import type { ProfileAllDataRow } from "../profile";
 import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
-import { CHAT_ROOM_ALL_DATA_QUERY } from "./constants";
+import { CHAT_MESSAGE_ALL_DATA_QUERY, CHAT_ROOM_ALL_DATA_QUERY } from "./constants";
 import type {
   ChatMessageData,
+  ChatMessageInsert,
   ChatRequestMemberAllData,
   ChatRequestMemberInsert,
   ChatRequestMemberRow,
@@ -133,21 +134,25 @@ export const selectChatRequestMember = async ({
   return data;
 };
 
-export const insertChatMessage = async (message: {
-  roomId: number;
-  senderId: string;
-  message: string;
-}) => {
-  const { error } = await supabase.from("chatMessages").insert(message);
+export const insertChatMessage = async (message: ChatMessageInsert) => {
+  const { data, error } = await supabase
+    .from("chatMessages")
+    .insert(message)
+    .select("id, message, createdAt, sender:senderId(*), type")
+    .returns<ChatMessageData[]>()
+    .single();
 
   if (error) throw Error("메세지 전송에 실패하였습니다.");
+
+  return data;
 };
 
 export const selectChatMessages = async (roomId: number) => {
   const { data, error } = await supabase
     .from("chatMessages")
-    .select("id, message, createdAt, sender:senderId(*)")
+    .select("id, message, createdAt, sender:senderId(*), type")
     .eq("roomId", roomId)
+    .order("createdAt")
     .returns<ChatMessageData[]>();
 
   if (error) throw Error("메세지 목록을 불러오는데 실패하였습니다.");
@@ -174,6 +179,19 @@ export const selectChatRoom = async ({ roomId, userId }: { roomId: string; userI
   return data;
 };
 
+export const selectMessage = async (messageId: number) => {
+  const { data, error } = await supabase
+    .from("chatMessages")
+    .select(CHAT_MESSAGE_ALL_DATA_QUERY)
+    .eq("id", messageId)
+    .returns<ChatMessageData[]>()
+    .single();
+
+  if (error) throw Error("채팅을 불러오는데 실패하였습니다.");
+
+  return data;
+};
+
 export const selectChatRooms = async (userId: string) => {
   const { data, error } = await supabase
     .from("chatMembers")
@@ -181,6 +199,7 @@ export const selectChatRooms = async (userId: string) => {
     .limit(3, { foreignTable: "roomId.chatMessages" })
     .neq("roomId.members.userId", userId)
     .eq("userId", userId)
+    .eq("state", true)
     .order("createdAt", { foreignTable: "roomId.messages", ascending: false })
     .returns<ChatRoomAllData[]>();
 
@@ -197,6 +216,24 @@ export const deleteChatMember = async ({ roomId, userId }: { roomId: number; use
     .eq("userId", userId);
 
   if (error) throw new Error("채팅방 유저를 삭제하는데 실패하였습니다.");
+};
+
+export const updateChatMemberState = async ({
+  roomId,
+  userId,
+  state
+}: {
+  roomId: number;
+  userId: string;
+  state: boolean;
+}) => {
+  const { error } = await supabase
+    .from("chatMembers")
+    .update({ state })
+    .eq("roomId", roomId)
+    .eq("userId", userId);
+
+  if (error) throw new Error("채팅방 유저 상태를 변경하는데 실패하였습니다.");
 };
 
 export const updateChatRequestOwnerState = async ({
@@ -238,23 +275,6 @@ export const insertChatRoomWithMember = async ({
   if (error) throw new Error("채팅방 및 멤버 생성에 실패했습니다.");
 };
 
-export const selectUnreadMessageCount = async ({
-  userId,
-  roomId
-}: {
-  userId: string;
-  roomId: number;
-}) => {
-  const { data, error } = await supabase.rpc("unread_message_count", {
-    userid: userId,
-    roomid: roomId
-  });
-
-  if (error) throw new Error("읽지 않은 메세지를 가져오는데 실패했습니다.");
-
-  return data;
-};
-
 export const updateLastReadMessage = async ({
   userId,
   roomId,
@@ -291,4 +311,32 @@ export const updateMessageReadState = async ({
     .neq("senderId", userId);
 
   if (error) throw Error("메세지를 읽음 처리하는데 실패하였습니다.");
+};
+
+export const selectOpponent = async ({ roomId, userId }: { roomId: string; userId: string }) => {
+  const { data, error } = await supabase
+    .from("chatMembers")
+    .select(`...userId(${PROFILE_ALL_DATA_QUERY})`)
+    .eq("roomId", roomId)
+    .neq("userId", userId)
+    .returns<ProfileAllDataRow[]>()
+    .maybeSingle();
+
+  if (error) throw Error("상대방을 불러오는데 실패하였습니다.");
+
+  return data;
+};
+
+export const selectUnreadMessageCount = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("chatMessages")
+    .select(`*, roomId(chatMembers(userId))`)
+    .neq("type", "NOTICE")
+    .neq("senderId", userId)
+    .eq("state", false)
+    .eq(`roomId.chatMembers.userId`, userId);
+
+  if (error) throw Error("메세지 목록을 불러오는데 실패하였습니다.");
+
+  return data.length;
 };

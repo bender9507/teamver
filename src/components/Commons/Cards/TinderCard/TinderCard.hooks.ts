@@ -6,7 +6,11 @@ import type { TinderCard } from ".";
 
 const ANIMATION_TRANSITION = 600;
 
-export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof TinderCard>) => {
+export const useTinderCard = ({
+  onConfirm,
+  onCancel,
+  mode = "active"
+}: ComponentProps<typeof TinderCard>) => {
   const [drag, setDrag] = useImmutableState({
     state: false,
     startPos: { x: 0, y: 0 }
@@ -52,7 +56,7 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
   };
 
   const handleUp = () => {
-    if (selectedDirection) {
+    if (selectedDirection && mode === "active") {
       setAnimation({
         transition: ANIMATION_TRANSITION,
         translatePos: { x: animation.translatePos.x * 4, y: animation.translatePos.y * 4 },
@@ -61,9 +65,9 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
 
       setTimeout(() => {
         if (selectedDirection === "left") {
-          onCancel();
+          if (onCancel) onCancel();
         } else if (selectedDirection === "right") {
-          onConfirm();
+          if (onConfirm) onConfirm();
         }
       }, 300);
     } else {
@@ -105,15 +109,19 @@ export const useTinderCard = ({ onConfirm, onCancel }: ComponentProps<typeof Tin
   };
 
   const handleConfirm = () => {
-    setAnimation({ translatePos: { x: 500, y: -100 }, rotate: 30, opacity: 0 });
+    if (onConfirm) {
+      setAnimation({ translatePos: { x: 500, y: -100 }, rotate: 30, opacity: 0 });
 
-    setTimeout(onConfirm, ANIMATION_TRANSITION);
+      setTimeout(onConfirm, ANIMATION_TRANSITION);
+    }
   };
 
   const handleCancel = () => {
-    setAnimation({ translatePos: { x: -500, y: -100 }, rotate: -30, opacity: 0 });
+    if (onCancel) {
+      setAnimation({ translatePos: { x: -500, y: -100 }, rotate: -30, opacity: 0 });
 
-    setTimeout(onCancel, ANIMATION_TRANSITION);
+      setTimeout(onCancel, ANIMATION_TRANSITION);
+    }
   };
 
   return {

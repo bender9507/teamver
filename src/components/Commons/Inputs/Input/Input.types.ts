@@ -8,5 +8,6 @@ export interface InputStyleProps {
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "color">,
     InputStyleProps {
+  disableSubmit?: boolean;
   rightElement?: ReactElement;
 }

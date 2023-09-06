@@ -19,17 +19,19 @@ export const grid = ({
   gap,
   autoColumnSize,
   align,
-  justify
+  justify,
+  padding
 }: GridProps = {}) => css`
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: ${`repeat(${column}, ${autoColumnSize ? "auto" : "1fr"})`};
 
-  ${gap && styleHelper("gap", gap)}
-  ${rowGap && styleHelper("rowGap", rowGap)}
-  ${columnGap && styleHelper("columnGap", columnGap)}
-  ${justify && styleHelper("justifyItems", justify)}
-  ${align && styleHelper("alignItems", align)}
+  ${gap && styleHelper("gap", gap)};
+  ${rowGap && styleHelper("rowGap", rowGap)};
+  ${columnGap && styleHelper("columnGap", columnGap)};
+  ${justify && styleHelper("justifyItems", justify)};
+  ${align && styleHelper("alignItems", align)};
+  ${padding && styleHelper("padding", padding)};
 `;
 
 export const Grid = styled.div<GridProps>`
