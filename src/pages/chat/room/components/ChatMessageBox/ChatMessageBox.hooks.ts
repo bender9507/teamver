@@ -1,7 +1,7 @@
 import type { UIEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useMount, useUpdateEffect } from "react-use";
-import type { ChatMessageRow } from "~/states/server/chat";
+import type { ChatMessageData, ChatMessageRow } from "~/states/server/chat";
 import { useUpdateMessageReadState } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
 import { useRoomContext } from "../../index.page";
@@ -25,6 +25,13 @@ export const useChatMessageBox = () => {
     if (!bottomRef.current) return;
 
     bottomRef.current.scrollIntoView({ behavior });
+  };
+
+  const getIsChaining = ({ sender }: ChatMessageData) => {
+    const lastMessage = messages[messages.length - 2];
+    const isChaining = lastMessage?.sender.id === sender.id;
+
+    return isChaining;
   };
 
   useLayoutEffect(() => {
@@ -70,6 +77,7 @@ export const useChatMessageBox = () => {
     opponent,
     user: profile,
     messages,
+    getIsChaining,
     handleScroll,
     handleScrollToEnd,
     bottomRef

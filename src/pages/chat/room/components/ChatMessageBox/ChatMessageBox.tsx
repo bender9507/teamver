@@ -27,7 +27,7 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
 
         <FlexColumn gap={10} padding="26px 32px 7px 32px">
           {app.messages.map((message) => (
-            <Message key={message.id} message={message} />
+            <Message key={message.id} isChaining={app.getIsChaining(message)} message={message} />
           ))}
         </FlexColumn>
 

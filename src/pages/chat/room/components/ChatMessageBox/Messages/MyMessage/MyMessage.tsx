@@ -1,10 +1,10 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
 import { Flex, Text } from "~/styles/mixins";
 import { useMessages } from "../Messages.hooks";
 import * as Styled from "./MyMessage.styles";
 
-export const MyMessage = memo(({ message }: PropsWithChildren<{ message: ChatMessageData }>) => {
+export const MyMessage = ({ message }: PropsWithChildren<{ message: ChatMessageData }>) => {
   const { message: content } = message;
 
   const app = useMessages({ message });
@@ -18,4 +18,4 @@ export const MyMessage = memo(({ message }: PropsWithChildren<{ message: ChatMes
       <Styled.Bubble>{content}</Styled.Bubble>
     </Flex>
   );
-});
+};
