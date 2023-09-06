@@ -32,7 +32,7 @@ export const ChatMessageSend = () => {
         <IconButton name="send" />
       </Flex>
 
-      {app.isOpenEmoji && <EmojiSend onSend={app.sendMessage} />}
+      {app.isOpenEmoji && <EmojiSend />}
     </FlexColumn>
   );
 };

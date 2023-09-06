@@ -1,18 +1,13 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { useModal } from "~/components/Commons";
-import { useBoolean } from "~/hooks";
 import type { ChatMessageData } from "~/states/server/chat";
 import { chatKeys, useInsertChatMessageMutate } from "~/states/server/chat";
-import { useRoomContext } from "../../index.page";
+import { useSelectConstantsQuery } from "~/states/server/constant";
+import { useRoomContext } from "../../../index.page";
 
-export const useChatMessageSend = () => {
-  const [isOpenEmoji, setIsOpenEmoji] = useBoolean(false);
-
+export const useEmojiSend = () => {
   const queryClient = useQueryClient();
-  const { mount } = useModal();
+  const { data: constants } = useSelectConstantsQuery();
   const { roomId, profile } = useRoomContext();
-  const { register, handleSubmit, reset } = useForm<{ message: string }>();
 
   const { mutate: insertChatMessageMutate } = useInsertChatMessageMutate({
     onSuccess: (message) => {
@@ -27,16 +22,17 @@ export const useChatMessageSend = () => {
     }
   });
 
-  const handleSendMessage = handleSubmit(({ message }) => {
+  const sendEmoji = (emoji: string) => {
     insertChatMessageMutate({
       roomId: Number(roomId),
       senderId: profile.id,
-      message,
-      type: "MESSAGE"
+      message: emoji,
+      type: "EMOJI"
     });
+  };
 
-    reset();
-  });
-
-  return { handleSendMessage, register, mount, isOpenEmoji, setIsOpenEmoji };
+  return {
+    sendEmoji,
+    constants
+  };
 };

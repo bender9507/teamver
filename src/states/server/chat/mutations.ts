@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import type { ChatMessageData } from ".";
 import type { PickMutationOptions } from "../server.types";
 import {
   deleteChatMember,
@@ -52,7 +53,7 @@ export const useDeleteChatRequestsOwnerMutate = (
 };
 
 export const useInsertChatMessageMutate = (
-  options?: PickMutationOptions<typeof insertChatMessage, "onSuccess" | "onError">
+  options?: PickMutationOptions<typeof insertChatMessage, "onSuccess" | "onError", ChatMessageData>
 ) => {
   return useMutation({
     mutationFn: insertChatMessage,

@@ -1,8 +1,9 @@
+import { useQueryClient } from "@tanstack/react-query";
 import type { UIEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useMount, useUpdateEffect } from "react-use";
-import type { ChatMessageData, ChatMessageRow } from "~/states/server/chat";
-import { useUpdateMessageReadState } from "~/states/server/chat";
+import type { ChatMessageData } from "~/states/server/chat";
+import { chatKeys, selectMessage, useUpdateMessageReadState } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
 import { useRoomContext } from "../../index.page";
 
@@ -10,11 +11,10 @@ export const useChatMessageBox = () => {
   const [isScrollEnd, setIsScrollEnd] = useState(true);
 
   const lastMessageRef = useRef<ChatMessageData>();
-
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { addMessage, profile, opponent, roomId, messages } = useRoomContext();
-
+  const queryClient = useQueryClient();
+  const { profile, opponent, roomId, messages } = useRoomContext();
   const { mutate: updateMessageStateMutate } = useUpdateMessageReadState();
 
   const handleScroll = (event: UIEvent<HTMLDivElement>) => {
@@ -52,12 +52,19 @@ export const useChatMessageBox = () => {
           table: "chatMessages",
           filter: `roomId=eq.${roomId}`
         },
-        (payload) => {
-          const newMessage = payload.new as ChatMessageRow;
+        async (payload) => {
+          if (payload.new.senderId === profile.id) return;
 
-          if (opponent && newMessage.senderId !== profile.id) {
-            addMessage(newMessage.message, opponent);
-          }
+          const message = await selectMessage(payload.new.id);
+
+          queryClient.setQueryData<ChatMessageData[]>(
+            chatKeys.selectChatMessages(Number(roomId)),
+            (messages) => {
+              if (!messages) return messages;
+
+              return [...messages, message];
+            }
+          );
         }
       )
       .subscribe();

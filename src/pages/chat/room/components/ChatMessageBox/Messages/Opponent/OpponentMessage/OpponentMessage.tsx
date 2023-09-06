@@ -9,9 +9,11 @@ export const OpponentMessage = ({
   message: ChatMessageData;
   isChaining: boolean;
 }) => {
+  const { message: content } = message;
+
   return (
     <OpponentBox message={message} isChaining={isChaining}>
-      <Styled.Bubble>dddd</Styled.Bubble>
+      <Styled.Bubble>{content}</Styled.Bubble>
     </OpponentBox>
   );
 };
