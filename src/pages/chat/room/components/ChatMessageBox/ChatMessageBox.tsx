@@ -4,7 +4,7 @@ import type { ProfileAllDataRow } from "~/states/server/profile";
 import { FlexColumn, LayoutContent, PosCenter, Position, SizeBox, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { useChatMessageBox } from "./ChatMessageBox.hooks";
-import * as Styled from "./ChatMessageBox.styles";
+import { Message } from "./Messages";
 
 export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) => {
   const app = useChatMessageBox();
@@ -26,28 +26,9 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
         )}
 
         <FlexColumn gap={10} padding="26px 32px 7px 32px">
-          {app.messages.map((messageData) => {
-            const isMine = messageData.sender.id === app.user.id;
-            const isChaining = app.getIsChaining(messageData);
-
-            return (
-              <Styled.MessageContainer key={messageData.id} isMine={isMine}>
-                {!isMine && (
-                  <SizeBox height={32} minWidth={32}>
-                    {!isChaining && <Avatar size="small" src={messageData.sender.imageUrl} />}
-                  </SizeBox>
-                )}
-
-                <Styled.MessageBox isMine={isMine}>
-                  <Styled.Bubble isMine={isMine}>{messageData.message}</Styled.Bubble>
-
-                  <Text size="textSmall" color="gray6" whiteSpace="nowrap">
-                    {app.getTime(messageData.createdAt)}
-                  </Text>
-                </Styled.MessageBox>
-              </Styled.MessageContainer>
-            );
-          })}
+          {app.messages.map((message) => (
+            <Message key={message.id} message={message} />
+          ))}
         </FlexColumn>
 
         <div ref={app.bottomRef} />
