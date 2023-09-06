@@ -12,7 +12,7 @@ export const MyEmoji = ({ message }: PropsWithChildren<{ message: ChatMessageDat
     <MyBox message={message}>
       <SizeBox width={50} height={50}>
         <RatioBox>
-          <Image src={content} alt="이모티콘" fill />
+          <Image src={content} alt="이모티콘" sizes="100%" fill />
         </RatioBox>
       </SizeBox>
     </MyBox>

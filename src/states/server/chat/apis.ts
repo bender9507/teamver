@@ -275,23 +275,6 @@ export const insertChatRoomWithMember = async ({
   if (error) throw new Error("채팅방 및 멤버 생성에 실패했습니다.");
 };
 
-export const selectUnreadMessageCount = async ({
-  userId,
-  roomId
-}: {
-  userId: string;
-  roomId: number;
-}) => {
-  const { data, error } = await supabase.rpc("unread_message_count", {
-    userid: userId,
-    roomid: roomId
-  });
-
-  if (error) throw new Error("읽지 않은 메세지를 가져오는데 실패했습니다.");
-
-  return data;
-};
-
 export const updateLastReadMessage = async ({
   userId,
   roomId,
@@ -342,4 +325,18 @@ export const selectOpponent = async ({ roomId, userId }: { roomId: string; userI
   if (error) throw Error("상대방을 불러오는데 실패하였습니다.");
 
   return data;
+};
+
+export const selectUnreadMessageCount = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("chatMessages")
+    .select(`*, roomId(chatMembers(userId))`)
+    .neq("type", "NOTICE")
+    .neq("senderId", userId)
+    .eq("state", false)
+    .eq(`roomId.chatMembers.userId`, userId);
+
+  if (error) throw Error("메세지 목록을 불러오는데 실패하였습니다.");
+
+  return data.length;
 };
