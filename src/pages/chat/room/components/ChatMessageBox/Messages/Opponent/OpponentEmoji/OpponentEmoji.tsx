@@ -1,21 +1,16 @@
 import Image from "next/image";
 import type { PropsWithChildren } from "react";
 import { RatioBox } from "~/components/Commons";
-import type { ChatMessageData } from "~/states/server/chat";
 import { SizeBox } from "~/styles/mixins";
+import type { OpponentProps } from "..";
 import { OpponentBox } from "../OpponentBox";
 
-export const OpponentEmoji = ({
-  message,
-  isChaining
-}: PropsWithChildren<{ message: ChatMessageData; isChaining: boolean }>) => {
-  const { message: content } = message;
-
+export const OpponentEmoji = (props: PropsWithChildren<OpponentProps>) => {
   return (
-    <OpponentBox message={message} isChaining={isChaining}>
+    <OpponentBox {...props}>
       <SizeBox width={50} height={50}>
         <RatioBox>
-          <Image src={content} alt="이모티콘" fill sizes="100%" />
+          <Image src={props.message.message} alt="이모티콘" fill sizes="100%" />
         </RatioBox>
       </SizeBox>
     </OpponentBox>

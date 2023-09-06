@@ -7,8 +7,13 @@ import { useMessages } from "../../Messages.hooks";
 export const OpponentBox = ({
   children,
   message,
-  isChaining
-}: PropsWithChildren<{ message: ChatMessageData; isChaining: boolean }>) => {
+  isChaining,
+  isChainingEnd
+}: PropsWithChildren<{
+  message: ChatMessageData;
+  isChaining: boolean;
+  isChainingEnd: boolean;
+}>) => {
   const { sender } = message;
 
   const app = useMessages({ message });
@@ -21,9 +26,11 @@ export const OpponentBox = ({
 
       {children}
 
-      <Text size="textSmall" color="gray6" whiteSpace="nowrap" style={{ alignSelf: "end" }}>
-        {app.time}
-      </Text>
+      {isChainingEnd && (
+        <Text size="textSmall" color="gray6" whiteSpace="nowrap" style={{ alignSelf: "end" }}>
+          {app.time}
+        </Text>
+      )}
     </Flex>
   );
 };

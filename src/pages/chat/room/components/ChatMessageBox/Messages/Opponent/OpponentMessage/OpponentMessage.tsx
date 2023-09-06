@@ -1,19 +1,11 @@
-import type { ChatMessageData } from "~/states/server/chat";
+import type { OpponentProps } from "../Opponent.types";
 import { OpponentBox } from "../OpponentBox";
 import * as Styled from "./OpponentMessage.styles";
 
-export const OpponentMessage = ({
-  message,
-  isChaining
-}: {
-  message: ChatMessageData;
-  isChaining: boolean;
-}) => {
-  const { message: content } = message;
-
+export const OpponentMessage = (props: OpponentProps) => {
   return (
-    <OpponentBox message={message} isChaining={isChaining}>
-      <Styled.Bubble>{content}</Styled.Bubble>
+    <OpponentBox {...props}>
+      <Styled.Bubble>{props.message.message}</Styled.Bubble>
     </OpponentBox>
   );
 };

@@ -1,37 +1,37 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { memo } from "react";
-import type { ChatMessageData } from "~/states/server/chat";
 import { MyEmoji, MyMessage } from "../My";
 import { NoticeMessage } from "../NoticeMessage";
+import type { OpponentProps } from "../Opponent";
 import { OpponentEmoji, OpponentMessage } from "../Opponent";
 
-export const Message = memo(
-  ({ message, isChaining }: { message: ChatMessageData; isChaining: boolean }) => {
-    const user = useUser() as User;
+export const Message = memo((props: OpponentProps) => {
+  const { message } = props;
 
-    const isMine = message.sender.id === user.id;
+  const user = useUser() as User;
 
-    switch (message.type) {
-      case "NOTICE":
-        return <NoticeMessage message={message} />;
+  const isMine = message.sender.id === user.id;
 
-      case "REPOSITORY":
-        return <div>repository</div>;
+  switch (message.type) {
+    case "NOTICE":
+      return <NoticeMessage message={message} />;
 
-      case "EMOJI":
-        if (isMine) {
-          return <MyEmoji message={message} />;
-        }
+    case "REPOSITORY":
+      return <div>repository</div>;
 
-        return <OpponentEmoji message={message} isChaining={isChaining} />;
+    case "EMOJI":
+      if (isMine) {
+        return <MyEmoji {...props} />;
+      }
 
-      default:
-        if (isMine) {
-          return <MyMessage message={message} />;
-        }
+      return <OpponentEmoji {...props} />;
 
-        return <OpponentMessage message={message} isChaining={isChaining} />;
-    }
+    default:
+      if (isMine) {
+        return <MyMessage {...props} />;
+      }
+
+      return <OpponentMessage {...props} />;
   }
-);
+});

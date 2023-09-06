@@ -1,18 +1,16 @@
 import Image from "next/image";
 import type { PropsWithChildren } from "react";
 import { RatioBox } from "~/components/Commons";
-import type { ChatMessageData } from "~/states/server/chat";
 import { SizeBox } from "~/styles/mixins";
+import type { MyProps } from "../My.types";
 import { MyBox } from "../MyBox";
 
-export const MyEmoji = ({ message }: PropsWithChildren<{ message: ChatMessageData }>) => {
-  const { message: content } = message;
-
+export const MyEmoji = (props: PropsWithChildren<MyProps>) => {
   return (
-    <MyBox message={message}>
+    <MyBox {...props}>
       <SizeBox width={50} height={50}>
         <RatioBox>
-          <Image src={content} alt="이모티콘" sizes="100%" fill />
+          <Image src={props.message.message} alt="이모티콘" sizes="100%" fill />
         </RatioBox>
       </SizeBox>
     </MyBox>

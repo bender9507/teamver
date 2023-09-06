@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { Avatar, IconButton } from "~/components/Commons";
 import type { ProfileAllDataRow } from "~/states/server/profile";
@@ -9,6 +10,8 @@ import { Message } from "./Messages";
 export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) => {
   const app = useChatMessageBox();
   const { t } = useTranslation("chat");
+
+  let lastTimestamp: Date | null = null;
 
   return (
     <>
@@ -26,12 +29,23 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
         )}
 
         <FlexColumn gap={10} padding="26px 32px 7px 32px">
-          {app.messages.map((message) => {
-            const isChaining = app.lastMessageRef.current?.sender.id === message.sender.id;
+          {app.messages.map((message, index) => {
+            const isChaining = dayjs(lastTimestamp).minute() === dayjs(message.createdAt).minute();
 
-            app.lastMessageRef.current = message;
+            const isChainingEnd =
+              dayjs(message.createdAt).minute() !==
+              dayjs(app.messages[index + 1]?.createdAt).minute();
 
-            return <Message key={message.id} isChaining={isChaining} message={message} />;
+            lastTimestamp = message.createdAt;
+
+            return (
+              <Message
+                key={message.id}
+                isChaining={isChaining}
+                isChainingEnd={isChainingEnd}
+                message={message}
+              />
+            );
           })}
         </FlexColumn>
 
