@@ -148,6 +148,7 @@ export const selectChatMessages = async (roomId: number) => {
     .from("chatMessages")
     .select("id, message, createdAt, sender:senderId(*), type")
     .eq("roomId", roomId)
+    .order("createdAt")
     .returns<ChatMessageData[]>();
 
   if (error) throw Error("메세지 목록을 불러오는데 실패하였습니다.");
