@@ -37,11 +37,14 @@ export const useInvite = ({ opponent }: ComponentProps<typeof Invite>) => {
     unmount(INVITE_MODAL);
   };
 
+  const inRecruit = projects.filter((project) => project.state === "IN_RECRUIT");
+
   return {
     handleInvite,
     selected,
     setSelected,
     unmount,
-    projects
+    projects,
+    inRecruit
   };
 };

@@ -25,13 +25,13 @@ export const Invite = ({ opponent }: { opponent: ProfileAllDataRow }) => {
           }}
           containerProps={{ direction: "column", gap: 16, marginTop: 22 }}
         >
-          {isEmpty(app.projects) && (
+          {isEmpty(app.inRecruit) && (
             <Text size="textMedium" color="gray6">
               {t("프로젝트가 없어요")}
             </Text>
           )}
 
-          {app.projects.map((project) => (
+          {app.inRecruit.map((project) => (
             <Radio key={project.id} value={project.id}>
               <Avatar size="small" src={project.imageUrl} />
 
