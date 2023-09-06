@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
@@ -44,6 +44,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     return {
       props: {
         session,
+        dehydratedState: dehydrate(queryClient),
         ...(await serverSideTranslations(context.locale as string, [
           "common",
           "profile",

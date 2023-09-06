@@ -1,6 +1,6 @@
 import type { ProjectAllDataRow } from "~/states/server/project";
 
-export type ProjectStatusUpdateProps = {
+export interface ProjectStatusUpdateProps {
   project: ProjectAllDataRow;
   isMine?: boolean;
-};
+}
