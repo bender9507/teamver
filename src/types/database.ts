@@ -245,6 +245,27 @@ export interface Database {
         }
         Relationships: []
       }
+      constantEmojis: {
+        Row: {
+          emoji: string
+          id: number
+          name: string | null
+          order: number
+        }
+        Insert: {
+          emoji: string
+          id?: number
+          name?: string | null
+          order?: number
+        }
+        Update: {
+          emoji?: string
+          id?: number
+          name?: string | null
+          order?: number
+        }
+        Relationships: []
+      }
       constantJobs: {
         Row: {
           en: string
@@ -1090,6 +1111,7 @@ export interface Database {
           reactions: Json
           roles: Json
           skills: Json
+          emojis: Json
         }[]
       }
       select_recommended_members: {

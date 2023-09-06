@@ -4,6 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { createContext, useContext } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
 import { chatKeys, selectChatMessages, selectChatRoom, selectOpponent } from "~/states/server/chat";
+import { constantKeys, selectConstants } from "~/states/server/constant";
 import type { ProfileAllDataRow } from "~/states/server/profile";
 import { profileKeys, selectProfile } from "~/states/server/profile";
 import { requireAuthentication } from "~/utils";
@@ -46,6 +47,8 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
 
     const roomId = context.query.roomId as string;
 
+    const constants = queryClient.prefetchQuery(constantKeys.selectConstants(), selectConstants);
+
     const profile = queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
       selectProfile(session.user.id)
     );
@@ -64,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       () => selectOpponent({ roomId, userId: session.user.id })
     );
 
-    await Promise.all([profile, opponent, room, messages]);
+    await Promise.all([profile, opponent, room, messages, constants]);
 
     return {
       props: {

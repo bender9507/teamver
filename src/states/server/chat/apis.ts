@@ -4,6 +4,7 @@ import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
 import { CHAT_ROOM_ALL_DATA_QUERY } from "./constants";
 import type {
   ChatMessageData,
+  ChatMessageInsert,
   ChatRequestMemberAllData,
   ChatRequestMemberInsert,
   ChatRequestMemberRow,
@@ -133,11 +134,7 @@ export const selectChatRequestMember = async ({
   return data;
 };
 
-export const insertChatMessage = async (message: {
-  roomId: number;
-  senderId: string;
-  message: string;
-}) => {
+export const insertChatMessage = async (message: ChatMessageInsert) => {
   const { error } = await supabase.from("chatMessages").insert(message);
 
   if (error) throw Error("메세지 전송에 실패하였습니다.");

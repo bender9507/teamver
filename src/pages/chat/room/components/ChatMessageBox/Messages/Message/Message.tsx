@@ -2,7 +2,8 @@ import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { memo } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
-import { MyMessage, OpponentMessage } from "..";
+import { MyMessage, OpponentEmoji, OpponentMessage } from "..";
+import { MyEmoji } from "../MyEmoji";
 import { NoticeMessage } from "../NoticeMessage";
 
 export const Message = memo(
@@ -19,7 +20,11 @@ export const Message = memo(
         return <div>repository</div>;
 
       case "EMOJI":
-        return <div>emoji</div>;
+        if (isMine) {
+          return <MyEmoji message={message} />;
+        }
+
+        return <OpponentEmoji message={message} isChaining={isChaining} />;
 
       default:
         if (isMine) {
