@@ -41,6 +41,16 @@ export const useSelectFollowProjectsQuery = (myId: string) => {
   });
 };
 
+// export const useSelectFollowRole = ({ myId, role }: { myId: string; role: number }) => {
+//   //  const queryKey = role === 1 ? profileKeys.selectFollows(myId) : projectsKey.selectFollowProjects(myId)
+//   return useQuery({
+//     queryKey: profileKeys.selectFollows(myId),
+//     queryFn: () => selectFollows(myId),
+//     initialData: [],
+//     enabled: role === 1
+//   });
+// };
+
 export const useSelectRecommendedProjectsQuery = (
   filter: Parameters<typeof selectRecommendedProjects>[0]
 ) => {

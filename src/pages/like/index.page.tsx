@@ -15,8 +15,7 @@ import {
 import { projectsKey, selectFollowProjects } from "~/states/server/project";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
-import { LikeMemberContainer } from "./components/Member";
-import { LikeOwnerContainer } from "./components/Owner";
+import { LikeContainer } from "./components/LikeContainer/LikeContainer";
 
 const Like = () => {
   const user = useUser() as User;
@@ -28,7 +27,8 @@ const Like = () => {
       <TitleHeader title={t("찜 목록")} />
 
       <LayoutContent padding="22px" marginTop={27}>
-        {profile.role.id === 1 ? <LikeOwnerContainer /> : <LikeMemberContainer />}
+        {/* {profile.role.id === 1 ? <LikeOwnerContainer /> : <LikeMemberContainer />} */}
+        <LikeContainer role={profile.role.id} />
       </LayoutContent>
 
       <Navbar />
