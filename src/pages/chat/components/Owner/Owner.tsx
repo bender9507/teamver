@@ -30,7 +30,7 @@ export const Owner = () => {
 
       <FlexColumn gap={12}>
         {app.rooms.map((room) => (
-          <ChatRoomCard key={room.id} user={app.user} room={room} />
+          <ChatRoomCard key={room.id} room={room} />
         ))}
       </FlexColumn>
     </FlexColumn>

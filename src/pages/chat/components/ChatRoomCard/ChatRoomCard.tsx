@@ -19,7 +19,14 @@ export const ChatRoomCard = ({ room }: { room: ChatRoomAllData }) => {
           <Text size="textMediumBold">{app.opponent.name}</Text>
 
           <Text size="textMedium" color="gray9">
-            {app.lastMessage?.message ?? t("채팅이 시작되었습니다.")}
+            {app.lastMessage?.type === "EMOJI" && t("이모티콘")}
+
+            {app.lastMessage?.type === "REPOSITORY" && t("레파지토리")}
+
+            {app.lastMessage?.type === "NOTICE" && t(app.lastMessage?.message)}
+
+            {app.lastMessage?.type === "MESSAGE" &&
+              (app.lastMessage.message ?? t("채팅이 시작되었습니다."))}
           </Text>
         </FlexColumn>
 

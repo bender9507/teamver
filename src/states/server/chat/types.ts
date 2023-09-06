@@ -18,7 +18,7 @@ export type ChatRequestOwnerInsert = Table["chatRequestOwner"]["Insert"];
 export interface ChatRoomAllData {
   id: number;
   members: ProfileAllDataRow[];
-  messages: (Pick<ChatMessageRow, "id" | "message" | "createdAt" | "state"> & {
+  messages: (Pick<ChatMessageRow, "id" | "message" | "createdAt" | "state" | "type"> & {
     sender: ProfileAllDataRow;
   })[];
 }
