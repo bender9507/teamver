@@ -19,7 +19,7 @@ export const useChatMessageSend = () => {
   const sendMessage = (message: string, type?: ChatMessageInsert["type"]) => {
     insertChatMessageMutate({ roomId: Number(roomId), senderId: profile.id, message, type });
 
-    addMessage(message, profile);
+    addMessage(message, profile, type ?? "MESSAGE");
   };
 
   const handleSendMessage = handleSubmit(({ message }) => {

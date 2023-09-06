@@ -30,7 +30,7 @@ export const Member = () => {
 
       <ChatMessageBox opponent={app.opponent} />
 
-      <ChatMessageSend opponent={app.opponent} />
+      <ChatMessageSend />
     </LayoutHeaderWithNav>
   );
 };

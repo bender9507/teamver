@@ -16,7 +16,7 @@ const RoomContext = createContext<{
   profile: ProfileAllDataRow;
   opponent: ProfileAllDataRow | null;
   messages: ChatMessageData[];
-  addMessage: (message: string, profile: ProfileAllDataRow) => void;
+  addMessage: (message: string, profile: ProfileAllDataRow, type: ChatMessageData["type"]) => void;
 } | null>(null);
 
 const Room = () => {
