@@ -9,6 +9,8 @@ import { useRoomContext } from "../../index.page";
 export const useChatMessageBox = () => {
   const [isScrollEnd, setIsScrollEnd] = useState(true);
 
+  const lastMessageRef = useRef<ChatMessageData>();
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const { addMessage, profile, opponent, roomId, messages } = useRoomContext();
@@ -25,13 +27,6 @@ export const useChatMessageBox = () => {
     if (!bottomRef.current) return;
 
     bottomRef.current.scrollIntoView({ behavior });
-  };
-
-  const getIsChaining = ({ sender }: ChatMessageData) => {
-    const lastMessage = messages[messages.length - 2];
-    const isChaining = lastMessage?.sender.id === sender.id;
-
-    return isChaining;
   };
 
   useLayoutEffect(() => {
@@ -77,9 +72,9 @@ export const useChatMessageBox = () => {
     opponent,
     user: profile,
     messages,
-    getIsChaining,
     handleScroll,
     handleScrollToEnd,
-    bottomRef
+    bottomRef,
+    lastMessageRef
   };
 };
