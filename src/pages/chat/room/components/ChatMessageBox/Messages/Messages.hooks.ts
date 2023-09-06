@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
 
 export const useMessages = ({ message: { createdAt } }: { message: ChatMessageData }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("chat");
 
   const time = useMemo(() => {
     const time = dayjs(createdAt);

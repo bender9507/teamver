@@ -3,6 +3,7 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { memo } from "react";
 import type { ChatMessageData } from "~/states/server/chat";
 import { MyMessage, OpponentMessage } from "..";
+import { NoticeMessage } from "../NoticeMessage";
 
 export const Message = memo(
   ({ message, isChaining }: { message: ChatMessageData; isChaining: boolean }) => {
@@ -12,7 +13,7 @@ export const Message = memo(
 
     switch (message.type) {
       case "NOTICE":
-        return <div>notice</div>;
+        return <NoticeMessage message={message} />;
 
       case "REPOSITORY":
         return <div>repository</div>;
@@ -22,10 +23,10 @@ export const Message = memo(
 
       default:
         if (isMine) {
-          return <MyMessage key={message.id} message={message} />;
+          return <MyMessage message={message} />;
         }
 
-        return <OpponentMessage key={message.id} message={message} isChaining={isChaining} />;
+        return <OpponentMessage message={message} isChaining={isChaining} />;
     }
   }
 );
