@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { PropsWithChildren } from "react";
 import { RatioBox } from "~/components/Commons";
 import { SizeBox } from "~/styles/mixins";
-import type { OpponentProps } from "..";
+import type { OpponentProps } from "../Opponent.types";
 import { OpponentBox } from "../OpponentBox";
 
 export const OpponentEmoji = (props: PropsWithChildren<OpponentProps>) => {

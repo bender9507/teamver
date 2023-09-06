@@ -3,8 +3,8 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { memo } from "react";
 import { MyEmoji, MyMessage } from "../My";
 import { NoticeMessage } from "../NoticeMessage";
-import type { OpponentProps } from "../Opponent";
 import { OpponentEmoji, OpponentMessage } from "../Opponent";
+import type { OpponentProps } from "../Opponent/Opponent.types";
 
 export const Message = memo((props: OpponentProps) => {
   const { message } = props;
