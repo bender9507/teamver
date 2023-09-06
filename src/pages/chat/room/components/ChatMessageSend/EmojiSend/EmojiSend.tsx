@@ -9,7 +9,7 @@ export const EmojiSend = () => {
   const app = useEmojiSend();
 
   return (
-    <Grid column={4} padding={16} gap={16}>
+    <Grid column={5} padding={16} gap={16}>
       {app.constants.emojis.map(({ id, emoji }) => (
         <button key={id} type="button" onClick={() => app.sendEmoji(emoji)}>
           <RatioBox>
