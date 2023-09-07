@@ -1,5 +1,4 @@
 import type { MouseEvent, PropsWithChildren } from "react";
-import { useLockBodyScroll } from "react-use";
 import { useModal } from "./Modal.hooks";
 import * as Styled from "./Modal.styles";
 import type { ModalProps } from "./Modal.types";
@@ -12,8 +11,6 @@ export const Modal = ({ id, children, type, background }: PropsWithChildren<Moda
 
     unmount(id);
   };
-
-  useLockBodyScroll(true);
 
   return (
     <Styled.Outer onClick={handleClose} type={type} background={background}>
