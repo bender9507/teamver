@@ -22,6 +22,7 @@
     "next": "13.4.16",
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.6.0",
+    "octokit": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal-sheet": "^2.0.0",
