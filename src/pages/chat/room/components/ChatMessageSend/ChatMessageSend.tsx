@@ -20,9 +20,7 @@ export const ChatMessageSend = () => {
         <IconButton
           type="button"
           name="add"
-          onClick={() =>
-            app.mount(<RepositorySend />, { id: REPOSITORY_SEND_MODAL, type: "bottom" })
-          }
+          onClick={() => app.mount(<RepositorySend />, { id: REPOSITORY_SEND_MODAL })}
         />
 
         <FlexColumn flex={1}>
