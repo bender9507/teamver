@@ -1,4 +1,4 @@
-export interface ProjectEditFormType {
+export interface ProjectEditType {
   name: string;
   imageUrl: File;
   projectType: string;
