@@ -14,7 +14,7 @@ export const useChatRoomCard = ({ room }: ComponentProps<typeof ChatRoomCard>) =
 
   useMount(() => {
     const subscribeRoom = supabase
-      .channel("chatRooms")
+      .channel(`chat_room_${room.id}`)
       .on(
         "postgres_changes",
         {

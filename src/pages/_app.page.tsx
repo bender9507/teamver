@@ -30,7 +30,7 @@ const App = ({
   useMount(() => {
     supabase.auth.onAuthStateChange((state) => {
       if (state === "SIGNED_IN") {
-        router.push(routes.home);
+        if (window.location.pathname === "/") router.replace(routes.home);
       }
     });
   });
@@ -42,6 +42,7 @@ const App = ({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
+        <title>TEAMVER</title>
       </Head>
 
       <QueryClientProvider client={queryClient}>

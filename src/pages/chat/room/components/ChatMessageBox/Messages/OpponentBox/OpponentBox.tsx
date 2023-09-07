@@ -16,7 +16,7 @@ export const OpponentBox = ({
 
   return (
     <Flex gap={8}>
-      <SizeBox width={32} height={32}>
+      <SizeBox minWidth={32} height={32}>
         {!isChaining && <Avatar size="small" src={sender.imageUrl} />}
       </SizeBox>
 
