@@ -14,9 +14,17 @@ import {
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import * as Styled from "./ProjectForm.styles";
-import type { ProjectFormProps } from "./ProjectForm.types";
+import type {
+  ProjectCreateFormType,
+  ProjectEditFormType,
+  ProjectFormProps
+} from "./ProjectForm.types";
 
-export const ProjectForm = ({ app, isEditMode = false, projectImage }: ProjectFormProps) => {
+export const ProjectForm = <T extends ProjectCreateFormType | ProjectEditFormType>({
+  app,
+  isEditMode = false,
+  projectImage
+}: ProjectFormProps<T>) => {
   const { t, i18n } = useTranslation("project");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -27,6 +35,7 @@ export const ProjectForm = ({ app, isEditMode = false, projectImage }: ProjectFo
         <Controller
           name="imageUrl"
           control={app.control}
+          rules={{ required: !isEditMode }}
           render={({ field: { onChange } }) => (
             <Styled.ImageContainer>
               <ImageUploader onChange={onChange}>
@@ -111,6 +120,7 @@ export const ProjectForm = ({ app, isEditMode = false, projectImage }: ProjectFo
       <Label title={t("모집 인원")}>
         <Flex gap={12} align="center" wrap="wrap">
           <Input
+            type="number"
             placeholder={t("모집 인원")}
             maxLength={5}
             {...app.register("recruitCount", { required: true, maxLength: 5 })}

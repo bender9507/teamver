@@ -6,6 +6,7 @@ import { TitleHeader } from "~/components/Shared";
 import { projectsKey, selectProject } from "~/states/server/project";
 import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
+import type { ProjectEditFormType } from "../components";
 import { ProjectForm } from "../components";
 import { useEdit } from "./edit.hooks";
 
@@ -19,7 +20,11 @@ const ProjectEdit = () => {
       <TitleHeader title={t("프로젝트 수정하기")} onPrevious={app.handleBack} />
 
       <LayoutContent as="form" gap={36} padding="22px" onSubmit={app.handleEditProject}>
-        <ProjectForm app={app} isEditMode projectImage={app.project.imageUrl} />
+        <ProjectForm<ProjectEditFormType>
+          app={app}
+          isEditMode
+          projectImage={app.project.imageUrl}
+        />
       </LayoutContent>
     </LayoutHeader>
   );

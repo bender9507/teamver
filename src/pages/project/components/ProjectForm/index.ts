@@ -1,2 +1,2 @@
 export { ProjectForm } from "./ProjectForm";
-export type { FormValuesType, ProjectFormType } from "./ProjectForm.types";
+export type { ProjectCreateFormType, ProjectEditFormType } from "./ProjectForm.types";

@@ -6,6 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import { TitleHeader } from "~/components/Shared";
 import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
+import type { ProjectCreateFormType } from "../components";
 import { ProjectForm } from "../components";
 import { useCreate } from "./create.hooks";
 
@@ -19,7 +20,7 @@ const Create = () => {
       <TitleHeader title={t("프로젝트 생성하기")} onPrevious={() => app.handleBack()} />
 
       <LayoutContent as="form" gap={36} padding="22px" onSubmit={app.handleCreateProject}>
-        <ProjectForm app={app} />
+        <ProjectForm<ProjectCreateFormType> app={app} />
       </LayoutContent>
     </LayoutHeader>
   );

@@ -12,22 +12,22 @@ import type {
 } from "~/states/server/constant";
 import type { ProjectAllDataRow } from "~/states/server/project";
 
-export interface ProjectFormProps {
-  app: AppType;
+export interface ProjectFormProps<T extends ProjectCreateFormType | ProjectEditFormType> {
+  app: AppType<T>;
   isEditMode?: boolean;
   projectImage?: string;
 }
 
-export interface AppType {
-  control: Control<ProjectFormType>;
+export interface AppType<T extends ProjectCreateFormType | ProjectEditFormType> {
+  control: Control<T>;
   constants: ConstantsType;
-  formState: UseFormStateReturn<ProjectFormType>;
+  formState: UseFormStateReturn<T>;
   project?: ProjectAllDataRow;
-  register: UseFormReturn<ProjectFormType>["register"];
+  register: UseFormReturn<T>["register"];
   handleCreateProject?: () => void;
   handleEditProject?: () => void;
-  watch: UseFormReturn<ProjectFormType>["watch"];
-  setValue: UseFormReturn<ProjectFormType>["setValue"];
+  watch: UseFormReturn<T>["watch"];
+  setValue: UseFormReturn<T>["setValue"];
   isSubmitting: boolean;
   startDateIsOpen: boolean;
   setStartDateIsOpen: BooleanController;
@@ -40,7 +40,7 @@ export interface AppType {
   setEndIsIndefinite: (value: boolean) => void;
 }
 
-export interface ProjectFormType {
+export interface ProjectCreateFormType {
   name: string;
   projectType: ConstantProjectTypeRow["id"];
   description: string;
@@ -54,7 +54,7 @@ export interface ProjectFormType {
   endDate: Date | null | "미정";
 }
 
-export interface FormValuesType {
+export interface ProjectEditFormType {
   name: string;
   imageUrl: File;
   projectType: string;
