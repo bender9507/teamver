@@ -33,18 +33,21 @@ export interface Database {
           createdAt: string;
           id: number;
           roomId: number;
+          state: boolean;
           userId: string;
         };
         Insert: {
           createdAt?: string;
           id?: number;
           roomId: number;
+          state?: boolean;
           userId: string;
         };
         Update: {
           createdAt?: string;
           id?: number;
           roomId?: number;
+          state?: boolean;
           userId?: string;
         };
         Relationships: [
@@ -70,6 +73,7 @@ export interface Database {
           roomId: number;
           senderId: string;
           state: boolean;
+          type: Database["public"]["Enums"]["message_type"] | null;
         };
         Insert: {
           createdAt?: string;
@@ -78,6 +82,7 @@ export interface Database {
           roomId: number;
           senderId: string;
           state?: boolean;
+          type?: Database["public"]["Enums"]["message_type"] | null;
         };
         Update: {
           createdAt?: string;
@@ -86,6 +91,7 @@ export interface Database {
           roomId?: number;
           senderId?: string;
           state?: boolean;
+          type?: Database["public"]["Enums"]["message_type"] | null;
         };
         Relationships: [
           {
@@ -229,6 +235,27 @@ export interface Database {
           id?: number;
           jp?: string;
           ko?: string;
+          order?: number;
+        };
+        Relationships: [];
+      };
+      constantEmojis: {
+        Row: {
+          emoji: string;
+          id: number;
+          name: string | null;
+          order: number;
+        };
+        Insert: {
+          emoji: string;
+          id?: number;
+          name?: string | null;
+          order?: number;
+        };
+        Update: {
+          emoji?: string;
+          id?: number;
+          name?: string | null;
           order?: number;
         };
         Relationships: [];
@@ -1078,6 +1105,7 @@ export interface Database {
           reactions: Json;
           roles: Json;
           skills: Json;
+          emojis: Json;
         }[];
       };
       select_recommended_members: {
@@ -1157,6 +1185,7 @@ export interface Database {
     };
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT";
+      message_type: "MESSAGE" | "NOTICE" | "EMOJI" | "REPOSITORY";
       profile_role: "INVITER" | "INVITEE";
       project_state: "IN_RECRUIT" | "DONE_RECRUIT" | "DONE_PROJECT";
     };

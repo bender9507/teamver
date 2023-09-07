@@ -1,3 +1,4 @@
+import type { ChatRequestOwnerRow } from "../chat";
 import type {
   ConstantAreaRow,
   ConstantJobRow,
@@ -32,6 +33,12 @@ export type ProfileLanguageInsert = ProfileLanguageTable["Insert"];
 
 export type ProfileAreaTable = Table["profileAreas"];
 export type ProfileAreaInsert = ProfileAreaTable["Insert"];
+
+export type FollowsAllDataRow = {
+  id: number;
+  follow: ProfileAllDataRow;
+  chatRequest: ChatRequestOwnerRow[];
+};
 
 export type ProfileAllDataRow = Omit<ProfileRow, "role" | "job"> & {
   role: ConstantRoleRow;

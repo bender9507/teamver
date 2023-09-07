@@ -10,7 +10,7 @@ export * from "./Inputs";
 export { Label } from "./Label";
 export * from "./Menu";
 export { Modal, useModal } from "./Modal";
-export { ProfileDetail } from "./ProfileDetail";
+export { PROFILE_DETAIL_MODAL, ProfileDetail } from "./ProfileDetail";
 export * from "./ProjectDetail";
 export { RatioBox } from "./RatioBox";
 export { Tab } from "./Tab";

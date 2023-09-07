@@ -1,0 +1,1 @@
+export { OpponentEmoji } from "./OpponentEmoji";

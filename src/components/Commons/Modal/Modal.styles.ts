@@ -55,7 +55,7 @@ const innerStyle = ({ type = "center", theme: { colors } }: WithTheme<ModalStyle
   switch (type) {
     case "bottom":
       return css`
-        ${size({ width: "100%", maxHeight: "90%" })}
+        ${size({ width: "100%", maxHeight: "90%" })};
 
         background-color: ${colors.backgroundSecondary};
 
@@ -66,7 +66,7 @@ const innerStyle = ({ type = "center", theme: { colors } }: WithTheme<ModalStyle
 
     default:
       return css`
-        ${size({ width: 400, maxWidth: "90%", maxHeight: "80%" })}
+        ${size({ width: 270 })};
 
         background-color: ${colors.backgroundSecondary};
 
