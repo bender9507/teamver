@@ -4,6 +4,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Navbar, TitleHeader } from "~/components/Shared";
+import { SwitchCase } from "~/components/Utils";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
@@ -20,7 +21,7 @@ const Chat = () => {
       <TitleHeader title={t("채팅")} />
 
       <LayoutContent padding="0px 22px 22px 22px">
-        {profile.role.id === 1 ? <Owner /> : <Member />}
+        <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
       </LayoutContent>
 
       <Navbar />
