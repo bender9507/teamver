@@ -8,8 +8,8 @@ export const CommonContainer = styled.div`
 `;
 
 export const Layout = styled.div`
-  min-height: 100svh;
-  max-height: 100svh;
+  min-height: 100%;
+  max-height: 100%;
 `;
 
 export const LayoutHeaderWithNav = styled(Layout)`

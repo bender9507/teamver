@@ -34,6 +34,7 @@ export { default as setOff } from "./setOff.svg";
 export { default as setOn } from "./setOn.svg";
 export { default as setting } from "./setting.svg";
 export { default as smile } from "./smile.svg";
+export { default as star } from "./star.svg";
 export { default as success } from "./success.svg";
 export { default as upButton } from "./upButton.svg";
 export { default as warning } from "./warning.svg";

@@ -9,10 +9,8 @@ export const Navbar = styled.nav`
 
   padding-bottom: 20px;
 
-  ${({ theme: { sizes, colors } }) => css`
-    ${size({ height: sizes.height.navbar })}
-
-    background-color: ${colors.backgroundPrimary};
+  ${({ theme: { sizes } }) => css`
+    ${size({ height: sizes.height.navbar })};
   `};
 `;
 

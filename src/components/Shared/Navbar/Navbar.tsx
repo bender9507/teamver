@@ -26,7 +26,7 @@ export const Navbar = () => {
     const roomIds = rooms.map((room) => room.id).join(", ");
 
     const subscribeMessage = supabase
-      .channel("chatMessages")
+      .channel(`unread_messages_${user.id}`)
       .on(
         "postgres_changes",
         {

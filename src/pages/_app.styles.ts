@@ -1,11 +1,15 @@
 import styled from "@emotion/styled";
-import { size } from "~/styles/mixins";
 
 export const Container = styled.div`
   position: relative;
   overflow: hidden;
 
-  ${size({ width: "100%", maxWidth: "500px", minHeight: "100svh", maxHeight: "100svh" })};
+  width: 100%;
+  max-width: 500px;
+
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
+  max-height: calc(var(--vh, 1vh) * 100);
 
   margin: 0 auto;
 `;

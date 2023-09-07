@@ -1054,6 +1054,18 @@ export interface Database {
           }
         ]
       }
+      total_unread: {
+        Row: {
+          count: number | null
+        }
+        Insert: {
+          count?: number | null
+        }
+        Update: {
+          count?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1091,6 +1103,12 @@ export interface Database {
           jobs: Json[]
           areas: Json[]
         }[]
+      }
+      get_total_unread_messages: {
+        Args: {
+          myId: string
+        }
+        Returns: number
       }
       insert_chatroom_with_member: {
         Args: {
@@ -1174,20 +1192,6 @@ export interface Database {
           state: Database["public"]["Enums"]["project_state"]
         }[]
       }
-      unread_message_count:
-        | {
-            Args: {
-              userid: string
-            }
-            Returns: number
-          }
-        | {
-            Args: {
-              userid: string
-              roomid: number
-            }
-            Returns: number
-          }
     }
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT"

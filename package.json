@@ -13,6 +13,7 @@
     "parser": "i18next --config i18next-parser.config.js"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.1",
     "@supabase/auth-helpers-nextjs": "^0.7.3",
     "@supabase/auth-helpers-react": "^0.4.2",
     "@supabase/supabase-js": "^2.31.0",
@@ -21,10 +22,12 @@
     "next": "13.4.16",
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.6.0",
+    "octokit": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal-sheet": "^2.0.0",
     "react-use": "^17.4.0",
+    "yup": "^1.2.0",
     "zustand": "^4.3.9"
   },
   "devDependencies": {
@@ -58,7 +61,7 @@
     "next-i18next": "^14.0.0",
     "prettier": "^2.8.4",
     "react-calendar": "^4.6.0",
-    "react-hook-form": "^7.45.4",
+    "react-hook-form": "^7.46.1",
     "typescript": "5.1.6",
     "uuid": "^9.0.0"
   }

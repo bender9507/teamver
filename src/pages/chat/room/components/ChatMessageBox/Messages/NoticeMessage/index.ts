@@ -1,1 +1,0 @@
-export { NoticeMessage } from "./NoticeMessage";

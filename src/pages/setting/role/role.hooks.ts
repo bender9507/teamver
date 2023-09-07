@@ -7,6 +7,7 @@ import { profileKeys, useSelectProfileQuery, useUpdateRoleMutate } from "~/state
 
 export const useRole = () => {
   const { t } = useTranslation("setting");
+
   const user = useUser() as User;
 
   const queryClient = useQueryClient();

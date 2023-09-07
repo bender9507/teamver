@@ -6,7 +6,7 @@ import type {
   ConstantSkillRow
 } from "~/states/server/constant";
 
-export interface ProjectCreatorForm {
+export interface ProjectCreateType {
   name: string;
   projectType: ConstantProjectTypeRow["id"];
   description: string;
@@ -16,6 +16,6 @@ export interface ProjectCreatorForm {
   skills: ConstantSkillRow["id"][];
   areas: ConstantAreaRow["id"][];
   imageUrl: File;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: Date | null | "미정";
+  endDate: Date | null | "미정";
 }

@@ -1,1 +1,0 @@
-export { MyEmoji } from "./MyEmoji";

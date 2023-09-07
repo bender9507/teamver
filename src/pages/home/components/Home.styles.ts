@@ -11,18 +11,6 @@ export const Container = styled.div`
   grid-template-rows: auto 1fr;
   gap: 36px;
 
-  ${({
-    theme: {
-      sizes: { height }
-    }
-  }) => {
-    const _height = `calc(100svh - ${height.header + height.navbar}px)`;
-
-    return css`
-      ${size({ width: "100%", height: _height, maxHeight: _height })};
-    `;
-  }}
-
   padding: 16px 22px 15px 22px;
 `;
 

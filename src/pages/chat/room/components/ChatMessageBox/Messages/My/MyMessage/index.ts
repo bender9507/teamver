@@ -1,1 +1,0 @@
-export { MyMessage } from "./MyMessage";

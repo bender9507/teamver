@@ -10,7 +10,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMount } from "react-use";
-import { Overlay } from "~/components/Commons";
+import { Overlay, useModal } from "~/components/Commons";
+import { Iphone } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
@@ -26,13 +27,28 @@ const App = ({
   const [supabaseClient] = useState(() => createPagesBrowserClient());
 
   const router = useRouter();
+  const { mount } = useModal();
 
   useMount(() => {
+    if (!window.matchMedia("(display-mode: standalone)").matches) {
+      const { userAgent } = navigator;
+
+      if (/iPad|iPhone|iPod/.test(userAgent)) {
+        mount(<Iphone />, { id: "IPHONE_GUIDE", type: "bottom" });
+      }
+    }
+
     supabase.auth.onAuthStateChange((state) => {
       if (state === "SIGNED_IN") {
-        router.push(routes.home);
+        if (window.location.pathname === "/") router.replace(routes.home);
       }
     });
+  });
+
+  useMount(() => {
+    const vh = window.innerHeight * 0.01;
+
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
   });
 
   return (
@@ -42,6 +58,8 @@ const App = ({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
+
+        <title>TEAMVER</title>
       </Head>
 
       <QueryClientProvider client={queryClient}>

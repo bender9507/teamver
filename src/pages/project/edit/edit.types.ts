@@ -1,5 +1,6 @@
-export interface ProjectEditForm {
+export interface ProjectEditType {
   name: string;
+  imageUrl: File;
   projectType: string;
   description: string;
   positions: string[];
@@ -7,7 +8,6 @@ export interface ProjectEditForm {
   languages: string[];
   skills: string[];
   areas: string[];
-  imageUrl: File;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: Date | null | "미정";
+  endDate: Date | null | "미정";
 }
