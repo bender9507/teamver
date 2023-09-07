@@ -13,7 +13,7 @@ export const EmojiSend = () => {
       {app.constants.emojis.map(({ id, emoji }) => (
         <button key={id} type="button" onClick={() => app.sendEmoji(emoji)}>
           <RatioBox>
-            <Image src={emoji} alt="이모티콘" fill style={{ objectFit: "contain" }} />
+            <Image src={emoji} alt="이모티콘" sizes="100%" fill style={{ objectFit: "contain" }} />
           </RatioBox>
         </button>
       ))}
