@@ -19,8 +19,8 @@ export const rules = {
 } as const;
 
 export const stepComponents = {
-  introduce: { component: Introduce, required: true },
   name: { component: Name, required: true },
+  introduce: { component: Introduce, required: true },
   languages: { component: Language, required: true },
   skills: { component: Skill, required: true },
   positions: { component: Position, required: true },
