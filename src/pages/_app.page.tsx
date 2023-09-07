@@ -52,6 +52,9 @@ const App = ({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
+
+        <meta name="description" content="개발자 팀 매칭 서비스 팀버" />
+
         <title>TEAMVER</title>
       </Head>
 
