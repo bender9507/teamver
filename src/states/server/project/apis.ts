@@ -1,5 +1,6 @@
 import type {
   FollowProjectInsert,
+  FollowProjectsAllDataRow,
   InviteState,
   ProjectAllDataRow,
   ProjectDataInsert,
@@ -10,7 +11,6 @@ import type {
   ProjectMembersInsert,
   ProjectMembersUpdate
 } from ".";
-import type { ChatRequestMemberRow } from "../chat/types";
 import { supabase } from "../config";
 import type {
   ConstantAreaRow,
@@ -205,7 +205,7 @@ export const selectFollowProjects = async (myId: string) => {
       `id, project:projects!inner(${PROJECT_ALL_DATA_QUERY}), chatRequest:chatRequestMember(*)`
     )
     .eq("followerId", myId)
-    .returns<{ id: number; project: ProjectAllDataRow; chatRequest: ChatRequestMemberRow[] }[]>();
+    .returns<FollowProjectsAllDataRow[]>();
 
   if (error) throw error;
 

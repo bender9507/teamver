@@ -1,4 +1,5 @@
 import type { Database } from "~/types/database";
+import type { ChatRequestMemberRow } from "../chat";
 import type {
   ConstantAreaRow,
   ConstantLanguageRow,
@@ -25,6 +26,12 @@ export type FollowProjectInsert = Table["followProject"]["Insert"];
 export type ProjectMembersRow = Table["projectMembers"]["Row"];
 export type ProjectMembersInsert = Table["projectMembers"]["Insert"];
 export type ProjectMembersUpdate = Table["projectMembers"]["Update"];
+
+export type FollowProjectsAllDataRow = {
+  id: number;
+  project: ProjectAllDataRow;
+  chatRequest: ChatRequestMemberRow[];
+};
 
 export type ProjectAllDataRow = Omit<ProjectDataRow, "projectType"> & {
   projectType: ConstantProjectTypeRow;
