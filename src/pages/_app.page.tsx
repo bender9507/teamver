@@ -53,11 +53,6 @@ const App = ({
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
 
-        <meta content="TEAMVER" property="og:title" />
-        <meta content="개발자 팀 매칭 서비스 팀버" property="og:description" />
-        <meta content="/icons/icon-384x384.png" property="og:image" />
-        <meta content="https://teamver.vercel.app" property="og:url" />
-
         <title>TEAMVER</title>
       </Head>
 

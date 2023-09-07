@@ -58,6 +58,10 @@ export default function Document() {
           media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
           rel="apple-touch-startup-image"
         />
+        <meta content="TEAMVER" property="og:title" />
+        <meta content="개발자 팀 매칭 서비스 팀버" property="og:description" />
+        <meta content="/icons/icon-384x384.png" property="og:image" />
+        <meta content="https://teamver.vercel.app" property="og:url" />
       </Head>
       <body>
         <Main />
