@@ -1,20 +1,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { Text, flex, size } from "~/styles/mixins";
+import { flex, size } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
-
-export const Header = styled.header`
-  ${flex.center()};
-
-  ${({ theme: { sizes } }) => css`
-    height: ${sizes.height.header}px;
-  `}
-`;
-
-export const Desc = styled(Text)`
-  margin-left: 18px;
-`;
 
 export const ImageContainer = styled.div`
   position: relative;
@@ -92,6 +80,14 @@ export const CalendarWrapper = styled.div`
     border: none;
   }
 
+  .react-calendar__navigation {
+    display: flex;
+
+    height: 44px;
+
+    margin-bottom: 1em;
+  }
+
   .react-calendar__navigation__label > span {
     ${({ theme: { colors } }) => css`
       color: ${colors.white};
@@ -129,6 +125,16 @@ export const CalendarWrapper = styled.div`
   }
 
   .react-calendar__month-view__weekdays {
+    text-align: center;
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    font-size: 0.75em;
+  }
+
+  .react-calendar__month-view__weekdays {
     abbr {
       ${({ theme: { colors } }) => css`
         color: ${colors.gray7};
@@ -156,6 +162,16 @@ export const CalendarWrapper = styled.div`
       color: ${colors.gray6};
       background-color: ${colors.black};
     `}
+
+    max-width: 100%;
+
+    padding: 10px 6.6667px;
+
+    background: none;
+
+    text-align: center;
+
+    line-height: 16px;
   }
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus {

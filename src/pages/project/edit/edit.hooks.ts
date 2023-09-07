@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
-import { useModal } from "~/components/Commons/Modal";
+import { routes } from "~/constants/routes";
 import { useBoolean } from "~/hooks";
 import { useSelectConstantsQuery } from "~/states/server/constant";
 import {
@@ -16,9 +16,7 @@ import {
   useUpdateProjectMutate
 } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
-
-import { routes } from "~/constants/routes";
-import type { ProjectEditForm } from "./edit.types";
+import type { ProjectEditType } from "./edit.types";
 
 export const useEdit = () => {
   const user = useUser() as User;
@@ -27,35 +25,37 @@ export const useEdit = () => {
 
   const { t } = useTranslation("project");
 
-  const projectId = router.query.projectId as string;
-
-  const { mount, unmount } = useModal();
   const { toast, confirm } = useDialog();
 
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
   const [endDateIsOpen, setEndDateIsOpen] = useBoolean();
 
-  const [isStartIndefinite, setStartIsIndefinite] = useState<boolean>();
-  const [isEndIndefinite, setEndIsIndefinite] = useState<boolean>();
+  const [isStartIndefinite, setStartIsIndefinite] = useState(false);
+  const [isEndIndefinite, setEndIsIndefinite] = useState(false);
 
-  const { data: project } = useSelectProjectQuery(Number(projectId));
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const projectId = Number(router.query.projectId);
+  const { data: project } = useSelectProjectQuery(projectId);
 
   const { mutate: updateProjectMutate } = useUpdateProjectMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
-
       router.push({ pathname: routes.profile, query: { userId: user.id } });
-    }
+    },
+
+    onError: () => toast({ type: "error", message: t("프로젝트 수정에 실패했습니다.") })
   });
+
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
-  const { register, handleSubmit, watch, control, setValue, formState } = useForm<ProjectEditForm>({
+  const { register, handleSubmit, watch, control, setValue, formState } = useForm<ProjectEditType>({
     defaultValues: {
       name: project.name,
       description: project.description,
       recruitCount: project.recruitCount,
-      startDate: null,
-      endDate: null,
+      startDate: project.startDate ? dayjs(project.startDate).toDate() : "미정",
+      endDate: project.endDate ? dayjs(project.endDate).toDate() : "미정",
       positions: project.positions.map((el) => String(el.id)),
       projectType: String(project.projectType.id),
       skills: project.skills.map((el) => String(el.id)),
@@ -79,46 +79,46 @@ export const useEdit = () => {
       areas,
       ...rest
     }) => {
-      if (!imageFile) {
-        updateProjectMutate({
-          id: project.id,
-          ownerId: user.id,
-          startDate: startDate?.toDateString(),
-          endDate: endDate?.toDateString(),
-          positions: positions.map((position) => Number(position)),
-          projectType: Number(projectType),
-          skills: skills.map((skill) => Number(skill)),
-          languages: languages.map((language) => Number(language)),
-          areas: areas.map((area) => Number(area)),
-          ...rest
-        });
+      setIsSubmitting(true);
 
-        return;
-      }
-
-      const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
-        file: imageFile,
-        name: `${user.id}_${new Date().getTime()}`
-      });
-
-      updateProjectMutate({
+      const updatedData = {
         id: project.id,
         ownerId: user.id,
-        startDate: startDate?.toDateString(),
-        endDate: endDate?.toDateString(),
-        imageUrl,
+        startDate: isStartIndefinite || startDate === "미정" ? null : startDate?.toDateString(),
+        endDate: isEndIndefinite || endDate === "미정" ? null : endDate?.toDateString(),
         positions: positions.map((position) => Number(position)),
         projectType: Number(projectType),
         skills: skills.map((skill) => Number(skill)),
         languages: languages.map((language) => Number(language)),
         areas: areas.map((area) => Number(area)),
         ...rest
-      });
+      };
+
+      if (imageFile) {
+        const { publicUrl } = await uploadProjectImageMutateAsync({
+          file: imageFile,
+          name: `${user.id}_${new Date().getTime()}`
+        });
+
+        updateProjectMutate({ ...updatedData, imageUrl: publicUrl });
+      } else {
+        updateProjectMutate(updatedData);
+      }
     }
   );
 
   useEffect(() => {
     watch(({ startDate, endDate }) => {
+      if (!(startDate instanceof Date)) {
+        setStartIsIndefinite(true);
+      } else {
+        setStartIsIndefinite(false);
+      }
+
+      if (!(endDate instanceof Date)) {
+        setEndIsIndefinite(true);
+      }
+
       if (startDate && endDate) {
         const diff = dayjs(startDate).diff(endDate, "ms");
 
@@ -131,34 +131,9 @@ export const useEdit = () => {
   }, [watch, setValue, toast, t]);
 
   useEffect(() => {
-    console.log(1);
     setStartIsIndefinite(!project.startDate);
     setEndIsIndefinite(!project.endDate);
   }, [project]);
-
-  // const startDateValue = (() => {
-  //   if (watch("startDate")) {
-  //     return dayjs(watch("startDate")).format("DD. MM. YYYY");
-  //   }
-
-  //   if (project.startDate === null) {
-  //     return t("미정");
-  //   }
-
-  //   return dayjs(project.startDate).format("DD. MM. YYYY");
-  // })();
-
-  // const endDateValue = (() => {
-  //   if (watch("endDate")) {
-  //     return dayjs(watch("endDate")).format("DD. MM. YYYY");
-  //   }
-
-  //   if (project.endDate === null) {
-  //     return t("미정");
-  //   }
-
-  //   return dayjs(project.endDate).format("DD. MM. YYYY");
-  // })();
 
   const handleBack = async () => {
     const confirmed = await confirm({
@@ -173,14 +148,11 @@ export const useEdit = () => {
     constants,
     formState,
     project,
-
     register,
-    handleSubmit,
     handleEditProject,
     watch,
-    mount,
-    unmount,
     setValue,
+    isSubmitting,
     startDateIsOpen,
     setStartDateIsOpen,
     endDateIsOpen,
@@ -190,8 +162,5 @@ export const useEdit = () => {
     setStartIsIndefinite,
     isEndIndefinite,
     setEndIsIndefinite
-
-    // endDateValue,
-    // startDateValue
   };
 };

@@ -7,13 +7,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDialog } from "~/components/Commons";
-import { useModal } from "~/components/Commons/Modal";
 import { routes } from "~/constants/routes";
 import { useBoolean } from "~/hooks";
 import { useSelectConstantsQuery } from "~/states/server/constant";
 import { projectsKey, useInsertProjectMutate } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
-import type { ProjectCreatorForm } from "./create.types";
+import type { ProjectCreateType } from "./create.types";
 
 export const useCreate = () => {
   const queryClient = useQueryClient();
@@ -22,7 +21,6 @@ export const useCreate = () => {
 
   const { t } = useTranslation("project");
 
-  const { mount, unmount } = useModal();
   const { toast, confirm } = useDialog();
 
   const [startDateIsOpen, setStartDateIsOpen] = useBoolean();
@@ -31,17 +29,22 @@ export const useCreate = () => {
   const [isStartIndefinite, setStartIsIndefinite] = useState(false);
   const [isEndIndefinite, setEndIsIndefinite] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { mutate: insertProjectMutate } = useInsertProjectMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectOwnerProjects(user.id));
 
       router.push({ pathname: routes.profile, query: { userId: user.id } });
-    }
+    },
+
+    onError: () => toast({ type: "error", message: t("프로젝트 생성에 실패했습니다.") })
   });
+
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
   const { register, handleSubmit, watch, control, setValue, formState } =
-    useForm<ProjectCreatorForm>({
+    useForm<ProjectCreateType>({
       defaultValues: { startDate: null, endDate: null },
       mode: "all"
     });
@@ -50,6 +53,8 @@ export const useCreate = () => {
 
   const handleCreateProject = handleSubmit(
     async ({ imageUrl: imageFile, startDate, endDate, ...rest }) => {
+      setIsSubmitting(true);
+
       const { publicUrl: imageUrl } = await uploadProjectImageMutateAsync({
         file: imageFile,
         name: `${user.id}_${new Date().getTime()}`
@@ -57,8 +62,8 @@ export const useCreate = () => {
 
       insertProjectMutate({
         ownerId: user.id,
-        startDate: startDate?.toDateString(),
-        endDate: endDate?.toDateString(),
+        startDate: isStartIndefinite || startDate === "미정" ? null : startDate?.toDateString(),
+        endDate: isEndIndefinite || endDate === "미정" ? null : endDate?.toDateString(),
         imageUrl,
         ...rest
       });
@@ -92,12 +97,10 @@ export const useCreate = () => {
     constants,
     formState,
     register,
-    handleSubmit,
     handleCreateProject,
     watch,
-    mount,
-    unmount,
     setValue,
+    isSubmitting,
     startDateIsOpen,
     setStartDateIsOpen,
     endDateIsOpen,

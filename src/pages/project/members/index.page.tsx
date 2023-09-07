@@ -1,19 +1,22 @@
-import type { User } from "@supabase/auth-helpers-nextjs";
-import { useUser } from "@supabase/auth-helpers-react";
 import type { GetServerSideProps } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import { SwitchCase } from "~/components/Utils";
-import { useSelectProfileQuery } from "~/states/server/profile";
+import { TitleHeader } from "~/components/Shared";
+import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
-import { Member, Owner } from ".";
+import { ProjectMemberList } from "./components";
 
 const ProjectMembers = () => {
-  const user = useUser() as User;
-  const { data: profile } = useSelectProfileQuery(user.id);
+  const { t } = useTranslation("project");
 
   return (
-    <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
+    <LayoutHeader>
+      <TitleHeader title={t("프로젝트 팀원")} />
+
+      <LayoutContent>
+        <ProjectMemberList />
+      </LayoutContent>
+    </LayoutHeader>
   );
 };
 
