@@ -10,11 +10,12 @@ import {
   useDeleteProjectMutate,
   useUpdateProjectStateMutate
 } from "~/states/server/project";
-import type { ProjectCard } from "./ProjectCard";
+import type { ProjectStatusUpdate } from ".";
 
-export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) => {
+export const useProjectStatusUpdate = ({ project }: ComponentProps<typeof ProjectStatusUpdate>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const { t } = useTranslation("profile");
 
   const { confirm } = useDialog();
@@ -71,11 +72,24 @@ export const useProjectCard = ({ project }: ComponentProps<typeof ProjectCard>) 
     });
   };
 
+  const commonActions: Array<[string, () => void]> = [
+    ["프로젝트 수정", handleEditProject],
+    ["진행상태 완료로 변경", () => handleStateChange("DONE_PROJECT")],
+    ["프로젝트 삭제", handleDeleteProject]
+  ];
+
+  const actionSets: Record<string, Array<[string, () => void]>> = {
+    IN_RECRUIT: [["팀원 모집 마감", () => handleStateChange("DONE_RECRUIT")], ...commonActions],
+    DONE_RECRUIT: [["팀원 모집 받기", () => handleStateChange("IN_RECRUIT")], ...commonActions],
+    DONE_PROJECT: [["프로젝트 삭제", handleDeleteProject]]
+  };
+
   return {
     mount,
     handleDeleteProject,
     handleStateChange,
     handleEditProject,
-    handleOpenProjectDetail
+    handleOpenProjectDetail,
+    actionSets
   };
 };

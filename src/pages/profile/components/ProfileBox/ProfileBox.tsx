@@ -2,17 +2,11 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { Avatar, Button } from "~/components/Commons";
 import { routes } from "~/constants/routes";
-import type { ProfileAllDataRow } from "~/states/server/profile";
 import { Text } from "~/styles/mixins";
-import * as Styled from "./ProfileSection.styles";
+import * as Styled from "./ProfileBox.styles";
+import type { ProjectCardBoxProps } from "./ProfileBox.types";
 
-export const ProfileSection = ({
-  profile,
-  isMine
-}: {
-  profile: ProfileAllDataRow;
-  isMine: boolean;
-}) => {
+export const ProfileBox = ({ profile, isMine }: ProjectCardBoxProps) => {
   const { t } = useTranslation("profile");
 
   return (
