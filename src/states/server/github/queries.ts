@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getRepos } from "./apis";
+import { getRepo, getRepos } from "./apis";
 import { githubKeys } from "./keys";
 
 export const useGetReposQuery = (username: string) => {
@@ -7,5 +7,12 @@ export const useGetReposQuery = (username: string) => {
     queryKey: githubKeys.getRepos(username),
     queryFn: () => getRepos(username),
     initialData: []
+  });
+};
+
+export const useGetRepoQuery = (repoUrl: string) => {
+  return useQuery({
+    queryKey: githubKeys.getRepo(repoUrl),
+    queryFn: () => getRepo(repoUrl)
   });
 };

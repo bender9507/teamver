@@ -2,12 +2,12 @@ import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useTranslation } from "next-i18next";
 import { memo } from "react";
-import { Text } from "~/styles/mixins";
 import { Emoji } from "../Emoji";
 import * as Styled from "../Messages.styles";
 import type { OpponentProps } from "../Messages.types";
 import { MyBox } from "../MyBox";
 import { OpponentBox } from "../OpponentBox";
+import { Repository } from "../Repository";
 
 export const Message = memo((props: OpponentProps) => {
   const {
@@ -24,7 +24,23 @@ export const Message = memo((props: OpponentProps) => {
       return <Styled.NoticeBubble>{t(content)}</Styled.NoticeBubble>;
 
     case "REPOSITORY":
-      return <Text>repository</Text>;
+      if (isMine) {
+        return (
+          <MyBox {...props}>
+            <Styled.MyBubble>
+              <Repository repoUrl={content} />
+            </Styled.MyBubble>
+          </MyBox>
+        );
+      }
+
+      return (
+        <OpponentBox {...props}>
+          <Styled.OpponentBubble>
+            <Repository repoUrl={content} />
+          </Styled.OpponentBubble>
+        </OpponentBox>
+      );
 
     case "EMOJI":
       if (isMine) {
