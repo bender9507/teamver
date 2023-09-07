@@ -26,3 +26,19 @@ export type ConstantSkillRow = ConstantSkillTable["Row"];
 
 export type ConstantRoleTable = Table["constantRoles"];
 export type ConstantRoleRow = ConstantRoleTable["Row"];
+
+export type ConstantEmojiTable = Table["constantEmojis"];
+export type ConstantEmojiRow = ConstantEmojiTable["Row"];
+
+export interface ConstantAllData {
+  areas: ConstantAreaRow[];
+  jobs: ConstantJobRow[];
+  languages: ConstantLanguageRow[];
+  personalities: ConstantPersonalityRow[];
+  positions: ConstantPositionRow[];
+  projectTypes: ConstantProjectTypeRow[];
+  reactions: ConstantReactionRow[];
+  roles: ConstantRoleRow[];
+  skills: ConstantSkillRow[];
+  emojis: ConstantEmojiRow[];
+}

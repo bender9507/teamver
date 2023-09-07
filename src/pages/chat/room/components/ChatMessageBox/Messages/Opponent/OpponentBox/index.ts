@@ -1,0 +1,1 @@
+export { OpponentBox } from "./OpponentBox";

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDialog } from "~/components/Commons";
 
 export const useCardSelect = <T extends { id: string | number }>(
@@ -20,20 +20,26 @@ export const useCardSelect = <T extends { id: string | number }>(
     });
   };
 
-  const handleAccept = (id: string | number) => {
-    addSelectedCards(id);
+  const handleAccept = useCallback(
+    (id: string | number) => {
+      addSelectedCards(id);
 
-    if (onAccept) onAccept(id);
-  };
+      if (onAccept) onAccept(id);
+    },
+    [onAccept]
+  );
 
-  const handleReject = (id: string | number) => {
-    addSelectedCards(id);
-    setRejectedCards((prev) => [...prev, id]);
+  const handleReject = useCallback(
+    (id: string | number) => {
+      addSelectedCards(id);
+      setRejectedCards((prev) => [...prev, id]);
 
-    if (onReject) onReject(id);
-  };
+      if (onReject) onReject(id);
+    },
+    [onReject]
+  );
 
-  const handleRestore = () => {
+  const handleRestore = useCallback(() => {
     if (!rejectedCards.length) {
       toast({ type: "warning", message: "더 이상 복원할 수 없습니다." });
     }
@@ -50,7 +56,7 @@ export const useCardSelect = <T extends { id: string | number }>(
 
       return rejectedCards;
     });
-  };
+  }, [rejectedCards.length, toast]);
 
   const filteredCards = cards.filter((card) => !selectedCards.has(String(card.id))).reverse();
 

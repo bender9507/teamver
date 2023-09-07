@@ -1,0 +1,1 @@
+export { MyEmoji } from "./MyEmoji";

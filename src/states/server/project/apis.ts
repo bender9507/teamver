@@ -160,7 +160,7 @@ export const insertProjectInvite = async (projectInviteData: ProjectInviteInsert
 
   if (invitesError) throw Error("에러");
 
-  if (invites.length) throw Error("이미 초대한 유저입니다.");
+  if (invites.length) throw Error("이미 초대한 유저입니다");
 
   const { error } = await supabase.from("projectInvite").insert(projectInviteData);
 

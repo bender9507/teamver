@@ -1,1 +1,0 @@
-export { ChatRoomMember } from "./ChatRoomMember";

@@ -1,0 +1,1 @@
+export { MyMessage } from "./MyMessage";
