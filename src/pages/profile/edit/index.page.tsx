@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -209,7 +209,7 @@ const ProfileEdit = () => {
 
         <SizeBox height={40} />
 
-        <Button disabled={!app.formState.isValid}>{t("저장")}</Button>
+        <Button disabled={!app.formState.isValid || app.isSubmitting}>{t("저장")}</Button>
       </LayoutContent>
     </LayoutHeader>
   );
@@ -228,6 +228,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     return {
       props: {
         session,
+        dehydratedState: dehydrate(queryClient),
         ...(await serverSideTranslations(context.locale as string, [
           "common",
           "profile",
