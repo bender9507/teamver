@@ -18,6 +18,7 @@ import type { ProfileEditForm } from "./edit.types";
 
 export const useProfileEdit = () => {
   const [successMessage, setSuccessMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
   const user = useUser() as User;
@@ -66,6 +67,7 @@ export const useProfileEdit = () => {
       job,
       ...rest
     }) => {
+      setIsSubmitting(true);
       const toNumberArray = (arr: string[]) => arr.map(Number);
       const mappings = {
         positions: toNumberArray(positions),
@@ -141,6 +143,7 @@ export const useProfileEdit = () => {
     handleBack,
     errorMessage: formState.errors.name?.message,
     validateNickName,
-    formState
+    formState,
+    isSubmitting
   };
 };
