@@ -1,0 +1,1 @@
+export { Iphone } from "./Iphone";
