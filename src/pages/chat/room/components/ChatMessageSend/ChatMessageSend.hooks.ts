@@ -8,6 +8,7 @@ import { useRoomContext } from "../../index.page";
 
 export const useChatMessageSend = () => {
   const [isOpenEmoji, setIsOpenEmoji] = useBoolean(false);
+  const [isOpenRepos, setIsOpenRepos] = useBoolean(false);
 
   const queryClient = useQueryClient();
   const { mount } = useModal();
@@ -38,5 +39,13 @@ export const useChatMessageSend = () => {
     reset();
   });
 
-  return { handleSendMessage, register, mount, isOpenEmoji, setIsOpenEmoji };
+  return {
+    handleSendMessage,
+    register,
+    mount,
+    isOpenEmoji,
+    setIsOpenEmoji,
+    isOpenRepos,
+    setIsOpenRepos
+  };
 };

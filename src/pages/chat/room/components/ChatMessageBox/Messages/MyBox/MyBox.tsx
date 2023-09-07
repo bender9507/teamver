@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import { Flex, Text } from "~/styles/mixins";
-import { useMessages } from "../../Messages.hooks";
-import type { MyProps } from "../My.types";
+import { useMessages } from "../Messages.hooks";
+import type { MyProps } from "../Messages.types";
 
 export const MyBox = ({ children, message, isChainingEnd }: PropsWithChildren<MyProps>) => {
   const app = useMessages({ message });

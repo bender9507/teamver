@@ -328,15 +328,9 @@ export const selectOpponent = async ({ roomId, userId }: { roomId: string; userI
 };
 
 export const selectUnreadMessageCount = async (userId: string) => {
-  const { data, error } = await supabase
-    .from("chatMessages")
-    .select(`*, roomId(chatMembers(userId))`)
-    .neq("type", "NOTICE")
-    .neq("senderId", userId)
-    .eq("state", false)
-    .eq(`roomId.chatMembers.userId`, userId);
+  const { data, error } = await supabase.rpc("get_total_unread_messages", { myId: userId });
 
   if (error) throw Error("메세지 목록을 불러오는데 실패하였습니다.");
 
-  return data.length;
+  return data;
 };
