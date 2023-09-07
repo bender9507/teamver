@@ -41,6 +41,8 @@ export const useProfileEdit = () => {
   const { register, watch, control, handleSubmit, setError, formState, clearErrors, setValue } =
     useForm<ProfileEditForm>({
       defaultValues: {
+        name: profile.name,
+        introduce: profile.introduce,
         positions: profile.positions.map((position) => String(position.id)),
         projectTypes: profile.projectTypes.map((projectType) => String(projectType.id)),
         skills: profile.skills.map((skill) => String(skill.id)),
@@ -48,8 +50,6 @@ export const useProfileEdit = () => {
         personalities: profile.personalities.map((personality) => String(personality.id)),
         job: String(profile.job.id),
         areas: profile.areas.map((area) => String(area.id)),
-        name: profile.name,
-        introduce: profile.introduce,
         blog: profile.blog
       }
     });

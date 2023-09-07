@@ -9,7 +9,7 @@ import type { ProjectStatusUpdateProps } from "./ProjectStatusUpdate.types";
 
 export const ProjectStatusUpdate = ({ project, isMine }: ProjectStatusUpdateProps) => {
   const { t } = useTranslation("profile");
-  const app = useProjectStatusUpdate({ project, isMine });
+  const app = useProjectStatusUpdate({ project });
 
   return (
     <Styled.Container>

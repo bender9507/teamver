@@ -3,7 +3,6 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { routes } from "~/constants/routes";
-import { useSelectProfileQuery } from "~/states/server/profile";
 import { useSelectOwnerProjectsQuery } from "~/states/server/project";
 
 export const useOwner = () => {
@@ -14,7 +13,6 @@ export const useOwner = () => {
 
   const userId = router.query.userId as string;
 
-  const { data: profile } = useSelectProfileQuery(userId);
   const { data: projects } = useSelectOwnerProjectsQuery(userId);
 
   const isMine = userId === user.id;
@@ -26,13 +24,14 @@ export const useOwner = () => {
   const inRecruit = projects.filter((project) => project.state === "IN_RECRUIT");
   const doneRecruit = projects.filter((project) => project.state === "DONE_RECRUIT");
   const doneProjects = projects.filter((project) => project.state === "DONE_PROJECT");
+  const inProjects = projects.filter((project) => project.state !== "DONE_PROJECT");
 
   return {
-    profile,
     projects,
     inRecruit,
     doneRecruit,
     doneProjects,
+    inProjects,
     isMine,
     selectedTab,
     setSelectedTab,

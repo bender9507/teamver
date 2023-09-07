@@ -15,6 +15,7 @@ import type { ProjectStatusUpdate } from ".";
 export const useProjectStatusUpdate = ({ project }: ComponentProps<typeof ProjectStatusUpdate>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const { t } = useTranslation("profile");
 
   const { confirm } = useDialog();
