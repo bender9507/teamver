@@ -16,7 +16,7 @@ import {
   useUpdateProjectMutate
 } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
-import type { ProjectForm } from "../components/ProjectForm/ProjectForm.types";
+import type { FormValuesType } from "../components";
 
 export const useEdit = () => {
   const user = useUser() as User;
@@ -49,18 +49,18 @@ export const useEdit = () => {
 
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
-  const { register, handleSubmit, watch, control, setValue, formState } = useForm<ProjectForm>({
+  const { register, handleSubmit, watch, control, setValue, formState } = useForm<FormValuesType>({
     defaultValues: {
       name: project.name,
       description: project.description,
       recruitCount: project.recruitCount,
       startDate: project.startDate ? dayjs(project.startDate).toDate() : "미정",
       endDate: project.endDate ? dayjs(project.endDate).toDate() : "미정",
-      positions: project.positions.map((el) => el.id),
-      projectType: project.projectType.id,
-      skills: project.skills.map((el) => el.id),
-      languages: project.languages.map((el) => el.id),
-      areas: project.areas.map((el) => el.id)
+      positions: project.positions.map((el) => String(el.id)),
+      projectType: String(project.projectType.id),
+      skills: project.skills.map((el) => String(el.id)),
+      languages: project.languages.map((el) => String(el.id)),
+      areas: project.areas.map((el) => String(el.id))
     },
     mode: "all"
   });
@@ -86,11 +86,11 @@ export const useEdit = () => {
         ownerId: user.id,
         startDate: isStartIndefinite || startDate === "미정" ? null : startDate?.toDateString(),
         endDate: isEndIndefinite || endDate === "미정" ? null : endDate?.toDateString(),
-        positions: positions.map((position) => position),
-        projectType,
-        skills: skills.map((skill) => skill),
-        languages: languages.map((language) => language),
-        areas: areas.map((area) => area),
+        positions: positions.map((position) => Number(position)),
+        projectType: Number(projectType),
+        skills: skills.map((skill) => Number(skill)),
+        languages: languages.map((language) => Number(language)),
+        areas: areas.map((area) => Number(area)),
         ...rest
       };
 
@@ -117,7 +117,9 @@ export const useEdit = () => {
 
       if (!(endDate instanceof Date)) {
         setEndIsIndefinite(true);
-      } else if (startDate && endDate) {
+      }
+
+      if (startDate && endDate) {
         const diff = dayjs(startDate).diff(endDate, "ms");
 
         if (diff > 0) {

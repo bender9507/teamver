@@ -19,15 +19,15 @@ export interface ProjectFormProps {
 }
 
 export interface AppType {
-  control: Control<ProjectForm>;
+  control: Control<ProjectFormType>;
   constants: ConstantsType;
-  formState: UseFormStateReturn<ProjectForm>;
+  formState: UseFormStateReturn<ProjectFormType>;
   project?: ProjectAllDataRow;
-  register: UseFormReturn<ProjectForm>["register"];
+  register: UseFormReturn<ProjectFormType>["register"];
   handleCreateProject?: () => void;
   handleEditProject?: () => void;
-  watch: UseFormReturn<ProjectForm>["watch"];
-  setValue: UseFormReturn<ProjectForm>["setValue"];
+  watch: UseFormReturn<ProjectFormType>["watch"];
+  setValue: UseFormReturn<ProjectFormType>["setValue"];
   isSubmitting: boolean;
   startDateIsOpen: boolean;
   setStartDateIsOpen: BooleanController;
@@ -40,7 +40,7 @@ export interface AppType {
   setEndIsIndefinite: (value: boolean) => void;
 }
 
-export interface ProjectForm {
+export interface ProjectFormType {
   name: string;
   projectType: ConstantProjectTypeRow["id"];
   description: string;
@@ -50,6 +50,20 @@ export interface ProjectForm {
   skills: ConstantSkillRow["id"][];
   areas: ConstantAreaRow["id"][];
   imageUrl: File;
+  startDate: Date | null | "미정";
+  endDate: Date | null | "미정";
+}
+
+export interface FormValuesType {
+  name: string;
+  imageUrl: File;
+  projectType: string;
+  description: string;
+  positions: string[];
+  recruitCount: string;
+  languages: string[];
+  skills: string[];
+  areas: string[];
   startDate: Date | null | "미정";
   endDate: Date | null | "미정";
 }
