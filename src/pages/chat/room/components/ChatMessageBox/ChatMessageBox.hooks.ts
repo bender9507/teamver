@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import type { UIEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useMount, useUpdateEffect } from "react-use";
@@ -10,12 +11,27 @@ import { useRoomContext } from "../../index.page";
 export const useChatMessageBox = () => {
   const [isScrollEnd, setIsScrollEnd] = useState(true);
 
-  const lastMessageRef = useRef<ChatMessageData>();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
   const { profile, opponent, roomId, messages } = useRoomContext();
   const { mutate: updateMessageStateMutate } = useUpdateMessageReadState();
+
+  const shouldShowProfile = (currentMessage: ChatMessageData, prevMessage: ChatMessageData) => {
+    if (!prevMessage) return true;
+    const isSameUser = prevMessage.sender.id === currentMessage.sender.id;
+    const isWithinOneMinute = dayjs(currentMessage.createdAt).diff(prevMessage.createdAt) < 60000;
+
+    return !(isSameUser && isWithinOneMinute);
+  };
+
+  const shouldShowTime = (currentMessage: ChatMessageData, nextMessage: ChatMessageData) => {
+    if (!nextMessage) return true;
+    const isSameUser = nextMessage.sender.id === currentMessage.sender.id;
+    const isWithinOneMinute = dayjs(nextMessage.createdAt).diff(currentMessage.createdAt) < 60000;
+
+    return !(isSameUser && isWithinOneMinute);
+  };
 
   const handleScroll = (event: UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, offsetHeight } = event.currentTarget;
@@ -79,9 +95,10 @@ export const useChatMessageBox = () => {
     opponent,
     user: profile,
     messages,
+    shouldShowProfile,
+    shouldShowTime,
     handleScroll,
     handleScrollToEnd,
-    bottomRef,
-    lastMessageRef
+    bottomRef
   };
 };

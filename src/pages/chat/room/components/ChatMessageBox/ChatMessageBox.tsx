@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { Avatar, IconButton } from "~/components/Commons";
 import type { ProfileAllDataRow } from "~/states/server/profile";
@@ -12,8 +11,6 @@ import * as Styled from "./ChatMessageBox.styles";
 export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) => {
   const app = useChatMessageBox();
   const { t } = useTranslation("chat");
-
-  const lastTimestamp: Date | null = null;
 
   return (
     <Styled.Container>
@@ -34,24 +31,12 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
           const prevMessage = app.messages[index - 1];
           const nextMessage = app.messages[index + 1];
 
-          const isSameUser = prevMessage && prevMessage.sender.id === message.sender.id;
-
-          const isWithinOneMinute =
-            prevMessage && dayjs(message.createdAt).diff(prevMessage.createdAt) < 60000;
-
-          const showProfile = !(isSameUser && isWithinOneMinute);
-          const showTime = !(
-            nextMessage &&
-            nextMessage.sender.id === message.sender.id &&
-            dayjs(nextMessage.createdAt).diff(message.createdAt) < 60000
-          );
-
           return (
             <Message
               key={message.id}
               message={message}
-              showProfile={showProfile}
-              showTime={showTime}
+              showProfile={app.shouldShowProfile(message, prevMessage)}
+              showTime={app.shouldShowTime(message, nextMessage)}
             />
           );
         })}
