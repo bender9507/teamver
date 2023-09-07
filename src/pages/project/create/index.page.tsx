@@ -22,7 +22,7 @@ import { requireAuthentication } from "~/utils";
 import * as Styled from "../Project.styles";
 import { useCreate } from "./create.hooks";
 
-const Create = () => {
+const ProjectCreate = () => {
   const app = useCreate();
 
   const { t, i18n } = useTranslation("project");
@@ -288,7 +288,7 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default ProjectCreate;
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (context, session) => {
