@@ -43,7 +43,7 @@ export const useChatMessageBox = () => {
 
   useMount(() => {
     const subscribeRoom = supabase
-      .channel("chatRoom")
+      .channel(`chat_room_${roomId}`)
       .on(
         "postgres_changes",
         {
