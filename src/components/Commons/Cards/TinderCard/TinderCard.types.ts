@@ -1,8 +1,9 @@
 export interface TinderCardProps {
-  onConfirm: VoidFunction;
-  onCancel: VoidFunction;
+  onConfirm?: VoidFunction;
+  onCancel?: VoidFunction;
   onRestore?: VoidFunction;
   withSelectBox?: boolean;
+  mode?: "active" | "inactive";
 }
 
 export interface TinderCardAnimation {

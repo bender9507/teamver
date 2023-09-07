@@ -1,10 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
+import { useMount } from "react-use";
 import { useDialog, useModal } from "~/components/Commons";
 import {
   useDeleteChatRequestsOwnerMutate,
   useInsertChatRequestsOwnerMutate
 } from "~/states/server/chat";
+import { supabase } from "~/states/server/config";
 import { profileKeys, useDeleteFollowMutate } from "~/states/server/profile";
 import type { LikeOwnerCard } from ".";
 
@@ -39,7 +41,7 @@ export const useLikeOwnerCard = ({ data, userId }: Parameters<typeof LikeOwnerCa
       queryClient.invalidateQueries(profileKeys.selectFollows(userId));
     },
     onError: () => {
-      toast({ type: "error", message: "채팅요청 취소에 실패했습니다" });
+      toast({ type: "error", message: t("채팅요청 취소에 실패했습니다") });
     }
   });
 
@@ -53,8 +55,25 @@ export const useLikeOwnerCard = ({ data, userId }: Parameters<typeof LikeOwnerCa
     }
   });
 
+  useMount(() => {
+    const requestSubscription = supabase
+      .channel("chatRequestOwner")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "chatRequestOwner" },
+        () => {
+          queryClient.invalidateQueries(profileKeys.selectFollows(userId));
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(requestSubscription);
+    };
+  });
+
   const handleDeleteFollow = async () => {
-    if (!(await confirm({ title: "정말 찜 해제하시겠어요" }))) return;
+    if (!(await confirm({ title: t("정말 찜 해제하시겠어요") }))) return;
     deleteFollowMutate(data.id);
   };
 

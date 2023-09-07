@@ -27,9 +27,13 @@ export const useProfileEdit = () => {
 
   const { data: profile } = useSelectProfileQuery(user.id);
   const { data: constant } = useSelectConstantsQuery();
+
   const { mutate: updateProfileMutate } = useUpdateProfileMutate({
     onSuccess: () => {
       router.push({ pathname: routes.profile, query: { userId: user.id } });
+    },
+    onError: () => {
+      toast({ type: "error", message: t("프로필 수정에 실패했습니다") });
     }
   });
   const { mutateAsync: uploadProfileImageMutateAsync } = useUploadProfileImageMutate();
@@ -37,6 +41,8 @@ export const useProfileEdit = () => {
   const { register, watch, control, handleSubmit, setError, formState, clearErrors, setValue } =
     useForm<ProfileEditForm>({
       defaultValues: {
+        name: profile.name,
+        introduce: profile.introduce,
         positions: profile.positions.map((position) => String(position.id)),
         projectTypes: profile.projectTypes.map((projectType) => String(projectType.id)),
         skills: profile.skills.map((skill) => String(skill.id)),
@@ -44,8 +50,6 @@ export const useProfileEdit = () => {
         personalities: profile.personalities.map((personality) => String(personality.id)),
         job: String(profile.job.id),
         areas: profile.areas.map((area) => String(area.id)),
-        name: profile.name,
-        introduce: profile.introduce,
         blog: profile.blog
       }
     });
@@ -62,43 +66,30 @@ export const useProfileEdit = () => {
       job,
       ...rest
     }) => {
+      const toNumberArray = (arr: string[]) => arr.map(Number);
       const mappings = {
-        positions: positions.map((position) => Number(position)),
-        languages: languages.map((language) => Number(language)),
-        personalities: personalities.map((personality) => Number(personality)),
-        projectTypes: projectTypes.map((projectType) => Number(projectType)),
-        areas: areas.map((area) => Number(area)),
-        skills: skills.map((skill) => Number(skill)),
+        positions: toNumberArray(positions),
+        languages: toNumberArray(languages),
+        personalities: toNumberArray(personalities),
+        projectTypes: toNumberArray(projectTypes),
+        areas: toNumberArray(areas),
+        skills: toNumberArray(skills),
         job: Number(job)
       };
 
-      if (!imageUrl) {
-        updateProfileMutate({
-          positions: mappings.positions,
-          languages: mappings.languages,
-          personalities: mappings.personalities,
-          projectTypes: mappings.projectTypes,
-          areas: mappings.areas,
-          skills: mappings.skills,
-          job: mappings.job,
-          id: profile.id,
-          ...rest
+      let publicUrl;
+
+      if (imageUrl) {
+        const uploadResult = await uploadProfileImageMutateAsync({
+          file: imageUrl,
+          name: `${profile.id}_${new Date().getTime()}`
         });
-        return;
+        publicUrl = uploadResult.publicUrl;
       }
-      const { publicUrl } = await uploadProfileImageMutateAsync({
-        file: imageUrl,
-        name: `${profile.id}_${new Date().getTime()}`
-      });
 
       updateProfileMutate({
-        positions: mappings.positions,
-        languages: mappings.languages,
-        personalities: mappings.personalities,
-        projectTypes: mappings.projectTypes,
-        areas: mappings.areas,
-        skills: mappings.skills,
-        imageUrl: publicUrl,
+        ...mappings,
+        ...(publicUrl ? { imageUrl: publicUrl } : {}),
         id: profile.id,
         ...rest
       });

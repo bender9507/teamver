@@ -1,28 +1,56 @@
-import type { User } from "@supabase/auth-helpers-react";
-import { useUser } from "@supabase/auth-helpers-react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { chatKeys, selectChatRoom } from "~/states/server/chat";
-import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
-
-import { ChatRoomMember, ChatRoomOwner } from "~/components/Chat";
+import { createContext, useContext } from "react";
+import { SwitchCase } from "~/components/Utils";
+import type { ChatMessageData } from "~/states/server/chat";
+import { chatKeys, selectChatMessages, selectChatRoom, selectOpponent } from "~/states/server/chat";
+import { constantKeys, selectConstants } from "~/states/server/constant";
+import type { ProfileAllDataRow } from "~/states/server/profile";
+import { profileKeys, selectProfile } from "~/states/server/profile";
 import { requireAuthentication } from "~/utils";
+import { useRoom } from "./Room.hooks";
+import { Member, Owner } from "./components";
 
-const ChatRoom = () => {
-  const user = useUser() as User;
-  const { data: profile } = useSelectProfileQuery(user.id);
+const RoomContext = createContext<{
+  roomId: string;
+  profile: ProfileAllDataRow;
+  opponent: ProfileAllDataRow | null;
+  messages: ChatMessageData[];
+} | null>(null);
 
-  return profile.role.id === 1 ? <ChatRoomOwner /> : <ChatRoomMember />;
+const Room = () => {
+  const app = useRoom();
+
+  return (
+    <RoomContext.Provider value={app.values}>
+      <SwitchCase
+        value={app.profile.role.en}
+        caseBy={{ inviter: <Owner />, invitee: <Member /> }}
+      />
+    </RoomContext.Provider>
+  );
 };
 
-export default ChatRoom;
+export default Room;
+
+export const useRoomContext = () => {
+  const context = useContext(RoomContext);
+
+  if (!context) {
+    throw new Error("useRoomContext is only available within Room");
+  }
+
+  return context;
+};
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (context, session) => {
     const queryClient = new QueryClient();
 
     const roomId = context.query.roomId as string;
+
+    const constants = queryClient.prefetchQuery(constantKeys.selectConstants(), selectConstants);
 
     const profile = queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
       selectProfile(session.user.id)
@@ -33,7 +61,16 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       () => selectChatRoom({ roomId, userId: session.user.id })
     );
 
-    await Promise.all([profile, room]);
+    const messages = queryClient.prefetchQuery(chatKeys.selectChatMessages(Number(roomId)), () =>
+      selectChatMessages(Number(roomId))
+    );
+
+    const opponent = queryClient.prefetchQuery(
+      chatKeys.selectOpponent({ roomId, userId: session.user.id }),
+      () => selectOpponent({ roomId, userId: session.user.id })
+    );
+
+    await Promise.all([profile, opponent, room, messages, constants]);
 
     return {
       props: {

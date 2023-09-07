@@ -9,7 +9,7 @@ export interface ProfileEditForm {
   imageUrl: File;
   name: string;
   introduce: string;
-  blog: string | null;
+  blog?: string | null;
 }
 
 export interface EditProfileProps {

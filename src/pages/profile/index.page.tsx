@@ -1,12 +1,13 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { IconButton } from "~/components/Commons";
 import { Navbar } from "~/components/Shared";
+import { SwitchCase } from "~/components/Utils";
 import { routes } from "~/constants/routes";
-import { Member, Owner } from "~/pages/profile/component";
+import { Member, Owner } from "~/pages/profile/components";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
@@ -24,7 +25,9 @@ const Profile = () => {
         </Link>
       </Styled.SettingHeader>
 
-      <LayoutContent>{profile.role.id === 1 ? <Owner /> : <Member />}</LayoutContent>
+      <LayoutContent>
+        <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
+      </LayoutContent>
 
       <Navbar />
     </LayoutHeaderWithNav>
@@ -44,6 +47,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     return {
       props: {
         session,
+        dehydratedState: dehydrate(queryClient),
         ...(await serverSideTranslations(context.locale as string, [
           "common",
           "profile",

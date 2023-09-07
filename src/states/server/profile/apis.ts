@@ -1,4 +1,3 @@
-import type { ChatRequestOwnerRow } from "../chat/types";
 import { supabase } from "../config";
 import type {
   ConstantAreaRow,
@@ -8,7 +7,12 @@ import type {
 } from "../constant";
 
 import { PROFILE_ALL_DATA_QUERY } from "./constants";
-import type { ProfileAllDataInsert, ProfileAllDataRow, ProfileAllDataUpdate } from "./types";
+import type {
+  FollowsAllDataRow,
+  ProfileAllDataInsert,
+  ProfileAllDataRow,
+  ProfileAllDataUpdate
+} from "./types";
 
 export const insertProfile = async ({
   skills,
@@ -110,7 +114,7 @@ export const selectFollows = async (myId: string) => {
       `id, follow:opponentId!inner(${PROFILE_ALL_DATA_QUERY}), chatRequest:chatRequestOwner(*)`
     )
     .eq("myId", myId)
-    .returns<{ id: number; follow: ProfileAllDataRow; chatRequest: ChatRequestOwnerRow[] }[]>();
+    .returns<FollowsAllDataRow[]>();
 
   if (error) throw Error("내가 찜한 사용자를 불러올 수 없습니다.");
 

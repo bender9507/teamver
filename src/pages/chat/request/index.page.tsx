@@ -3,11 +3,12 @@ import type { User } from "@supabase/supabase-js";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ChatRequestMember, ChatRequestOwner } from "~/components/Chat";
 import { TitleHeader } from "~/components/Shared";
+import { SwitchCase } from "~/components/Utils";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
+import { Member, Owner } from "./components";
 
 const ChatRequest = () => {
   const user = useUser() as User;
@@ -20,7 +21,7 @@ const ChatRequest = () => {
       <TitleHeader title={t("채팅요청")} />
 
       <LayoutContent padding="49px 22px 22px 22px">
-        {profile.role.id === 1 ? <ChatRequestOwner /> : <ChatRequestMember />}
+        <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
       </LayoutContent>
     </LayoutHeader>
   );

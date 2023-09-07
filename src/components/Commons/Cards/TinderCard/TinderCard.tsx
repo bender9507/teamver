@@ -30,9 +30,15 @@ export const TinderCard = memo((props: PropsWithChildren<TinderCardProps>) => {
             onClick={app.handleCancel}
           />
 
-          {onRestore && (
-            <IconButton name="rollback" color="gray7" width={32} height={32} onClick={onRestore} />
-          )}
+          <IconButton
+            name="rollback"
+            color="gray7"
+            width={32}
+            height={32}
+            onClick={() => {
+              if (onRestore) onRestore();
+            }}
+          />
 
           <IconButton
             name="bookmark"

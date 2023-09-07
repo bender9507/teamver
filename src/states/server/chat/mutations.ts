@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import type { ChatMessageData } from ".";
 import type { PickMutationOptions } from "../server.types";
 import {
   deleteChatMember,
@@ -8,6 +9,7 @@ import {
   insertChatRequestMember,
   insertChatRequestOwner,
   insertChatRoomWithMember,
+  updateChatMemberState,
   updateChatRequestMemberState,
   updateChatRequestOwnerState,
   updateLastReadMessage,
@@ -51,7 +53,11 @@ export const useDeleteChatRequestsOwnerMutate = (
 };
 
 export const useInsertChatMessageMutate = (
-  options?: PickMutationOptions<typeof insertChatMessage, "onSuccess" | "onError">
+  options?: PickMutationOptions<
+    typeof insertChatMessage,
+    "onSuccess" | "onError" | "onSettled",
+    ChatMessageData
+  >
 ) => {
   return useMutation({
     mutationFn: insertChatMessage,
@@ -109,6 +115,15 @@ export const useUpdateMessageReadState = (
 ) => {
   return useMutation({
     mutationFn: updateMessageReadState,
+    ...options
+  });
+};
+
+export const useUpdateChatMemberStateMutate = (
+  options?: PickMutationOptions<typeof updateChatMemberState, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateChatMemberState,
     ...options
   });
 };

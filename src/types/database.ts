@@ -39,18 +39,21 @@ export interface Database {
           createdAt: string
           id: number
           roomId: number
+          state: boolean
           userId: string
         }
         Insert: {
           createdAt?: string
           id?: number
           roomId: number
+          state?: boolean
           userId: string
         }
         Update: {
           createdAt?: string
           id?: number
           roomId?: number
+          state?: boolean
           userId?: string
         }
         Relationships: [
@@ -76,6 +79,7 @@ export interface Database {
           roomId: number
           senderId: string
           state: boolean
+          type: Database["public"]["Enums"]["message_type"] | null
         }
         Insert: {
           createdAt?: string
@@ -84,6 +88,7 @@ export interface Database {
           roomId: number
           senderId: string
           state?: boolean
+          type?: Database["public"]["Enums"]["message_type"] | null
         }
         Update: {
           createdAt?: string
@@ -92,6 +97,7 @@ export interface Database {
           roomId?: number
           senderId?: string
           state?: boolean
+          type?: Database["public"]["Enums"]["message_type"] | null
         }
         Relationships: [
           {
@@ -235,6 +241,27 @@ export interface Database {
           id?: number
           jp?: string
           ko?: string
+          order?: number
+        }
+        Relationships: []
+      }
+      constantEmojis: {
+        Row: {
+          emoji: string
+          id: number
+          name: string | null
+          order: number
+        }
+        Insert: {
+          emoji: string
+          id?: number
+          name?: string | null
+          order?: number
+        }
+        Update: {
+          emoji?: string
+          id?: number
+          name?: string | null
           order?: number
         }
         Relationships: []
@@ -1027,6 +1054,18 @@ export interface Database {
           }
         ]
       }
+      total_unread: {
+        Row: {
+          count: number | null
+        }
+        Insert: {
+          count?: number | null
+        }
+        Update: {
+          count?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1065,6 +1104,12 @@ export interface Database {
           areas: Json[]
         }[]
       }
+      get_total_unread_messages: {
+        Args: {
+          myId: string
+        }
+        Returns: number
+      }
       insert_chatroom_with_member: {
         Args: {
           requester_id: string
@@ -1084,6 +1129,7 @@ export interface Database {
           reactions: Json
           roles: Json
           skills: Json
+          emojis: Json
         }[]
       }
       select_recommended_members: {
@@ -1146,23 +1192,10 @@ export interface Database {
           state: Database["public"]["Enums"]["project_state"]
         }[]
       }
-      unread_message_count:
-        | {
-            Args: {
-              userid: string
-            }
-            Returns: number
-          }
-        | {
-            Args: {
-              userid: string
-              roomid: number
-            }
-            Returns: number
-          }
     }
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT"
+      message_type: "MESSAGE" | "NOTICE" | "EMOJI" | "REPOSITORY"
       profile_role: "INVITER" | "INVITEE"
       project_state: "IN_RECRUIT" | "DONE_RECRUIT" | "DONE_PROJECT"
     }

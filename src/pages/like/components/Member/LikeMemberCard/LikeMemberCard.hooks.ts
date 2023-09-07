@@ -1,10 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
+import { useMount } from "react-use";
 import { useDialog, useModal } from "~/components/Commons";
 import {
   useDeleteChatRequestsMemberMutate,
   useInsertChatRequestsMemberMutate
 } from "~/states/server/chat";
+import { supabase } from "~/states/server/config";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { projectsKey, useDeleteFollowProjectStateMutate } from "~/states/server/project";
 import type { LikeMemberCard } from ".";
@@ -36,7 +38,7 @@ export const useLikeMemberCard = ({ data, userId }: Parameters<typeof LikeMember
       queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
     },
     onError: () => {
-      toast({ type: "error", message: "채팅요청 취소에 실패했습니다" });
+      toast({ type: "error", message: t("채팅요청 취소에 실패했습니다") });
     }
   });
 
@@ -48,6 +50,23 @@ export const useLikeMemberCard = ({ data, userId }: Parameters<typeof LikeMember
     onError: () => {
       toast({ type: "error", message: t("찜 해제에 실패했습니다") });
     }
+  });
+
+  useMount(() => {
+    const requestSubscription = supabase
+      .channel("chatRequestMember")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "chatRequestMember" },
+        () => {
+          queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(requestSubscription);
+    };
   });
 
   const handleDeleteFollowProject = async () => {

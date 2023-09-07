@@ -1,1 +1,0 @@
-export { ChatRoomOwner } from "./ChatRoomOwner";
