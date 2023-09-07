@@ -16,7 +16,7 @@ import {
   useUpdateProjectMutate
 } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
-import type { ProjectEditFormType } from "../components";
+import type { ProjectEditType } from "./edit.types";
 
 export const useEdit = () => {
   const user = useUser() as User;
@@ -49,22 +49,21 @@ export const useEdit = () => {
 
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
-  const { register, handleSubmit, watch, control, setValue, formState } =
-    useForm<ProjectEditFormType>({
-      defaultValues: {
-        name: project.name,
-        description: project.description,
-        recruitCount: project.recruitCount,
-        startDate: project.startDate ? dayjs(project.startDate).toDate() : "미정",
-        endDate: project.endDate ? dayjs(project.endDate).toDate() : "미정",
-        positions: project.positions.map((el) => String(el.id)),
-        projectType: String(project.projectType.id),
-        skills: project.skills.map((el) => String(el.id)),
-        languages: project.languages.map((el) => String(el.id)),
-        areas: project.areas.map((el) => String(el.id))
-      },
-      mode: "all"
-    });
+  const { register, handleSubmit, watch, control, setValue, formState } = useForm<ProjectEditType>({
+    defaultValues: {
+      name: project.name,
+      description: project.description,
+      recruitCount: project.recruitCount,
+      startDate: project.startDate ? dayjs(project.startDate).toDate() : "미정",
+      endDate: project.endDate ? dayjs(project.endDate).toDate() : "미정",
+      positions: project.positions.map((el) => String(el.id)),
+      projectType: String(project.projectType.id),
+      skills: project.skills.map((el) => String(el.id)),
+      languages: project.languages.map((el) => String(el.id)),
+      areas: project.areas.map((el) => String(el.id))
+    },
+    mode: "all"
+  });
 
   const { data: constants } = useSelectConstantsQuery();
 

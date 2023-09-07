@@ -12,7 +12,7 @@ import { useBoolean } from "~/hooks";
 import { useSelectConstantsQuery } from "~/states/server/constant";
 import { projectsKey, useInsertProjectMutate } from "~/states/server/project";
 import { useUploadProjectImageMutate } from "~/states/server/storage";
-import type { ProjectCreateFormType } from "../components";
+import type { ProjectCreateType } from "./create.types";
 
 export const useCreate = () => {
   const queryClient = useQueryClient();
@@ -44,7 +44,7 @@ export const useCreate = () => {
   const { mutateAsync: uploadProjectImageMutateAsync } = useUploadProjectImageMutate();
 
   const { register, handleSubmit, watch, control, setValue, formState } =
-    useForm<ProjectCreateFormType>({
+    useForm<ProjectCreateType>({
       defaultValues: { startDate: null, endDate: null },
       mode: "all"
     });
