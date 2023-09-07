@@ -2,6 +2,7 @@ export { default as add } from "./add.svg";
 export { default as arrowBack } from "./arrowBack.svg";
 export { default as arrowDown } from "./arrowDown.svg";
 export { default as arrowForward } from "./arrowForward.svg";
+export { default as bell } from "./bell.svg";
 export { default as bookmark } from "./bookmark.svg";
 export { default as bookmarkFill } from "./bookmarkFill.svg";
 export { default as chat } from "./chat.svg";
