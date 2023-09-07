@@ -9,11 +9,11 @@ export const EmojiSend = () => {
   const app = useEmojiSend();
 
   return (
-    <Grid column={5} padding={16} gap={16}>
+    <Grid column={3} padding={16} gap={16}>
       {app.constants.emojis.map(({ id, emoji }) => (
         <button key={id} type="button" onClick={() => app.sendEmoji(emoji)}>
           <RatioBox>
-            <Image src={emoji} alt="이모티콘" fill sizes="100%" style={{ objectFit: "cover" }} />
+            <Image src={emoji} alt="이모티콘" fill style={{ objectFit: "contain" }} />
           </RatioBox>
         </button>
       ))}
