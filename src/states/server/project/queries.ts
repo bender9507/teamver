@@ -1,6 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useSuspendedQuery } from "~/hooks";
-import { profileKeys, selectFollows } from "../profile";
 import {
   selectFollowProjects,
   selectMemberProjects,
@@ -39,19 +38,6 @@ export const useSelectFollowProjectsQuery = (myId: string) => {
     queryKey: projectsKey.selectFollowProjects(myId),
     queryFn: () => selectFollowProjects(myId),
     initialData: []
-  });
-};
-type Test = ["PROFILE", "selectFollows", string] | ["PROJECTS", "selectFollowProjects", string];
-
-export const useSelectFollowRole = ({ myId, role }: { myId: string; role: number }) => {
-  //  const queryKey = role === 1 ? profileKeys.selectFollows(myId) : projectsKey.selectFollowProjects(myId)
-  return useQuery({
-    queryKey: role === 1 ? profileKeys.selectFollows(myId) : projectsKey.selectFollowProjects(myId),
-    queryFn: () => {
-      return role === 1 ? selectFollows(myId) : selectFollowProjects(myId);
-    },
-    initialData: [],
-    enabled: role === 1
   });
 };
 
