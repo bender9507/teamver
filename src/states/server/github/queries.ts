@@ -10,9 +10,10 @@ export const useGetReposQuery = (username: string) => {
   });
 };
 
-export const useGetRepoQuery = (repoUrl: string) => {
+export const useGetRepoQuery = (repoUrl: string, enabled: boolean) => {
   return useQuery({
     queryKey: githubKeys.getRepo(repoUrl),
-    queryFn: () => getRepo(repoUrl)
+    queryFn: () => getRepo(repoUrl),
+    enabled
   });
 };
