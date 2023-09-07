@@ -1,20 +1,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { Text, flex, size } from "~/styles/mixins";
+import { flex, size } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
-
-export const Header = styled.header`
-  ${flex.center()};
-
-  ${({ theme: { sizes } }) => css`
-    height: ${sizes.height.header}px;
-  `}
-`;
-
-export const Desc = styled(Text)`
-  margin-left: 18px;
-`;
 
 export const ImageContainer = styled.div`
   position: relative;
