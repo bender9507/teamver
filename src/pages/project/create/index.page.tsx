@@ -79,7 +79,7 @@ const Create = () => {
             {app.constants.projectTypes.map((projectType) => (
               <SelectChip
                 type="radio"
-                key={projectType.id}
+                key={`프로젝트타입${projectType.id}`}
                 value={projectType.id}
                 {...app.register("projectType", { required: true })}
               >
@@ -101,7 +101,7 @@ const Create = () => {
           <Flex gap={12} wrap="wrap">
             {app.constants.positions.map((position) => (
               <SelectChip
-                key={position.id}
+                key={`모집포지션${position.id}`}
                 value={position.id}
                 {...app.register("positions", { required: true })}
               >
@@ -236,7 +236,7 @@ const Create = () => {
           <Flex gap={12} wrap="wrap">
             {app.constants.languages.map((language) => (
               <SelectChip
-                key={language.id}
+                key={`주요언어${language.id}`}
                 value={language.id}
                 {...app.register("languages", { required: true })}
               >
@@ -253,7 +253,7 @@ const Create = () => {
           <Flex gap={12} wrap="wrap">
             {app.constants.skills.map((skill) => (
               <SelectChip
-                key={skill.id}
+                key={`기술스택${skill.id}`}
                 value={skill.id}
                 {...app.register("skills", { required: true })}
               >
@@ -270,7 +270,7 @@ const Create = () => {
           <Flex gap={12} wrap="wrap">
             {app.constants.areas.map((area) => (
               <SelectChip
-                key={area.id}
+                key={`활동지역${area.id}`}
                 value={area.id}
                 {...app.register("areas", { required: true })}
               >
