@@ -53,7 +53,11 @@ export const useDeleteChatRequestsOwnerMutate = (
 };
 
 export const useInsertChatMessageMutate = (
-  options?: PickMutationOptions<typeof insertChatMessage, "onSuccess" | "onError", ChatMessageData>
+  options?: PickMutationOptions<
+    typeof insertChatMessage,
+    "onSuccess" | "onError" | "onSettled",
+    ChatMessageData
+  >
 ) => {
   return useMutation({
     mutationFn: insertChatMessage,

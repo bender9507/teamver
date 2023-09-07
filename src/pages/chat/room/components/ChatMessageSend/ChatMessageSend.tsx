@@ -2,6 +2,7 @@ import { IconButton, Input } from "~/components/Commons";
 import { Flex, FlexColumn } from "~/styles/mixins";
 import { useChatMessageSend } from "./ChatMessageSend.hooks";
 import { EmojiSend } from "./EmojiSend";
+import { REPOSITORY_SEND_MODAL, RepositorySend } from "./RepositorySend";
 
 export const ChatMessageSend = () => {
   const app = useChatMessageSend();
@@ -16,7 +17,13 @@ export const ChatMessageSend = () => {
         padding="7px 16px"
         onSubmit={app.handleSendMessage}
       >
-        <IconButton type="button" name="add" />
+        <IconButton
+          type="button"
+          name="add"
+          onClick={() =>
+            app.mount(<RepositorySend />, { id: REPOSITORY_SEND_MODAL, type: "bottom" })
+          }
+        />
 
         <FlexColumn flex={1}>
           <Input
@@ -33,6 +40,7 @@ export const ChatMessageSend = () => {
       </Flex>
 
       {app.isOpenEmoji && <EmojiSend />}
+      {app.isOpenRepos && <RepositorySend />}
     </FlexColumn>
   );
 };

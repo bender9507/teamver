@@ -1,6 +1,7 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { memo } from "react";
+import { Text } from "~/styles/mixins";
 import { MyEmoji, MyMessage } from "../My";
 import { NoticeMessage } from "../NoticeMessage";
 import { OpponentEmoji, OpponentMessage } from "../Opponent";
@@ -18,7 +19,7 @@ export const Message = memo((props: OpponentProps) => {
       return <NoticeMessage message={message} />;
 
     case "REPOSITORY":
-      return <div>repository</div>;
+      return <Text>repository</Text>;
 
     case "EMOJI":
       if (isMine) {

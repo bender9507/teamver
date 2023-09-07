@@ -34,6 +34,7 @@ export const Text = styled.span<{
   textAlign?: CSSProperties["textAlign"];
   whiteSpace?: CSSProperties["whiteSpace"];
   width?: CSSProperties["width"];
+  marginTop?: CSSProperties["marginTop"];
 }>`
   ${({ size = "paragraph2" }) => text(size)}
 
@@ -45,7 +46,8 @@ export const Text = styled.span<{
     lineHeight,
     whiteSpace,
     textAlign,
-    width
+    width,
+    marginTop
   }) => css`
     color: ${theme.colors[color]};
 
@@ -55,5 +57,6 @@ export const Text = styled.span<{
     ${whiteSpace && styleHelper("whiteSpace", whiteSpace)};
     ${textAlign && styleHelper("textAlign", textAlign)};
     ${width && styleHelper("width", width)};
+    ${marginTop && styleHelper("marginTop", marginTop)};
   `};
 `;
