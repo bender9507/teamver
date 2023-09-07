@@ -30,7 +30,7 @@ const App = ({
   useMount(() => {
     supabase.auth.onAuthStateChange((state) => {
       if (state === "SIGNED_IN") {
-        router.push(routes.home);
+        if (window.location.pathname === "/") router.replace(routes.home);
       }
     });
   });
