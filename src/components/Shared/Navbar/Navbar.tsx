@@ -30,7 +30,7 @@ export const Navbar = () => {
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "chatMessages",
           filter: `roomId=in.(${roomIds})`

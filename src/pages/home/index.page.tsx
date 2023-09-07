@@ -4,10 +4,11 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { LogoHeader, Navbar } from "~/components/Shared";
+import { SwitchCase } from "~/components/Utils";
 import { Member, Owner } from "~/pages/home/components";
 import { constantKeys, selectConstants } from "~/states/server/constant";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
-import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
+import { LayoutHeaderWithNav } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
 
 const Home = () => {
@@ -18,7 +19,7 @@ const Home = () => {
     <LayoutHeaderWithNav>
       <LogoHeader />
 
-      <LayoutContent>{profile.role.id === 1 ? <Owner /> : <Member />}</LayoutContent>
+      <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
 
       <Navbar />
     </LayoutHeaderWithNav>

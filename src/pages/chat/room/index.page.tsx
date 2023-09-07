@@ -2,6 +2,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { createContext, useContext } from "react";
+import { SwitchCase } from "~/components/Utils";
 import type { ChatMessageData } from "~/states/server/chat";
 import { chatKeys, selectChatMessages, selectChatRoom, selectOpponent } from "~/states/server/chat";
 import { constantKeys, selectConstants } from "~/states/server/constant";
@@ -23,7 +24,10 @@ const Room = () => {
 
   return (
     <RoomContext.Provider value={app.values}>
-      {app.profile.role.id === 1 ? <Owner /> : <Member />}
+      <SwitchCase
+        value={app.profile.role.en}
+        caseBy={{ inviter: <Owner />, invitee: <Member /> }}
+      />
     </RoomContext.Provider>
   );
 };

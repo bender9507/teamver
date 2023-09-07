@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { Avatar, Icon } from "~/components/Commons";
+import { SwitchCase } from "~/components/Utils";
 import { routes } from "~/constants/routes";
 import type { ChatRoomAllData } from "~/states/server/chat";
 import { Flex, FlexColumn, Text } from "~/styles/mixins";
@@ -19,14 +20,15 @@ export const ChatRoomCard = ({ room }: { room: ChatRoomAllData }) => {
           <Text size="textMediumBold">{app.opponent.name}</Text>
 
           <Text size="textMedium" color="gray9">
-            {app.lastMessage?.type === "EMOJI" && t("이모티콘")}
-
-            {app.lastMessage?.type === "REPOSITORY" && t("레파지토리")}
-
-            {app.lastMessage?.type === "NOTICE" && t(app.lastMessage?.message)}
-
-            {app.lastMessage?.type === "MESSAGE" &&
-              (app.lastMessage.message ?? t("채팅이 시작되었습니다."))}
+            <SwitchCase
+              value={app.lastMessage?.type ?? "MESSAGE"}
+              caseBy={{
+                EMOJI: <>{t("이모티콘")}</>,
+                REPOSITORY: <>{t("레파지토리")}</>,
+                NOTICE: <>{t(app.lastMessage?.message)}</>,
+                MESSAGE: <>{t(app.lastMessage?.message ?? t("채팅이 시작되었습니다."))}</>
+              }}
+            />
           </Text>
         </FlexColumn>
 
