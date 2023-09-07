@@ -13,7 +13,7 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
   const app = useChatMessageBox();
   const { t } = useTranslation("chat");
 
-  let lastTimestamp: Date | null = null;
+  const lastTimestamp: Date | null = null;
 
   return (
     <Styled.Container>
@@ -31,20 +31,27 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
 
       <Styled.ChatBox onScroll={app.handleScroll}>
         {app.messages.map((message, index) => {
-          const isChaining = dayjs(lastTimestamp).minute() === dayjs(message.createdAt).minute();
+          const prevMessage = app.messages[index - 1];
+          const nextMessage = app.messages[index + 1];
 
-          const isChainingEnd =
-            dayjs(message.createdAt).minute() !==
-            dayjs(app.messages[index + 1]?.createdAt).minute();
+          const isSameUser = prevMessage && prevMessage.sender.id === message.sender.id;
 
-          lastTimestamp = message.createdAt;
+          const isWithinOneMinute =
+            prevMessage && dayjs(message.createdAt).diff(prevMessage.createdAt) < 60000;
+
+          const showProfile = !(isSameUser && isWithinOneMinute);
+          const showTime = !(
+            nextMessage &&
+            nextMessage.sender.id === message.sender.id &&
+            dayjs(nextMessage.createdAt).diff(message.createdAt) < 60000
+          );
 
           return (
             <Message
               key={message.id}
-              isChaining={isChaining}
-              isChainingEnd={isChainingEnd}
               message={message}
+              showProfile={showProfile}
+              showTime={showTime}
             />
           );
         })}
