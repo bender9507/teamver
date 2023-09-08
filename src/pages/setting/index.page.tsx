@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Radio, RadioGroup, useModal } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
 import { routes } from "~/constants/routes";
+import { signOut } from "~/states/server";
 import { FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { requireAuthentication } from "~/utils";
@@ -14,7 +15,9 @@ import * as Styled from "./setting.styles";
 
 const ProfileSetting = () => {
   const router = useRouter();
+
   const { mount } = useModal();
+
   const { t, i18n } = useTranslation("setting");
 
   const currentLanguage = i18n.language as OneOfLanguage;
@@ -57,7 +60,11 @@ const ProfileSetting = () => {
           </Styled.Option>
 
           <Link href={routes.role}>
-            <Styled.Option>{t("참여 모드 설정")}</Styled.Option>
+            <Styled.Option hasBorder>{t("참여 모드 설정")}</Styled.Option>
+          </Link>
+
+          <Link href={routes.home}>
+            <Styled.Option onClick={signOut}>{t("로그아웃")}</Styled.Option>
           </Link>
         </FlexColumn>
       </LayoutContent>
@@ -69,6 +76,16 @@ export default ProfileSetting;
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (context, session) => {
+    const cookieLocale = context.req.cookies.locale;
+    if (cookieLocale && context.locale !== cookieLocale) {
+      return {
+        redirect: {
+          destination: `/${cookieLocale}${context.resolvedUrl}`,
+          permanent: false
+        }
+      };
+    }
+
     return {
       props: {
         session,

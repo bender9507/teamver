@@ -4,6 +4,8 @@ import { flex, text } from "~/styles/mixins";
 import type { OptionProps } from "./setting.types";
 
 export const Option = styled.button<OptionProps>`
+  width: 100%;
+
   padding: 16px 22px;
 
   ${({ theme: { colors }, hasBorder }) => css`
