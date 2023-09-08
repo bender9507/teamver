@@ -514,6 +514,80 @@ export interface Database {
           }
         ]
       }
+      noticeMember: {
+        Row: {
+          createdAt: string
+          id: number
+          receiverId: string
+          requesterId: string
+          state: Database["public"]["Enums"]["notification_state"]
+        }
+        Insert: {
+          createdAt?: string
+          id?: number
+          receiverId: string
+          requesterId: string
+          state: Database["public"]["Enums"]["notification_state"]
+        }
+        Update: {
+          createdAt?: string
+          id?: number
+          receiverId?: string
+          requesterId?: string
+          state?: Database["public"]["Enums"]["notification_state"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noticeMember_receiverId_fkey"
+            columns: ["receiverId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noticeMember_requesterId_fkey"
+            columns: ["requesterId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      noticeOwner: {
+        Row: {
+          createdAt: string
+          id: number
+          receiverId: string
+          requesterId: string
+          state: Database["public"]["Enums"]["notification_state"]
+        }
+        Insert: {
+          createdAt?: string
+          id?: number
+          receiverId: string
+          requesterId: string
+          state: Database["public"]["Enums"]["notification_state"]
+        }
+        Update: {
+          createdAt?: string
+          id?: number
+          receiverId?: string
+          requesterId?: string
+          state?: Database["public"]["Enums"]["notification_state"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "noticeOwner_receiverId_fkey"
+            columns: ["receiverId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "noticeOwner_requesterId_fkey"
+            columns: ["requesterId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profileAreas: {
         Row: {
           areaId: number
@@ -1196,6 +1270,11 @@ export interface Database {
     Enums: {
       invite_state: "PENDING" | "DENIED" | "GRANT"
       message_type: "MESSAGE" | "NOTICE" | "EMOJI" | "REPOSITORY"
+      notification_state:
+        | "ChatRequest"
+        | "ChatGranted"
+        | "TeamRequest"
+        | "TeamGranted"
       profile_role: "INVITER" | "INVITEE"
       project_state: "IN_RECRUIT" | "DONE_RECRUIT" | "DONE_PROJECT"
     }
