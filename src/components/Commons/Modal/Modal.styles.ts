@@ -6,39 +6,17 @@ import { hexToRgba } from "~/styles/utils";
 import type { WithTheme } from "~/types";
 import type { ModalStyleProps } from "./Modal.types";
 
-const outerTypeStyle = ({ type = "center" }: WithTheme<ModalStyleProps>) => {
-  switch (type) {
-    case "bottom":
-      return css`
-        ${flex({ align: "end" })}
-      `;
-
-    default:
-      return css`
-        ${flex.center()}
-      `;
-  }
-};
-
-const outerBackgroundStyle = ({ background, theme: { colors } }: WithTheme<ModalStyleProps>) => {
-  switch (background) {
-    case "clear":
-      return css`
-        background-color: ${hexToRgba(colors.black, 0.4)};
-      `;
-    case "none":
-      return;
-    default:
-      return css`
-        background-color: ${hexToRgba(colors.black, 0.4)};
-        backdrop-filter: blur(8px);
-      `;
-  }
+const outerBackgroundStyle = ({ theme: { colors } }: WithTheme<ModalStyleProps>) => {
+  return css`
+    background-color: ${hexToRgba(colors.black, 0.4)};
+    backdrop-filter: blur(8px);
+  `;
 };
 
 export const Outer = styled.div<ModalStyleProps>`
-  ${(props) => outerTypeStyle(props)}
   ${(props) => outerBackgroundStyle(props)}
+
+  ${flex.center()};
 
   ${position.absolute({ top: 0, left: 0 })};
 
@@ -49,32 +27,20 @@ export const Outer = styled.div<ModalStyleProps>`
   `}
 
   animation: ${fade(0)} 400ms;
+
+  -webkit-overflow-scrolling: touch;
 `;
 
-const innerStyle = ({ type = "center", theme: { colors } }: WithTheme<ModalStyleProps>) => {
-  switch (type) {
-    case "bottom":
-      return css`
-        ${size({ width: "100%", maxHeight: "90%" })};
+const innerStyle = ({ theme: { colors } }: WithTheme<ModalStyleProps>) => {
+  return css`
+    ${size({ width: 270, maxHeight: "80%" })};
 
-        background-color: ${colors.backgroundSecondary};
+    background-color: ${colors.backgroundSecondary};
 
-        border-radius: 16px 16px 0 0;
+    border-radius: 16px;
 
-        animation: ${slideY(100)} 400ms;
-      `;
-
-    default:
-      return css`
-        ${size({ width: 270 })};
-
-        background-color: ${colors.backgroundSecondary};
-
-        border-radius: 16px;
-
-        animation: ${slideY(20)} 400ms;
-      `;
-  }
+    animation: ${slideY(20)} 400ms;
+  `;
 };
 
 export const Inner = styled.div<ModalStyleProps>`
@@ -82,5 +48,6 @@ export const Inner = styled.div<ModalStyleProps>`
 
   position: relative;
 
-  overflow-y: scroll;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 `;

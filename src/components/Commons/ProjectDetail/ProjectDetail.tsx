@@ -4,8 +4,7 @@ import type { ProfileAllDataRow } from "~/states/server/profile";
 import type { ProjectAllDataRow } from "~/states/server/project";
 import { CommonContainer, Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
-import { Avatar, Chip, IconButton, RatioBox } from "..";
-import { useProjectDetail } from "./ProjectDetail.hooks";
+import { Avatar, Chip, RatioBox } from "..";
 import * as Styled from "./ProjectDetail.styles";
 
 export const ProjectDetail = ({
@@ -18,8 +17,6 @@ export const ProjectDetail = ({
   const { t, i18n } = useTranslation("project");
 
   const currentLanguage = i18n.language as OneOfLanguage;
-
-  const app = useProjectDetail(project, profile);
 
   return (
     <FlexColumn>
@@ -53,11 +50,6 @@ export const ProjectDetail = ({
           <FlexColumn gap={16}>
             <Flex align="center" justify="between">
               <Text size="titleMedium">{project.name}</Text>
-
-              <IconButton
-                name={app.isBookmarked ? "bookmarkFill" : "bookmark"}
-                onClick={app.handleToggleBookmark}
-              />
             </Flex>
 
             <Text size="textMediumBold" color="gray9" whiteSpace="pre-wrap">

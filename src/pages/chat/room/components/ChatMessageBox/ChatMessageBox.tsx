@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
 import { Avatar, IconButton } from "~/components/Commons";
 import type { ProfileAllDataRow } from "~/states/server/profile";
@@ -12,8 +11,6 @@ import * as Styled from "./ChatMessageBox.styles";
 export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) => {
   const app = useChatMessageBox();
   const { t } = useTranslation("chat");
-
-  let lastTimestamp: Date | null = null;
 
   return (
     <Styled.Container>
@@ -31,20 +28,15 @@ export const ChatMessageBox = ({ opponent }: { opponent: ProfileAllDataRow }) =>
 
       <Styled.ChatBox onScroll={app.handleScroll}>
         {app.messages.map((message, index) => {
-          const isChaining = dayjs(lastTimestamp).minute() === dayjs(message.createdAt).minute();
-
-          const isChainingEnd =
-            dayjs(message.createdAt).minute() !==
-            dayjs(app.messages[index + 1]?.createdAt).minute();
-
-          lastTimestamp = message.createdAt;
+          const prevMessage = app.messages[index - 1];
+          const nextMessage = app.messages[index + 1];
 
           return (
             <Message
               key={message.id}
-              isChaining={isChaining}
-              isChainingEnd={isChainingEnd}
               message={message}
+              showProfile={app.shouldShowProfile(message, prevMessage)}
+              showTime={app.shouldShowTime(message, nextMessage)}
             />
           );
         })}

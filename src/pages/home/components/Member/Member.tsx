@@ -48,7 +48,7 @@ export const Member = () => {
 
       <Position position="relative">
         <CardContainer>
-          <TinderCard mode="inactive">
+          <TinderCard mode="inactive" onRestore={app.handleRestore}>
             <PosCenter>
               <Text size="textMediumBold" color="gray6">
                 {t("등록된 프로젝트가 없어요")}

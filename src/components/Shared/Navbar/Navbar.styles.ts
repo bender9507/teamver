@@ -5,11 +5,13 @@ import { flex, position, size, text } from "~/styles/mixins";
 export const Navbar = styled.nav`
   ${position.sticky({ bottom: 0 })};
 
-  ${flex({ align: "center", justify: "around" })};
+  ${flex({ align: "start", justify: "around" })};
 
-  padding-bottom: 20px;
+  padding-top: 12px;
 
-  ${({ theme: { sizes } }) => css`
+  ${({ theme: { colors, sizes } }) => css`
+    background-color: ${colors.backgroundPrimary};
+
     ${size({ height: sizes.height.navbar })};
   `};
 `;

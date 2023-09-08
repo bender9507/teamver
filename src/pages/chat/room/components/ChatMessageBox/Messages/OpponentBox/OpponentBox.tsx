@@ -7,8 +7,8 @@ import type { OpponentProps } from "../Messages.types";
 export const OpponentBox = ({
   children,
   message,
-  isChaining,
-  isChainingEnd
+  showProfile,
+  showTime
 }: PropsWithChildren<OpponentProps>) => {
   const { sender } = message;
 
@@ -17,12 +17,12 @@ export const OpponentBox = ({
   return (
     <Flex gap={8}>
       <SizeBox minWidth={32} height={32}>
-        {!isChaining && <Avatar size="small" src={sender.imageUrl} />}
+        {showProfile && <Avatar size="small" src={sender.imageUrl} />}
       </SizeBox>
 
       {children}
 
-      {isChainingEnd && (
+      {showTime && (
         <Text size="textSmall" color="gray6" whiteSpace="nowrap" style={{ alignSelf: "end" }}>
           {app.time}
         </Text>

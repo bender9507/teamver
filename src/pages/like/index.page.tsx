@@ -55,7 +55,12 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       selectFollows(session.user.id)
     );
 
-    await Promise.all([profile, projects, follows]);
+    const followProjects = queryClient.prefetchQuery(
+      projectsKey.selectFollowProjects(session.user.id),
+      () => selectFollowProjects(session.user.id)
+    );
+
+    await Promise.all([profile, projects, follows, followProjects]);
 
     return {
       props: {
