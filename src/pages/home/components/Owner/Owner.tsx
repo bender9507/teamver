@@ -89,7 +89,7 @@ export const Owner = () => {
 
       <Position position="relative">
         <CardContainer>
-          <TinderCard mode="inactive">
+          <TinderCard mode="inactive" onRestore={app.handleRestore}>
             <PosCenter>
               <Text size="textMediumBold" color="gray6">
                 {t("등록된 참가자가 없어요")}
