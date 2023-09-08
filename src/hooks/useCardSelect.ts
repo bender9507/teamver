@@ -7,7 +7,7 @@ export const useCardSelect = <T extends { id: string | number }>(
   onAccept?: (id: string | number) => void,
   onReject?: (id: string | number) => void
 ) => {
-  const { t } = useTranslation("chat");
+  const { t } = useTranslation("home");
 
   const [selectedCards, setSelectedCards] = useState<Map<string, boolean>>(new Map());
   const [rejectedCards, setRejectedCards] = useState<(string | number)[]>([]);
@@ -44,7 +44,7 @@ export const useCardSelect = <T extends { id: string | number }>(
 
   const handleRestore = useCallback(() => {
     if (!rejectedCards.length) {
-      toast({ type: "warning", message: t("더 이상 복원할 수 없습니다.") });
+      toast({ type: "warning", message: t("더 이상 복원할 수 없습니다") });
     }
 
     setRejectedCards((rejectedCards) => {
