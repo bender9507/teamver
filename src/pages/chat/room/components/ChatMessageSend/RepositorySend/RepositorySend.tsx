@@ -10,7 +10,7 @@ export const RepositorySend = () => {
   const app = useRepositorySend();
 
   return (
-    <FlexColumn gap={16} padding="32px 16px">
+    <FlexColumn gap={12} padding={12}>
       {app.repos.map(
         ({
           id,

@@ -23,7 +23,7 @@ export default function Home() {
       <Styled.Container>
         <PosCenter>
           <FlexCenter direction="column" gap={9}>
-            <Text size="titleMedium">개발자 팀원을 찾을 땐,</Text>
+            <Text size="titleMedium">개발자 팀원을 찾을 땐</Text>
 
             <Image src="/images/teamver.svg" width={208} height={45} alt="teamver logo" />
           </FlexCenter>
