@@ -4,7 +4,7 @@ import * as Styled from "./LogoHeader.styles";
 export const LogoHeader = () => {
   return (
     <Styled.Header>
-      <Image src="/images/teamver.svg" width={130} height={16} alt="teamver" />
+      <Image src="/images/teamver.png" width={58} height={21} alt="teamver" />
     </Styled.Header>
   );
 };

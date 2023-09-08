@@ -1,5 +1,5 @@
 import { IconButton, Input } from "~/components/Commons";
-import { Flex, FlexColumn } from "~/styles/mixins";
+import { Flex, FlexColumn, SizeBox } from "~/styles/mixins";
 import { useChatMessageSend } from "./ChatMessageSend.hooks";
 import { EmojiSend } from "./EmojiSend";
 import { REPOSITORY_SEND_MODAL, RepositorySend } from "./RepositorySend";
@@ -38,7 +38,8 @@ export const ChatMessageSend = () => {
       </Flex>
 
       {app.isOpenEmoji && <EmojiSend />}
-      {app.isOpenRepos && <RepositorySend />}
+
+      <SizeBox height={44} />
     </FlexColumn>
   );
 };

@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { useCallback, useState } from "react";
 import { useDialog } from "~/components/Commons";
 
@@ -6,6 +7,8 @@ export const useCardSelect = <T extends { id: string | number }>(
   onAccept?: (id: string | number) => void,
   onReject?: (id: string | number) => void
 ) => {
+  const { t } = useTranslation("chat");
+
   const [selectedCards, setSelectedCards] = useState<Map<string, boolean>>(new Map());
   const [rejectedCards, setRejectedCards] = useState<(string | number)[]>([]);
 
@@ -41,7 +44,7 @@ export const useCardSelect = <T extends { id: string | number }>(
 
   const handleRestore = useCallback(() => {
     if (!rejectedCards.length) {
-      toast({ type: "warning", message: "더 이상 복원할 수 없습니다." });
+      toast({ type: "warning", message: t("더 이상 복원할 수 없습니다.") });
     }
 
     setRejectedCards((rejectedCards) => {
@@ -56,7 +59,7 @@ export const useCardSelect = <T extends { id: string | number }>(
 
       return rejectedCards;
     });
-  }, [rejectedCards.length, toast]);
+  }, [rejectedCards.length, t, toast]);
 
   const filteredCards = cards.filter((card) => !selectedCards.has(String(card.id))).reverse();
 

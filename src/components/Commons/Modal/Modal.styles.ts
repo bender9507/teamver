@@ -33,7 +33,7 @@ export const Outer = styled.div<ModalStyleProps>`
 
 const innerStyle = ({ theme: { colors } }: WithTheme<ModalStyleProps>) => {
   return css`
-    ${size({ width: 270, height: "100%", maxHeight: "80%" })};
+    ${size({ width: 270, maxHeight: "80%" })};
 
     background-color: ${colors.backgroundSecondary};
 
