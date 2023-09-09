@@ -76,16 +76,6 @@ export default ProfileSetting;
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (context, session) => {
-    const cookieLocale = context.req.cookies.locale;
-    if (cookieLocale && context.locale !== cookieLocale) {
-      return {
-        redirect: {
-          destination: `/${cookieLocale}${context.resolvedUrl}`,
-          permanent: false
-        }
-      };
-    }
-
     return {
       props: {
         session,
