@@ -11,6 +11,7 @@ export const selectNoticeMember = async (myId: string) => {
     .from("noticeMember")
     .select("*")
     .eq("receiverId", myId)
+    .order("createdAt", { ascending: false })
     .returns<NoticeMemberRow[]>();
 
   if (error) throw error;
