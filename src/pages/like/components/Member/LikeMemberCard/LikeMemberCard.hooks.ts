@@ -7,6 +7,7 @@ import {
   useInsertChatRequestsMemberMutate
 } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
+import { noticeKeys, useInsertNoticeOwner } from "~/states/server/notice";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { projectsKey, useDeleteFollowProjectStateMutate } from "~/states/server/project";
 import type { LikeMemberCard } from ".";
@@ -22,9 +23,20 @@ export const useLikeMemberCard = ({ data, userId }: Parameters<typeof LikeMember
 
   const { data: profile } = useSelectProfileQuery(userId);
 
+  const { mutate: insertNoticeOwnerMutate } = useInsertNoticeOwner({
+    onSuccess: () => {
+      queryClient.invalidateQueries(noticeKeys.selectNoticeOwner(data.project.ownerId));
+    }
+  });
+
   const { mutate: insertChatRequestMemberMutate } = useInsertChatRequestsMemberMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectFollowProjects(userId));
+      insertNoticeOwnerMutate({
+        receiverId: data.project.ownerId,
+        requesterId: userId,
+        state: "ChatRequest"
+      });
       toast({ type: "success", message: t("채팅을 성공적으로 요청했습니다") });
     },
 

@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import type { ComponentProps, FormEvent } from "react";
 import { useState } from "react";
 import { useDialog, useModal } from "~/components/Commons";
+import { useInsertNoticeMember } from "~/states/server/notice";
 import { useInsertProjectInviteMutate, useSelectOwnerProjectsQuery } from "~/states/server/project";
 import type { Invite } from ".";
 import { INVITE_MODAL } from ".";
@@ -18,8 +19,15 @@ export const useInvite = ({ opponent }: ComponentProps<typeof Invite>) => {
 
   const { data: projects } = useSelectOwnerProjectsQuery(user.id);
 
+  const { mutate: insertNoticeMemberMutate } = useInsertNoticeMember();
+
   const { mutate: projectInviteMutate } = useInsertProjectInviteMutate({
     onSuccess: () => {
+      insertNoticeMemberMutate({
+        receiverId: opponent.id,
+        requesterId: user.id,
+        state: "TeamRequest"
+      });
       toast({ type: "success", message: t("프로젝트에 초대했어요") });
     },
     onError: (error) => {
