@@ -25,6 +25,7 @@ export const selectNoticeOwner = async (myId: string) => {
     .from("noticeOwner")
     .select(`*, requesterProfile:profiles!requesterId(${PROFILE_ALL_DATA_QUERY})`)
     .eq("receiverId", myId)
+    .order("createdAt", { ascending: false })
     .returns<NoticeOwnerAllDataRow[]>();
 
   if (error) throw error;
