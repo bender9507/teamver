@@ -5,6 +5,8 @@ import { useNoticeMember } from "./NoticeMember.hooks";
 export const NoticeMember = () => {
   const app = useNoticeMember();
 
+  console.log(app.noticeData);
+
   return (
     <>
       {isEmpty(app.noticeData) && <Text>알림이 없다</Text>}

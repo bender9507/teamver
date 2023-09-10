@@ -5,7 +5,7 @@ import type {
   User
 } from "@supabase/supabase-js";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useMount } from "react-use";
 import type { ChatRequestMemberRow, ChatRequestOwnerRow } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
 import { noticeKeys } from "~/states/server/notice/keys";
@@ -28,7 +28,7 @@ export const Notifications = () => {
     }
   });
 
-  useEffect(() => {
+  useMount(() => {
     if (!user.id) return;
 
     const notice = supabase
@@ -153,7 +153,7 @@ export const Notifications = () => {
     return () => {
       supabase.removeChannel(notice);
     };
-  }, [insertNoticeMemberMutate, insertNoticeOwnerMutate, user.id]);
+  });
 
   return <></>;
 };
