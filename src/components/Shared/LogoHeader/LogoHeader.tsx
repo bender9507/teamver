@@ -18,7 +18,7 @@ export const LogoHeader = ({ role }: { role: number }) => {
 
   return (
     <Styled.Header>
-      <Image src="/images/teamver.svg" width={130} height={16} alt="teamver" />
+      <Image src="/images/teamver.png" width={58} height={21} alt="teamver" />
       <Link href="/notice">
         <Position position="relative">
           <Icon name="bell" />

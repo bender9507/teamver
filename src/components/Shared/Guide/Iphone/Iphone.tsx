@@ -31,6 +31,10 @@ export const Iphone = () => {
       <FlexColumn gap={12}>
         <Text size="titleSmall">2. {t("홈 화면으로 추가 버튼을 터치해주세요")}</Text>
 
+        <Text color="content1">
+          {t("외부 링크를 통해 접속하신 경우 홈 화면으로 추가 버튼이 없을 수 있어요")}
+        </Text>
+
         <RatioBox ratio="666/1440">
           <Image src="/images/guide/iphone/2.jpeg" alt="guide1" fill />
         </RatioBox>
