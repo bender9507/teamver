@@ -518,6 +518,7 @@ export interface Database {
         Row: {
           createdAt: string
           id: number
+          isRead: boolean
           receiverId: string
           requesterId: string
           state: Database["public"]["Enums"]["notification_state"]
@@ -525,6 +526,7 @@ export interface Database {
         Insert: {
           createdAt?: string
           id?: number
+          isRead?: boolean
           receiverId: string
           requesterId: string
           state: Database["public"]["Enums"]["notification_state"]
@@ -532,6 +534,7 @@ export interface Database {
         Update: {
           createdAt?: string
           id?: number
+          isRead?: boolean
           receiverId?: string
           requesterId?: string
           state?: Database["public"]["Enums"]["notification_state"]
@@ -555,6 +558,7 @@ export interface Database {
         Row: {
           createdAt: string
           id: number
+          isRead: boolean
           receiverId: string
           requesterId: string
           state: Database["public"]["Enums"]["notification_state"]
@@ -562,6 +566,7 @@ export interface Database {
         Insert: {
           createdAt?: string
           id?: number
+          isRead?: boolean
           receiverId: string
           requesterId: string
           state: Database["public"]["Enums"]["notification_state"]
@@ -569,6 +574,7 @@ export interface Database {
         Update: {
           createdAt?: string
           id?: number
+          isRead?: boolean
           receiverId?: string
           requesterId?: string
           state?: Database["public"]["Enums"]["notification_state"]

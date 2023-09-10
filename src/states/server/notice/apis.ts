@@ -3,8 +3,10 @@ import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
 import type {
   NoticeMemberAllDataRow,
   NoticeMemberInsert,
+  NoticeMemberUpdate,
   NoticeOwnerAllDataRow,
-  NoticeOwnerInsert
+  NoticeOwnerInsert,
+  NoticeOwnerUpdate
 } from "./types";
 
 export const selectNoticeMember = async (myId: string) => {
@@ -45,6 +47,18 @@ export const insertNoticeMember = async ({
 
 export const insertNoticeOwner = async ({ receiverId, requesterId, state }: NoticeOwnerInsert) => {
   const { error } = await supabase.from("noticeOwner").insert({ receiverId, requesterId, state });
+
+  if (error) throw error;
+};
+
+export const updateNoticeMember = async ({ id }: NoticeMemberUpdate) => {
+  const { error } = await supabase.from("noticeMember").update({ isRead: true }).eq("id", id);
+
+  if (error) throw error;
+};
+
+export const updateNoticeOwner = async ({ id }: NoticeOwnerUpdate) => {
+  const { error } = await supabase.from("noticeOwner").update({ isRead: true }).eq("id", id);
 
   if (error) throw error;
 };

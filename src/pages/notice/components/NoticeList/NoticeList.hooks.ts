@@ -1,5 +1,6 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import type { NoticeState } from "~/states/server/notice";
@@ -10,6 +11,7 @@ export const useNoticeList = (role: number) => {
 
   const user = useUser() as User;
   const { t } = useTranslation("notice");
+  const queryClient = useQueryClient();
 
   const { data: noticeData } = useSelectNoticeQuery({ myId: user.id, role });
 
@@ -54,5 +56,5 @@ export const useNoticeList = (role: number) => {
     }
   };
 
-  return { noticeData, noticeCase, elapsedTimeFormat, nowTime };
+  return { noticeData, noticeCase, elapsedTimeFormat, nowTime, queryClient, user };
 };

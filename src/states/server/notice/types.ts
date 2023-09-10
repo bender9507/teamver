@@ -4,9 +4,11 @@ import type { Table } from "../server.types";
 
 export type NoticeMemberRow = Table["noticeMember"]["Row"];
 export type NoticeMemberInsert = Table["noticeMember"]["Insert"];
+export type NoticeMemberUpdate = Table["noticeMember"]["Update"];
 
 export type NoticeOwnerRow = Table["noticeOwner"]["Row"];
 export type NoticeOwnerInsert = Table["noticeOwner"]["Insert"];
+export type NoticeOwnerUpdate = Table["noticeOwner"]["Update"];
 
 export type NoticeMemberAllDataRow = NoticeMemberRow & {
   requesterProfile: ProfileAllDataRow;
