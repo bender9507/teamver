@@ -1,6 +1,11 @@
 import { supabase } from "../config";
 import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
-import type { NoticeMemberAllDataRow, NoticeMemberInsert, NoticeOwnerInsert } from "./types";
+import type {
+  NoticeMemberAllDataRow,
+  NoticeMemberInsert,
+  NoticeOwnerAllDataRow,
+  NoticeOwnerInsert
+} from "./types";
 
 export const selectNoticeMember = async (myId: string) => {
   const { data, error } = await supabase
@@ -20,7 +25,7 @@ export const selectNoticeOwner = async (myId: string) => {
     .from("noticeOwner")
     .select(`*, requesterProfile:profiles!requesterId(${PROFILE_ALL_DATA_QUERY})`)
     .eq("receiverId", myId)
-    .returns<NoticeMemberAllDataRow[]>();
+    .returns<NoticeOwnerAllDataRow[]>();
 
   if (error) throw error;
 

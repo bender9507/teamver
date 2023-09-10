@@ -1,16 +1,15 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
-
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { TitleHeader } from "~/components/Shared";
+import { noticeKeys, selectNoticeMember, selectNoticeOwner } from "~/states/server/notice";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeader } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
-import { NoticeMember } from "./components/NoticeMember/NoticeMember";
-import { NoticeOwner } from "./components/NoticeOwner/NoticeOwner";
+import { NoticeList } from "./components";
 
 const Notice = () => {
   const user = useUser() as User;
@@ -19,9 +18,11 @@ const Notice = () => {
 
   return (
     <LayoutHeader>
-      <TitleHeader title={t("받은 알림 목록")} />
+      <TitleHeader title={t("알림")} />
 
-      <LayoutContent>{profile.role.id === 1 ? <NoticeOwner /> : <NoticeMember />}</LayoutContent>
+      <LayoutContent marginTop={27}>
+        <NoticeList role={profile.role.id} />
+      </LayoutContent>
     </LayoutHeader>
   );
 };
@@ -32,9 +33,19 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (context, session) => {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
+    const profile = queryClient.prefetchQuery(profileKeys.selectProfile(session.user.id), () =>
       selectProfile(session.user.id)
     );
+    const noticeMember = queryClient.prefetchQuery(
+      noticeKeys.selectNoticeMember(session.user.id),
+      () => selectNoticeMember(session.user.id)
+    );
+    const noticeOwner = queryClient.prefetchQuery(
+      noticeKeys.selectNoticeOwner(session.user.id),
+      () => selectNoticeOwner(session.user.id)
+    );
+
+    await Promise.all([profile, noticeMember, noticeOwner]);
 
     return {
       props: {

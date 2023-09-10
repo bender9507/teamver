@@ -1,1 +1,0 @@
-export { NoticeOwner } from "./NoticeOwner";
