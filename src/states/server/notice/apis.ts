@@ -3,10 +3,8 @@ import { PROFILE_ALL_DATA_QUERY } from "../profile/constants";
 import type {
   NoticeMemberAllDataRow,
   NoticeMemberInsert,
-  NoticeMemberUpdate,
   NoticeOwnerAllDataRow,
-  NoticeOwnerInsert,
-  NoticeOwnerUpdate
+  NoticeOwnerInsert
 } from "./types";
 
 export const selectNoticeMember = async (myId: string) => {
@@ -35,6 +33,32 @@ export const selectNoticeOwner = async (myId: string) => {
   return data;
 };
 
+export const selectNoticeCountMember = async (myId: string) => {
+  const { count, error } = await supabase
+    .from("noticeMember")
+    .select("*", { count: "exact", head: true })
+    .eq("isRead", false)
+    .eq("receiverId", myId)
+    .returns<number>();
+
+  if (error) throw error;
+
+  return count;
+};
+
+export const selectNoticeCountOwner = async (myId: string) => {
+  const { count, error } = await supabase
+    .from("noticeOwner")
+    .select("*", { count: "exact", head: true })
+    .eq("isRead", false)
+    .eq("receiverId", myId)
+    .returns<number>();
+
+  if (error) throw error;
+
+  return count;
+};
+
 export const insertNoticeMember = async ({
   receiverId,
   requesterId,
@@ -51,14 +75,26 @@ export const insertNoticeOwner = async ({ receiverId, requesterId, state }: Noti
   if (error) throw error;
 };
 
-export const updateNoticeMember = async ({ id }: NoticeMemberUpdate) => {
+export const updateNoticeMember = async (id: number) => {
   const { error } = await supabase.from("noticeMember").update({ isRead: true }).eq("id", id);
 
   if (error) throw error;
 };
 
-export const updateNoticeOwner = async ({ id }: NoticeOwnerUpdate) => {
+export const updateNoticeOwner = async (id: number) => {
   const { error } = await supabase.from("noticeOwner").update({ isRead: true }).eq("id", id);
+
+  if (error) throw error;
+};
+
+export const deleteNoticeMember = async (id: number) => {
+  const { error } = await supabase.from("noticeMember").delete().eq("id", id);
+
+  if (error) throw error;
+};
+
+export const deleteNoticeOwner = async (id: number) => {
+  const { error } = await supabase.from("noticeOwner").delete().eq("id", id);
 
   if (error) throw error;
 };

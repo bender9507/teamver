@@ -8,6 +8,6 @@ export const Card = styled.div<{ isRead: boolean }>`
   ${({ theme: { colors }, isRead }) => css`
     background-color: ${isRead ? colors.backgroundPrimary : colors.gray3};
 
-    padding: 12px 0 12px 12px;
+    padding: 12px;
   `}
 `;

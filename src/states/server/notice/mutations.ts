@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import type { PickMutationOptions } from "../server.types";
 import {
+  deleteNoticeMember,
+  deleteNoticeOwner,
   insertNoticeMember,
   insertNoticeOwner,
   updateNoticeMember,
@@ -39,6 +41,24 @@ export const useUpdateNoticeOwner = (
 ) => {
   return useMutation({
     mutationFn: updateNoticeOwner,
+    ...options
+  });
+};
+
+export const useDeleteNoticeMember = (
+  options?: PickMutationOptions<typeof deleteNoticeMember, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteNoticeMember,
+    ...options
+  });
+};
+
+export const useDeleteNoticeOwner = (
+  options?: PickMutationOptions<typeof deleteNoticeOwner, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteNoticeOwner,
     ...options
   });
 };

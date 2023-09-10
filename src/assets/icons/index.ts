@@ -11,6 +11,7 @@ export { default as check } from "./check.svg";
 export { default as checkbox } from "./checkbox.svg";
 export { default as circle } from "./circle.svg";
 export { default as close } from "./close.svg";
+export { default as delete } from "./delete.svg";
 export { default as downButton } from "./downButton.svg";
 export { default as error } from "./error.svg";
 export { default as floatingButton } from "./floatingButton.svg";

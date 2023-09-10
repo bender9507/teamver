@@ -5,7 +5,7 @@ import { flex } from "~/styles/mixins";
 export const TitleHeader = styled.header`
   position: relative;
 
-  ${flex({ align: "center" })};
+  ${flex({ align: "center", justify: "between" })};
 
   ${({ theme: { sizes } }) => css`
     height: ${sizes.height.header}px;

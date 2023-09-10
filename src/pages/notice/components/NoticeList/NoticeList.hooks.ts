@@ -2,18 +2,75 @@ import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import type { NoticeState } from "~/states/server/notice";
+import { useDialog } from "~/components/Commons";
+import {
+  noticeKeys,
+  useDeleteNoticeMember,
+  useDeleteNoticeOwner,
+  useUpdateNoticeMember,
+  useUpdateNoticeOwner,
+  type NoticeState
+} from "~/states/server/notice";
 import { useSelectNoticeQuery } from "~/states/server/notice/queries";
+import type { NoticeList } from ".";
 
-export const useNoticeList = (role: number) => {
+export const useNoticeList = ({ role, isDelete }: Parameters<typeof NoticeList>[0]) => {
   const [nowTime] = useState(new Date());
 
-  const user = useUser() as User;
   const { t } = useTranslation("notice");
   const queryClient = useQueryClient();
+  const user = useUser() as User;
+  const router = useRouter();
 
+  const { toast } = useDialog();
   const { data: noticeData } = useSelectNoticeQuery({ myId: user.id, role });
+
+  const { mutate: updateNoticeMemberMutate } = useUpdateNoticeMember({
+    onSuccess: () => {
+      queryClient.invalidateQueries(noticeKeys.selectNoticeMember(user.id));
+    }
+  });
+
+  const { mutate: updateNoticeOwnerMutate } = useUpdateNoticeOwner({
+    onSuccess: () => {
+      queryClient.invalidateQueries(noticeKeys.selectNoticeOwner(user.id));
+    }
+  });
+
+  const { mutate: deleteNoticeMemberMutate } = useDeleteNoticeMember({
+    onSuccess: () => {
+      toast({ type: "success", message: t("알림이 삭제되었어요") });
+      queryClient.invalidateQueries(noticeKeys.selectNoticeMember(user.id));
+    }
+  });
+
+  const { mutate: deleteNoticeOwnerMutate } = useDeleteNoticeOwner({
+    onSuccess: () => {
+      toast({ type: "success", message: t("알림이 삭제되었어요") });
+      queryClient.invalidateQueries(noticeKeys.selectNoticeOwner(user.id));
+    }
+  });
+
+  const handleDelete = (id: number) => {
+    if (role === 1) {
+      deleteNoticeOwnerMutate(id);
+    } else {
+      deleteNoticeMemberMutate(id);
+    }
+  };
+
+  const handleNoticeClick = ({ id, clicked }: { id: number; clicked: boolean }) => {
+    if (isDelete) return;
+
+    if (!clicked && role === 1) {
+      updateNoticeOwnerMutate(id);
+    } else if (!clicked && role === 2) {
+      updateNoticeMemberMutate(id);
+    }
+    router.push("/chat");
+  };
 
   const elapsedTimeFormat = ({ date, now }: { date: string; now: Date }) => {
     const start = new Date(date).getTime();
@@ -21,19 +78,19 @@ export const useNoticeList = (role: number) => {
     const diff = (end - start) / 1000;
 
     const times = [
-      { name: "년", milliSeconds: 60 * 60 * 24 * 365 },
-      { name: "개월", milliSeconds: 60 * 60 * 24 * 30 },
-      { name: "일", milliSeconds: 60 * 60 * 24 },
-      { name: "시간", milliSeconds: 60 * 60 },
-      { name: "분", milliSeconds: 60 }
+      { name: t("년"), milliSeconds: 60 * 60 * 24 * 365 },
+      { name: t("개월"), milliSeconds: 60 * 60 * 24 * 30 },
+      { name: t("일"), milliSeconds: 60 * 60 * 24 },
+      { name: t("시간"), milliSeconds: 60 * 60 },
+      { name: t("분"), milliSeconds: 60 }
     ];
 
     const answer: string[] = [];
     times.forEach((el) => {
       const betweenTime = Math.floor(diff / el.milliSeconds);
 
-      if (betweenTime > 0) answer.push(`${betweenTime}${el.name} 전`);
-      if (el.name === "분" && betweenTime === 0) {
+      if (betweenTime > 0) answer.push(`${betweenTime}${el.name} ${t("전")}`);
+      if (el.name === t("분") && betweenTime === 0) {
         return answer.push("방금 전");
       }
     });
@@ -56,5 +113,14 @@ export const useNoticeList = (role: number) => {
     }
   };
 
-  return { noticeData, noticeCase, elapsedTimeFormat, nowTime, queryClient, user };
+  return {
+    noticeData,
+    noticeCase,
+    elapsedTimeFormat,
+    handleDelete,
+    handleNoticeClick,
+    nowTime,
+    queryClient,
+    user
+  };
 };

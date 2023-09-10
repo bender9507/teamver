@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import type { NoticeMemberAllDataRow, NoticeOwnerAllDataRow } from ".";
-import { selectNoticeMember, selectNoticeOwner } from "./apis";
+import {
+  selectNoticeCountMember,
+  selectNoticeCountOwner,
+  selectNoticeMember,
+  selectNoticeOwner
+} from "./apis";
 import { noticeKeys } from "./keys";
 
 export const useSelectNoticeMemberQuery = (myId: string) => {
@@ -35,5 +40,21 @@ export const useSelectNoticeOwnerQuery = (myId: string) => {
     queryKey: noticeKeys.selectNoticeOwner(myId),
     queryFn: () => selectNoticeOwner(myId),
     initialData: []
+  });
+};
+
+export const useSelectNoticeCountMemberQuery = (myId: string) => {
+  return useQuery({
+    queryKey: noticeKeys.selectNoticeCountMember(myId),
+    queryFn: () => selectNoticeCountMember(myId),
+    initialData: 0
+  });
+};
+
+export const useSelectNoticeCountOwnerQuery = (myId: string) => {
+  return useQuery({
+    queryKey: noticeKeys.selectNoticeCountOwner(myId),
+    queryFn: () => selectNoticeCountOwner(myId),
+    initialData: 0
   });
 };

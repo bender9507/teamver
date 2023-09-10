@@ -4,6 +4,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useState } from "react";
 import { TitleHeader } from "~/components/Shared";
 import { noticeKeys, selectNoticeMember, selectNoticeOwner } from "~/states/server/notice";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
@@ -12,16 +13,22 @@ import { requireAuthentication } from "~/utils";
 import { NoticeList } from "./components";
 
 const Notice = () => {
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+
   const user = useUser() as User;
   const { t } = useTranslation("notice");
   const { data: profile } = useSelectProfileQuery(user.id);
 
   return (
     <LayoutHeader>
-      <TitleHeader title={t("알림")} />
+      <TitleHeader
+        title={t("알림")}
+        onDelete={() => setIsDelete((prev) => !prev)}
+        state={!!isDelete}
+      />
 
       <LayoutContent marginTop={27}>
-        <NoticeList role={profile.role.id} />
+        <NoticeList role={profile.role.id} isDelete={isDelete} />
       </LayoutContent>
     </LayoutHeader>
   );
