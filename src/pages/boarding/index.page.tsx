@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { Button } from "~/components/Commons";
 import { routes } from "~/constants/routes";

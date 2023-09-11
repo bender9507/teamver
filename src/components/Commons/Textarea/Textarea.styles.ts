@@ -19,6 +19,9 @@ const textareaStyle = ({ theme: { sizes, colors } }: WithTheme) => {
     color: ${colors.content2};
 
     resize: none;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   `;
 };
 
