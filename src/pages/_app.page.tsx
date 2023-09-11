@@ -31,12 +31,6 @@ const App = ({
   const { mount } = useModal();
 
   useMount(() => {
-    Notification.requestPermission().then((result) => {
-      console.log(result);
-    });
-  });
-
-  useMount(() => {
     if (!window.matchMedia("(display-mode: standalone)").matches) {
       const { userAgent } = navigator;
 
