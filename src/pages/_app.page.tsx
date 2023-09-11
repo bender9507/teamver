@@ -10,7 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMount } from "react-use";
-import { Notifications, Overlay, useModal } from "~/components/Commons";
+import { Overlay, useModal } from "~/components/Commons";
 import { Iphone } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
@@ -29,6 +29,12 @@ const App = ({
 
   const router = useRouter();
   const { mount } = useModal();
+
+  useMount(() => {
+    Notification.requestPermission().then((result) => {
+      console.log(result);
+    });
+  });
 
   useMount(() => {
     if (!window.matchMedia("(display-mode: standalone)").matches) {
@@ -75,7 +81,6 @@ const App = ({
             />
             <Styled.Container id="container">
               <Component {...pageProps} />
-              <Notifications />
               <Overlay />
             </Styled.Container>
           </ThemeProvider>

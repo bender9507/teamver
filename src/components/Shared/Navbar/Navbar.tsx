@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useMount } from "react-use";
 import { Icon } from "~/components/Commons";
 import { routes } from "~/constants/routes";
 import {
@@ -13,7 +12,6 @@ import {
   useSelectUnreadMessageCountQuery
 } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
-import { noticeKeys } from "~/states/server/notice";
 import { Position } from "~/styles/mixins";
 import * as Styled from "./Navbar.styles";
 
@@ -46,39 +44,6 @@ export const Navbar = () => {
       subscribeMessage.unsubscribe();
     };
   }, [queryClient, rooms, user.id]);
-
-  useMount(() => {
-    const noticeCount = supabase
-      .channel("noticeCount")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "noticeMember",
-          filter: `receiverId=eq.${user.id}`
-        },
-        () => {
-          queryClient.invalidateQueries(noticeKeys.selectNoticeCountMember(user.id));
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "noticeOwner",
-          filter: `receiverId=eq.${user.id}`
-        },
-        () => {
-          queryClient.invalidateQueries(noticeKeys.selectNoticeCountOwner(user.id));
-        }
-      );
-
-    return () => {
-      supabase.removeChannel(noticeCount);
-    };
-  });
 
   return (
     <Styled.Navbar>

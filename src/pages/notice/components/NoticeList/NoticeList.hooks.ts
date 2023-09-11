@@ -61,7 +61,15 @@ export const useNoticeList = ({ role, isDelete }: Parameters<typeof NoticeList>[
     }
   };
 
-  const handleNoticeClick = ({ id, clicked }: { id: number; clicked: boolean }) => {
+  const handleNoticeClick = ({
+    id,
+    clicked,
+    state
+  }: {
+    id: number;
+    clicked: boolean;
+    state: NoticeState;
+  }) => {
     if (isDelete) return;
 
     if (!clicked && role === 1) {
@@ -69,6 +77,9 @@ export const useNoticeList = ({ role, isDelete }: Parameters<typeof NoticeList>[
     } else if (!clicked && role === 2) {
       updateNoticeMemberMutate(id);
     }
+
+    if (state === "ChatRequest") return router.push("/chat/request");
+
     router.push("/chat");
   };
 
