@@ -45,7 +45,7 @@ export const useWelcome = () => {
     onSuccess: () => {
       toast({ type: "success", message: t("환영합니다") });
 
-      route.replace(routes.main);
+      route.replace(routes.boarding);
     },
     onError: () => {
       toast({ type: "error", message: t("프로필 생성에 실패하였습니다") });
