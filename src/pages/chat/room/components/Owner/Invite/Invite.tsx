@@ -45,10 +45,10 @@ export const Invite = ({ opponent }: { opponent: ProfileAllDataRow }) => {
 
       <Styled.ButtonBox>
         <Styled.Button type="button" onClick={() => app.unmount(INVITE_MODAL)}>
-          취소
+          {t("취소")}
         </Styled.Button>
 
-        <Styled.Button disabled={!app.selected}>초대하기</Styled.Button>
+        <Styled.Button disabled={!app.selected}>{t("초대하기")}</Styled.Button>
       </Styled.ButtonBox>
     </FlexColumn>
   );

@@ -11,8 +11,6 @@ export const ChatHeaderMore = () => {
 
   return (
     <FlexCenter direction="column" padding="72px" gap={37}>
-      <Text size="buttonMedium">{t("신고하기")}</Text>
-
       <Text size="buttonMedium" onClick={app.handleDeleteChatMember}>
         {t("채팅방 나가기")}
       </Text>

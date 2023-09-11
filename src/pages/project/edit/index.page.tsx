@@ -11,7 +11,7 @@ import { projectsKey, selectProject } from "~/states/server/project";
 import { Flex, FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { requireAuthentication } from "~/utils";
-import * as Styled from "../Project.styles";
+import * as Styled from "../project.styles";
 import { useEdit } from "./edit.hooks";
 
 const ProjectEdit = () => {
