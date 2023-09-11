@@ -15,7 +15,14 @@ export const useName = () => {
   } = useWelcomeContext();
 
   const validateNickName = debounce<({ target }: ChangeEvent<HTMLInputElement>) => void>(
-    async ({ target: { value: nickname } }) => {
+    async ({ target: { value } }) => {
+      let nickname = value;
+
+      if (nickname.length > 16) {
+        nickname = nickname.slice(0, 16);
+        setValue("name", nickname, { shouldDirty: true });
+      }
+
       if (!nickname) {
         setSuccessMessage("");
         setError("name", { type: "required" });

@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (profile) {
     return {
       redirect: {
-        destination: routes.home,
+        destination: routes.boarding,
         permanent: false
       }
     };
