@@ -9,6 +9,7 @@ import {
   useSelectChatRequestOwnerQuery,
   useUpdateChatRequestStateOwnerMutate
 } from "~/states/server/chat";
+import { useInsertNoticeOwner } from "~/states/server/notice";
 
 export const useChatRequestMember = () => {
   const user = useUser() as User;
@@ -20,6 +21,8 @@ export const useChatRequestMember = () => {
     receiverId: user.id,
     state: "PENDING"
   });
+
+  const { mutate: insertNoticeOwnerMutate } = useInsertNoticeOwner();
 
   const { mutate: updateStateMutate } = useUpdateChatRequestStateOwnerMutate({
     onSuccess: async (_, { state }) => {
@@ -38,6 +41,11 @@ export const useChatRequestMember = () => {
 
   const handleRequestGrant = (request: ChatRequestOwnerAllData) => {
     updateStateMutate({ id: request.id, state: "GRANT" });
+    insertNoticeOwnerMutate({
+      receiverId: request.requesterProfile.id,
+      requesterId: user.id,
+      state: "ChatGranted"
+    });
   };
 
   const handleRequestDenied = (request: ChatRequestOwnerAllData) => {

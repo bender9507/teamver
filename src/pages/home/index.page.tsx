@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <LayoutHeaderWithNav>
-      <LogoHeader />
+      <LogoHeader role={profile.role.id} />
 
       <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
 
