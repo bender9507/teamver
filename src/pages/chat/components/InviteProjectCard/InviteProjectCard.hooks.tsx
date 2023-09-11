@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import type { ComponentProps } from "react";
 import { PROJECT_DETAIL_MODAL, ProjectDetail, useDialog, useModal } from "~/components/Commons";
+import { useInsertNoticeOwner } from "~/states/server/notice";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import {
   projectsKey,
@@ -20,6 +21,8 @@ export const useInviteProjectCard = (invite: ComponentProps<typeof InviteProject
 
   const { data: profile } = useSelectProfileQuery(invite.receiverId);
 
+  const { mutate: insertNoticeOwnerMutate } = useInsertNoticeOwner();
+
   const { mutate: updateProjectStateMutate } = useUpdateProjectInviteStateMutate({
     onSuccess: () => {
       queryClient.invalidateQueries(projectsKey.selectProjectInvites(invite.receiverId));
@@ -28,7 +31,15 @@ export const useInviteProjectCard = (invite: ComponentProps<typeof InviteProject
     onError: () => toast({ type: "error", message: t("팀원 합류에 실패했습니다") })
   });
 
-  const { mutate: insertMemberToProject } = useInsertMemberToProjectMutate();
+  const { mutate: insertMemberToProject } = useInsertMemberToProjectMutate({
+    onSuccess: () => {
+      insertNoticeOwnerMutate({
+        receiverId: invite.requesterId,
+        requesterId: invite.receiverId,
+        state: "TeamGranted"
+      });
+    }
+  });
 
   const handleStateChange = async (state: "GRANT" | "DENIED") => {
     const confirmMessages = {

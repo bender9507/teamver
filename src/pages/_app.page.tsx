@@ -16,6 +16,7 @@ import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
+
 import * as Styled from "./_app.styles";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,12 @@ const App = ({
 
   const router = useRouter();
   const { mount } = useModal();
+
+  useMount(() => {
+    Notification.requestPermission().then((result) => {
+      console.log(result);
+    });
+  });
 
   useMount(() => {
     if (!window.matchMedia("(display-mode: standalone)").matches) {
