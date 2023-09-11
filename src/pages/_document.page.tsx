@@ -66,7 +66,7 @@ export default function Document() {
         <meta content="TEAMVER" property="og:title" />
         <meta content="개발자 팀 매칭 서비스 팀버" property="og:description" />
         <meta content="/icons/icon-384x384.png" property="og:image" />
-        <meta content="https://teamver.vercel.app" property="og:url" />
+        <meta content="https://www.teamver.kr/" property="og:url" />
       </Head>
       <body>
         <Main />
