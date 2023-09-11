@@ -7,7 +7,7 @@ import {
   useInsertChatRequestsMemberMutate
 } from "~/states/server/chat";
 import { supabase } from "~/states/server/config";
-import { noticeKeys, useInsertNoticeOwner } from "~/states/server/notice";
+import { useInsertNoticeOwner } from "~/states/server/notice";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { projectsKey, useDeleteFollowProjectStateMutate } from "~/states/server/project";
 import type { LikeMemberCard } from ".";
@@ -23,11 +23,7 @@ export const useLikeMemberCard = ({ data, userId }: Parameters<typeof LikeMember
 
   const { data: profile } = useSelectProfileQuery(userId);
 
-  const { mutate: insertNoticeOwnerMutate } = useInsertNoticeOwner({
-    onSuccess: () => {
-      queryClient.invalidateQueries(noticeKeys.selectNoticeOwner(data.project.ownerId));
-    }
-  });
+  const { mutate: insertNoticeOwnerMutate } = useInsertNoticeOwner();
 
   const { mutate: insertChatRequestMemberMutate } = useInsertChatRequestsMemberMutate({
     onSuccess: () => {
