@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { Avatar, IconButton } from "~/components/Commons";
 
-import { useSelectNoticeCountMemberQuery } from "~/states/server/notice";
 import { Flex, FlexColumn, PosCenter, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { useNoticeList } from "./NoticeList.hooks";
@@ -10,9 +9,6 @@ import * as Styled from "./NoticeList.styles";
 export const NoticeList = ({ role, isDelete }: { role: number; isDelete: boolean }) => {
   const app = useNoticeList({ role, isDelete });
   const { t } = useTranslation("notice");
-  const { data } = useSelectNoticeCountMemberQuery(app.user.id);
-
-  console.log(data);
 
   return (
     <>
@@ -29,7 +25,9 @@ export const NoticeList = ({ role, isDelete }: { role: number; isDelete: boolean
           <Styled.Card
             isRead={notice.isRead}
             key={notice.id}
-            onClick={() => app.handleNoticeClick({ id: notice.id, clicked: notice.isRead })}
+            onClick={() =>
+              app.handleNoticeClick({ id: notice.id, clicked: notice.isRead, state: notice.state })
+            }
           >
             <Flex justify="between">
               <Flex align="center">

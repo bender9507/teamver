@@ -1,7 +1,6 @@
 import type { MouseEvent, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { useClickAway } from "react-use";
-// import { useClickAway } from "~/hooks";
 import type { WithStyle } from "~/types";
 
 const MenuContext = createContext<{

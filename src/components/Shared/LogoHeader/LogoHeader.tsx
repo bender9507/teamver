@@ -1,9 +1,13 @@
 import type { User } from "@supabase/auth-helpers-react";
 import { useUser } from "@supabase/auth-helpers-react";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { useMount } from "react-use";
 import { Icon } from "~/components/Commons";
+import { supabase } from "~/states/server/config";
 import {
+  noticeKeys,
   useSelectNoticeCountMemberQuery,
   useSelectNoticeCountOwnerQuery
 } from "~/states/server/notice";
@@ -12,9 +16,43 @@ import * as Styled from "./LogoHeader.styles";
 
 export const LogoHeader = ({ role }: { role: number }) => {
   const user = useUser() as User;
-
+  const queryClient = useQueryClient();
   const { data: memberCount } = useSelectNoticeCountMemberQuery(user.id);
   const { data: ownerCount } = useSelectNoticeCountOwnerQuery(user.id);
+
+  useMount(() => {
+    const noticeCount = supabase
+      .channel("noticeCount")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "noticeMember",
+          filter: `receiverId=eq.${user.id}`
+        },
+        () => {
+          queryClient.invalidateQueries(noticeKeys.selectNoticeCountMember(user.id));
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "noticeOwner",
+          filter: `receiverId=eq.${user.id}`
+        },
+        () => {
+          queryClient.invalidateQueries(noticeKeys.selectNoticeCountOwner(user.id));
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(noticeCount);
+    };
+  });
 
   return (
     <Styled.Header>
