@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { flex, size } from "~/styles/mixins";
+import { flex, position, size } from "~/styles/mixins";
 
 export const Card = styled.div<{ isRead: boolean }>`
   ${flex.column({ align: "between" })}
@@ -10,4 +10,8 @@ export const Card = styled.div<{ isRead: boolean }>`
 
     padding: 12px;
   `}
+`;
+
+export const EmptyContainer = styled.div`
+  ${position.posCenterX({ position: "absolute", top: "290px" })}
 `;
