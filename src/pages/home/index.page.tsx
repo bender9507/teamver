@@ -14,7 +14,7 @@ import { requireAuthentication } from "~/utils";
 const Home = () => {
   const user = useUser() as User;
   const { data: profile } = useSelectProfileQuery(user.id);
-  // 되어라
+
   return (
     <LayoutHeaderWithNav>
       <LogoHeader role={profile.role.id} />

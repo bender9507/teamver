@@ -4,7 +4,7 @@ import { FlexColumn, flex } from "../flex";
 export const CommonContainer = styled.div`
   ${flex.column()}
 
-  padding: 32px 22px 78px 22px;
+  padding: 36px 22px 78px 22px;
 `;
 
 export const Layout = styled.div`
