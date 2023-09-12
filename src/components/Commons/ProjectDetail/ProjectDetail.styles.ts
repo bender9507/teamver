@@ -13,35 +13,14 @@ export const Container = styled.div`
 
   padding: 0 22px;
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 50%;
-  }
-
-  &::before {
-    top: -367px;
-
-    background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.45) 0%, rgba(17, 17, 17, 0) 100%);
-  }
-
   ${({ theme: { colors } }) => css`
-    &::after {
-      bottom: 0;
-
-      height: 99px;
-
-      background-image: linear-gradient(
-        to top,
-        ${colors.backgroundSecondary},
-        rgba(34, 34, 34, 0.81) 7.29%,
-        rgba(34, 34, 34, 0.57),
-        rgba(34, 34, 34, 0)
-      );
-    }
+    background-image: linear-gradient(
+      to top,
+      ${colors.backgroundSecondary},
+      rgba(34, 34, 34, 0.81) 7.29%,
+      rgba(34, 34, 34, 0.57),
+      rgba(34, 34, 34, 0)
+    );
   `}
 `;
 
