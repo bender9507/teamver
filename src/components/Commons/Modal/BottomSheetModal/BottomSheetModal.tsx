@@ -32,7 +32,9 @@ export const BottomSheetModal = ({ children, id }: PropsWithChildren<ModalProps>
     >
       <Sheet.Container>
         <Sheet.Header>
-          <Styled.SheetHeader />
+          <Styled.SheetHeaderBox>
+            <Styled.SheetHeader />
+          </Styled.SheetHeaderBox>
         </Sheet.Header>
 
         <Sheet.Content disableDrag>

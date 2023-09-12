@@ -51,3 +51,17 @@ export const SheetHeader = styled.div`
 
   cursor: grab;
 `;
+
+export const SheetHeaderBox = styled.div`
+  position: absolute;
+
+  top: 0;
+
+  width: 100%;
+
+  height: 51px;
+
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0.45) 0%, rgba(17, 17, 17, 0) 100%);
+
+  z-index: 999;
+`;
