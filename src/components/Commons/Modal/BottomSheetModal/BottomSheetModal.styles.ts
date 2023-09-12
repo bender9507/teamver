@@ -43,7 +43,7 @@ export const SheetHeader = styled.div`
     ${size({ minWidth: 134, minHeight: 5 })};
 
     ${({ theme: { colors } }) => css`
-      background-color: ${colors.gray6};
+      background-color: ${colors.content3};
     `};
 
     border-radius: 16px;

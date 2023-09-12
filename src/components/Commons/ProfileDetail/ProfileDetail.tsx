@@ -42,13 +42,17 @@ export const ProfileDetail = ({
           />
         </Flex>
 
-        <Position position="absolute" bottom={24} right={32}>
-          <Flex gap={12}>
-            {profile.personalities.map((personality) => (
-              <Styled.BlurChip key={personality.id}>{personality[currentLanguage]}</Styled.BlurChip>
-            ))}
-          </Flex>
-        </Position>
+        <Styled.Container>
+          <Position position="absolute" bottom={-344} right={23}>
+            <Flex gap={12}>
+              {profile.personalities.map((personality) => (
+                <Styled.BlurChip key={personality.id}>
+                  {personality[currentLanguage]}
+                </Styled.BlurChip>
+              ))}
+            </Flex>
+          </Position>
+        </Styled.Container>
       </RatioBox>
 
       <CommonContainer>

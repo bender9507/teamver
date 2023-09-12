@@ -5,7 +5,15 @@ import { colors } from "~/styles/theme/colors";
 import { hexToRgba } from "~/styles/utils";
 
 export const Container = styled.div`
-  padding: 22px 36px;
+  position: relative;
+
+  top: -367px;
+
+  height: 51px;
+
+  padding: 0 22px;
+
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.45) 0%, rgba(17, 17, 17, 0) 100%);
 `;
 
 export const BlurChip = styled.span`
