@@ -6,5 +6,5 @@ export const Header = styled.header`
 
   ${({ theme: { sizes } }) => size({ height: sizes.height.header })};
 
-  padding: 0 32px;
+  padding: 0 18px;
 `;
