@@ -43,6 +43,9 @@ export const useNoticeList = ({ role, isDelete }: Parameters<typeof NoticeList>[
     onSuccess: () => {
       toast({ type: "success", message: t("알림이 삭제되었어요") });
       queryClient.invalidateQueries(noticeKeys.selectNoticeMember(user.id));
+    },
+    onError: () => {
+      toast({ type: "error", message: t("알림 삭제에 실패했어요") });
     }
   });
 
@@ -50,6 +53,9 @@ export const useNoticeList = ({ role, isDelete }: Parameters<typeof NoticeList>[
     onSuccess: () => {
       toast({ type: "success", message: t("알림이 삭제되었어요") });
       queryClient.invalidateQueries(noticeKeys.selectNoticeOwner(user.id));
+    },
+    onError: () => {
+      toast({ type: "error", message: t("알림 삭제에 실패했어요") });
     }
   });
 

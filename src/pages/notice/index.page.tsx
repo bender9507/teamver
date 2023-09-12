@@ -8,9 +8,10 @@ import { useState } from "react";
 import { TitleHeader } from "~/components/Shared";
 import { noticeKeys, selectNoticeMember, selectNoticeOwner } from "~/states/server/notice";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
-import { LayoutContent, LayoutHeader } from "~/styles/mixins";
+import { LayoutHeader } from "~/styles/mixins";
 import { requireAuthentication } from "~/utils";
 import { NoticeList } from "./components";
+import * as Styled from "./notice.styles";
 
 const Notice = () => {
   const [isDelete, setIsDelete] = useState<boolean>(false);
@@ -27,9 +28,9 @@ const Notice = () => {
         state={!!isDelete}
       />
 
-      <LayoutContent marginTop={27}>
+      <Styled.NoticeLayoutContent>
         <NoticeList role={profile.role.id} isDelete={isDelete} />
-      </LayoutContent>
+      </Styled.NoticeLayoutContent>
     </LayoutHeader>
   );
 };

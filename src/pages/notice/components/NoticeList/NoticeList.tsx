@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { Avatar, IconButton } from "~/components/Commons";
 
-import { Flex, FlexColumn, PosCenter, Text } from "~/styles/mixins";
+import { Flex, FlexColumn, Text } from "~/styles/mixins";
 import { isEmpty } from "~/utils";
 import { useNoticeList } from "./NoticeList.hooks";
 import * as Styled from "./NoticeList.styles";
@@ -12,13 +12,13 @@ export const NoticeList = ({ role, isDelete }: { role: number; isDelete: boolean
 
   return (
     <>
-      <PosCenter>
+      <Styled.EmptyContainer>
         {isEmpty(app.noticeData) && (
           <Text size="textMediumBold" color="gray6">
             {t("알림이 없습니다")}
           </Text>
         )}
-      </PosCenter>
+      </Styled.EmptyContainer>
 
       <FlexColumn>
         {app.noticeData.map((notice) => (
