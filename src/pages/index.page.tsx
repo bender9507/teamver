@@ -25,7 +25,7 @@ export default function Home() {
           <FlexCenter direction="column" gap={20}>
             <Image src="/images/teamver.png" width={112} height={41} alt="teamver logo" />
 
-            <Text size="textLarge">개발자 팀원을 찾을 땐</Text>
+            <Text size="textLarge">개발자 팀원을 찾을 땐, 팀버</Text>
           </FlexCenter>
         </PosCenter>
 

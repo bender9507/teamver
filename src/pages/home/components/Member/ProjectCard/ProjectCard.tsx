@@ -48,8 +48,8 @@ export const ProjectCard = memo(
 
             <Text size="titleMedium">{project.name}</Text>
 
-            <Flex align="end" justify="between" gap={18}>
-              <Text size="textSmallBold" color="gray9" lineClamp={2}>
+            <Flex align="end" justify="between" gap={12}>
+              <Text size="textSmallBold" color="gray9" lineClamp={2} lineHeight={19}>
                 {project.description}
               </Text>
 
