@@ -9,6 +9,7 @@ import {
   useSelectChatRequestOwnerQuery,
   useUpdateChatRequestStateOwnerMutate
 } from "~/states/server/chat";
+import { useInsertNoticeOwner } from "~/states/server/notice";
 
 export const useChatRequestMember = () => {
   const user = useUser() as User;
@@ -21,6 +22,8 @@ export const useChatRequestMember = () => {
     state: "PENDING"
   });
 
+  const { mutate: insertNoticeOwnerMutate } = useInsertNoticeOwner();
+
   const { mutate: updateStateMutate } = useUpdateChatRequestStateOwnerMutate({
     onSuccess: async (_, { state }) => {
       await queryClient.invalidateQueries(
@@ -30,14 +33,19 @@ export const useChatRequestMember = () => {
       toast({
         type: "success",
         message:
-          state === "GRANT" ? t("채팅 요청을 수락하였습니다.") : t("채팅 요청을 거절하였습니다.")
+          state === "GRANT" ? t("채팅 요청을 수락하였습니다") : t("채팅 요청을 거절하였습니다")
       });
     },
-    onError: () => toast({ type: "success", message: "채팅 수락에 실패하였습니다." })
+    onError: () => toast({ type: "success", message: t("채팅 수락에 실패하였습니다") })
   });
 
   const handleRequestGrant = (request: ChatRequestOwnerAllData) => {
     updateStateMutate({ id: request.id, state: "GRANT" });
+    insertNoticeOwnerMutate({
+      receiverId: request.requesterProfile.id,
+      requesterId: user.id,
+      state: "ChatGranted"
+    });
   };
 
   const handleRequestDenied = (request: ChatRequestOwnerAllData) => {

@@ -4,10 +4,6 @@ import { text } from "~/styles/mixins";
 import { colors } from "~/styles/theme/colors";
 import { hexToRgba } from "~/styles/utils";
 
-export const Container = styled.div`
-  padding: 22px 36px;
-`;
-
 export const BlurChip = styled.span`
   padding: 10px 16px;
 

@@ -1,4 +1,5 @@
 import { useUser, type User } from "@supabase/auth-helpers-react";
+
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/router";

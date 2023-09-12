@@ -16,6 +16,7 @@ import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
+
 import * as Styled from "./_app.styles";
 
 const queryClient = new QueryClient();

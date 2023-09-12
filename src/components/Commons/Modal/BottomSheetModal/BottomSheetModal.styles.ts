@@ -43,11 +43,25 @@ export const SheetHeader = styled.div`
     ${size({ minWidth: 134, minHeight: 5 })};
 
     ${({ theme: { colors } }) => css`
-      background-color: ${colors.gray6};
+      background-color: ${colors.content3};
     `};
 
     border-radius: 16px;
   }
 
   cursor: grab;
+`;
+
+export const SheetHeaderBox = styled.div`
+  position: absolute;
+
+  top: 0;
+
+  width: 100%;
+
+  height: 51px;
+
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0.45) 0%, rgba(17, 17, 17, 0) 100%);
+
+  z-index: 999;
 `;

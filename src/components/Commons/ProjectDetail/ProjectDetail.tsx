@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import type { ProfileAllDataRow } from "~/states/server/profile";
 import type { ProjectAllDataRow } from "~/states/server/project";
-import { CommonContainer, Flex, FlexColumn, SizeBox, Text } from "~/styles/mixins";
+import { CommonContainer, Flex, FlexColumn, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { Avatar, Chip, RatioBox } from "..";
 import * as Styled from "./ProjectDetail.styles";
@@ -44,8 +44,6 @@ export const ProjectDetail = ({
       </RatioBox>
 
       <CommonContainer>
-        <SizeBox height={12} />
-
         <FlexColumn gap={46}>
           <FlexColumn gap={16}>
             <Flex align="center" justify="between">

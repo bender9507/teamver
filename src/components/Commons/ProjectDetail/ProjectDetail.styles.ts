@@ -15,16 +15,20 @@ export const Container = styled.div`
 
   ${({ theme: { colors } }) => css`
     background-image: linear-gradient(
-      180deg,
-      rgba(34, 34, 34, 0) 0%,
-      rgba(34, 34, 34, 0.57) 58.85%,
-      rgba(34, 34, 34, 0.81) 92.71%,
-      ${colors.backgroundSecondary} 100%
+      to top,
+      ${colors.backgroundSecondary},
+      rgba(34, 34, 34, 0.81) 7.29%,
+      rgba(34, 34, 34, 0.57),
+      rgba(34, 34, 34, 0)
     );
   `}
 `;
 
 export const BlurChip = styled.span`
+  position: relative;
+
+  z-index: 1;
+
   padding: 10px 16px;
 
   ${({ theme: { colors } }) => css`
@@ -40,6 +44,10 @@ export const BlurChip = styled.span`
 `;
 
 export const UserBox = styled.div`
+  position: relative;
+
+  z-index: 1;
+
   ${flex({ align: "center", gap: 8 })}
 `;
 

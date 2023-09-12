@@ -11,7 +11,7 @@ export const ProfileBox = ({ profile, isMine }: ProjectCardBoxProps) => {
 
   return (
     <Styled.ProfileContainer>
-      <Avatar src={profile.imageUrl} size="large" />
+      <Avatar src={profile.imageUrl} size="large" priority />
 
       <Text size="titleSmall">{profile.name}</Text>
 
