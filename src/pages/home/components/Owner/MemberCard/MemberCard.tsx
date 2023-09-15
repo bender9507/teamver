@@ -20,14 +20,14 @@ export const MemberCard = memo(
     onRestore,
     profile,
     filter,
-    index
+    isFirst
   }: {
     onAccept: VoidFunction;
     onReject: VoidFunction;
     onRestore: VoidFunction;
     profile: ProfileAllDataRow;
     filter: FilterForm;
-    index: number;
+    isFirst: boolean;
   }) => {
     const { mount } = useModal();
     const { i18n } = useTranslation("home");
@@ -42,7 +42,7 @@ export const MemberCard = memo(
             alt="프로필 사진"
             fill
             sizes="100%"
-            priority={index === 0 ? true : undefined}
+            priority={isFirst ? true : undefined}
           />
 
           <Gradient />
