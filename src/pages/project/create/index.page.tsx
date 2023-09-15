@@ -16,6 +16,7 @@ import {
   Textarea
 } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { Flex, FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
 import { requireAuthentication } from "~/utils";
@@ -31,6 +32,8 @@ const ProjectCreate = () => {
 
   return (
     <LayoutHeader>
+      <MetaTag title="프로젝트 생성" name="description" content="프로젝트 생성" />
+
       <TitleHeader title={t("프로젝트 생성하기")} onPrevious={() => app.handleBack()} />
 
       <LayoutContent as="form" gap={36} padding="22px" onSubmit={app.handleCreateProject}>

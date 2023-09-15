@@ -18,7 +18,8 @@ const Home = () => {
 
   return (
     <LayoutHeaderWithNav>
-      <MetaTag title="페이지 제목" name="description" content="페이지 설명" />
+      <MetaTag title="팀버" name="description" content="개발자들을 위한 팀원 찾기 서비스입니다" />
+
       <LogoHeader role={profile.role.id} />
 
       <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />

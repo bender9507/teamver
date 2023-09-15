@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Radio, RadioGroup, useModal } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { routes } from "~/constants/routes";
 import { signOut } from "~/states/server";
 import { FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
@@ -24,6 +25,8 @@ const ProfileSetting = () => {
 
   return (
     <LayoutHeader>
+      <MetaTag title="팀버 설정" name="description" content="팀버 설정" />
+
       <TitleHeader title={t("설정")} />
 
       <LayoutContent>
