@@ -1,2 +1,2 @@
 export { Android } from "./Android";
-export { usePWAInstallPrompt } from "./Android.hooks";
+export { ANDROID_GUIDE, DISMISSED_INSTALL_PROMPT } from "./Android.constants";

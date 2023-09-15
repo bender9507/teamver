@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMedia, useMount } from "react-use";
 import { Overlay, useModal } from "~/components/Commons";
-import { Android, Iphone, usePWAInstallPrompt } from "~/components/Shared";
+import { ANDROID_GUIDE, Android, DISMISSED_INSTALL_PROMPT, Iphone } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
@@ -29,19 +29,21 @@ const App = ({
   const router = useRouter();
   const { mount } = useModal();
 
-  const { isAppInstalled } = usePWAInstallPrompt();
   const isAndroidMobile = useMedia("(max-width: 767px) and (pointer: coarse)");
 
   useMount(() => {
     if (!window.matchMedia("(display-mode: standalone)").matches) {
       const { userAgent } = navigator;
+      const dismissedInstallPrompt = sessionStorage.getItem(DISMISSED_INSTALL_PROMPT);
 
       if (/iPad|iPhone|iPod/.test(userAgent)) {
         mount(<Iphone />, { id: "IPHONE_GUIDE", type: "bottom" });
-      } else if (!window.matchMedia("(display-mode: standalone)").matches && isAndroidMobile) {
-        if (!isAppInstalled) {
-          mount(<Android />, { id: "ANDROID_GUIDE", type: "bottom" });
-        }
+      } else if (
+        !window.matchMedia("(display-mode: standalone)").matches &&
+        isAndroidMobile &&
+        dismissedInstallPrompt !== "true"
+      ) {
+        mount(<Android />, { id: ANDROID_GUIDE, type: "bottom" });
       }
     }
 
