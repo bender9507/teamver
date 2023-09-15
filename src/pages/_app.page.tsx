@@ -61,15 +61,6 @@ const App = ({
 
   return (
     <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.session}>
-      {/* <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-        />
-
-        <title>TEAMVER</title>
-      </Head> */}
-
       <MetaTag
         title="팀버"
         name="viewport"

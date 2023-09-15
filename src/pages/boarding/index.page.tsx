@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { routes } from "~/constants/routes";
 import { requireAuthentication } from "~/utils";
 import * as Styled from "./boarding.styles";
@@ -19,6 +20,8 @@ const Boarding = () => {
 
   return (
     <Styled.Container>
+      <MetaTag title="팀버 사용 가이드" name="description" content="팀버 사용 가이드" />
+
       {previousRoute === "/setting" && <TitleHeader title={t("사용 가이드")} />}
       <BoardCarousel />
       <Styled.Gradient />

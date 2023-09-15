@@ -4,6 +4,7 @@ import type { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Navbar, TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { SwitchCase } from "~/components/Utils";
 import { useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutContent, LayoutHeaderWithNav } from "~/styles/mixins";
@@ -18,6 +19,8 @@ const Chat = () => {
 
   return (
     <LayoutHeaderWithNav>
+      <MetaTag title="팀버 채팅" name="description" content="팀버 채팅 페이지" />
+
       <TitleHeader title={t("채팅")} />
 
       <LayoutContent padding="0px 22px 22px 22px">
