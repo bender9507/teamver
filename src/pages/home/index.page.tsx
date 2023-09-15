@@ -4,6 +4,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { LogoHeader, Navbar } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { SwitchCase } from "~/components/Utils";
 import { Member, Owner } from "~/pages/home/components";
 import { constantKeys, selectConstants } from "~/states/server/constant";
@@ -17,6 +18,7 @@ const Home = () => {
 
   return (
     <LayoutHeaderWithNav>
+      <MetaTag title="페이지 제목" name="description" content="페이지 설명" />
       <LogoHeader role={profile.role.id} />
 
       <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
