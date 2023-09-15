@@ -6,16 +6,18 @@ export const TitleHeader = ({
   title,
   onPrevious,
   onDelete,
-  state
+  state,
+  hideBackButton
 }: {
   title: string;
   onPrevious?: () => Promise<boolean>;
   onDelete?: () => void;
   state?: boolean;
+  hideBackButton?: boolean;
 }) => {
   return (
     <Styled.TitleHeader>
-      <PreviousButton onPrevious={onPrevious} />
+      {!hideBackButton && <PreviousButton onPrevious={onPrevious} />}
 
       <PosCenter>
         <Text size="titleSmall">{title}</Text>

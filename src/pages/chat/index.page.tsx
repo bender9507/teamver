@@ -18,7 +18,7 @@ const Chat = () => {
 
   return (
     <LayoutHeaderWithNav>
-      <TitleHeader title={t("채팅")} />
+      <TitleHeader title={t("채팅")} hideBackButton />
 
       <LayoutContent padding="0px 22px 22px 22px">
         <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />

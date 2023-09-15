@@ -25,7 +25,7 @@ const Like = () => {
 
   return (
     <LayoutHeaderWithNav>
-      <TitleHeader title={t("찜 목록")} />
+      <TitleHeader title={t("찜 목록")} hideBackButton />
 
       <LayoutContent padding="22px" marginTop={27}>
         {profile.role.id === 1 ? <LikeOwnerContainer /> : <LikeMemberContainer />}
