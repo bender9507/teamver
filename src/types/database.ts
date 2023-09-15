@@ -1088,52 +1088,6 @@ export interface Database {
           }
         ]
       }
-      reviews: {
-        Row: {
-          comment: string
-          createdAt: string
-          id: number
-          reactionId: number
-          receiverId: string
-          reviewerId: string
-        }
-        Insert: {
-          comment: string
-          createdAt?: string
-          id?: number
-          reactionId: number
-          receiverId: string
-          reviewerId: string
-        }
-        Update: {
-          comment?: string
-          createdAt?: string
-          id?: number
-          reactionId?: number
-          receiverId?: string
-          reviewerId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "reviews_reactionId_fkey"
-            columns: ["reactionId"]
-            referencedRelation: "constantReactions"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_receiverId_fkey"
-            columns: ["receiverId"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_reviewerId_fkey"
-            columns: ["reviewerId"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       total_unread: {
         Row: {
           count: number | null

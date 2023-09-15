@@ -7,6 +7,7 @@ export const font = css`
     src: url("/fonts/NanumSquareRoundOTFB.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -14,6 +15,7 @@ export const font = css`
     src: url("/fonts/NanumSquareRoundOTFEB.otf") format("opentype");
     font-weight: 800;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -21,6 +23,7 @@ export const font = css`
     src: url("/fonts/NanumSquareRoundOTFR.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
   }
 
   body,

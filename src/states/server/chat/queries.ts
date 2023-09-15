@@ -4,8 +4,6 @@ import {
   selectChatMessages,
   selectChatRequestMember,
   selectChatRequestOwner,
-  selectChatRequestsMember,
-  selectChatRequestsOwner,
   selectChatRoom,
   selectChatRooms,
   selectOpponent,
@@ -13,28 +11,10 @@ import {
 } from "./apis";
 import { chatKeys } from "./keys";
 
-export const useSelectChatRequestsOwnerQuery = (
-  requests: Parameters<typeof selectChatRequestsOwner>[0]
-) => {
-  return useSuspendedQuery({
-    queryKey: chatKeys.selectChatRequestsOwner(requests),
-    queryFn: () => selectChatRequestsOwner(requests)
-  });
-};
-
 export const useSelectChatRoomQuery = (params: Parameters<typeof selectChatRoom>[0]) => {
   return useSuspendedQuery({
     queryKey: chatKeys.selectChatRoom(params),
     queryFn: () => selectChatRoom(params)
-  });
-};
-
-export const useSelectChatRequestsMemberQuery = (
-  requests: Parameters<typeof selectChatRequestsMember>[0]
-) => {
-  return useSuspendedQuery({
-    queryKey: chatKeys.selectChatRequestsMember(requests),
-    queryFn: () => selectChatRequestsMember(requests)
   });
 };
 

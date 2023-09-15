@@ -20,12 +20,14 @@ export const ProjectCard = memo(
     onAccept,
     onReject,
     onRestore,
-    project
+    project,
+    isFirst
   }: {
     onAccept: VoidFunction;
     onReject: VoidFunction;
     onRestore: VoidFunction;
     project: ProjectAllDataRow;
+    isFirst: boolean;
   }) => {
     const user = useUser() as User;
     const { data: profile } = useSelectProfileQuery(user.id);
@@ -37,7 +39,13 @@ export const ProjectCard = memo(
     return (
       <CardContainer>
         <TinderCard onConfirm={onAccept} onCancel={onReject} onRestore={onRestore}>
-          <Profile src={project.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
+          <Profile
+            src={project.imageUrl}
+            alt="프로필 사진"
+            fill
+            sizes="100%"
+            priority={isFirst ? true : undefined}
+          />
 
           <Gradient />
 

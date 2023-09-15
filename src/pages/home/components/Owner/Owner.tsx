@@ -98,7 +98,7 @@ export const Owner = () => {
           </TinderCard>
         </CardContainer>
 
-        {app.filteredRandomProfiles.map((profile) => (
+        {app.filteredRandomProfiles.map((profile, idx, row) => (
           <MemberCard
             key={profile.id}
             onAccept={() => app.handleAccept(profile.id)}
@@ -106,6 +106,7 @@ export const Owner = () => {
             onRestore={app.handleRestore}
             profile={profile}
             filter={app.filter}
+            isFirst={idx + 1 === row.length}
           />
         ))}
       </Position>
