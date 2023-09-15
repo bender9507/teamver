@@ -6,17 +6,17 @@ import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useMount } from "react-use";
+import { useMedia, useMount } from "react-use";
 import { Overlay, useModal } from "~/components/Commons";
-import { Iphone } from "~/components/Shared";
+import { Android, Iphone, usePWAInstallPrompt } from "~/components/Shared";
 import { routes } from "~/constants/routes";
 import { supabase } from "~/states/server/config";
 import { font, more, reset } from "~/styles/base";
 import { theme } from "~/styles/theme";
 
+import { MetaTag } from "~/components/Shared/MetaTag";
 import * as Styled from "./_app.styles";
 
 const queryClient = new QueryClient();
@@ -30,12 +30,19 @@ const App = ({
   const router = useRouter();
   const { mount } = useModal();
 
+  const { isAppInstalled } = usePWAInstallPrompt();
+  const isAndroidMobile = useMedia("(max-width: 767px) and (pointer: coarse)");
+
   useMount(() => {
     if (!window.matchMedia("(display-mode: standalone)").matches) {
       const { userAgent } = navigator;
 
       if (/iPad|iPhone|iPod/.test(userAgent)) {
         mount(<Iphone />, { id: "IPHONE_GUIDE", type: "bottom" });
+      } else if (!window.matchMedia("(display-mode: standalone)").matches && isAndroidMobile) {
+        if (!isAppInstalled) {
+          mount(<Android />, { id: "ANDROID_GUIDE", type: "bottom" });
+        }
       }
     }
 
@@ -54,14 +61,20 @@ const App = ({
 
   return (
     <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.session}>
-      <Head>
+      {/* <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
 
         <title>TEAMVER</title>
-      </Head>
+      </Head> */}
+
+      <MetaTag
+        title="팀버"
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
 
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
