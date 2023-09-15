@@ -11,6 +11,7 @@ import type { ConstantAllData } from "~/states/server/constant";
 import { selectProfile } from "~/states/server/profile";
 import type { OneOfLanguage } from "~/types";
 
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { FlexColumn, LayoutHeader } from "~/styles/mixins";
 import { getObjectValues } from "~/utils";
 import { stepComponents } from "./welcome.constants";
@@ -32,6 +33,8 @@ const Welcome = () => {
 
   return (
     <WelcomeContext.Provider value={app.values}>
+      <MetaTag title="팀버 회원가입" name="description" content="팀버 회원가입" />
+
       <LayoutHeader>
         <Styled.Header>
           <IconButton type="button" name="arrowBack" color="content1" onClick={app.prevStep} />

@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Navbar, TitleHeader } from "~/components/Shared";
 
+import { MetaTag } from "~/components/Shared/MetaTag";
 import {
   profileKeys,
   selectFollows,
@@ -25,6 +26,8 @@ const Like = () => {
 
   return (
     <LayoutHeaderWithNav>
+      <MetaTag title="팀버 찜 목록" name="description" content="팀버 찜 목록" />
+
       <TitleHeader title={t("찜 목록")} />
 
       <LayoutContent padding="22px" marginTop={27}>

@@ -7,6 +7,7 @@ import Calendar from "react-calendar";
 import { Controller } from "react-hook-form";
 import { Button, ImageUploader, Input, Label, SelectChip, Textarea } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { projectsKey, selectProject } from "~/states/server/project";
 import { Flex, FlexColumn, LayoutContent, LayoutHeader, Text } from "~/styles/mixins";
 import type { OneOfLanguage } from "~/types";
@@ -22,6 +23,8 @@ const ProjectEdit = () => {
   const currentLanguage = i18n.language as OneOfLanguage;
   return (
     <LayoutHeader>
+      <MetaTag title="프로젝트 수정" name="description" content="프로젝트 수정" />
+
       <TitleHeader title={t("프로젝트 수정하기")} onPrevious={app.handleBack} />
 
       <LayoutContent as="form" gap={36} padding="22px" onSubmit={app.handleEditProject}>

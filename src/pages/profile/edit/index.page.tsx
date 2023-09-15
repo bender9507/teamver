@@ -14,6 +14,7 @@ import {
   Textarea
 } from "~/components/Commons";
 import { TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { HTTP_REGEX } from "~/constants/regex";
 import { profileKeys, selectProfile } from "~/states/server/profile";
 import {
@@ -38,6 +39,8 @@ const ProfileEdit = () => {
 
   return (
     <LayoutHeader>
+      <MetaTag title="프로필 수정" name="description" content="프로필 수정" />
+
       <TitleHeader title={t("프로필 수정")} onPrevious={app.handleBack} />
 
       <LayoutContent as="form" padding="22px" gap={32} onSubmit={app.onSubmit}>
