@@ -21,13 +21,13 @@ export const ProjectCard = memo(
     onReject,
     onRestore,
     project,
-    index
+    isFirst
   }: {
     onAccept: VoidFunction;
     onReject: VoidFunction;
     onRestore: VoidFunction;
     project: ProjectAllDataRow;
-    index: number;
+    isFirst: boolean;
   }) => {
     const user = useUser() as User;
     const { data: profile } = useSelectProfileQuery(user.id);
@@ -44,7 +44,7 @@ export const ProjectCard = memo(
             alt="프로필 사진"
             fill
             sizes="100%"
-            priority={index === 0 ? true : undefined}
+            priority={isFirst ? true : undefined}
           />
 
           <Gradient />

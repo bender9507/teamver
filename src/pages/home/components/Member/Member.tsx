@@ -57,14 +57,14 @@ export const Member = () => {
           </TinderCard>
         </CardContainer>
 
-        {app.filteredRandomProjects.map((project, idx) => (
+        {app.filteredRandomProjects.map((project, idx, row) => (
           <ProjectCard
             key={project.id}
             onAccept={() => app.handleAccept(project.id)}
             onReject={() => app.handleReject(project.id)}
             onRestore={app.handleRestore}
             project={project}
-            index={idx}
+            isFirst={idx + 1 === row.length}
           />
         ))}
       </Position>
