@@ -19,13 +19,15 @@ export const MemberCard = memo(
     onReject,
     onRestore,
     profile,
-    filter
+    filter,
+    index
   }: {
     onAccept: VoidFunction;
     onReject: VoidFunction;
     onRestore: VoidFunction;
     profile: ProfileAllDataRow;
     filter: FilterForm;
+    index: number;
   }) => {
     const { mount } = useModal();
     const { i18n } = useTranslation("home");
@@ -35,7 +37,13 @@ export const MemberCard = memo(
     return (
       <CardContainer key={profile.id}>
         <TinderCard onConfirm={onAccept} onCancel={onReject} onRestore={onRestore}>
-          <Profile src={profile.imageUrl} alt="프로필 사진" fill sizes="100%" priority />
+          <Profile
+            src={profile.imageUrl}
+            alt="프로필 사진"
+            fill
+            sizes="100%"
+            priority={index === 0 ? true : undefined}
+          />
 
           <Gradient />
 
