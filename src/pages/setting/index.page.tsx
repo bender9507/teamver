@@ -63,6 +63,10 @@ const ProfileSetting = () => {
             <Styled.Option hasBorder>{t("참여 모드 설정")}</Styled.Option>
           </Link>
 
+          <Link href={{ pathname: routes.boarding, query: { previousRoute: "/setting" } }}>
+            <Styled.Option hasBorder>{t("사용 가이드")}</Styled.Option>
+          </Link>
+
           <Link href={routes.home}>
             <Styled.Option onClick={signOut}>{t("로그아웃")}</Styled.Option>
           </Link>
