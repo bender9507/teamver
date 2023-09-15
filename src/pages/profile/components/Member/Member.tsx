@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next";
 import { Container } from "../Profile.styles";
 import { ProfileSection } from "../ProfileSection";
 import { ProjectList } from "../ProjectList";
@@ -6,7 +5,6 @@ import { useMember } from "./Member.hooks";
 
 export const Member = () => {
   const app = useMember();
-  const { t } = useTranslation("profile");
 
   return (
     <Container>
