@@ -28,7 +28,7 @@ const Like = () => {
     <LayoutHeaderWithNav>
       <MetaTag title="팀버 찜 목록" name="description" content="팀버 찜 목록" />
 
-      <TitleHeader title={t("찜 목록")} />
+      <TitleHeader title={t("찜 목록")} hideBackButton />
 
       <LayoutContent padding="22px" marginTop={27}>
         {profile.role.id === 1 ? <LikeOwnerContainer /> : <LikeMemberContainer />}

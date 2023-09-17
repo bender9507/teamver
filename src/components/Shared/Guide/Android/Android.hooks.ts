@@ -1,42 +1,70 @@
 import { useTranslation } from "next-i18next";
-import { useEffect, useState } from "react";
-import { useDialog } from "~/components/Commons";
+import { useCallback, useEffect, useState } from "react";
+import { useDialog, useModal } from "~/components/Commons";
+import {
+  ANDROID_GUIDE,
+  APP_INSTALLED,
+  BEFORE_INSTALL_PROMPT,
+  DISMISSED_INSTALL_PROMPT
+} from "./Android.constants";
 import type { BeforeInstallPromptEvent } from "./Android.types";
 
 export const usePWAInstallPrompt = () => {
   const { t } = useTranslation("common");
 
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isAppInstalled, setIsAppInstalled] = useState<boolean>(false);
+  const [showPrompt, setShowPrompt] = useState<boolean>(true);
 
   const { toast } = useDialog();
+  const { unmount } = useModal();
 
-  useEffect(() => {
-    const appInstalledStatus = localStorage.getItem("appInstalled");
+  const checkAppStatus = useCallback(() => {
+    const appInstalledStatus = sessionStorage.getItem(APP_INSTALLED);
+    const dismissedInstallPrompt = sessionStorage.getItem(DISMISSED_INSTALL_PROMPT);
 
-    if (appInstalledStatus === "true") {
-      setIsAppInstalled(true);
+    if (appInstalledStatus === "true" || dismissedInstallPrompt === "true") {
+      setShowPrompt(false);
       return;
     }
 
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-    });
-
-    window.addEventListener("appinstalled", () => {
-      localStorage.setItem("appInstalled", "true");
-      setIsAppInstalled(true);
-    });
+    setShowPrompt(true);
   }, []);
 
-  const promptToInstall = () => {
-    if (isAppInstalled) return;
+  const beforeInstallPromptEvent = (e: Event) => {
+    e.preventDefault();
+    setDeferredPrompt(e as BeforeInstallPromptEvent);
+  };
 
+  const appInstalledEvent = useCallback(() => {
+    sessionStorage.setItem(APP_INSTALLED, "true");
+    checkAppStatus();
+  }, [checkAppStatus]);
+
+  useEffect(() => {
+    checkAppStatus();
+
+    window.addEventListener(BEFORE_INSTALL_PROMPT, beforeInstallPromptEvent);
+    window.addEventListener(APP_INSTALLED, appInstalledEvent);
+
+    return () => {
+      window.removeEventListener(BEFORE_INSTALL_PROMPT, beforeInstallPromptEvent);
+      window.removeEventListener(APP_INSTALLED, appInstalledEvent);
+    };
+  }, [appInstalledEvent, checkAppStatus]);
+
+  const dismissPrompt = () => setDeferredPrompt(null);
+
+  const dismissAndAvoidFuturePrompts = () => {
+    sessionStorage.setItem(DISMISSED_INSTALL_PROMPT, "true");
+    checkAppStatus();
+    dismissPrompt();
+    unmount(ANDROID_GUIDE);
+  };
+
+  const promptToInstall = () => {
     if (!deferredPrompt) {
       toast({
-        type: "warning",
+        type: "error",
         message: t("이미 설치되어 있거나 설치할 수 없는 환경입니다")
       });
       return;
@@ -45,5 +73,5 @@ export const usePWAInstallPrompt = () => {
     deferredPrompt.prompt();
   };
 
-  return { promptToInstall, isAppInstalled };
+  return { promptToInstall, dismissAndAvoidFuturePrompts, showPrompt };
 };

@@ -21,7 +21,7 @@ const Chat = () => {
     <LayoutHeaderWithNav>
       <MetaTag title="팀버 채팅" name="description" content="팀버 채팅 페이지" />
 
-      <TitleHeader title={t("채팅")} />
+      <TitleHeader title={t("채팅")} hideBackButton />
 
       <LayoutContent padding="0px 22px 22px 22px">
         <SwitchCase value={profile.role.en} caseBy={{ inviter: <Owner />, invitee: <Member /> }} />
