@@ -44,7 +44,6 @@ export const usePWAInstallPrompt = () => {
     checkAppStatus();
 
     window.addEventListener(BEFORE_INSTALL_PROMPT, beforeInstallPromptEvent);
-
     window.addEventListener(APP_INSTALLED, appInstalledEvent);
 
     return () => {
@@ -57,11 +56,8 @@ export const usePWAInstallPrompt = () => {
 
   const dismissAndAvoidFuturePrompts = () => {
     sessionStorage.setItem(DISMISSED_INSTALL_PROMPT, "true");
-
     checkAppStatus();
-
     dismissPrompt();
-
     unmount(ANDROID_GUIDE);
   };
 
