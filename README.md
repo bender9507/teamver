@@ -36,7 +36,9 @@ https://www.teamver.kr
 
 ### 🎬 시연영상
 
-[![팀버 썸네일](https://github.com/jeonhaekang/teamver/assets/130683029/2fb28f07-0e99-435e-ad9e-aea5781f181a)](https://youtu.be/eVxusmxg6hw)
+시연 영상은 [여기](https://youtu.be/eVxusmxg6hw)에서 확인할 수 있습니다. 
+
+![시연영상 썸네일](https://github.com/jeonhaekang/teamver/assets/130683029/6965fbbd-df1f-40d5-88c9-8a37db68fc8d)
 
 ### 🧩 기술스택
 
