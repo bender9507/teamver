@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
 import { TitleHeader } from "~/components/Shared";
+import { MetaTag } from "~/components/Shared/MetaTag";
 import { noticeKeys, selectNoticeMember, selectNoticeOwner } from "~/states/server/notice";
 import { profileKeys, selectProfile, useSelectProfileQuery } from "~/states/server/profile";
 import { LayoutHeader } from "~/styles/mixins";
@@ -22,6 +23,8 @@ const Notice = () => {
 
   return (
     <LayoutHeader>
+      <MetaTag title="팀버 알림" name="description" content="팀버 알림" />
+
       <TitleHeader
         title={t("알림")}
         onDelete={() => setIsDelete((prev) => !prev)}
